@@ -1,8 +1,12 @@
-import { Graphics, TextStyle, Text, Container, TEXT_GRADIENT } from 'pixi.js';
-import { Opacity } from './utils/helpers';
-import { FlexColor, FlexNumber, getColor, getNumber } from './utils/parsers';
-
-export type TextStyles = Partial<TextStyle>;
+import { Graphics, Text, Container, TEXT_GRADIENT } from 'pixi.js';
+import {
+	Opacity,
+	FlexColor,
+	FlexNumber,
+	TextStyles,
+	Float,
+} from './utils/types';
+import { getColor, getNumber } from './utils/helpers';
 
 export type Styles = TextStyles & {
 	background?: FlexColor;
@@ -12,12 +16,28 @@ export type Styles = TextStyles & {
 	margin?: FlexNumber;
 	opacity?: Opacity;
 	overflow?: 'visible' | 'hidden'; // TODO: scroll pixi-ui scrollBox can be used here
+	float?: Float;
+
+	// TODO:
+	// border?: string;
+	// borderRadius?: FlexNumber;
+	// borderWidth?: FlexNumber;
+	// borderColor?: FlexColor;
+	// boxShadow?: string;
+
+	// margin
+	// marginTop?: FlexNumber;
+	// marginRight?: FlexNumber;
+	// marginBottom?: FlexNumber;
+	// marginLeft?: FlexNumber;
+	// margin?: FlexNumber;
+
 	// padding
-	paddingTop?: FlexNumber;
-	paddingRight?: FlexNumber;
-	paddingBottom?: FlexNumber;
-	paddingLeft?: FlexNumber;
-	padding?: FlexNumber;
+	// paddingTop?: FlexNumber;
+	// paddingRight?: FlexNumber;
+	// paddingBottom?: FlexNumber;
+	// paddingLeft?: FlexNumber;
+	// padding?: FlexNumber;
 };
 
 export type LayoutOptions = {
@@ -122,7 +142,53 @@ export class Layout extends Container {
 			this.alpha = opacity;
 		}
 
+		this.alignElements(parentWidth, parentHeight);
+
 		this.manageChildren();
+	}
+
+	private alignElements(width: number, height: number) {
+		const { float } = this.options?.styles || {};
+
+		switch (float) {
+			// we skip 'left', 'top' and 'leftTop' because they are default
+			case 'rightTop':
+			case 'right':
+				this.x = width - this.size.width;
+				break;
+
+			case 'leftBottom':
+			case 'bottom':
+				this.y = height - this.size.height;
+				break;
+
+			case 'rightBottom':
+				this.x = width - this.size.width;
+				this.y = height - this.size.height;
+				break;
+
+			case 'center':
+				this.x = width / 2 - this.size.width / 2;
+				this.y = height / 2 - this.size.height / 2;
+				break;
+			case 'centerTop':
+				this.x = width / 2 - this.size.width / 2;
+				break;
+
+			case 'centerBottom':
+				this.x = width / 2 - this.size.width / 2;
+				this.y = height - this.size.height;
+				break;
+
+			case 'centerLeft':
+				this.y = height / 2 - this.size.height / 2;
+				break;
+
+			case 'centerRight':
+				this.y = height / 2 - this.size.height / 2;
+				this.x = width - this.size.width;
+				break;
+		}
 	}
 
 	private manageChildren() {

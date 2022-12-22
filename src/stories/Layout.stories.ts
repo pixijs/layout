@@ -1,9 +1,10 @@
 import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
-import { cssColorNames } from '../utils/cssColorNames';
+import { CSS_COLOR_NAMES, LOREM_TEXT, FLOAT } from '../utils/constants';
+import { preloadAssets } from '../utils/helpers';
 
-const textColor = Object.keys(cssColorNames).map((key) => key);
+const textColor = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 
 const args = {
 	backgroundColor: '#000000',
@@ -14,11 +15,12 @@ const args = {
 	align: ['left', 'center', 'right', 'justify'],
 	fontSize: 24,
 	overflow: ['hidden', 'visible'],
+	float: FLOAT,
 };
 
 class DefaultLayout {
 	private layout: Layout;
-	view: Container;
+	view = new Container();
 
 	constructor({
 		backgroundColor,
@@ -29,10 +31,10 @@ class DefaultLayout {
 		overflow,
 		align,
 		fontSize,
+		float,
 	}: any) {
 		this.layout = new Layout({
-			content:
-				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab praesentium velit minima unde beatae. Illo earum, rem iure unde nemo, exercitationem nesciunt et voluptas nisi adipisci, provident cupiditate veritatis magnam?',
+			content: LOREM_TEXT,
 			styles: {
 				background: backgroundColor,
 				width: `${widthPercent}%`,
@@ -43,10 +45,17 @@ class DefaultLayout {
 				color: textColor,
 				align,
 				fontSize,
+				float,
 			},
 		});
 
-		this.view = this.layout;
+		this.init();
+	}
+
+	private async init() {
+		await preloadAssets([]);
+
+		this.view.addChild(this.layout);
 	}
 
 	update() {

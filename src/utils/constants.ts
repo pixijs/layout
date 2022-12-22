@@ -1,4 +1,4 @@
-export const cssColorNames = {
+export const CSS_COLOR_NAMES = {
 	white: 0xffffff,
 	black: 0x000000,
 	red: 0xff0000,
@@ -148,4 +148,21 @@ export const cssColorNames = {
 	yellowgreen: 0x9acd32,
 };
 
-export type CSSColor = keyof typeof cssColorNames;
+export const LOREM_TEXT =
+	'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab praesentium velit minima unde beatae. Illo earum, rem iure unde nemo, exercitationem nesciunt et voluptas nisi adipisci, provident cupiditate veritatis magnam?';
+
+export const FLOAT = [
+	'left',
+	'right',
+	'top',
+	'bottom',
+	'leftTop',
+	'rightTop',
+	'leftBottom',
+	'rightBottom',
+	'center',
+	'centerTop',
+	'centerBottom',
+	'centerLeft',
+	'centerRight',
+];
