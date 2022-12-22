@@ -133,7 +133,9 @@ export const argTypes = (args: Types) => {
 
 			switch (typeof args[key]) {
 				case 'object':
-					exportArgTypes[key] = controls.select;
+					exportArgTypes[key] = {};
+
+					exportArgTypes[key] = { ...controls.select };
 
 					if (Array.isArray(args[key])) {
 						exportArgTypes[key].options = args[key];
