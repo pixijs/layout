@@ -4,13 +4,13 @@ import { Container } from 'pixi.js';
 import { CSS_COLOR_NAMES, LOREM_TEXT, FLOAT } from '../utils/constants';
 import { preloadAssets } from '../utils/helpers';
 
-const textColor = Object.keys(CSS_COLOR_NAMES).map((key) => key);
+const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 
 const args = {
+	color,
 	backgroundColor: '#000000',
-	textColor,
-	widthPercent: 50,
-	heightPercent: 50,
+	width: 50,
+	height: 50,
 	opacity: 1,
 	align: ['left', 'center', 'right', 'justify'],
 	fontSize: 24,
@@ -23,10 +23,10 @@ class DefaultLayout {
 	view = new Container();
 
 	constructor({
+		color,
 		backgroundColor,
-		textColor,
-		widthPercent,
-		heightPercent,
+		width,
+		height,
 		opacity,
 		overflow,
 		align,
@@ -37,12 +37,12 @@ class DefaultLayout {
 			content: LOREM_TEXT,
 			styles: {
 				background: backgroundColor,
-				width: `${widthPercent}%`,
-				height: `${heightPercent}%`,
+				width: `${width}%`,
+				height: `${height}%`,
 				opacity,
 				overflow,
 				// text options
-				color: textColor,
+				color,
 				align,
 				fontSize,
 				float,

@@ -152,15 +152,18 @@ export const LOREM_TEXT =
 	'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab praesentium velit minima unde beatae. Illo earum, rem iure unde nemo, exercitationem nesciunt et voluptas nisi adipisci, provident cupiditate veritatis magnam?';
 
 export const FLOAT = [
+	'center',
+
 	'left',
 	'right',
 	'top',
 	'bottom',
+
 	'leftTop',
 	'rightTop',
 	'leftBottom',
 	'rightBottom',
-	'center',
+
 	'centerTop',
 	'centerBottom',
 	'centerLeft',
