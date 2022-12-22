@@ -169,3 +169,5 @@ export const FLOAT = [
 	'centerLeft',
 	'centerRight',
 ];
+
+export const ALIGN = ['center', 'left', 'right', 'justify'];

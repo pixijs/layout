@@ -1,7 +1,7 @@
 import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
-import { CSS_COLOR_NAMES, LOREM_TEXT, FLOAT } from '../utils/constants';
+import { CSS_COLOR_NAMES, LOREM_TEXT, FLOAT, ALIGN } from '../utils/constants';
 import { preloadAssets } from '../utils/helpers';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
@@ -12,7 +12,7 @@ const args = {
 	width: 50,
 	height: 50,
 	opacity: 1,
-	align: ['left', 'center', 'right', 'justify'],
+	align: ALIGN,
 	fontSize: 24,
 	overflow: ['hidden', 'visible'],
 	float: FLOAT,

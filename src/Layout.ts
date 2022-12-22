@@ -5,6 +5,7 @@ import {
 	FlexNumber,
 	TextStyles,
 	Float,
+	Content,
 } from './utils/types';
 import { getColor, getNumber } from './utils/helpers';
 
@@ -41,7 +42,7 @@ export type Styles = TextStyles & {
 };
 
 export type LayoutOptions = {
-	content?: string | Container | Layout | Layout[] | Container[];
+	content?: Content;
 	styles?: Styles;
 };
 
