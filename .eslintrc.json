@@ -1,0 +1,27 @@
+{
+  "root": true,
+  "extends": "eslint:recommended",
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "project": "tsconfig.json"
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "globals": {
+    "process": true
+  },
+  "rules": {
+    "no-constant-condition": "warn",
+    "no-dupe-class-members": "off",
+    "no-unused-vars": "off",
+    "no-var": "error",
+    "prefer-const": "off",
+    "require-atomic-updates": "warn",
+    "eqeqeq": ["error", "always", { "null": "ignore" }]
+  }
+}

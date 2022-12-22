@@ -1,6 +1,6 @@
 <div align="center">
     <h1>PIXI-LAYOUT</h1>
-    <h3>It is a library a library for arranging pixi elements and make the arrangement basing on their size</h3>
+    <h3>It is a library a library for arranging pixi elements</h3>
 </div>
 
 Here are some useful resources:
