@@ -1,9 +1,9 @@
 import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
-import { colorsConstants } from '../utils/colorsConstants';
+import { cssColorNames } from '../utils/cssColorNames';
 
-const textColor = Object.keys(colorsConstants).map((key) => key);
+const textColor = Object.keys(cssColorNames).map((key) => key);
 
 const args = {
 	backgroundColor: '#000000',
@@ -14,7 +14,6 @@ const args = {
 	align: ['left', 'center', 'right', 'justify'],
 	fontSize: 24,
 	overflow: ['hidden', 'visible'],
-	padding: 0,
 };
 
 class DefaultLayout {
@@ -51,7 +50,7 @@ class DefaultLayout {
 	}
 
 	update() {
-		this.layout.update();
+		// this.layout.update();
 	}
 
 	resize(w: number, h: number) {
