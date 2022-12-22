@@ -1,52 +1,86 @@
-import { hslToHex, rgbToHex } from './helpers';
+import { hslToHex, isDefined, rgbToHex } from './helpers';
 import { ColorsConstants, colorsConstants } from './colorsConstants';
 
 export type FlexNumber = number | string;
 export type FlexColor = FlexNumber | ColorsConstants;
+export type Color = {
+	hex: number;
+	opacity: number;
+};
 
-export function getColor(color: FlexColor): number {
+export function getColor(color: FlexColor): Color {
+	if (color === undefined) {
+		return undefined;
+	}
+
 	switch (typeof color) {
 		case 'string':
 			if (color.startsWith('#')) {
-				return parseInt(color.slice(1), 16);
+				return {
+					hex: parseInt(color.slice(1), 16),
+					opacity: 1,
+				};
 			} else if (color.startsWith('0x')) {
-				return parseInt(color, 16);
+				return {
+					hex: parseInt(color, 16),
+					opacity: 1,
+				};
 			} else if (color.startsWith('rgba(')) {
-				const [r, g, b] = color
-					.slice(5, -1)
-					.split(',')
-					.map((v) => parseInt(v, 10));
+				const colorData = color.slice(5, -1).split(',');
 
-				return parseInt(rgbToHex(r, g, b), 16);
+				const [r, g, b] = colorData.map((v) => parseInt(v, 10));
+
+				return {
+					hex: parseInt(rgbToHex(r, g, b), 16),
+					opacity: parseFloat(colorData[3]),
+				};
 			} else if (color.startsWith('rgb(')) {
 				const [r, g, b] = color
 					.slice(4, -1)
 					.split(',')
 					.map((v) => parseInt(v, 10));
 
-				return parseInt(rgbToHex(r, g, b), 16);
+				return {
+					hex: parseInt(rgbToHex(r, g, b), 16),
+					opacity: 1,
+				};
 			} else if (color.startsWith('hsla(')) {
-				const [h, s, l] = color
-					.slice(5, -1)
-					.split(',')
-					.map((v) => parseInt(v, 10));
+				const colorData = color.slice(5, -1).split(',');
 
-				return getColor(hslToHex(h, s, l));
-			} else if (colorsConstants[color as ColorsConstants]) {
-				return colorsConstants[color as ColorsConstants];
+				const [r, g, b] = colorData.map((v) => parseInt(v, 10));
+
+				return {
+					hex: getColor(hslToHex(r, g, b)).hex,
+					opacity: parseFloat(colorData[3]),
+				};
+			} else if (isDefined(colorsConstants[color as ColorsConstants])) {
+				return {
+					hex: colorsConstants[color as ColorsConstants],
+					opacity: 1,
+				};
 			} else {
 				throw new Error(`Unknown color format: ${color}`);
 			}
 
 		case 'number':
-			return color;
+			return {
+				hex: color,
+				opacity: 1,
+			};
 
 		default:
-			return parseInt(color, 16);
+			return {
+				hex: parseInt(color, 16),
+				opacity: 1,
+			};
 	}
 }
 
-export function getNumber(value: FlexNumber): number {
+export function getNumber(value: FlexNumber, maxPercentValue?: number): number {
+	if (value === undefined) {
+		return undefined;
+	}
+
 	if (typeof value === 'number') {
 		return value;
 	}
@@ -54,30 +88,13 @@ export function getNumber(value: FlexNumber): number {
 	if (typeof value === 'string') {
 		if (value.endsWith('px')) {
 			return parseInt(value.slice(0, -2), 10);
-		}
-
-		if (value.endsWith('%')) {
-			return parseInt(value.slice(0, -1), 10);
+		} else if (value.endsWith('%')) {
+			const val = parseInt(value.slice(0, -1), 10);
+			return maxPercentValue ? (maxPercentValue / 100) * val : val;
+		} else {
+			return parseInt(value, 10);
 		}
 	}
 
 	return 0;
-}
-
-export function getNumberType(value: FlexNumber): 'px' | '%' {
-	if (typeof value === 'number') {
-		return 'px';
-	}
-
-	if (typeof value === 'string') {
-		if (value.endsWith('px')) {
-			return 'px';
-		}
-
-		if (value.endsWith('%')) {
-			return '%';
-		}
-	}
-
-	return 'px';
 }

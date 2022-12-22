@@ -22,3 +22,20 @@ export function hslToHex(h: number, s: number, l: number) {
 
 	return `#${f(0)}${f(8)}${f(4)}`;
 }
+
+export function isDefined(value: any): boolean {
+	return value !== undefined && value !== null;
+}
+
+export type Opacity =
+	| 0
+	| 0.1
+	| 0.2
+	| 0.3
+	| 0.4
+	| 0.5
+	| 0.6
+	| 0.7
+	| 0.8
+	| 0.9
+	| 1;

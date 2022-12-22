@@ -11,7 +11,10 @@ const args = {
 	widthPercent: 50,
 	heightPercent: 50,
 	opacity: 1,
-	backgroundOpacity: 1,
+	align: ['left', 'center', 'right', 'justify'],
+	fontSize: 24,
+	overflow: ['hidden', 'visible'],
+	padding: 0,
 };
 
 class DefaultLayout {
@@ -24,21 +27,27 @@ class DefaultLayout {
 		widthPercent,
 		heightPercent,
 		opacity,
-		backgroundOpacity,
+		overflow,
+		align,
+		fontSize,
 	}: any) {
 		this.layout = new Layout({
-			content: 'Layout',
+			content:
+				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab praesentium velit minima unde beatae. Illo earum, rem iure unde nemo, exercitationem nesciunt et voluptas nisi adipisci, provident cupiditate veritatis magnam?',
 			styles: {
 				background: backgroundColor,
-				color: textColor,
 				width: `${widthPercent}%`,
 				height: `${heightPercent}%`,
 				opacity,
-				backgroundOpacity,
+				overflow,
+				// text options
+				color: textColor,
+				align,
+				fontSize,
 			},
 		});
 
-		this.view = this.layout.view;
+		this.view = this.layout;
 	}
 
 	update() {
