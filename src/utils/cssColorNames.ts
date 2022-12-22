@@ -1,4 +1,4 @@
-export const colorsConstants = {
+export const cssColorNames = {
 	white: 0xffffff,
 	black: 0x000000,
 	red: 0xff0000,
@@ -148,4 +148,4 @@ export const colorsConstants = {
 	yellowgreen: 0x9acd32,
 };
 
-export type ColorsConstants = keyof typeof colorsConstants;
+export type CSSColor = keyof typeof cssColorNames;

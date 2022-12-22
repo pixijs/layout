@@ -1,5 +1,7 @@
-export function rgbToHex(r: number, g: number, b: number): string {
-	return '0x' + getHex(r) + getHex(g) + getHex(b);
+import { utils } from 'pixi.js';
+
+export function rgba2Hex([r, g, b]: number[]): number {
+	return parseInt('0x' + getHex(r) + getHex(g) + getHex(b));
 }
 
 export function getHex(n: number) {
@@ -8,7 +10,7 @@ export function getHex(n: number) {
 	return hex.length === 1 ? '0' + hex : hex;
 }
 
-export function hslToHex(h: number, s: number, l: number) {
+export function hsl2Hex(h: number, s: number, l: number): number {
 	l /= 100;
 
 	const a = (s * Math.min(l, 1 - l)) / 100;
@@ -20,7 +22,7 @@ export function hslToHex(h: number, s: number, l: number) {
 			.padStart(2, '0'); // convert to Hex and prefix "0" if needed
 	};
 
-	return `#${f(0)}${f(8)}${f(4)}`;
+	return utils.string2hex(`#${f(0)}${f(8)}${f(4)}`);
 }
 
 export function isDefined(value: any): boolean {

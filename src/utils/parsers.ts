@@ -1,8 +1,9 @@
-import { hslToHex, isDefined, rgbToHex } from './helpers';
-import { ColorsConstants, colorsConstants } from './colorsConstants';
+import { hsl2Hex, isDefined, rgba2Hex } from './helpers';
+import { CSSColor, cssColorNames } from './cssColorNames';
+import { utils } from 'pixi.js';
 
 export type FlexNumber = number | string;
-export type FlexColor = FlexNumber | ColorsConstants;
+export type FlexColor = FlexNumber | CSSColor;
 export type Color = {
 	hex: number;
 	opacity: number;
@@ -15,47 +16,38 @@ export function getColor(color: FlexColor): Color {
 
 	switch (typeof color) {
 		case 'string':
-			if (color.startsWith('#')) {
+			if (color.startsWith('#') || color.startsWith('0x')) {
 				return {
-					hex: parseInt(color.slice(1), 16),
-					opacity: 1,
-				};
-			} else if (color.startsWith('0x')) {
-				return {
-					hex: parseInt(color, 16),
+					hex: utils.string2hex(color),
 					opacity: 1,
 				};
 			} else if (color.startsWith('rgba(')) {
 				const colorData = color.slice(5, -1).split(',');
-
-				const [r, g, b] = colorData.map((v) => parseInt(v, 10));
+				const rgbData = colorData.map((v) => parseInt(v, 10));
 
 				return {
-					hex: parseInt(rgbToHex(r, g, b), 16),
+					hex: rgba2Hex(rgbData),
 					opacity: parseFloat(colorData[3]),
 				};
 			} else if (color.startsWith('rgb(')) {
-				const [r, g, b] = color
-					.slice(4, -1)
-					.split(',')
-					.map((v) => parseInt(v, 10));
+				const colorData = color.slice(5, -1).split(',');
+				const rgbData = colorData.map((v) => parseInt(v, 10));
 
 				return {
-					hex: parseInt(rgbToHex(r, g, b), 16),
+					hex: utils.rgb2hex(rgbData),
 					opacity: 1,
 				};
 			} else if (color.startsWith('hsla(')) {
 				const colorData = color.slice(5, -1).split(',');
-
 				const [r, g, b] = colorData.map((v) => parseInt(v, 10));
 
 				return {
-					hex: getColor(hslToHex(r, g, b)).hex,
+					hex: hsl2Hex(r, g, b),
 					opacity: parseFloat(colorData[3]),
 				};
-			} else if (isDefined(colorsConstants[color as ColorsConstants])) {
+			} else if (Object.keys(cssColorNames).includes(color as CSSColor)) {
 				return {
-					hex: colorsConstants[color as ColorsConstants],
+					hex: cssColorNames[color as CSSColor],
 					opacity: 1,
 				};
 			} else {
