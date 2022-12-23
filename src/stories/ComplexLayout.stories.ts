@@ -10,7 +10,7 @@ const args = {
 	height: 50,
 	opacity: 1,
 	align: ALIGN,
-	fontSize: 24,
+	fontSize: 100,
 	overflow: ['hidden', 'visible'],
 	float: FLOAT,
 };
@@ -45,11 +45,15 @@ class LayoutStory {
 			content: {
 				left: new Layout({
 					content: '1',
-					styles: { ...style, float: 'left', background: 'red' },
+					styles: { ...style, float: 'leftTop', background: 'red' },
 				}),
 				right: new Layout({
 					content: '2',
-					styles: { ...style, float: 'right', background: 'green' },
+					styles: {
+						...style,
+						float: 'rightTop',
+						background: 'green',
+					},
 				}),
 				leftBottom: new Layout({
 					content: '3',

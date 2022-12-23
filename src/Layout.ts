@@ -21,6 +21,8 @@ export type Styles = TextStyles & {
 
 	// TODO:
 
+	// zIndex?: number;
+
 	// maxWidth?: FlexNumber;
 	// maxHeight?: FlexNumber;
 
