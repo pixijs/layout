@@ -16,10 +16,14 @@ export type Styles = TextStyles & {
 	height?: FlexNumber;
 	margin?: FlexNumber;
 	opacity?: Opacity;
-	overflow?: 'visible' | 'hidden'; // TODO: scroll pixi-ui scrollBox can be used here
+	overflow?: 'visible' | 'hidden'; // TODO: scroll pixi-ui scrollBox can be used here & 'scale' to fit children when overflow
 	float?: Float;
 
 	// TODO:
+
+	// maxWidth?: FlexNumber;
+	// maxHeight?: FlexNumber;
+
 	// border?: string;
 	// borderRadius?: FlexNumber;
 	// borderWidth?: FlexNumber;
