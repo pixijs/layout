@@ -1,18 +1,15 @@
-import { Layout } from '../Layout';
+import { Layout, Styles } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
-import { CSS_COLOR_NAMES, FLOAT } from '../utils/constants';
+import { ALIGN, FLOAT } from '../utils/constants';
 import { preloadAssets } from '../utils/helpers';
 
-const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
-
 const args = {
-	color,
-	backgroundColor: '#000000',
+	color: '#000000',
 	width: 50,
 	height: 50,
 	opacity: 1,
-	align: ['left', 'center', 'right', 'justify'],
+	align: ALIGN,
 	fontSize: 24,
 	overflow: ['hidden', 'visible'],
 	float: FLOAT,
@@ -23,8 +20,8 @@ class LayoutStory {
 	view = new Container();
 
 	constructor({
-		color,
 		backgroundColor,
+		color,
 		width,
 		height,
 		opacity,
@@ -33,23 +30,50 @@ class LayoutStory {
 		fontSize,
 		float,
 	}: any) {
+		const style: Styles = {
+			background: backgroundColor,
+			width: '50%',
+			height: '50%',
+			// text options
+			color,
+			align,
+			fontSize,
+		};
+
 		this.layout = new Layout({
+			// content: 'Hello World',
 			content: {
-				left: new Layout({ content: 'Left' }),
-				right: new Layout({ content: 'Right' }),
-				leftBottom: new Layout({ content: 'Left Bottom' }),
-				rightBottom: new Layout({ content: 'Right Bottom' }),
+				left: new Layout({
+					content: '1',
+					styles: { ...style, float: 'left', background: 'red' },
+				}),
+				right: new Layout({
+					content: '2',
+					styles: { ...style, float: 'right', background: 'green' },
+				}),
+				leftBottom: new Layout({
+					content: '3',
+					styles: {
+						...style,
+						float: 'leftBottom',
+						background: 'blue',
+					},
+				}),
+				rightBottom: new Layout({
+					content: '4',
+					styles: {
+						...style,
+						float: 'rightBottom',
+						background: 'yellow',
+					},
+				}),
 			},
 			styles: {
-				background: backgroundColor,
+				...style,
 				width: `${width}%`,
 				height: `${height}%`,
 				opacity,
 				overflow,
-				// text options
-				color,
-				align,
-				fontSize,
 				float,
 			},
 		});

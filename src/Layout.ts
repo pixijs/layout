@@ -42,6 +42,7 @@ export type Styles = TextStyles & {
 };
 
 export type LayoutOptions = {
+	id?: string;
 	content?: Content;
 	styles?: Styles;
 };
@@ -52,23 +53,33 @@ export class Layout extends Container {
 	private size: { width: number; height: number } = { width: 0, height: 0 };
 	private textStyles: TextStyles = {}; // this is to be nested by children
 
+	id!: string;
+
 	constructor(private options?: LayoutOptions) {
 		super();
 
-		this.addChild(this.bg);
+		if (options?.id) this.id = options.id;
 
-		this.setTextStyles();
+		this.addChild(this.bg);
 
 		if (options?.styles?.overflow === 'hidden') {
 			this.overflowMask = new Graphics();
 			this.addChild(this.overflowMask);
 		}
 
-		this.manageContent();
+		this.setTextStyles();
+
+		if (options?.content) {
+			this.createContent(options.content);
+		}
 	}
 
 	private setTextStyles() {
+		if (!this.options) return;
+
 		const { styles } = this.options;
+
+		if (!styles) return;
 
 		this.textStyles = {
 			align: styles.align ?? 'left',
@@ -79,7 +90,7 @@ export class Layout extends Container {
 			dropShadowBlur: styles.dropShadowBlur ?? 0,
 			dropShadowColor: styles.dropShadowColor ?? 'black',
 			dropShadowDistance: styles.dropShadowDistance ?? 5,
-			fill: styles.fill ?? getColor(styles.color).hex ?? 'black',
+			fill: styles.fill ?? getColor(styles.color)?.hex ?? 'black',
 			fillGradientType:
 				styles.fillGradientType ?? TEXT_GRADIENT.LINEAR_VERTICAL,
 			fillGradientStops: styles.fillGradientStops ?? [],
@@ -104,13 +115,22 @@ export class Layout extends Container {
 		};
 	}
 
-	private manageContent() {
-		const { content } = this.options || {};
-
+	private createContent(content: Content) {
 		if (typeof content === 'string') {
 			const text = new Text(content, this.textStyles);
-
+			// TODO: fix text alignment when text width is less than layout width
 			this.addChild(text);
+		} else if (content instanceof Container || content instanceof Layout) {
+			this.addChild(content);
+		} else if (typeof content === 'object') {
+			// TODO: add support for nested layouts
+			for (const id in content) {
+				const child = content[id];
+
+				if (child instanceof Layout) {
+					this.addChild(child);
+				}
+			}
 		}
 	}
 
@@ -143,12 +163,12 @@ export class Layout extends Container {
 			this.alpha = opacity;
 		}
 
-		this.alignElements(parentWidth, parentHeight);
+		this.float(parentWidth, parentHeight);
 
-		this.manageChildren();
+		this.resizeChildren();
 	}
 
-	private alignElements(width: number, height: number) {
+	private float(width: number, height: number) {
 		const { float } = this.options?.styles || {};
 
 		switch (float) {
@@ -192,10 +212,12 @@ export class Layout extends Container {
 		}
 	}
 
-	private manageChildren() {
+	private resizeChildren() {
 		this.children.forEach((child) => {
 			if (child instanceof Text) {
 				child.style.wordWrapWidth = this.size.width;
+			} else if (child instanceof Layout) {
+				child.resize(this.size.width, this.size.height);
 			}
 		});
 	}
