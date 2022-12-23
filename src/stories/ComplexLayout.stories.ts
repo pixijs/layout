@@ -1,16 +1,16 @@
-import { Layout, Styles } from '../Layout';
+import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
-import { ALIGN, FLOAT } from '../utils/constants';
+import { ALIGN, FLOAT, LOREM_TEXT } from '../utils/constants';
 import { preloadAssets } from '../utils/helpers';
 
 const args = {
-	color: '#000000',
-	width: 50,
-	height: 50,
+	color: '#FFFFFF',
+	width: 90,
+	height: 90,
 	opacity: 1,
 	align: ALIGN,
-	fontSize: 100,
+	fontSize: 32,
 	overflow: ['hidden', 'visible'],
 	float: FLOAT,
 };
@@ -20,7 +20,6 @@ class LayoutStory {
 	view = new Container();
 
 	constructor({
-		backgroundColor,
 		color,
 		width,
 		height,
@@ -30,55 +29,71 @@ class LayoutStory {
 		fontSize,
 		float,
 	}: any) {
-		const style: Styles = {
-			background: backgroundColor,
-			width: '50%',
-			height: '50%',
-			// text options
-			color,
+		const fontStyle = {
 			align,
 			fontSize,
+			color,
+			overflow,
+			padding: 10,
 		};
 
 		this.layout = new Layout({
-			// content: 'Hello World',
 			content: {
-				left: new Layout({
-					content: '1',
-					styles: { ...style, float: 'leftTop', background: 'red' },
-				}),
-				right: new Layout({
-					content: '2',
+				header: new Layout({
+					content: 'Header',
 					styles: {
-						...style,
-						float: 'rightTop',
+						float: 'top',
+						background: 'red',
+						height: '10%',
+						...fontStyle,
+					},
+				}),
+				content: new Layout({
+					content: [
+						// array of children
+						new Layout({
+							content: 'Left menu',
+							styles: {
+								width: '30%',
+								float: 'left',
+								background: 'blue',
+								...fontStyle,
+							},
+						}),
+						new Layout({
+							content: LOREM_TEXT,
+							styles: {
+								width: '65%',
+								float: 'right',
+								...fontStyle,
+							},
+						}),
+					],
+					styles: {
+						float: 'center',
+						height: '80%',
+						align: 'center',
+						...fontStyle,
+					},
+				}),
+				footer: new Layout({
+					content: 'Footer',
+					styles: {
+						float: 'bottom',
 						background: 'green',
-					},
-				}),
-				leftBottom: new Layout({
-					content: '3',
-					styles: {
-						...style,
-						float: 'leftBottom',
-						background: 'blue',
-					},
-				}),
-				rightBottom: new Layout({
-					content: '4',
-					styles: {
-						...style,
-						float: 'rightBottom',
-						background: 'yellow',
+						height: '10%',
+						align: 'center',
+						...fontStyle,
 					},
 				}),
 			},
 			styles: {
-				...style,
+				color,
 				width: `${width}%`,
 				height: `${height}%`,
 				opacity,
-				overflow,
 				float,
+				...fontStyle,
 			},
 		});
 
@@ -100,7 +115,7 @@ class LayoutStory {
 	}
 }
 
-export const ComplexLayout = (params: any) => new LayoutStory(params);
+export const ApplicationLayout = (params: any) => new LayoutStory(params);
 
 export default {
 	title: 'Layout',

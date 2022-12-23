@@ -30,4 +30,9 @@ export type Float = typeof FLOAT[number];
 
 export type Align = typeof ALIGN[number];
 
-export type Content = string | Container | Layout | { [id: string]: Content };
+export type Content =
+	| string
+	| Container
+	| Layout
+	| { [id: string]: Content }
+	| Content[];

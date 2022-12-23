@@ -80,11 +80,7 @@ export class Layout extends Container {
 		}
 	}
 
-	private setTextStyles() {
-		if (!this.options) return;
-
-		const { styles } = this.options;
-
+	private setTextStyles(styles: Styles = this.options?.styles) {
 		if (!styles) return;
 
 		this.textStyles = {
@@ -128,14 +124,16 @@ export class Layout extends Container {
 			this.addChild(text);
 		} else if (content instanceof Container || content instanceof Layout) {
 			this.addChild(content);
+		} else if (Array.isArray(content)) {
+			content.forEach((child) => {
+				this.createContent(child);
+			});
 		} else if (typeof content === 'object') {
 			// TODO: add support for nested layouts
 			for (const id in content) {
 				const child = content[id];
 
-				if (child instanceof Layout) {
-					this.addChild(child);
-				}
+				this.createContent(child);
 			}
 		}
 	}
