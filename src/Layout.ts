@@ -4,7 +4,7 @@ import {
 	FlexColor,
 	FlexNumber,
 	TextStyles,
-	Float,
+	Position,
 	Content,
 } from './utils/types';
 import { getColor, getNumber } from './utils/helpers';
@@ -17,7 +17,7 @@ export type Styles = TextStyles & {
 	margin?: FlexNumber;
 	opacity?: Opacity;
 	overflow?: 'visible' | 'hidden'; // TODO: scroll pixi-ui scrollBox can be used here & 'scale' to fit children when overflow
-	float?: Float;
+	position?: Position;
 
 	// TODO:
 
@@ -166,15 +166,15 @@ export class Layout extends Container {
 			this.alpha = opacity;
 		}
 
-		this.float(parentWidth, parentHeight);
+		this.setPosition(parentWidth, parentHeight);
 
 		this.resizeChildren();
 	}
 
-	private float(width: number, height: number) {
-		const { float } = this.options?.styles || {};
+	private setPosition(width: number, height: number) {
+		const { position } = this.options?.styles || {};
 
-		switch (float) {
+		switch (position) {
 			// we skip 'left', 'top' and 'leftTop' because they are default
 			case 'rightTop':
 			case 'right':

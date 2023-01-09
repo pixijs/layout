@@ -1,7 +1,7 @@
 import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
-import { ALIGN, FLOAT, LOREM_TEXT } from '../utils/constants';
+import { ALIGN, POSITION, LOREM_TEXT } from '../utils/constants';
 import { preloadAssets } from '../utils/helpers';
 
 const args = {
@@ -12,7 +12,7 @@ const args = {
 	align: ALIGN,
 	fontSize: 32,
 	overflow: ['hidden', 'visible'],
-	float: FLOAT,
+	position: POSITION,
 };
 
 class LayoutStory {
@@ -27,7 +27,7 @@ class LayoutStory {
 		overflow,
 		align,
 		fontSize,
-		float,
+		position,
 	}: any) {
 		const fontStyle = {
 			align,
@@ -44,7 +44,7 @@ class LayoutStory {
 					id: 'header',
 					content: 'Header',
 					styles: {
-						float: 'top',
+						position: 'top',
 						background: 'red',
 						height: '10%',
 						...fontStyle,
@@ -59,7 +59,7 @@ class LayoutStory {
 							content: 'Left menu',
 							styles: {
 								width: '30%',
-								float: 'left',
+								position: 'left',
 								background: 'blue',
 								...fontStyle,
 							},
@@ -69,13 +69,13 @@ class LayoutStory {
 							content: LOREM_TEXT,
 							styles: {
 								width: '65%',
-								float: 'right',
+								position: 'right',
 								...fontStyle,
 							},
 						},
 					],
 					styles: {
-						float: 'center',
+						position: 'center',
 						height: '80%',
 						align: 'center',
 						...fontStyle,
@@ -85,7 +85,7 @@ class LayoutStory {
 					id: 'footer',
 					content: 'Footer',
 					styles: {
-						float: 'bottom',
+						position: 'bottom',
 						background: 'green',
 						height: '10%',
 						align: 'center',
@@ -98,7 +98,7 @@ class LayoutStory {
 				width: `${width}%`,
 				height: `${height}%`,
 				opacity,
-				float,
+				position,
 				...fontStyle,
 			},
 		});
