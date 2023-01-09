@@ -18,7 +18,7 @@ const args = {
 	float: FLOAT,
 };
 
-class DefaultLayout {
+class LayoutStory {
 	private layout: Layout;
 	view = new Container();
 
@@ -34,6 +34,7 @@ class DefaultLayout {
 		float,
 	}: any) {
 		this.layout = new Layout({
+			id: 'root',
 			content: LOREM_TEXT,
 			styles: {
 				background: backgroundColor,
@@ -67,7 +68,7 @@ class DefaultLayout {
 	}
 }
 
-export const Default = (params: any) => new DefaultLayout(params);
+export const Basic = (params: any) => new LayoutStory(params);
 
 export default {
 	title: 'Layout',

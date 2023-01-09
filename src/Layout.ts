@@ -48,7 +48,7 @@ export type Styles = TextStyles & {
 };
 
 export type LayoutOptions = {
-	id?: string;
+	id: string;
 	content?: Content;
 	styles?: Styles;
 };
@@ -76,7 +76,7 @@ export class Layout extends Container {
 		this.setTextStyles();
 
 		if (options?.content) {
-			this.createContent(options.content);
+			this.createContent();
 		}
 	}
 
@@ -117,7 +117,7 @@ export class Layout extends Container {
 		};
 	}
 
-	private createContent(content: Content) {
+	private createContent(content: Content = this.options.content) {
 		if (typeof content === 'string') {
 			const text = new Text(content, this.textStyles);
 			// TODO: fix text alignment when text width is less than layout width
@@ -125,15 +125,14 @@ export class Layout extends Container {
 		} else if (content instanceof Container || content instanceof Layout) {
 			this.addChild(content);
 		} else if (Array.isArray(content)) {
-			content.forEach((child) => {
-				this.createContent(child);
+			content.forEach((content) => {
+				this.createContent(content);
 			});
 		} else if (typeof content === 'object') {
-			// TODO: add support for nested layouts
-			for (const id in content) {
-				const child = content[id];
-
-				this.createContent(child);
+			if ((content as LayoutOptions).id) {
+				this.addChild(new Layout(content as LayoutOptions));
+			} else {
+				throw new Error('Invalid content');
 			}
 		}
 	}
@@ -214,6 +213,35 @@ export class Layout extends Container {
 				this.x = width - this.size.width;
 				break;
 		}
+	}
+
+	protected override onChildrenChange() {
+		let x = 0;
+		let y = 0;
+
+		this.children.forEach((child) => {
+			if (
+				child &&
+				child instanceof Container &&
+				child.width &&
+				child.height
+			) {
+				if (
+					this.parent &&
+					this.parent.width &&
+					x + child.width >= this.parent.width
+				) {
+					y += child.height;
+					x = 0;
+
+					child.x = x;
+					child.y = y;
+				} else {
+					child.x = x;
+					child.y = y;
+				}
+			}
+		});
 	}
 
 	private resizeChildren() {

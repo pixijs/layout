@@ -1,6 +1,6 @@
 import { TextStyle, Container } from 'pixi.js';
 import { ALIGN, CSS_COLOR_NAMES, FLOAT } from './constants';
-import { Layout } from '../Layout';
+import { Layout, LayoutOptions } from '../Layout';
 
 export type Opacity =
 	| 0
@@ -30,9 +30,4 @@ export type Float = typeof FLOAT[number];
 
 export type Align = typeof ALIGN[number];
 
-export type Content =
-	| string
-	| Container
-	| Layout
-	| { [id: string]: Content }
-	| Content[];
+export type Content = string | Container | Layout | LayoutOptions | Content[];

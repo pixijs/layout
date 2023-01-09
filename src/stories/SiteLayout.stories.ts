@@ -38,8 +38,10 @@ class LayoutStory {
 		};
 
 		this.layout = new Layout({
-			content: {
-				header: new Layout({
+			id: 'root',
+			content: [
+				{
+					id: 'header',
 					content: 'Header',
 					styles: {
 						float: 'top',
@@ -47,11 +49,13 @@ class LayoutStory {
 						height: '10%',
 						...fontStyle,
 					},
-				}),
-				content: new Layout({
+				},
+				{
+					id: 'content',
 					content: [
 						// array of children
-						new Layout({
+						{
+							id: 'left-menu',
 							content: 'Left menu',
 							styles: {
 								width: '30%',
@@ -59,15 +63,16 @@ class LayoutStory {
 								background: 'blue',
 								...fontStyle,
 							},
-						}),
-						new Layout({
+						},
+						{
+							id: 'main-content',
 							content: LOREM_TEXT,
 							styles: {
 								width: '65%',
 								float: 'right',
 								...fontStyle,
 							},
-						}),
+						},
 					],
 					styles: {
 						float: 'center',
@@ -75,8 +80,9 @@ class LayoutStory {
 						align: 'center',
 						...fontStyle,
 					},
-				}),
-				footer: new Layout({
+				},
+				{
+					id: 'footer',
 					content: 'Footer',
 					styles: {
 						float: 'bottom',
@@ -85,8 +91,8 @@ class LayoutStory {
 						align: 'center',
 						...fontStyle,
 					},
-				}),
-			},
+				},
+			],
 			styles: {
 				color,
 				width: `${width}%`,
@@ -115,7 +121,7 @@ class LayoutStory {
 	}
 }
 
-export const ApplicationLayout = (params: any) => new LayoutStory(params);
+export const SiteLayout = (params: any) => new LayoutStory(params);
 
 export default {
 	title: 'Layout',
