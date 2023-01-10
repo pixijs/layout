@@ -152,13 +152,19 @@ export const LOREM_TEXT =
 	'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab praesentium velit minima unde beatae. Illo earum, rem iure unde nemo, exercitationem nesciunt et voluptas nisi adipisci, provident cupiditate veritatis magnam?';
 
 export const DISPLAY = [
-	'block', 'inline', 'flex', 'inline-flex', 'grid'
+	'block', 'inline-block', 'inline', 'flex', 'inline-flex', 'grid'
 ];
 export const FLEX_DIRECTION = [
 	'row',
 	'row-reverse',
 	'column',
 	'column-reverse',
+];
+
+export const FLEX_WRAP = [
+	'nowrap',
+	'wrap',
+	'wrap-reverse'
 ];
 
 export const POSITION = [

@@ -3,7 +3,7 @@ import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
 import { CSS_COLOR_NAMES, FLEX_DIRECTION } from '../utils/constants';
 import { Content } from '../utils/types';
-import { DISPLAY } from './../utils/constants';
+import { DISPLAY, FLEX_WRAP } from './../utils/constants';
 
 const args = {
 	amount: 5,
@@ -11,13 +11,14 @@ const args = {
 	rootDisplay: DISPLAY,
 	childrenDisplay: DISPLAY,
 	flexDirection: FLEX_DIRECTION,
+	flexWrap: FLEX_WRAP,
 };
 
 class LayoutStory {
 	private rootLayout: Layout;
 	view = new Container();
 
-	constructor({ size, amount, rootDisplay, childrenDisplay }: any) {
+	constructor({ size, amount, rootDisplay, childrenDisplay, flexWrap }: any) {
 		const content: Content = [];
 
 		for (let i = 1; i < amount+1; i++) {
@@ -39,7 +40,8 @@ class LayoutStory {
 			id: 'root-layout',
 			content,
 			styles: {
-				display: rootDisplay
+				display: rootDisplay,
+				flexWrap
 			},
 		});
 

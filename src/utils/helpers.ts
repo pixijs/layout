@@ -1,7 +1,6 @@
 import { CSS_COLOR_NAMES } from './constants';
 import { Color, CSSColor, Display, FlexColor, FlexNumber } from './types';
 import { utils, Loader, Sprite, Texture, Container } from 'pixi.js';
-import { Layout } from './../Layout';
 
 export function sprite(texture: string) {
 	return new Sprite(Texture.from(texture));

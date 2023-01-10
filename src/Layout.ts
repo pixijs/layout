@@ -8,6 +8,7 @@ import {
 	Content,
 	Display,
 	FlexDirection,
+	FlexWrap,
 } from './utils/types';
 import { getColor, getNumber } from './utils/helpers';
 import { AlignController } from './AlignControler';
@@ -22,8 +23,10 @@ export type Styles = TextStyles & {
 	overflow?: 'visible' | 'hidden'; // TODO: scroll pixi-ui scrollBox can be used here & 'scale' to fit children when overflow
 	position?: Position;
 	display?: Display;
+	
 	flexDirection?: FlexDirection;
-
+	flexWrap?: FlexWrap;
+	
 	// TODO:
 
 	// zIndex?: number;

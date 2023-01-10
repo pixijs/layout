@@ -23,33 +23,29 @@ export class AlignController {
     }
 
     update() {
+        switch (this.root.display) {
+            case 'flex':
+                this.alignFlex();
+                break;
+            case 'grid':
+                this.alignGrid();
+                break;
+        
+            default:
+                this.alignDefault();
+                break;
+        }
+    }
+
+    private alignFlex() {
         let maxChildHeight = 0;
 		let x = 0;
 		let y = 0;
+        
+        const flexDirection = this.root.options?.styles?.flexDirection || 'row';
 
 		this.items.forEach((child) => {
-			let display = 'block';
-			let flexDirection = 'column';
-
-			if (child instanceof Layout) {
-				display = child.display;
-				
-				if (this.root.options?.styles?.flexDirection && !isFlex(child)) {
-					display = 'block';
-				}
-				
-				switch (display) {
-					case 'flex':
-						flexDirection = child.options?.styles?.flexDirection || 'column';
-						break;
-					case 'grid':						
-						break;
-				}
-			}
-
 			if (
-				!isGrid(child) &&
-				!isFlex(child) &&
 				child.height &&
 				child.width
 			) {
@@ -60,8 +56,100 @@ export class AlignController {
 					maxChildHeight = child.height;
 				}
 				
-				switch (display) {
+				switch (flexDirection) {
+					case 'row':
+						this.alignFlexRow();
+						break;
+                    case 'row-reverse':
+                        break;
+                    case 'column':
+						this.alignFlexColumn();
+                        break;
+                    case 'column-reverse':
+                        break;
+					default:
+						y += child.height;
+						break;
+				}
+			}
+		});
+    }
+
+    private alignFlexColumn() {
+        console.log('alignFlexColumn');
+        
+		let y = 0;
+        
+		this.items.forEach((child) => {
+			child.y = y;
+        });
+    }
+
+    private alignFlexRow() {
+        let maxChildHeight = 0;
+		let x = 0;
+		let y = 0;
+        
+        const flexWrap = this.root.options?.styles?.flexWrap || 'nowrap';
+
+		this.items.forEach((child) => {
+			if (
+				child.height &&
+				child.width
+			) {
+				child.x = x;
+				child.y = y;
+
+				if (child.height > maxChildHeight) {
+					maxChildHeight = child.height;
+				}
+				
+                if (flexWrap === 'wrap' && x + child.width > this.root.width) {
+                    x = child.width;
+                    y += maxChildHeight;
+                    
+                    child.x = 0;
+                    child.y = y;
+                } else { // nowrap 
+                    x += child.width;
+                }
+			}
+		});
+    }
+    
+    private alignGrid() {}
+
+    private alignDefault() {
+        let maxChildHeight = 0;
+		let x = 0;
+		let y = 0;
+
+		this.items.forEach((child) => {
+			let childDisplay = 'block';
+
+			if (child instanceof Layout) {
+				childDisplay = child.display;
+				
+				if (this.root.options?.styles?.flexDirection && !isFlex(child)) {
+					childDisplay = 'block';
+				}
+			}
+
+			if (
+				child.height &&
+				child.width
+			) {
+				child.x = x;
+				child.y = y;
+
+				if (child.height > maxChildHeight) {
+					maxChildHeight = child.height;
+				}
+				
+				switch (childDisplay) {
 					case 'inline':
+					case 'inline-flex':
+					case 'inline-block':
 						if (x + child.width > this.root.width) {
 							x = child.width;
 							y += maxChildHeight;
@@ -73,7 +161,6 @@ export class AlignController {
 						}
 						break;
 
-					case 'block':
 					default:
 						y += child.height;
 						break;
