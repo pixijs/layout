@@ -178,10 +178,6 @@ export class AlignController {
 
 			if (child instanceof Layout) {
 				childDisplay = child.display;
-
-				if (this.root.options?.styles?.flexDirection) {
-					childDisplay = 'block';
-				}
 			}
 
 			if (child.height && child.width) {
