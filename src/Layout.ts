@@ -139,10 +139,12 @@ export class Layout extends Container {
 			this.alpha = opacity;
 		}
 
-		this.setPosition(parentWidth, parentHeight);
-
-		this.resizeChildren();
 		this.alignController.update();
+		this.resizeChildren();
+
+		if (this.options?.styles?.position) {
+			this.setPosition(parentWidth, parentHeight);
+		}
 	}
 
 	private setPosition(width: number, height: number) {
@@ -152,11 +154,13 @@ export class Layout extends Container {
 			// we skip 'left', 'top' and 'leftTop' because they are default
 			case 'rightTop':
 			case 'right':
+				this.y = 0;
 				this.x = width - this.size.width;
 				break;
 
 			case 'leftBottom':
 			case 'bottom':
+				this.x = 0;
 				this.y = height - this.size.height;
 				break;
 
@@ -170,6 +174,7 @@ export class Layout extends Container {
 				this.y = height / 2 - this.size.height / 2;
 				break;
 			case 'centerTop':
+				this.y = 0;
 				this.x = width / 2 - this.size.width / 2;
 				break;
 
@@ -179,6 +184,7 @@ export class Layout extends Container {
 				break;
 
 			case 'centerLeft':
+				this.x = 0;
 				this.y = height / 2 - this.size.height / 2;
 				break;
 
@@ -192,25 +198,22 @@ export class Layout extends Container {
 	private resizeChildren() {
 		this.children.forEach((child) => {
 			if (child instanceof Text) {
-				if (
-					this.size.width > child.width &&
-					this.textStyles.align === 'center'
-				) {
-					child.anchor.set(0.5, 0);
-					child.x = this.size.width / 2;
-				} else if (
-					this.size.width > child.width &&
-					this.textStyles.align === 'right'
-				) {
-					child.anchor.set(1, 0);
-					child.x = this.size.width;
+				child.style.wordWrapWidth = this.width;
+
+				if (child.width < this.width) {
+					if (this.textStyles.align === 'center') {
+						child.anchor.set(0.5, 0);
+						child.x = this.width / 2;
+					} else if (this.textStyles.align === 'right') {
+						child.anchor.set(1, 0);
+						child.x = this.width;
+					}
 				} else {
 					child.anchor.set(0, 0);
 					child.x = 0;
 				}
-				child.style.wordWrapWidth = this.size.width;
 			} else if (child instanceof Layout) {
-				child.resize(this.size.width, this.size.height);
+				child.resize(this.width, this.height);
 			}
 		});
 	}

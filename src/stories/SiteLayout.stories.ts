@@ -68,7 +68,7 @@ class LayoutStory {
 							id: 'main-content',
 							content: LOREM_TEXT,
 							styles: {
-								width: '65%',
+								width: '60%',
 								position: 'right',
 								...fontStyle,
 							},

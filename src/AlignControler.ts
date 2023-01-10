@@ -5,172 +5,172 @@ import { isFlex, isGrid } from './utils/helpers';
 type Items = Container[];
 
 export class AlignController {
-    private root: Layout;
-    private items: Items = [];
+	private root: Layout;
+	private items: Items = [];
 
-    constructor(root: Layout, items?: Items) {
-        this.root = root;
-            
-        if (items) {
-            this.items = items;
-        }
-    }
+	constructor(root: Layout, items?: Items) {
+		this.root = root;
 
-    add(items: Items | Container) {
-        if (Array.isArray(items)) {
-            items.forEach((item) => this.items.push(item));
-        } else {
-            this.items.push(items);
-        }
-    }
+		if (items) {
+			this.items = items;
+		}
+	}
 
-    update() {
-        switch (this.root.display) {
-            case 'flex':
-                this.alignFlex();
-                break;
-            case 'grid':
-                this.alignGrid();
-                break;
-        
-            default:
-                this.alignDefault();
-                break;
-        }
-    }
+	add(items: Items | Container) {
+		if (Array.isArray(items)) {
+			items.forEach((item) => this.items.push(item));
+		} else {
+			this.items.push(items);
+		}
+	}
 
-    private alignFlex() {
-        const flexDirection = this.root.options?.styles?.flexDirection || 'row';
+	update() {
+		switch (this.root.display) {
+			case 'flex':
+				this.alignFlex();
+				break;
+			case 'grid':
+				this.alignGrid();
+				break;
 
-        switch (flexDirection) {
-            case 'row':
-                this.alignFlexRow(this.items);
-                break;
-                case 'row-reverse':
-                this.alignFlexRow(this.items.reverse());
-                break;
-            case 'column':
-                this.alignFlexColumn(this.items);
-                break;
-                case 'column-reverse':
-                this.alignFlexColumn(this.items.reverse());
-                break;
-            default:
-                throw new Error('Invalid flex-direction value');
-        }
-    }
+			default:
+				this.alignDefault();
+				break;
+		}
+	}
 
-    private alignFlexColumn(items: Items) {
+	private alignFlex() {
+		const flexDirection = this.root.options?.styles?.flexDirection || 'row';
+
+		switch (flexDirection) {
+			case 'row':
+				this.alignFlexRow(this.items);
+				break;
+			case 'row-reverse':
+				this.alignFlexRow(this.items.reverse());
+				break;
+			case 'column':
+				this.alignFlexColumn(this.items);
+				break;
+			case 'column-reverse':
+				this.alignFlexColumn(this.items.reverse());
+				break;
+			default:
+				throw new Error('Invalid flex-direction value');
+		}
+	}
+
+	private alignFlexColumn(items: Items) {
 		let y = 0;
-        
+
 		items.forEach((child) => {
 			child.y = y;
-            y += child.height;
-        });
-    }
+			y += child.height;
+		});
+	}
 
-    private alignFlexRow(items: Items) {
+	private alignFlexRow(items: Items) {
 		let x = 0;
-        
-        const flexWrap = this.root.options?.styles?.flexWrap || 'nowrap';
 
-        switch (flexWrap) {
-            case 'wrap-reverse':
-                this.alignFlexRowReverse(items);
-                break;
-            case 'wrap':
-                this.alignFlexRowDefault(items);
-                break;
-        
-            default: // nowrap 
-                items.forEach((child) => {
-                    child.x = x;
-                    x += child.width;
-                });
-                break;
-        }
-    }
+		const flexWrap = this.root.options?.styles?.flexWrap || 'nowrap';
 
-    private alignFlexRowDefault(items: Items) {
-        let maxChildHeight = 0;
-		let x = 0;
-		let y = 0;
+		switch (flexWrap) {
+			case 'wrap-reverse':
+				this.alignFlexRowReverse(items);
+				break;
+			case 'wrap':
+				this.alignFlexRowDefault(items);
+				break;
 
-        items.forEach((child) => {
-            child.x = x;
-            child.y = y;
+			default: // nowrap
+				items.forEach((child) => {
+					child.x = x;
+					x += child.width;
+				});
+				break;
+		}
+	}
 
-            if (x + child.width > this.root.width) {
-                x = child.width;
-                y += maxChildHeight;
-
-                maxChildHeight = 0;
-                
-                child.x = 0;
-                child.y = y;
-            } else {
-                x += child.width;
-            }
-
-            if (child.height > maxChildHeight) {
-                maxChildHeight = child.height;
-            }
-        });
-    }
-
-    private alignFlexRowReverse(items: Items) {
-        let maxChildHeight = 0;
+	private alignFlexRowDefault(items: Items) {
+		let maxChildHeight = 0;
 		let x = 0;
 		let y = 0;
-        let currentRow = 0;
 
-        const rows: Array<Items> = [];
-        rows[currentRow] = [];
+		items.forEach((child) => {
+			child.x = x;
+			child.y = y;
 
-        items.forEach((child) => {
-            child.x = x;
-            
-            if (x + child.width > this.root.width) {
-                x = child.width;
-                y += maxChildHeight;
+			if (x + child.width > this.root.width) {
+				x = child.width;
+				y += maxChildHeight;
 
-                maxChildHeight = 0;
-                
-                child.x = 0;
+				maxChildHeight = 0;
 
-                currentRow++;
+				child.x = 0;
+				child.y = y;
+			} else {
+				x += child.width;
+			}
 
-                rows[currentRow] = [];
-                rows[currentRow].push(child);
-            } else {
-                x += child.width;
-                rows[currentRow].push(child);
-            }
-            
-            if (child.height > maxChildHeight) {
-                maxChildHeight = child.height;
-            }
-        });
+			if (child.height > maxChildHeight) {
+				maxChildHeight = child.height;
+			}
+		});
+	}
 
-        const maxHeight: number[] = [0];
+	private alignFlexRowReverse(items: Items) {
+		let maxChildHeight = 0;
+		let x = 0;
+		let y = 0;
+		let currentRow = 0;
 
-        rows.reverse().forEach((row, rowID) => {
-            maxHeight[rowID + 1] = 0;
+		const rows: Array<Items> = [];
+		rows[currentRow] = [];
 
-            row.forEach((child) => {
-                child.y = maxHeight[rowID];
-                
-                if (maxHeight[rowID + 1] < child.height) {
-                    maxHeight[rowID + 1] = child.height
-                }
-            });
-        });
-    }
+		items.forEach((child) => {
+			child.x = x;
 
-    private alignGrid() {}
+			if (x + child.width > this.root.width) {
+				x = child.width;
+				y += maxChildHeight;
 
-    private alignDefault() {
-        let maxChildHeight = 0;
+				maxChildHeight = 0;
+
+				child.x = 0;
+
+				currentRow++;
+
+				rows[currentRow] = [];
+				rows[currentRow].push(child);
+			} else {
+				x += child.width;
+				rows[currentRow].push(child);
+			}
+
+			if (child.height > maxChildHeight) {
+				maxChildHeight = child.height;
+			}
+		});
+
+		const maxHeight: number[] = [0];
+
+		rows.reverse().forEach((row, rowID) => {
+			maxHeight[rowID + 1] = 0;
+
+			row.forEach((child) => {
+				child.y = maxHeight[rowID];
+
+				if (maxHeight[rowID + 1] < child.height) {
+					maxHeight[rowID + 1] = child.height;
+				}
+			});
+		});
+	}
+
+	private alignGrid() {}
+
+	private alignDefault() {
+		let maxChildHeight = 0;
 		let x = 0;
 		let y = 0;
 
@@ -179,23 +179,23 @@ export class AlignController {
 
 			if (child instanceof Layout) {
 				childDisplay = child.display;
-				
-				if (this.root.options?.styles?.flexDirection && !isFlex(child)) {
+
+				if (
+					this.root.options?.styles?.flexDirection &&
+					!isFlex(child)
+				) {
 					childDisplay = 'block';
 				}
 			}
 
-			if (
-				child.height &&
-				child.width
-			) {
+			if (child.height && child.width) {
 				child.x = x;
 				child.y = y;
 
 				if (child.height > maxChildHeight) {
 					maxChildHeight = child.height;
 				}
-				
+
 				switch (childDisplay) {
 					case 'inline':
 					case 'inline-flex':
@@ -203,7 +203,7 @@ export class AlignController {
 						if (x + child.width > this.root.width) {
 							x = child.width;
 							y += maxChildHeight;
-							
+
 							child.x = 0;
 							child.y = y;
 						} else {
@@ -217,5 +217,5 @@ export class AlignController {
 				}
 			}
 		});
-    }
+	}
 }
