@@ -2,11 +2,13 @@ import { Container } from 'pixi.js';
 import { Layout } from './Layout';
 import { isFlex, isGrid } from './utils/helpers';
 
+type Items = Container[];
+
 export class AlignController {
     private root: Layout;
-    private items: Container[] = [];
+    private items: Items = [];
 
-    constructor(root: Layout, items?: Container[]) {
+    constructor(root: Layout, items?: Items) {
         this.root = root;
             
         if (items) {
@@ -14,7 +16,7 @@ export class AlignController {
         }
     }
 
-    add(items: Container[] | Container) {
+    add(items: Items | Container) {
         if (Array.isArray(items)) {
             items.forEach((item) => this.items.push(item));
         } else {
@@ -38,85 +40,133 @@ export class AlignController {
     }
 
     private alignFlex() {
-        let maxChildHeight = 0;
-		let x = 0;
-		let y = 0;
-        
         const flexDirection = this.root.options?.styles?.flexDirection || 'row';
 
-		this.items.forEach((child) => {
-			if (
-				child.height &&
-				child.width
-			) {
-				child.x = x;
-				child.y = y;
-
-				if (child.height > maxChildHeight) {
-					maxChildHeight = child.height;
-				}
-				
-				switch (flexDirection) {
-					case 'row':
-						this.alignFlexRow();
-						break;
-                    case 'row-reverse':
-                        break;
-                    case 'column':
-						this.alignFlexColumn();
-                        break;
-                    case 'column-reverse':
-                        break;
-					default:
-						y += child.height;
-						break;
-				}
-			}
-		});
+        switch (flexDirection) {
+            case 'row':
+                this.alignFlexRow(this.items);
+                break;
+                case 'row-reverse':
+                this.alignFlexRow(this.items.reverse());
+                break;
+            case 'column':
+                this.alignFlexColumn(this.items);
+                break;
+                case 'column-reverse':
+                this.alignFlexColumn(this.items.reverse());
+                break;
+            default:
+                throw new Error('Invalid flex-direction value');
+        }
     }
 
-    private alignFlexColumn() {
-        console.log('alignFlexColumn');
-        
+    private alignFlexColumn(items: Items) {
 		let y = 0;
         
-		this.items.forEach((child) => {
+		items.forEach((child) => {
 			child.y = y;
+            y += child.height;
         });
     }
 
-    private alignFlexRow() {
-        let maxChildHeight = 0;
+    private alignFlexRow(items: Items) {
 		let x = 0;
-		let y = 0;
         
         const flexWrap = this.root.options?.styles?.flexWrap || 'nowrap';
 
-		this.items.forEach((child) => {
-			if (
-				child.height &&
-				child.width
-			) {
-				child.x = x;
-				child.y = y;
-
-				if (child.height > maxChildHeight) {
-					maxChildHeight = child.height;
-				}
-				
-                if (flexWrap === 'wrap' && x + child.width > this.root.width) {
-                    x = child.width;
-                    y += maxChildHeight;
-                    
-                    child.x = 0;
-                    child.y = y;
-                } else { // nowrap 
+        switch (flexWrap) {
+            case 'wrap-reverse':
+                this.alignFlexRowReverse(items);
+                break;
+            case 'wrap':
+                this.alignFlexRowDefault(items);
+                break;
+        
+            default: // nowrap 
+                items.forEach((child) => {
+                    child.x = x;
                     x += child.width;
-                }
-			}
-		});
+                });
+                break;
+        }
     }
-    
+
+    private alignFlexRowDefault(items: Items) {
+        let maxChildHeight = 0;
+		let x = 0;
+		let y = 0;
+
+        items.forEach((child) => {
+            child.x = x;
+            child.y = y;
+
+            if (x + child.width > this.root.width) {
+                x = child.width;
+                y += maxChildHeight;
+
+                maxChildHeight = 0;
+                
+                child.x = 0;
+                child.y = y;
+            } else {
+                x += child.width;
+            }
+
+            if (child.height > maxChildHeight) {
+                maxChildHeight = child.height;
+            }
+        });
+    }
+
+    private alignFlexRowReverse(items: Items) {
+        let maxChildHeight = 0;
+		let x = 0;
+		let y = 0;
+        let currentRow = 0;
+
+        const rows: Array<Items> = [];
+        rows[currentRow] = [];
+
+        items.forEach((child) => {
+            child.x = x;
+            
+            if (x + child.width > this.root.width) {
+                x = child.width;
+                y += maxChildHeight;
+
+                maxChildHeight = 0;
+                
+                child.x = 0;
+
+                currentRow++;
+
+                rows[currentRow] = [];
+                rows[currentRow].push(child);
+            } else {
+                x += child.width;
+                rows[currentRow].push(child);
+            }
+            
+            if (child.height > maxChildHeight) {
+                maxChildHeight = child.height;
+            }
+        });
+
+        const maxHeight: number[] = [0];
+
+        rows.reverse().forEach((row, rowID) => {
+            maxHeight[rowID + 1] = 0;
+
+            row.forEach((child) => {
+                child.y = maxHeight[rowID];
+                
+                if (maxHeight[rowID + 1] < child.height) {
+                    maxHeight[rowID + 1] = child.height
+                }
+            });
+        });
+    }
+
     private alignGrid() {}
 
     private alignDefault() {
