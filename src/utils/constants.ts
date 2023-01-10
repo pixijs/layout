@@ -1,13 +1,11 @@
 export const CSS_COLOR_NAMES = {
 	white: 0xffffff,
-	black: 0x000000,
 	red: 0xff0000,
 	green: 0x008000,
 	blue: 0x0000ff,
 	gray: 0x808080,
 	yellow: 0xffff00,
 	gold: 0xffd700,
-	grey: 0x808080,
 	aliceblue: 0xf0f8ff,
 	antiquewhite: 0xfaebd7,
 	aqua: 0x00ffff,
@@ -146,6 +144,8 @@ export const CSS_COLOR_NAMES = {
 	wheat: 0xf5deb3,
 	whitesmoke: 0xf5f5f5,
 	yellowgreen: 0x9acd32,
+	black: 0x000000,
+
 };
 
 export const LOREM_TEXT =
