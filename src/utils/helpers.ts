@@ -1,6 +1,7 @@
 import { CSS_COLOR_NAMES } from './constants';
-import { Color, CSSColor, FlexColor, FlexNumber } from './types';
-import { utils, Loader, Sprite, Texture } from 'pixi.js';
+import { Color, CSSColor, Display, FlexColor, FlexNumber } from './types';
+import { utils, Loader, Sprite, Texture, Container } from 'pixi.js';
+import { Layout } from './../Layout';
 
 export function sprite(texture: string) {
 	return new Sprite(Texture.from(texture));
@@ -131,4 +132,16 @@ export function getNumber(value: FlexNumber, maxPercentValue?: number): number {
 	}
 
 	return 0;
+}
+
+export function isFlex(layout: Container & {
+	display?: Display;
+}): boolean {
+	return layout.display === 'flex' || layout.display === 'inline-flex';
+}
+
+export function isGrid(layout: Container & {
+	display?: Display;
+}): boolean {
+	return layout.display === 'grid';
 }

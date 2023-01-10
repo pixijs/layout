@@ -1,5 +1,5 @@
 import { TextStyle, Container } from 'pixi.js';
-import { ALIGN, CSS_COLOR_NAMES, POSITION, DISPLAY } from './constants';
+import { ALIGN, CSS_COLOR_NAMES, POSITION, DISPLAY, FLEX_DIRECTION } from './constants';
 import { Layout, LayoutOptions } from '../Layout';
 
 export type Opacity =
@@ -28,6 +28,7 @@ export type CSSColor = keyof typeof CSS_COLOR_NAMES;
 
 export type Position = typeof POSITION[number];
 export type Display = typeof DISPLAY[number];
+export type FlexDirection = typeof FLEX_DIRECTION[number];
 
 export type Align = typeof ALIGN[number];
 

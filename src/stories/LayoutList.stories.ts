@@ -1,7 +1,7 @@
 import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
-import { CSS_COLOR_NAMES } from '../utils/constants';
+import { CSS_COLOR_NAMES, FLEX_DIRECTION } from '../utils/constants';
 import { Content } from '../utils/types';
 import { DISPLAY } from './../utils/constants';
 
@@ -10,6 +10,7 @@ const args = {
 	size: 100,
 	rootDisplay: DISPLAY,
 	childrenDisplay: DISPLAY,
+	flexDirection: FLEX_DIRECTION,
 };
 
 class LayoutStory {
@@ -19,7 +20,7 @@ class LayoutStory {
 	constructor({ size, amount, rootDisplay, childrenDisplay }: any) {
 		const content: Content = [];
 
-		for (let i = 0; i < amount; i++) {
+		for (let i = 1; i < amount+1; i++) {
 			const background = Object.keys(CSS_COLOR_NAMES)[i];
 
 			content.push({	
