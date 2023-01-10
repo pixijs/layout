@@ -6,6 +6,7 @@ import {
 	TextStyles,
 	Position,
 	Content,
+	Display,
 } from './utils/types';
 import { getColor, getNumber } from './utils/helpers';
 
@@ -18,6 +19,7 @@ export type Styles = TextStyles & {
 	opacity?: Opacity;
 	overflow?: 'visible' | 'hidden'; // TODO: scroll pixi-ui scrollBox can be used here & 'scale' to fit children when overflow
 	position?: Position;
+	display?: Display;
 
 	// TODO:
 
@@ -59,10 +61,17 @@ export class Layout extends Container {
 	private size: { width: number; height: number } = { width: 0, height: 0 };
 	private textStyles: TextStyles = {}; // this is to be nested by children
 
+	private childrenContent: Container[] = [];
+
 	id!: string;
+	display: Display = 'block';
 
 	constructor(private options?: LayoutOptions) {
 		super();
+
+		if (options?.styles?.display) {
+			this.display = options.styles.display;
+		}
 
 		if (options?.id) this.id = options.id;
 
@@ -122,15 +131,19 @@ export class Layout extends Container {
 			const text = new Text(content, this.textStyles);
 			// TODO: fix text alignment when text width is less than layout width
 			this.addChild(text);
+			this.childrenContent.push(text);
 		} else if (content instanceof Container || content instanceof Layout) {
 			this.addChild(content);
+			this.childrenContent.push(content);
 		} else if (Array.isArray(content)) {
 			content.forEach((content) => {
 				this.createContent(content);
 			});
 		} else if (typeof content === 'object') {
 			if ((content as LayoutOptions).id) {
-				this.addChild(new Layout(content as LayoutOptions));
+				const layout = new Layout(content as LayoutOptions);
+				this.addChild(layout);
+				this.childrenContent.push(layout);
 			} else {
 				throw new Error('Invalid content');
 			}
@@ -169,6 +182,7 @@ export class Layout extends Container {
 		this.setPosition(parentWidth, parentHeight);
 
 		this.resizeChildren();
+		this.alignChildren();
 	}
 
 	private setPosition(width: number, height: number) {
@@ -215,41 +229,57 @@ export class Layout extends Container {
 		}
 	}
 
-	protected override onChildrenChange() {
-		let x = 0;
-		let y = 0;
-
-		this.children.forEach((child) => {
-			if (
-				child &&
-				child instanceof Container &&
-				child.width &&
-				child.height
-			) {
-				if (
-					this.parent &&
-					this.parent.width &&
-					x + child.width >= this.parent.width
-				) {
-					y += child.height;
-					x = 0;
-
-					child.x = x;
-					child.y = y;
-				} else {
-					child.x = x;
-					child.y = y;
-				}
-			}
-		});
-	}
-
 	private resizeChildren() {
 		this.children.forEach((child) => {
 			if (child instanceof Text) {
 				child.style.wordWrapWidth = this.size.width;
 			} else if (child instanceof Layout) {
 				child.resize(this.size.width, this.size.height);
+			}
+		});
+	}
+	
+	protected alignChildren() {
+		let maxChildHeight = 0;
+		let x = 0;
+		let y = 0;
+
+		this.childrenContent.forEach((child) => {
+			let display = 'block';
+
+			if (child instanceof Layout) {
+				display = child.display;
+			}
+
+			if (
+				child.height &&
+				child.width
+			) {
+				child.x = x;
+				child.y = y;
+
+				if (child.height > maxChildHeight) {
+					maxChildHeight = child.height;
+				}
+				
+				switch (display) {
+					case 'inline':
+						if (x + child.width > this.size.width) {
+							x = child.width;
+							y += maxChildHeight;
+							
+							child.x = 0;
+							child.y = y;
+						} else {
+							x += child.width;
+						}
+						break;
+
+					case 'block':
+					default:
+						y += child.height;
+						break;
+				}
 			}
 		});
 	}
