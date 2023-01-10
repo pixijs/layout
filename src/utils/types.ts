@@ -1,6 +1,13 @@
 import { TextStyle, Container } from 'pixi.js';
-import { ALIGN, CSS_COLOR_NAMES, POSITION, DISPLAY, FLEX_DIRECTION, FLEX_WRAP } from './constants';
-import { Layout, LayoutOptions } from '../Layout';
+import {
+	ALIGN,
+	CSS_COLOR_NAMES,
+	POSITION,
+	DISPLAY,
+	FLEX_DIRECTION,
+	FLEX_WRAP,
+} from './constants';
+import { Layout } from '../Layout';
 
 export type Opacity =
 	| 0
@@ -34,3 +41,51 @@ export type FlexWrap = typeof FLEX_WRAP[number];
 export type Align = typeof ALIGN[number];
 
 export type Content = string | Container | Layout | LayoutOptions | Content[];
+
+export type Styles = TextStyles & {
+	background?: FlexColor;
+	color?: FlexColor;
+	width?: FlexNumber;
+	height?: FlexNumber;
+	margin?: FlexNumber;
+	opacity?: Opacity;
+	overflow?: 'visible' | 'hidden'; // TODO: scroll pixi-ui scrollBox can be used here & 'scale' to fit children when overflow
+	position?: Position;
+	display?: Display;
+
+	flexDirection?: FlexDirection;
+	flexWrap?: FlexWrap;
+
+	// TODO:
+
+	// zIndex?: number;
+
+	// maxWidth?: FlexNumber;
+	// maxHeight?: FlexNumber;
+
+	// border?: string;
+	// borderRadius?: FlexNumber;
+	// borderWidth?: FlexNumber;
+	// borderColor?: FlexColor;
+	// boxShadow?: string;
+
+	// margin
+	// marginTop?: FlexNumber;
+	// marginRight?: FlexNumber;
+	// marginBottom?: FlexNumber;
+	// marginLeft?: FlexNumber;
+	// margin?: FlexNumber;
+
+	// padding
+	// paddingTop?: FlexNumber;
+	// paddingRight?: FlexNumber;
+	// paddingBottom?: FlexNumber;
+	// paddingLeft?: FlexNumber;
+	// padding?: FlexNumber;
+};
+
+export type LayoutOptions = {
+	id: string;
+	content?: Content;
+	styles?: Styles;
+};

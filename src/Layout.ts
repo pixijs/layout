@@ -1,65 +1,13 @@
 import { Graphics, Text, Container, TEXT_GRADIENT } from 'pixi.js';
 import {
-	Opacity,
-	FlexColor,
-	FlexNumber,
 	TextStyles,
-	Position,
 	Content,
 	Display,
-	FlexDirection,
-	FlexWrap,
+	LayoutOptions,
+	Styles,
 } from './utils/types';
 import { getColor, getNumber } from './utils/helpers';
 import { AlignController } from './AlignControler';
-
-export type Styles = TextStyles & {
-	background?: FlexColor;
-	color?: FlexColor;
-	width?: FlexNumber;
-	height?: FlexNumber;
-	margin?: FlexNumber;
-	opacity?: Opacity;
-	overflow?: 'visible' | 'hidden'; // TODO: scroll pixi-ui scrollBox can be used here & 'scale' to fit children when overflow
-	position?: Position;
-	display?: Display;
-	
-	flexDirection?: FlexDirection;
-	flexWrap?: FlexWrap;
-	
-	// TODO:
-
-	// zIndex?: number;
-
-	// maxWidth?: FlexNumber;
-	// maxHeight?: FlexNumber;
-
-	// border?: string;
-	// borderRadius?: FlexNumber;
-	// borderWidth?: FlexNumber;
-	// borderColor?: FlexColor;
-	// boxShadow?: string;
-
-	// margin
-	// marginTop?: FlexNumber;
-	// marginRight?: FlexNumber;
-	// marginBottom?: FlexNumber;
-	// marginLeft?: FlexNumber;
-	// margin?: FlexNumber;
-
-	// padding
-	// paddingTop?: FlexNumber;
-	// paddingRight?: FlexNumber;
-	// paddingBottom?: FlexNumber;
-	// paddingLeft?: FlexNumber;
-	// padding?: FlexNumber;
-};
-
-export type LayoutOptions = {
-	id: string;
-	content?: Content;
-	styles?: Styles;
-};
 
 export class Layout extends Container {
 	private bg = new Graphics();
@@ -244,10 +192,16 @@ export class Layout extends Container {
 	private resizeChildren() {
 		this.children.forEach((child) => {
 			if (child instanceof Text) {
-				if (this.size.width > child.width && this.textStyles.align === 'center') {
+				if (
+					this.size.width > child.width &&
+					this.textStyles.align === 'center'
+				) {
 					child.anchor.set(0.5, 0);
 					child.x = this.size.width / 2;
-				} else if (this.size.width > child.width && this.textStyles.align === 'right') {
+				} else if (
+					this.size.width > child.width &&
+					this.textStyles.align === 'right'
+				) {
 					child.anchor.set(1, 0);
 					child.x = this.size.width;
 				} else {
@@ -260,7 +214,7 @@ export class Layout extends Container {
 			}
 		});
 	}
-	
+
 	override set width(value: number) {
 		this.size.width = value;
 	}
