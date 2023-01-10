@@ -139,6 +139,7 @@ export class Layout extends Container {
 			this.alpha = opacity;
 		}
 
+		this.resizeChildren();
 		this.alignController.update();
 		this.resizeChildren();
 

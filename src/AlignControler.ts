@@ -1,6 +1,5 @@
 import { Container } from 'pixi.js';
 import { Layout } from './Layout';
-import { isFlex, isGrid } from './utils/helpers';
 
 type Items = Container[];
 
@@ -180,10 +179,7 @@ export class AlignController {
 			if (child instanceof Layout) {
 				childDisplay = child.display;
 
-				if (
-					this.root.options?.styles?.flexDirection &&
-					!isFlex(child)
-				) {
+				if (this.root.options?.styles?.flexDirection) {
 					childDisplay = 'block';
 				}
 			}
