@@ -8,14 +8,15 @@ import { DISPLAY } from './../utils/constants';
 const args = {
 	amount: 5,
 	size: 100,
-	display: DISPLAY,
+	rootDisplay: DISPLAY,
+	childrenDisplay: DISPLAY,
 };
 
 class LayoutStory {
 	private rootLayout: Layout;
 	view = new Container();
 
-	constructor({ size, amount, display }: any) {
+	constructor({ size, amount, rootDisplay, childrenDisplay }: any) {
 		const content: Content = [];
 
 		for (let i = 0; i < amount; i++) {
@@ -28,7 +29,7 @@ class LayoutStory {
 					background,
 					width: size,
 					height: size,
-					display,
+					display: childrenDisplay,
 				},
 			});
 		}
@@ -37,7 +38,7 @@ class LayoutStory {
 			id: 'root-layout',
 			content,
 			styles: {
-				display
+				display: rootDisplay
 			},
 		});
 
