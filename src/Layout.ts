@@ -247,6 +247,16 @@ export class Layout extends Container {
 	private resizeChildren() {
 		this.children.forEach((child) => {
 			if (child instanceof Text) {
+				if (this.size.width > child.width && this.textStyles.align === 'center') {
+					child.anchor.set(0.5, 0);
+					child.x = this.size.width / 2;
+				} else if (this.size.width > child.width && this.textStyles.align === 'right') {
+					child.anchor.set(1, 0);
+					child.x = this.size.width;
+				} else {
+					child.anchor.set(0, 0);
+					child.x = 0;
+				}
 				child.style.wordWrapWidth = this.size.width;
 			} else if (child instanceof Layout) {
 				child.resize(this.size.width, this.size.height);
