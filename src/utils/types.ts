@@ -5,6 +5,7 @@ import {
 	DISPLAY,
 	FLEX_DIRECTION,
 	FLEX_WRAP,
+	JUSTIFY_CONTENT,
 } from './constants';
 import { Layout } from '../Layout';
 
@@ -28,12 +29,18 @@ export type FlexDirection = typeof FLEX_DIRECTION[number];
 export type FlexWrap = typeof FLEX_WRAP[number];
 export type FlexFlow = `${FlexDirection} ${FlexWrap}`;
 
+export type JustifyContent = typeof JUSTIFY_CONTENT[number];
+
 export type Content = string | Container | Layout | LayoutOptions | Content[];
 
 type flexProperties = {
 	flexDirection?: FlexDirection;
 	flexWrap?: FlexWrap;
 	flexFlow?: FlexFlow;
+	justifyContent?: JustifyContent;
+
+	// alignContent?: AlignContent;
+	// gap, row-gap, column-gap
 };
 
 export type Styles = TextStyles &

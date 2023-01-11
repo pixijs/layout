@@ -1,7 +1,11 @@
 import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
-import { CSS_COLOR_NAMES, FLEX_DIRECTION } from '../utils/constants';
+import {
+	CSS_COLOR_NAMES,
+	FLEX_DIRECTION,
+	JUSTIFY_CONTENT,
+} from '../utils/constants';
 import { Content } from '../utils/types';
 import { DISPLAY, FLEX_WRAP } from './../utils/constants';
 
@@ -12,6 +16,7 @@ const args = {
 	childrenDisplay: DISPLAY,
 	flexDirection: FLEX_DIRECTION,
 	flexWrap: FLEX_WRAP,
+	justifyContent: JUSTIFY_CONTENT,
 	addRandomHeight: false,
 };
 
@@ -27,6 +32,7 @@ class LayoutStory {
 		childrenDisplay,
 		flexWrap,
 		addRandomHeight,
+		justifyContent,
 	}: any) {
 		const content: Content = [];
 
@@ -53,6 +59,7 @@ class LayoutStory {
 			styles: {
 				display: rootDisplay,
 				flexFlow: `${flexDirection} ${flexWrap}`,
+				justifyContent,
 			},
 		});
 

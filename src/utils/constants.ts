@@ -167,6 +167,29 @@ export const FLEX_DIRECTION = [
 
 export const FLEX_WRAP = ['nowrap', 'wrap', 'wrap-reverse'];
 
+export const JUSTIFY_CONTENT = [
+	'flex-start',
+	'flex-end',
+
+	'start',
+	'end',
+	'left',
+	'right',
+	'center',
+
+	'space-between',
+	'space-around',
+	'space-evenly',
+	'stretch',
+
+	'baseline',
+	// 'first baseline',
+	// 'last baseline',
+
+	// TODO: 'safe',
+	// TODO: 'unsafe',
+];
+
 export const POSITION = [
 	'center',
 
