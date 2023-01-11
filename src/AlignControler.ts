@@ -46,13 +46,13 @@ export class AlignController {
 				this.alignFlexRow(this.items);
 				break;
 			case 'row-reverse':
-				this.alignFlexRow(this.items.reverse());
+				this.alignFlexRow(this.items.slice().reverse());
 				break;
 			case 'column':
 				this.alignFlexColumn(this.items);
 				break;
 			case 'column-reverse':
-				this.alignFlexColumn(this.items.reverse());
+				this.alignFlexColumn(this.items.slice().reverse());
 				break;
 			default:
 				throw new Error('Invalid flex-direction value');
