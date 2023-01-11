@@ -39,7 +39,9 @@ class LayoutStory {
 				styles: {
 					background,
 					width: size,
-					height: size + (addRandomHeight ? Math.floor(Math.random() * 100) : 0),
+					height:
+						size +
+						(addRandomHeight ? Math.floor(Math.random() * 100) : 0),
 					display: childrenDisplay,
 				},
 			});
@@ -50,8 +52,7 @@ class LayoutStory {
 			content,
 			styles: {
 				display: rootDisplay,
-				flexDirection,
-				flexWrap,
+				flexFlow: `${flexDirection} ${flexWrap}`,
 			},
 		});
 

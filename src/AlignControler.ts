@@ -1,5 +1,6 @@
 import { Container } from 'pixi.js';
 import { Layout } from './Layout';
+import { getFlexDirection, getFlexWrap } from './utils/helpers';
 
 type Items = Container[];
 
@@ -39,7 +40,9 @@ export class AlignController {
 	}
 
 	private alignFlex() {
-		const flexDirection = this.root.options?.styles?.flexDirection || 'row';
+		const flexDirection =
+			this.root.options?.styles?.flexDirection ??
+			getFlexDirection(this.root.options?.styles?.flexFlow);
 
 		switch (flexDirection) {
 			case 'row':
@@ -71,7 +74,9 @@ export class AlignController {
 	private alignFlexRow(items: Items) {
 		let x = 0;
 
-		const flexWrap = this.root.options?.styles?.flexWrap || 'nowrap';
+		const flexWrap =
+			this.root.options?.styles?.flexWrap ??
+			getFlexWrap(this.root.options?.styles?.flexFlow);
 
 		switch (flexWrap) {
 			case 'wrap-reverse':

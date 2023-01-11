@@ -145,14 +145,18 @@ export const CSS_COLOR_NAMES = {
 	whitesmoke: 0xf5f5f5,
 	yellowgreen: 0x9acd32,
 	black: 0x000000,
-
 };
 
 export const LOREM_TEXT =
 	'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab praesentium velit minima unde beatae. Illo earum, rem iure unde nemo, exercitationem nesciunt et voluptas nisi adipisci, provident cupiditate veritatis magnam?';
 
 export const DISPLAY = [
-	'block', 'inline-block', 'inline', 'flex', 'inline-flex', 'grid'
+	'block',
+	'inline-block',
+	'inline',
+	'flex',
+	'inline-flex',
+	'grid',
 ];
 export const FLEX_DIRECTION = [
 	'row',
@@ -161,11 +165,7 @@ export const FLEX_DIRECTION = [
 	'column-reverse',
 ];
 
-export const FLEX_WRAP = [
-	'nowrap',
-	'wrap',
-	'wrap-reverse'
-];
+export const FLEX_WRAP = ['nowrap', 'wrap', 'wrap-reverse'];
 
 export const POSITION = [
 	'center',
@@ -185,5 +185,3 @@ export const POSITION = [
 	'centerLeft',
 	'centerRight',
 ];
-
-export const ALIGN = ['center', 'left', 'right', 'justify'];

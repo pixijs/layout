@@ -1,6 +1,16 @@
-import { CSS_COLOR_NAMES } from './constants';
-import { Color, CSSColor, Display, FlexColor, FlexNumber } from './types';
+import { CSS_COLOR_NAMES, FLEX_DIRECTION, FLEX_WRAP } from './constants';
+import {
+	Color,
+	CSSColor,
+	Display,
+	FlexColor,
+	FlexDirection,
+	FlexFlow,
+	FlexNumber,
+	FlexWrap,
+} from './types';
 import { utils, Loader, Sprite, Texture, Container } from 'pixi.js';
+import { isArray } from 'util';
 
 export function sprite(texture: string) {
 	return new Sprite(Texture.from(texture));
@@ -133,14 +143,46 @@ export function getNumber(value: FlexNumber, maxPercentValue?: number): number {
 	return 0;
 }
 
-export function isFlex(layout: Container & {
-	display?: Display;
-}): boolean {
+export function isFlex(
+	layout: Container & {
+		display?: Display;
+	},
+): boolean {
 	return layout.display === 'flex' || layout.display === 'inline-flex';
 }
 
-export function isGrid(layout: Container & {
-	display?: Display;
-}): boolean {
+export function isGrid(
+	layout: Container & {
+		display?: Display;
+	},
+): boolean {
 	return layout.display === 'grid';
+}
+
+export function getFlexDirection(flexFlow: FlexFlow): FlexDirection {
+	const potentialFlexDirections = flexFlow?.split(' ');
+
+	let flexDirection: FlexDirection = 'row';
+
+	potentialFlexDirections.forEach((direction) => {
+		if (FLEX_DIRECTION.includes(direction)) {
+			flexDirection = direction;
+		}
+	});
+
+	return flexDirection;
+}
+
+export function getFlexWrap(flexFlow: FlexFlow): FlexWrap {
+	const potentialFlexWraps = flexFlow?.split(' ');
+
+	let flexWrap: FlexDirection = 'nowrap';
+
+	potentialFlexWraps.forEach((wrap) => {
+		if (FLEX_WRAP.includes(wrap)) {
+			flexWrap = wrap;
+		}
+	});
+
+	return flexWrap;
 }
