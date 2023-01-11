@@ -7,7 +7,7 @@ import {
 	Styles,
 } from './utils/types';
 import { getColor, getNumber } from './utils/helpers';
-import { AlignController } from './AlignControler';
+import { AlignController } from './controllers/AlignControler';
 
 export class Layout extends Container {
 	private bg = new Graphics();

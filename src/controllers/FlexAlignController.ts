@@ -1,10 +1,11 @@
 import { Container } from 'pixi.js';
-import { Layout } from './Layout';
-import { getFlexDirection, getFlexWrap } from './utils/helpers';
+import { Layout } from '../Layout';
+import { getFlexDirection, getFlexWrap } from '../utils/helpers';
+import { JustifyContent } from '../utils/types';
 
 type Items = Container[];
 
-export class AlignController {
+export class FlexAlignController {
 	private root: Layout;
 	private items: Items = [];
 
@@ -25,21 +26,6 @@ export class AlignController {
 	}
 
 	update() {
-		switch (this.root.display) {
-			case 'flex':
-				this.alignFlex();
-				break;
-			case 'grid':
-				this.alignGrid();
-				break;
-
-			default:
-				this.alignDefault();
-				break;
-		}
-	}
-
-	private alignFlex() {
 		const flexDirection =
 			this.root.options?.styles?.flexDirection ??
 			getFlexDirection(this.root.options?.styles?.flexFlow);
@@ -72,30 +58,26 @@ export class AlignController {
 	}
 
 	private alignFlexRow(items: Items) {
-		let x = 0;
-
 		const flexWrap =
 			this.root.options?.styles?.flexWrap ??
 			getFlexWrap(this.root.options?.styles?.flexFlow);
 
+		const justifyContent = this.root.options?.styles?.justifyContent;
+
 		switch (flexWrap) {
 			case 'wrap-reverse':
-				this.alignFlexRowReverse(items);
+				this.alignRowReverse(items, justifyContent);
 				break;
 			case 'wrap':
-				this.alignFlexRowDefault(items);
+				this.alignRowDefault(items, justifyContent);
 				break;
-
 			default: // nowrap
-				items.forEach((child) => {
-					child.x = x;
-					x += child.width;
-				});
+				this.alignNowrap(items, justifyContent);
 				break;
 		}
 	}
 
-	private alignFlexRowDefault(items: Items) {
+	private alignRowDefault(items: Items, justifyContent: JustifyContent) {
 		let maxChildHeight = 0;
 		let x = 0;
 		let y = 0;
@@ -122,7 +104,7 @@ export class AlignController {
 		});
 	}
 
-	private alignFlexRowReverse(items: Items) {
+	private alignRowReverse(items: Items, justifyContent: JustifyContent) {
 		let maxChildHeight = 0;
 		let x = 0;
 		let y = 0;
@@ -171,48 +153,12 @@ export class AlignController {
 		});
 	}
 
-	private alignGrid() {}
-
-	private alignDefault() {
-		let maxChildHeight = 0;
+	private alignNowrap(items: Items, justifyContent: JustifyContent) {
 		let x = 0;
-		let y = 0;
 
-		this.items.forEach((child) => {
-			let childDisplay = 'block';
-
-			if (child instanceof Layout) {
-				childDisplay = child.display;
-			}
-
-			if (child.height && child.width) {
-				child.x = x;
-				child.y = y;
-
-				if (child.height > maxChildHeight) {
-					maxChildHeight = child.height;
-				}
-
-				switch (childDisplay) {
-					case 'inline':
-					case 'inline-flex':
-					case 'inline-block':
-						if (x + child.width > this.root.width) {
-							x = child.width;
-							y += maxChildHeight;
-
-							child.x = 0;
-							child.y = y;
-						} else {
-							x += child.width;
-						}
-						break;
-
-					default:
-						y += child.height;
-						break;
-				}
-			}
+		items.forEach((child) => {
+			child.x = x;
+			x += child.width;
 		});
 	}
 }
