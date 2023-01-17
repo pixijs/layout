@@ -198,3 +198,5 @@ export const POSITION = [
 	'centerLeft',
 	'centerRight',
 ];
+
+export const ALIGN = ['left', 'center' ,'right', 'justify'];
