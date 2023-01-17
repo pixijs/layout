@@ -97,7 +97,7 @@ export class FlexAlignController {
 				this.alignRowWrapSpaceBetween(items);	
 				break;
 			case 'space-around':
-		
+				this.alignRowWrapSpaceAround(items);	
 				break;
 			case 'space-evenly':
 
@@ -265,6 +265,56 @@ export class FlexAlignController {
 		for (let i = firstLineElementID; i <= id; i++) {
 			items[i].x += (lineAmount > 0 ? (space / lineAmount) : space) * number;
 			number++;
+		}
+	}
+	
+	private alignRowWrapSpaceAround(items: Items) {
+		let maxChildHeight = 0;
+		let x = 0;
+		let y = 0;
+		let firstLineElementID = 0;
+
+		items.forEach((child, id) => {
+			child.x = x;
+			child.y = y;
+
+			if (x + child.width > this.root.width) {
+				const space = this.root.width - x;
+				const lineAmount = id - firstLineElementID;
+				let tmpX = 0;
+
+				for (let i = firstLineElementID; i <= id; i++) {
+					items[i].x = tmpX + space / 2 / lineAmount;
+					tmpX += items[i].width + space / lineAmount;
+				}
+
+				firstLineElementID = id;
+
+				x = child.width;
+				y += maxChildHeight;
+
+				child.x = 0;
+				child.y = y;
+
+				maxChildHeight = 0;
+
+			} else {
+				x += child.width;
+			}
+
+			if (child.height > maxChildHeight) {
+				maxChildHeight = child.height;
+			}
+		});
+
+		const id = items.length - 1;
+		const space = this.root.width - x;
+		const lineAmount = id - firstLineElementID + 1;
+		let tmpX = 0;
+
+		for (let i = firstLineElementID; i <= id; i++) {
+			items[i].x = tmpX + space / 2 / lineAmount;
+			tmpX += items[i].width + space / lineAmount;
 		}
 	}
 
