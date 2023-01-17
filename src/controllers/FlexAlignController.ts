@@ -91,10 +91,10 @@ export class FlexAlignController {
 				this.alignRowWrapEnd(items);
 				break;
 			case 'center':
-	
+				this.alignRowWrapCenter(items);
 				break;
 			case 'space-between':
-	
+				this.alignRowWrapSpaceBetween(items);	
 				break;
 			case 'space-around':
 		
@@ -153,6 +153,7 @@ export class FlexAlignController {
 				}
 
 				firstLineElementID = id;
+				
 				x = child.width;
 				y += maxChildHeight;
 
@@ -173,6 +174,97 @@ export class FlexAlignController {
 				
 		for (let i = firstLineElementID; i <= items.length - 1; i++) {
 			items[i].x += offset;
+		}
+	}
+
+	private alignRowWrapCenter(items: Items) {
+		let maxChildHeight = 0;
+		let x = 0;
+		let y = 0;
+		let firstLineElementID = 0;
+
+		items.forEach((child, id) => {
+			child.x = x;
+			child.y = y;
+
+			if (x + child.width > this.root.width) {
+				const offset = (this.root.width - x) / 2;
+				
+				for (let i = firstLineElementID; i <= id; i++) {
+					items[i].x += offset;
+				}
+
+				firstLineElementID = id;
+				x = child.width;
+				y += maxChildHeight;
+
+				maxChildHeight = 0;
+
+				child.x = 0;
+				child.y = y;
+			} else {
+				x += child.width;
+			}
+
+			if (child.height > maxChildHeight) {
+				maxChildHeight = child.height;
+			}
+		});
+
+		const offset = (this.root.width - x) / 2;
+				
+		for (let i = firstLineElementID; i <= items.length - 1; i++) {
+			items[i].x += offset;
+		}
+	}
+
+	private alignRowWrapSpaceBetween(items: Items) {
+		let maxChildHeight = 0;
+		let x = 0;
+		let y = 0;
+		let firstLineElementID = 0;
+
+		items.forEach((child, id) => {
+			child.x = x;
+			child.y = y;
+
+			if (x + child.width > this.root.width) {
+				const space = this.root.width - x;
+				const lineAmount = id - firstLineElementID - 1;
+				let number = 0;
+
+				for (let i = firstLineElementID; i <= id; i++) {
+					items[i].x += (space / lineAmount) * number;
+					number++;
+				}
+
+				firstLineElementID = id;
+
+				x = child.width;
+				y += maxChildHeight;
+
+				child.x = 0;
+				child.y = y;
+
+				maxChildHeight = 0;
+
+			} else {
+				x += child.width;
+			}
+
+			if (child.height > maxChildHeight) {
+				maxChildHeight = child.height;
+			}
+		});
+
+		const id = items.length - 1;
+		const space = this.root.width - x;
+		const lineAmount = id - firstLineElementID;
+		let number = 0;
+
+		for (let i = firstLineElementID; i <= id; i++) {
+			items[i].x += (lineAmount > 0 ? (space / lineAmount) : space) * number;
+			number++;
 		}
 	}
 
@@ -259,7 +351,7 @@ export class FlexAlignController {
 			case 'space-between':
 				items.forEach((child) => {
 					child.x = x;
-					x += child.width + space /  (items.length - 1);
+					x += child.width + space / (items.length - 1);
 				});
 				break;
 			case 'space-around':
