@@ -88,6 +88,7 @@ export class FlexAlignController {
 			child.y = y;
 
 			if (x + child.width > this.root.width) {
+				// TODO: refactor this with the last element calculations
 				const space = this.root.width - x;
 				const lineAmount = id - firstLineElementID ;
 				let number = 0;
@@ -103,7 +104,7 @@ export class FlexAlignController {
 								items[i].x += space / 2;
 							break;
 						case 'space-between':
-								items[i].x += (space / (lineAmount- 1)) * number;
+								items[i].x += (space / (lineAmount - 1)) * number;
 								number++;
 							break;
 						case 'space-around':
@@ -117,16 +118,16 @@ export class FlexAlignController {
 						case 'stretch':
 							// TODO
 							break;
-						}
 					}
-				
-					firstLineElementID = id;
+				}
+			
+				firstLineElementID = id;
 
 				x = child.width;
 				y += maxChildHeight;
 
 				maxChildHeight = 0;
-
+				
 				child.x = 0;
 				child.y = y;
 			} else {
@@ -138,6 +139,7 @@ export class FlexAlignController {
 			}
 		});
 
+		// TODO: refactor this with the new line calculations
 		const id = items.length - 1;
 		const space = this.root.width - x;
 		const lineAmount = id - firstLineElementID;
