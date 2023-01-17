@@ -78,176 +78,57 @@ export class FlexAlignController {
 	}
 
 	private alignRowWrap(items: Items, justifyContent: JustifyContent) {
-		switch (justifyContent) {
-			case 'flex-start':
-			case 'start':
-			case 'left':
-			default:
-				this.alignRowWrapStart(items);
-				break;
-			case 'flex-end':
-			case 'end':
-			case 'right':
-				this.alignRowWrapEnd(items);
-				break;
-			case 'center':
-				this.alignRowWrapCenter(items);
-				break;
-			case 'space-between':
-				this.alignRowWrapSpaceBetween(items);	
-				break;
-			case 'space-around':
-				this.alignRowWrapSpaceAround(items);	
-				break;
-			case 'space-evenly':
-				this.alignRowWrapSpaceEvenly(items);
-				break;
-			case 'stretch':
-				// TODO
-				break;
-			}
-	}
-
-	private alignRowWrapStart(items: Items) {
 		let maxChildHeight = 0;
 		let x = 0;
 		let y = 0;
+		let firstLineElementID = 0;
 		
-		items.forEach((child) => {
-			child.x = x;
-			child.y = y;
-
-			if (x + child.width > this.root.width) {
-				x = child.width;
-				y += maxChildHeight;
-
-				maxChildHeight = 0;
-
-				child.x = 0;
-				child.y = y;
-			} else {
-				x += child.width;
-			}
-
-			if (child.height > maxChildHeight) {
-				maxChildHeight = child.height;
-			}
-		});
-	}
-
-	private alignRowWrapEnd(items: Items) {
-		let maxChildHeight = 0;
-		let x = 0;
-		let y = 0;
-		let firstLineElementID = 0;
-
-		items.forEach((child, id) => {
-			child.x = x;
-			child.y = y;
-
-			if (x + child.width > this.root.width) {
-				const offset = this.root.width - x;
-				
-				for (let i = firstLineElementID; i <= id; i++) {
-					items[i].x += offset;
-				}
-
-				firstLineElementID = id;
-				
-				x = child.width;
-				y += maxChildHeight;
-
-				maxChildHeight = 0;
-
-				child.x = 0;
-				child.y = y;
-			} else {
-				x += child.width;
-			}
-
-			if (child.height > maxChildHeight) {
-				maxChildHeight = child.height;
-			}
-		});
-
-		const offset = this.root.width - x;
-				
-		for (let i = firstLineElementID; i <= items.length - 1; i++) {
-			items[i].x += offset;
-		}
-	}
-
-	private alignRowWrapCenter(items: Items) {
-		let maxChildHeight = 0;
-		let x = 0;
-		let y = 0;
-		let firstLineElementID = 0;
-
-		items.forEach((child, id) => {
-			child.x = x;
-			child.y = y;
-
-			if (x + child.width > this.root.width) {
-				const offset = (this.root.width - x) / 2;
-				
-				for (let i = firstLineElementID; i <= id; i++) {
-					items[i].x += offset;
-				}
-
-				firstLineElementID = id;
-				x = child.width;
-				y += maxChildHeight;
-
-				maxChildHeight = 0;
-
-				child.x = 0;
-				child.y = y;
-			} else {
-				x += child.width;
-			}
-
-			if (child.height > maxChildHeight) {
-				maxChildHeight = child.height;
-			}
-		});
-
-		const offset = (this.root.width - x) / 2;
-				
-		for (let i = firstLineElementID; i <= items.length - 1; i++) {
-			items[i].x += offset;
-		}
-	}
-
-	private alignRowWrapSpaceBetween(items: Items) {
-		let maxChildHeight = 0;
-		let x = 0;
-		let y = 0;
-		let firstLineElementID = 0;
-
 		items.forEach((child, id) => {
 			child.x = x;
 			child.y = y;
 
 			if (x + child.width > this.root.width) {
 				const space = this.root.width - x;
-				const lineAmount = id - firstLineElementID - 1;
+				const lineAmount = id - firstLineElementID ;
 				let number = 0;
 
 				for (let i = firstLineElementID; i <= id; i++) {
-					items[i].x += (space / lineAmount) * number;
-					number++;
-				}
-
-				firstLineElementID = id;
+					switch (justifyContent) {
+						case 'flex-end':
+						case 'end':
+						case 'right':
+								items[i].x += space;
+							break;
+						case 'center':
+								items[i].x += space / 2;
+							break;
+						case 'space-between':
+								items[i].x += (space / (lineAmount- 1)) * number;
+								number++;
+							break;
+						case 'space-around':
+								items[i].x = number + space / 2 / lineAmount;
+								number += items[i].width + space / lineAmount;
+							break;
+						case 'space-evenly':
+								items[i].x = number + space / (lineAmount + 1);
+								number += items[i].width + space / (lineAmount + 1);
+							break;
+						case 'stretch':
+							// TODO
+							break;
+						}
+					}
+				
+					firstLineElementID = id;
 
 				x = child.width;
 				y += maxChildHeight;
 
-				child.x = 0;
-				child.y = y;
-
 				maxChildHeight = 0;
 
+				child.x = 0;
+				child.y = y;
 			} else {
 				x += child.width;
 			}
@@ -261,113 +142,36 @@ export class FlexAlignController {
 		const space = this.root.width - x;
 		const lineAmount = id - firstLineElementID;
 		let number = 0;
-
+		
 		for (let i = firstLineElementID; i <= id; i++) {
-			items[i].x += (lineAmount > 0 ? (space / lineAmount) : space) * number;
-			number++;
-		}
+			switch (justifyContent) {
+				case 'flex-end':
+				case 'end':
+				case 'right':
+						items[i].x += space;
+					break;
+				case 'center':
+						items[i].x += space / 2;
+					break;
+				case 'space-between':
+						items[i].x += (lineAmount > 0 ? (space / lineAmount) : space) * number;
+						number++;
+					break;
+				case 'space-around':
+						items[i].x = number + space / 2 / (lineAmount + 1);
+						number += items[i].width + space / (lineAmount + 1);
+					break;
+				case 'space-evenly':
+						items[i].x = number + space / (lineAmount + 2);
+						number += items[i].width + space / (lineAmount + 2);
+					break;
+				case 'stretch':
+					// TODO
+					break;
+				}
+			}
 	}
 	
-	private alignRowWrapSpaceAround(items: Items) {
-		let maxChildHeight = 0;
-		let x = 0;
-		let y = 0;
-		let firstLineElementID = 0;
-
-		items.forEach((child, id) => {
-			child.x = x;
-			child.y = y;
-
-			if (x + child.width > this.root.width) {
-				const space = this.root.width - x;
-				const lineAmount = id - firstLineElementID;
-				let tmpX = 0;
-
-				for (let i = firstLineElementID; i <= id; i++) {
-					items[i].x = tmpX + space / 2 / lineAmount;
-					tmpX += items[i].width + space / lineAmount;
-				}
-
-				firstLineElementID = id;
-
-				x = child.width;
-				y += maxChildHeight;
-
-				child.x = 0;
-				child.y = y;
-
-				maxChildHeight = 0;
-
-			} else {
-				x += child.width;
-			}
-
-			if (child.height > maxChildHeight) {
-				maxChildHeight = child.height;
-			}
-		});
-
-		const id = items.length - 1;
-		const space = this.root.width - x;
-		const lineAmount = id - firstLineElementID + 1;
-		let tmpX = 0;
-
-		for (let i = firstLineElementID; i <= id; i++) {
-			items[i].x = tmpX + space / 2 / lineAmount;
-			tmpX += items[i].width + space / lineAmount;
-		}
-	}
-
-	private alignRowWrapSpaceEvenly(items: Items) {
-		let maxChildHeight = 0;
-		let x = 0;
-		let y = 0;
-		let firstLineElementID = 0;
-
-		items.forEach((child, id) => {
-			child.x = x;
-			child.y = y;
-
-			if (x + child.width > this.root.width) {
-				const space = this.root.width - x;
-				const lineAmount = id - firstLineElementID;
-				let tmpX = 0;
-
-				for (let i = firstLineElementID; i <= id; i++) {
-					items[i].x = tmpX + space / (lineAmount + 1);
-					tmpX += items[i].width + space / (lineAmount + 1);
-				}
-
-				firstLineElementID = id;
-
-				x = child.width;
-				y += maxChildHeight;
-
-				child.x = 0;
-				child.y = y;
-
-				maxChildHeight = 0;
-
-			} else {
-				x += child.width;
-			}
-
-			if (child.height > maxChildHeight) {
-				maxChildHeight = child.height;
-			}
-		});
-
-		const id = items.length - 1;
-		const space = this.root.width - x;
-		const lineAmount = id - firstLineElementID + 1;
-		let tmpX = 0;
-
-		for (let i = firstLineElementID; i <= id; i++) {
-			items[i].x = tmpX + space / (lineAmount + 1);
-			tmpX += items[i].width + space / (lineAmount + 1);
-		}
-	}
-
 	private alignRowReverse(items: Items, justifyContent: JustifyContent) {
 		let maxChildHeight = 0;
 		let x = 0;
