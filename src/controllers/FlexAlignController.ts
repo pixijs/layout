@@ -156,9 +156,55 @@ export class FlexAlignController {
 	private alignNowrap(items: Items, justifyContent: JustifyContent) {
 		let x = 0;
 
-		items.forEach((child) => {
-			child.x = x;
-			x += child.width;
-		});
+		const totalWidth = items.reduce((acc, child) => acc + child.width, 0);
+		const offset = (this.root.width - totalWidth) / 2;
+		const space = this.root.width - totalWidth;
+
+		switch (justifyContent) {
+			case 'flex-start':
+			case 'start':
+			case 'left':
+			default:
+				items.forEach((child) => {
+					child.x = x;
+					x += child.width;
+				});
+				break;
+			case 'flex-end':
+			case 'end':
+			case 'right':
+				items.slice().reverse().forEach((child) => {
+					child.x = this.root.width - x - child.width;
+					x += child.width;
+				});
+				break;
+			case 'center':
+				items.forEach((child) => {
+					child.x = x + offset;
+					x += child.width;
+				});
+				break;
+			case 'space-between':
+				items.forEach((child) => {
+					child.x = x;
+					x += child.width + space /  (items.length - 1);
+				});
+				break;
+			case 'space-around':
+				items.forEach((child) => {
+					child.x = x + space / 2 / items.length;
+					x += child.width + space / items.length;
+				});
+				break;
+			case 'space-evenly':
+				items.forEach((child) => {
+					child.x = x + space / (items.length + 1);
+					x += child.width + space / (items.length + 1);
+				});
+				break;
+			case 'stretch':
+				// TODO
+				break;
+			}
 	}
 }
