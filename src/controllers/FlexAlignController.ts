@@ -4,7 +4,7 @@ import { getFlexDirection, getFlexWrap } from '../utils/helpers';
 import { JustifyContent } from '../utils/types';
 
 type Items = Container[];
-
+// TODO: alignRowReverse, alignFlexColumn (alignColumnReverse, alignColumnWrap, alignColumnNowrap)
 export class FlexAlignController {
 	private root: Layout;
 	private items: Items = [];
@@ -72,7 +72,7 @@ export class FlexAlignController {
 				this.alignRowWrap(items, justifyContent);
 				break;
 			default: // nowrap
-				this.alignNowrap(items, justifyContent);
+				this.alignRowNowrap(items, justifyContent);
 				break;
 		}
 	}
@@ -223,7 +223,7 @@ export class FlexAlignController {
 		});
 	}
 
-	private alignNowrap(items: Items, justifyContent: JustifyContent) {
+	private alignRowNowrap(items: Items, justifyContent: JustifyContent) {
 		let x = 0;
 
 		const totalWidth = items.reduce((acc, child) => acc + child.width, 0);
