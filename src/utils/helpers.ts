@@ -10,7 +10,6 @@ import {
 	FlexWrap,
 } from './types';
 import { utils, Loader, Sprite, Texture, Container } from 'pixi.js';
-import { isArray } from 'util';
 
 export function sprite(texture: string) {
 	return new Sprite(Texture.from(texture));
