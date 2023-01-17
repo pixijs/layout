@@ -69,7 +69,7 @@ export class FlexAlignController {
 				this.alignRowReverse(items, justifyContent);
 				break;
 			case 'wrap':
-				this.alignRowDefault(items, justifyContent);
+				this.alignRowWrap(items, justifyContent);
 				break;
 			default: // nowrap
 				this.alignNowrap(items, justifyContent);
@@ -77,11 +77,42 @@ export class FlexAlignController {
 		}
 	}
 
-	private alignRowDefault(items: Items, justifyContent: JustifyContent) {
+	private alignRowWrap(items: Items, justifyContent: JustifyContent) {
+		switch (justifyContent) {
+			case 'flex-start':
+			case 'start':
+			case 'left':
+			default:
+				this.alignRowWrapStart(items);
+				break;
+			case 'flex-end':
+			case 'end':
+			case 'right':
+				this.alignRowWrapEnd(items);
+				break;
+			case 'center':
+	
+				break;
+			case 'space-between':
+	
+				break;
+			case 'space-around':
+		
+				break;
+			case 'space-evenly':
+
+				break;
+			case 'stretch':
+				// TODO
+				break;
+			}
+	}
+
+	private alignRowWrapStart(items: Items) {
 		let maxChildHeight = 0;
 		let x = 0;
 		let y = 0;
-
+		
 		items.forEach((child) => {
 			child.x = x;
 			child.y = y;
@@ -102,6 +133,47 @@ export class FlexAlignController {
 				maxChildHeight = child.height;
 			}
 		});
+	}
+
+	private alignRowWrapEnd(items: Items) {
+		let maxChildHeight = 0;
+		let x = 0;
+		let y = 0;
+		let firstLineElementID = 0;
+
+		items.forEach((child, id) => {
+			child.x = x;
+			child.y = y;
+
+			if (x + child.width > this.root.width) {
+				const offset = this.root.width - x;
+				
+				for (let i = firstLineElementID; i <= id; i++) {
+					items[i].x += offset;
+				}
+
+				firstLineElementID = id;
+				x = child.width;
+				y += maxChildHeight;
+
+				maxChildHeight = 0;
+
+				child.x = 0;
+				child.y = y;
+			} else {
+				x += child.width;
+			}
+
+			if (child.height > maxChildHeight) {
+				maxChildHeight = child.height;
+			}
+		});
+
+		const offset = this.root.width - x;
+				
+		for (let i = firstLineElementID; i <= items.length - 1; i++) {
+			items[i].x += offset;
+		}
 	}
 
 	private alignRowReverse(items: Items, justifyContent: JustifyContent) {

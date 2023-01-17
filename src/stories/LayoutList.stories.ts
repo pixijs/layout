@@ -18,6 +18,7 @@ const args = {
 	flexWrap: FLEX_WRAP,
 	justifyContent: JUSTIFY_CONTENT,
 	addRandomHeight: false,
+	addRandomWidth: false,
 };
 
 class LayoutStory {
@@ -32,6 +33,7 @@ class LayoutStory {
 		childrenDisplay,
 		flexWrap,
 		addRandomHeight,
+		addRandomWidth,
 		justifyContent,
 	}: any) {
 		const content: Content = [];
@@ -46,7 +48,9 @@ class LayoutStory {
 					overflow: 'hidden',
 					align: 'center',
 					background,
-					width: size,
+					width: 
+						size +
+						(addRandomWidth ? Math.floor(Math.random() * 100) : 0),	
 					height:
 						size +
 						(addRandomHeight ? Math.floor(Math.random() * 100) : 0),
