@@ -43,6 +43,8 @@ class LayoutStory {
 				id: `block-${i}`,
 				content: `Block ${i}`,
 				styles: {
+					overflow: 'hidden',
+					align: 'center',
 					background,
 					width: size,
 					height:

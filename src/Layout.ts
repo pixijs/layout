@@ -89,7 +89,6 @@ export class Layout extends Container {
 	private createContent(content: Content = this.options.content) {
 		if (typeof content === 'string') {
 			const text = new Text(content, this.textStyles);
-			// TODO: fix text alignment when text width is less than layout width
 			this.addChild(text);
 			this.alignController.add(text);
 		} else if (content instanceof Container || content instanceof Layout) {

@@ -164,7 +164,7 @@ export function getFlexDirection(flexFlow: FlexFlow): FlexDirection {
 
 	let flexDirection: FlexDirection = 'row';
 
-	potentialFlexDirections.forEach((direction) => {
+	potentialFlexDirections?.forEach((direction) => {
 		if (FLEX_DIRECTION.includes(direction)) {
 			flexDirection = direction;
 		}
@@ -178,7 +178,7 @@ export function getFlexWrap(flexFlow: FlexFlow): FlexWrap {
 
 	let flexWrap: FlexDirection = 'nowrap';
 
-	potentialFlexWraps.forEach((wrap) => {
+	potentialFlexWraps?.forEach((wrap) => {
 		if (FLEX_WRAP.includes(wrap)) {
 			flexWrap = wrap;
 		}
