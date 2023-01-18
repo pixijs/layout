@@ -103,12 +103,6 @@ class LayoutStory {
 			},
 		});
 
-		this.init();
-	}
-
-	private async init() {
-		await preloadAssets([]);
-
 		this.view.addChild(this.layout);
 	}
 
