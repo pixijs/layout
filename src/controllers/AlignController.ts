@@ -1,7 +1,7 @@
 import { Container } from 'pixi.js';
-import { Layout } from '../Layout';
-import { FlexAlignController } from './FlexAlignController';
-import { GridAlignController } from './GridAlignController';
+import { Layout } from '../components/Layout';
+import { FlexAlignController } from './flex/FlexAlignController';
+import { GridAlignController } from './grid/GridAlignController';
 
 type Items = Container[];
 

@@ -1,4 +1,4 @@
-import { Layout } from '../Layout';
+import { Layout } from '../components/Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
 import {
@@ -54,12 +54,6 @@ class LayoutStory {
 				position,
 			},
 		});
-
-		this.init();
-	}
-
-	private async init() {
-		await preloadAssets([]);
 
 		this.view.addChild(this.layout);
 	}

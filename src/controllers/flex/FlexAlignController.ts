@@ -1,7 +1,7 @@
 import { Container } from 'pixi.js';
-import { Layout } from '../Layout';
-import { getFlexDirection, getFlexWrap } from '../utils/helpers';
-import { JustifyContent } from '../utils/types';
+import { Layout } from '../../components/Layout';
+import { getFlexDirection, getFlexWrap } from '../../utils/helpers';
+import { JustifyContent } from '../../utils/types';
 
 type Items = Container[];
 // TODO: alignRowReverse, alignFlexColumn (alignColumnReverse, alignColumnWrap, alignColumnNowrap)

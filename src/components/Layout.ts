@@ -5,9 +5,9 @@ import {
 	Display,
 	LayoutOptions,
 	Styles,
-} from './utils/types';
-import { getColor, getNumber } from './utils/helpers';
-import { AlignController } from './controllers/AlignController';
+} from '../utils/types';
+import { getColor, getNumber } from '../utils/helpers';
+import { AlignController } from '../controllers/AlignController';
 
 export class Layout extends Container {
 	private bg = new Graphics();
