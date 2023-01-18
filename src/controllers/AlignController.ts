@@ -6,13 +6,13 @@ import { GridAlignController } from './grid/GridAlignController';
 type Items = Container[];
 
 export class AlignController {
-	private root: Layout;
+	private layout: Layout;
 	private items: Items = [];
 	private flexController: FlexAlignController;
 	private gridController: GridAlignController;
 
 	constructor(root: Layout, items?: Items) {
-		this.root = root;
+		this.layout = root;
 
 		if (items) {
 			this.items = items;
@@ -33,21 +33,26 @@ export class AlignController {
 		this.gridController.add(items);
 	}
 
-	update() {
-		switch (this.root.display) {
+	update(width: number, height: number) {
+		switch (this.layout.display) {
+			// TODO: 'inline-flex'
 			case 'flex':
 				this.flexController.update();
 				break;
 			case 'grid':
 				this.gridController.update();
 				break;
+			// TODO: 
+			// 'block',
+			// 'inline-block',
+			// 'inline',
 			default:
-				this.alignDefault();
+				this.alignDefault(width, height);
 				break;
 		}
 	}
 
-	private alignDefault() {
+	private alignDefault(width: number, height: number) {
 		let maxChildHeight = 0;
 		let x = 0;
 		let y = 0;
@@ -71,7 +76,7 @@ export class AlignController {
 					case 'inline':
 					case 'inline-flex':
 					case 'inline-block':
-						if (x + child.width > this.root.width) {
+						if (x + child.width > this.layout.width) {
 							x = child.width;
 							y += maxChildHeight;
 
@@ -88,5 +93,55 @@ export class AlignController {
 				}
 			}
 		});
+
+		this.setPosition(width, height)
+	}
+
+	private setPosition(width: number, height: number) {
+		const { position } = this.layout.options.styles || {};
+
+		switch (position) {
+			// we skip 'left', 'top' and 'leftTop' because they are default
+			case 'rightTop':
+			case 'right':
+				this.layout.y = 0;
+				this.layout.x = width - this.layout.width;
+				break;
+
+			case 'leftBottom':
+			case 'bottom':
+				this.layout.x = 0;
+				this.layout.y = height - this.layout.height;
+				break;
+
+			case 'rightBottom':
+				this.layout.x = width - this.layout.width;
+				this.layout.y = height - this.layout.height;
+				break;
+
+			case 'center':
+				this.layout.x = width / 2 - this.layout.width / 2;
+				this.layout.y = height / 2 - this.layout.height / 2;
+				break;
+			case 'centerTop':
+				this.layout.y = 0;
+				this.layout.x = width / 2 - this.layout.width / 2;
+				break;
+
+			case 'centerBottom':
+				this.layout.x = width / 2 - this.layout.width / 2;
+				this.layout.y = height - this.layout.height;
+				break;
+
+			case 'centerLeft':
+				this.layout.x = 0;
+				this.layout.y = height / 2 - this.layout.height / 2;
+				break;
+
+			case 'centerRight':
+				this.layout.y = height / 2 - this.layout.height / 2;
+				this.layout.x = width - this.layout.width;
+				break;
+		}
 	}
 }

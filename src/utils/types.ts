@@ -9,7 +9,7 @@ import {
 } from './constants';
 import { Layout } from '../components/Layout';
 
-type Opacity = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
+export type Opacity = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
 
 export type TextStyles = Partial<TextStyle>;
 
@@ -22,7 +22,7 @@ export type Color = {
 
 export type CSSColor = keyof typeof CSS_COLOR_NAMES;
 
-type Position = typeof POSITION[number];
+export type Position = typeof POSITION[number];
 export type Display = typeof DISPLAY[number];
 
 export type FlexDirection = typeof FLEX_DIRECTION[number];

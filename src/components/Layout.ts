@@ -1,94 +1,44 @@
-import { Graphics, Text, Container, TEXT_GRADIENT } from 'pixi.js';
+import { Graphics, Text, Container } from 'pixi.js';
 import {
-	TextStyles,
 	Content,
 	Display,
 	LayoutOptions,
-	Styles,
 } from '../utils/types';
 import { getColor, getNumber } from '../utils/helpers';
 import { AlignController } from '../controllers/AlignController';
+import { StyleController } from '../controllers/StyleController';
 
 export class Layout extends Container {
 	private bg = new Graphics();
-	private overflowMask: Graphics;
+	private overflowMask = new Graphics();
 	private size: { width: number; height: number } = { width: 0, height: 0 };
-	private textStyles: TextStyles = {}; // this is to be nested by children
 	private alignController: AlignController;
+	private style: StyleController;
 
-	id!: string;
+	id: string;
 	display: Display = 'block';
-	options?: LayoutOptions;
+	options: LayoutOptions;
 
-	constructor(options?: LayoutOptions) {
+	constructor(options: LayoutOptions) {
 		super();
 
-		if (options) {
-			this.options = options;
-		}
+		this.id = options.id;
+		this.options = options;
 
-		if (options?.styles?.display) {
-			this.display = options.styles.display;
-		}
-
-		if (options?.id) this.id = options.id;
-
-		this.addChild(this.bg);
-
-		if (options?.styles?.overflow === 'hidden') {
-			this.overflowMask = new Graphics();
-			this.addChild(this.overflowMask);
-		}
-
+		this.style = new StyleController(options.styles);
 		this.alignController = new AlignController(this);
 
-		this.setTextStyles();
-
-		if (options?.content) {
+		if (options.content) {
 			this.createContent();
 		}
 	}
 
-	private setTextStyles(styles: Styles = this.options?.styles) {
-		if (!styles) return;
-
-		this.textStyles = {
-			align: styles.align ?? 'left',
-			breakWords: styles.breakWords ?? false,
-			dropShadow: styles.dropShadow ?? false,
-			dropShadowAlpha: styles.dropShadowAlpha ?? 1,
-			dropShadowAngle: styles.dropShadowAngle ?? Math.PI / 6,
-			dropShadowBlur: styles.dropShadowBlur ?? 0,
-			dropShadowColor: styles.dropShadowColor ?? 'black',
-			dropShadowDistance: styles.dropShadowDistance ?? 5,
-			fill: styles.fill ?? getColor(styles.color)?.hex ?? 'black',
-			fillGradientType:
-				styles.fillGradientType ?? TEXT_GRADIENT.LINEAR_VERTICAL,
-			fillGradientStops: styles.fillGradientStops ?? [],
-			fontFamily: styles.fontFamily ?? 'Arial',
-			fontSize: styles.fontSize ?? 26,
-			fontStyle: styles.fontStyle ?? 'normal',
-			fontVariant: styles.fontVariant ?? 'normal',
-			fontWeight: styles.fontWeight ?? 'normal',
-			letterSpacing: styles.letterSpacing ?? 0,
-			lineHeight: styles.lineHeight ?? 0,
-			lineJoin: styles.lineJoin ?? 'miter',
-			miterLimit: styles.miterLimit ?? 10,
-			padding: styles.padding ?? 0,
-			stroke: styles.stroke ?? 'black',
-			strokeThickness: styles.strokeThickness ?? 0,
-			textBaseline: styles.textBaseline ?? 'alphabetic',
-			trim: styles.trim ?? false,
-			whiteSpace: styles.whiteSpace ?? 'pre',
-			wordWrap: styles.wordWrap ?? true,
-			wordWrapWidth: styles.wordWrapWidth ?? 100,
-			leading: styles.leading ?? 0,
-		};
-	}
-
 	private createContent(content: Content = this.options.content) {
+		this.addChild(this.bg);
+		this.addChild(this.overflowMask);
+
 		if (typeof content === 'string') {
-			const text = new Text(content, this.textStyles);
+			const text = new Text(content, this.style.textStyles);
 			this.addChild(text);
 			this.alignController.add(text);
 		} else if (content instanceof Container || content instanceof Layout) {
@@ -110,7 +60,7 @@ export class Layout extends Container {
 	}
 
 	resize(parentWidth: number, parentHeight: number) {
-		let { background, width, height, opacity } = this.options?.styles || {};
+		let { background, width, height, opacity } = this.options.styles || {};
 
 		const bgColor = getColor(background); // TODO: add support for sprite BG
 		this.size.width = getNumber(width, parentWidth) ?? parentWidth;
@@ -139,61 +89,10 @@ export class Layout extends Container {
 		}
 
 		this.resizeChildren();
-		this.alignController.update();
+		this.alignController.update(parentWidth, parentHeight);
 		this.resizeChildren();
-
-		if (this.options?.styles?.position) {
-			this.setPosition(parentWidth, parentHeight);
-		}
 	}
 
-	private setPosition(width: number, height: number) {
-		const { position } = this.options?.styles || {};
-
-		switch (position) {
-			// we skip 'left', 'top' and 'leftTop' because they are default
-			case 'rightTop':
-			case 'right':
-				this.y = 0;
-				this.x = width - this.size.width;
-				break;
-
-			case 'leftBottom':
-			case 'bottom':
-				this.x = 0;
-				this.y = height - this.size.height;
-				break;
-
-			case 'rightBottom':
-				this.x = width - this.size.width;
-				this.y = height - this.size.height;
-				break;
-
-			case 'center':
-				this.x = width / 2 - this.size.width / 2;
-				this.y = height / 2 - this.size.height / 2;
-				break;
-			case 'centerTop':
-				this.y = 0;
-				this.x = width / 2 - this.size.width / 2;
-				break;
-
-			case 'centerBottom':
-				this.x = width / 2 - this.size.width / 2;
-				this.y = height - this.size.height;
-				break;
-
-			case 'centerLeft':
-				this.x = 0;
-				this.y = height / 2 - this.size.height / 2;
-				break;
-
-			case 'centerRight':
-				this.y = height / 2 - this.size.height / 2;
-				this.x = width - this.size.width;
-				break;
-		}
-	}
 
 	private resizeChildren() {
 		this.children.forEach((child) => {
@@ -201,10 +100,10 @@ export class Layout extends Container {
 				child.style.wordWrapWidth = this.width;
 
 				if (child.width < this.width) {
-					if (this.textStyles.align === 'center') {
+					if (this.style.textStyles.align === 'center') {
 						child.anchor.set(0.5, 0);
 						child.x = this.width / 2;
-					} else if (this.textStyles.align === 'right') {
+					} else if (this.style.textStyles.align === 'right') {
 						child.anchor.set(1, 0);
 						child.x = this.width;
 					}
