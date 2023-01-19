@@ -88,9 +88,14 @@ export type Styles = TextStyles &
 		// paddingLeft?: FlexNumber;
 		// padding?: FlexNumber;
 	};
+	
+export type LayoutStyles = {
+	[K: string]: Styles;
+}
 
 export type LayoutOptions = {
 	id: string;
 	content?: Content;
 	styles?: Styles;
+	globalStyles?: LayoutStyles;
 };

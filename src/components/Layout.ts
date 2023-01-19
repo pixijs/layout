@@ -17,15 +17,27 @@ export class Layout extends Container {
 
 		this.id = options.id;
 
+		if (options.globalStyles) {			
+			// check if there is a global style for this layout
+			const styles = options.globalStyles[this.id];
+
+			console.log(this.id, styles);
+
+			if (styles && options.styles) {
+				options.styles = { ...styles, ...options.styles };
+			} else if (styles) {
+				options.styles = styles;
+			}
+		}
+
 		// order here is important as controllers are dependent on each other
 		this.style = new StyleController(this);
 		this.size = new SizeController(this);
 		this.align = new AlignController(this);
 
-		// this should initiate chain of controllers work
 		this.style.styles = options.styles;
 
-		this.content = new ContentController(this, options.content);
+		this.content = new ContentController(this, options.content, options.globalStyles);
 	}
 
 	resize(parentWidth: number, parentHeight: number) {

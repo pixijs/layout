@@ -1,5 +1,5 @@
 import { Layout } from "../components/Layout";
-import { Containers, Content, LayoutOptions } from "../utils/types";
+import { Containers, Content, LayoutOptions, LayoutStyles } from "../utils/types";
 import { Container, Text } from 'pixi.js';
 
 export class ContentController {
@@ -7,13 +7,15 @@ export class ContentController {
 
     content: Containers = [];
 
-    constructor(layout: Layout, content: Content) {
+    constructor(layout: Layout, content?: Content, globalStyles?: LayoutStyles) {
         this.layout = layout;
         
-        this.createContent(content);
+        this.createContent(content, globalStyles);
     }
 
-	private createContent(content: Content) {
+	private createContent(content?: Content, parentGlobalStyles?: LayoutStyles) {
+        if (!content) return;
+
         if (typeof content === 'string') {
 			
             const { textStyles } = this.layout.style;
@@ -33,12 +35,20 @@ export class ContentController {
 		} else if (Array.isArray(content)) {
 
 			content.forEach((content) => {
-				this.createContent(content);
+				this.createContent(content, parentGlobalStyles);
 			});
 
 		} else if (typeof content === 'object') {
-			
             if ((content as LayoutOptions).id) {
+                
+                if (parentGlobalStyles) {
+                    if (content.globalStyles) {
+                        content.globalStyles = { ...parentGlobalStyles, ...content.globalStyles };
+                    } else {
+                        content.globalStyles = { ...parentGlobalStyles };
+                    }
+                }
+
 				const layout = new Layout(content as LayoutOptions);
 
                 this.content.push(layout);

@@ -2,6 +2,7 @@ import { Layout } from '../components/Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
 import { ALIGN, POSITION, LOREM_TEXT } from '../utils/constants';
+import { LayoutStyles } from '../utils/types';
 
 const args = {
 	color: '#FFFFFF',
@@ -36,63 +37,8 @@ class LayoutStory {
 			padding: 10,
 		};
 
-		this.layout = new Layout({
-			id: 'root',
-			content: [
-				{
-					id: 'header',
-					content: 'Header',
-					styles: {
-						position: 'top',
-						background: 'red',
-						height: '10%',
-						...fontStyle,
-					},
-				},
-				{
-					id: 'content',
-					content: [
-						// array of children
-						{
-							id: 'left-menu',
-							content: 'Left menu',
-							styles: {
-								width: '30%',
-								position: 'left',
-								background: 'blue',
-								...fontStyle,
-							},
-						},
-						{
-							id: 'main-content',
-							content: LOREM_TEXT,
-							styles: {
-								width: '60%',
-								position: 'right',
-								...fontStyle,
-							},
-						},
-					],
-					styles: {
-						position: 'center',
-						height: '80%',
-						textAlign: 'center',
-						...fontStyle,
-					},
-				},
-				{
-					id: 'footer',
-					content: 'Footer',
-					styles: {
-						position: 'bottom',
-						background: 'green',
-						height: '10%',
-						textAlign: 'center',
-						...fontStyle,
-					},
-				},
-			],
-			styles: {
+		const globalStyles: LayoutStyles = {
+			'root': {
 				color,
 				width: `${width}%`,
 				height: `${height}%`,
@@ -100,13 +46,68 @@ class LayoutStory {
 				position,
 				...fontStyle,
 			},
+			'header': {
+				position: 'top',
+				background: 'red',
+				height: '10%',
+				...fontStyle,
+			},
+			'content': {
+				position: 'center',
+				height: '80%',
+				textAlign: 'center',
+				...fontStyle,
+			},
+			'left-menu': {
+				width: '30%',
+				position: 'left',
+				background: 'blue',
+				...fontStyle,
+			},
+			'main-content': {
+				width: '60%',
+				position: 'right',
+				...fontStyle,
+			},
+			'footer': {
+				position: 'bottom',
+				background: 'green',
+				height: '10%',
+				textAlign: 'center',
+				...fontStyle,
+			}
+		}
+
+		this.layout = new Layout({
+			id: 'root',
+			content: [
+				{
+					id: 'header',
+					content: 'Header',
+				},
+				// {
+				// 	id: 'content',
+				// 	content: [
+				// 		// array of children
+				// 		{
+				// 			id: 'left-menu',
+				// 			content: 'Left menu',
+				// 		},
+				// 		{
+				// 			id: 'main-content',
+				// 			content: LOREM_TEXT,
+				// 		},
+				// 	],
+				// },
+				// {
+				// 	id: 'footer',
+				// 	content: 'Footer',
+				// },
+			],
+			globalStyles,
 		});
 
 		this.view.addChild(this.layout);
-	}
-
-	update() {
-		// this.layout.update();
 	}
 
 	resize(w: number, h: number) {
