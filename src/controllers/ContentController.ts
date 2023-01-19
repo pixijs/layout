@@ -39,7 +39,7 @@ export class ContentController {
 			});
 
 		} else if (typeof content === 'object') {
-            if ((content as LayoutOptions).id) {
+            if (content.id) { // we consider this as Layout
                 
                 if (parentGlobalStyles) {
                     if (content.globalStyles) {
@@ -49,7 +49,7 @@ export class ContentController {
                     }
                 }
 
-				const layout = new Layout(content as LayoutOptions);
+				const layout = new Layout(content);
 
                 this.content.push(layout);
 				this.layout.addChild(layout);
