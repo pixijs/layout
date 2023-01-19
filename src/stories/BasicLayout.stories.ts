@@ -18,7 +18,7 @@ const args = {
 	opacity: 1,
 	fontSize: 24,
 	borderRadius: 20,
-	align: ALIGN,
+	textAlign: ALIGN,
 	overflow: ['hidden', 'visible'],
 	position: POSITION,
 };
@@ -36,7 +36,7 @@ class LayoutStory {
 		overflow,
 		fontSize,
 		borderRadius,
-		align,
+		textAlign,
 		position,
 	}: any) {
 		this.layout = new Layout({
@@ -50,7 +50,7 @@ class LayoutStory {
 				overflow,
 				// text options
 				color,
-				align,
+				textAlign,
 				fontSize,
 				position,
 				borderRadius,

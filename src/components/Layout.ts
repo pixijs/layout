@@ -1,4 +1,4 @@
-import { Text, Container } from 'pixi.js';
+import { Container } from 'pixi.js';
 import { LayoutOptions } from '../utils/types';
 import { AlignController } from '../controllers/AlignController';
 import { StyleController } from '../controllers/StyleController';
@@ -21,10 +21,11 @@ export class Layout extends Container {
 		this.style = new StyleController(this);
 		this.size = new SizeController(this);
 		this.align = new AlignController(this);
-		this.content = new ContentController(this, options.content);
 
 		// this should initiate chain of controllers work
 		this.style.styles = options.styles;
+
+		this.content = new ContentController(this, options.content);
 	}
 
 	resize(parentWidth: number, parentHeight: number) {

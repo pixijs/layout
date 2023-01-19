@@ -1,4 +1,4 @@
-import { TextStyle, Container } from 'pixi.js';
+import { TextStyle, Container, TextStyleAlign } from 'pixi.js';
 import {
 	CSS_COLOR_NAMES,
 	POSITION,
@@ -60,6 +60,7 @@ export type Styles = TextStyles &
 		position?: Position;
 		display?: Display;
 		borderRadius?: number;
+		textAlign?:  TextStyleAlign;
 
 		// TODO:
 

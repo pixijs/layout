@@ -16,7 +16,9 @@ export class ContentController {
 	private createContent(content: Content) {
         if (typeof content === 'string') {
 			
-            const text = new Text(content, this.layout.style.textStyles);
+            const { textStyles } = this.layout.style;
+
+            const text = new Text(content, textStyles);
             
             this.content.push(text);
 			this.layout.addChild(text);

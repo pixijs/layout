@@ -1,8 +1,9 @@
-import { Display, FlexColor, FlexNumber, Opacity, Overflow, Position, Styles, TextStyles } from "../utils/types";
+import type { Display, FlexColor, FlexNumber, Opacity, Overflow, Position, Styles, TextStyles } from "../utils/types";
+import type { TextStyleAlign } from "pixi.js";
 import { getColor } from '../utils/helpers';
 import { TEXT_GRADIENT, Graphics } from 'pixi.js';
 import { Layout } from "../components/Layout";
-import { OVERFLOW, POSITION } from "../utils/constants";
+import { OVERFLOW, POSITION, ALIGN } from "../utils/constants";
 
 export class StyleController {
 	private layout: Layout;
@@ -22,19 +23,45 @@ export class StyleController {
 	set styles(styles: Styles) {
         if (!styles) { return }
 
-		this.style = styles;
+		// this.style = styles;
 		this.setTextStyles(styles);
 		
-		if (styles.background) {
-			this.background = styles.background;
-		}
-
-		if (styles.backgroundColor) {
-			this.backgroundColor = styles.backgroundColor;
-		}
-
-		if (styles.overflow) {
-			this.overflow = styles.overflow;
+		for (const style in styles) {
+			switch (style) {
+				case 'background':
+					this.background = styles.background;
+					break;
+				case 'width':
+					this.width = styles.width;
+					break;
+				case 'height':
+					this.height = styles.height;
+					break;
+				case 'opacity':
+					this.opacity = styles.opacity;
+					break;
+				case 'overflow':
+					this.overflow = styles.overflow;
+					break;
+				case 'position':
+					this.position = styles.position;
+					break;
+				case 'color':
+					this.color = styles.color;
+					break;
+				case 'textAlign':
+					this.textAlign = styles.textAlign;
+					break;
+				case 'fontSize':
+					this.fontSize = styles.fontSize;
+					break;
+				case 'borderRadius':
+					this.borderRadius = styles.borderRadius;
+					break;
+				default:
+					console.error(`Invalid style: ${style}`);
+					break;
+			}
 		}
 	}
 
@@ -44,7 +71,7 @@ export class StyleController {
 
 	setTextStyles(styles: Styles) {
 		this.textStyles = {
-			align: styles.align ?? 'left',
+			align: styles.align ?? ALIGN[0],
 			breakWords: styles.breakWords ?? false,
 			dropShadow: styles.dropShadow ?? false,
 			dropShadowAlpha: styles.dropShadowAlpha ?? 1,
@@ -122,10 +149,7 @@ export class StyleController {
 	}
 
 	set opacity(value: Opacity) {
-		if (value !== undefined) {
-			this.layout.alpha = value;
-		}
-
+		this.layout.alpha = value ?? 1;
 		this.style.opacity = value;
 	}
 
@@ -154,13 +178,6 @@ export class StyleController {
 
 		const { width, height } = this.layout;
 		const color = getColor(value);
-
-		console.log('set background color', {
-			color,
-			width,
-			height,
-			borderRadius: this.borderRadius,
-		});
 
 		if (width && height && value !== 'transparent') {
 			this.bg
@@ -196,5 +213,31 @@ export class StyleController {
 	update() {
 		this.backgroundColor = this.styles.backgroundColor;	
 		this.overflow = this.styles.overflow;
+	}
+
+	set color(value: FlexColor) {
+		this.style.color = value;
+
+		this.textStyles.fill = getColor(value)?.hex ?? 'black';
+	}
+
+	get color(): FlexColor {
+		return this.style.color;
+	}
+
+	set textAlign(value: TextStyleAlign) {
+		this.textStyles.align = value;
+	}
+
+	get textAlign(): TextStyleAlign {
+		return this.textStyles.align;
+	}
+
+	set fontSize(value: number | string) {
+		this.textStyles.fontSize = value;
+	}
+
+	get fontSize(): number | string {
+		return this.textStyles.fontSize;
 	}
 }
