@@ -42,8 +42,8 @@ export class AlignController {
 			// case 'inline',
 			// case 'block':
 			default:
+				// this.alignChildren();
 				this.setSelfPosition(width, height);
-				this.alignChildren();
 				break;
 		}
 	}
@@ -61,7 +61,7 @@ export class AlignController {
 			if (child instanceof Layout) {
 				childDisplay = child.style.display;
 			}
-
+			
 			if (child.height && child.width) {
 				child.x = x;
 				child.y = y;
@@ -100,8 +100,14 @@ export class AlignController {
 			// we skip 'left', 'top' and 'leftTop' because they are default
 			case 'rightTop':
 			case 'right':
+
+				console.log(`setSelfPosition`, this.layout.id, position);
+				console.log(`setSelfPosition`, this.layout.x, this.layout.y);
+				
 				this.layout.y = 0;
 				this.layout.x = parentWidth - this.layout.width;
+
+				console.log(`setSelfPosition`, this.layout.x, this.layout.y);
 				break;
 
 			case 'leftBottom':

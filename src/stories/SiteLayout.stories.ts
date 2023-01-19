@@ -34,7 +34,6 @@ class LayoutStory {
 			fontSize,
 			color,
 			overflow,
-			padding: 10,
 		};
 
 		const globalStyles: LayoutStyles = {
@@ -60,6 +59,7 @@ class LayoutStory {
 			},
 			'left-menu': {
 				width: '30%',
+				height: '80%',
 				position: 'left',
 				background: 'blue',
 				...fontStyle,
@@ -67,6 +67,7 @@ class LayoutStory {
 			'main-content': {
 				width: '60%',
 				position: 'right',
+				background: 'gray',
 				...fontStyle,
 			},
 			'footer': {
@@ -85,24 +86,24 @@ class LayoutStory {
 					id: 'header',
 					content: 'Header',
 				},
-				// {
-				// 	id: 'content',
-				// 	content: [
-				// 		// array of children
-				// 		{
-				// 			id: 'left-menu',
-				// 			content: 'Left menu',
-				// 		},
-				// 		{
-				// 			id: 'main-content',
-				// 			content: LOREM_TEXT,
-				// 		},
-				// 	],
-				// },
-				// {
-				// 	id: 'footer',
-				// 	content: 'Footer',
-				// },
+				{
+					id: 'content',
+					content: [
+						// array of children
+						{
+							id: 'left-menu',
+							content: 'Left menu',
+						},
+						{
+							id: 'main-content',
+							content: LOREM_TEXT,
+						},
+					],
+				},
+				{
+					id: 'footer',
+					content: 'Footer',
+				},
 			],
 			globalStyles,
 		});

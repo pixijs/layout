@@ -44,6 +44,14 @@ export class Layout extends Container {
 		this.align.update(parentWidth, parentHeight);
 	}
 
+	getContentWidth(): number {
+		return super.width;
+	}
+
+	getContentHeight(): number {
+		return super.width;
+	}
+
 	override set width(value: number) {
 		this.size.width = value;
 	}

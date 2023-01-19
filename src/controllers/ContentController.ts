@@ -1,5 +1,5 @@
 import { Layout } from "../components/Layout";
-import { Containers, Content, LayoutOptions, LayoutStyles } from "../utils/types";
+import { Containers, Content, LayoutStyles } from "../utils/types";
 import { Container, Text } from 'pixi.js';
 
 export class ContentController {
@@ -50,14 +50,13 @@ export class ContentController {
                 }
 
 				const layout = new Layout(content);
-
+                
                 this.content.push(layout);
 				this.layout.addChild(layout);
 				this.layout.align.add(layout);
 			} else {
 				throw new Error('Invalid content');
 			}
-
 		}
 	}
 

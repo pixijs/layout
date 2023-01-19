@@ -21,6 +21,15 @@ export class SizeController {
         this.width = this.layout.style.width;
         this.height = this.layout.style.height;
 
+        if (this.width === 0 && this.layout.style.display === 'block') {
+            this.width = this.parentWidth;
+        }
+
+        if (this.height === 0) {
+            // set height basing on content
+            this.height = this.layout.getContentHeight();            
+        }
+
         this.layout.style.update();
     }
 
