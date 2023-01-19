@@ -7,8 +7,6 @@ import { ContentController } from '../controllers/ContentController';
 
 export class Layout extends Container {
 	id: string;
-	options: LayoutOptions;
-
 	size: SizeController;
 	align: AlignController;
 	style: StyleController;

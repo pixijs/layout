@@ -20,6 +20,8 @@ export class SizeController {
 
         this.width = this.layout.style.width;
         this.height = this.layout.style.height;
+
+        this.layout.style.update();
     }
 
     get width(): number {

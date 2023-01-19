@@ -24,9 +24,13 @@ export class StyleController {
 
 		this.style = styles;
 		this.setTextStyles(styles);
-
-		if (styles.background && styles.backgroundColor) {
+		
+		if (styles.background) {
 			this.background = styles.background;
+		}
+
+		if (styles.backgroundColor) {
+			this.backgroundColor = styles.backgroundColor;
 		}
 
 		if (styles.overflow) {
@@ -148,9 +152,17 @@ export class StyleController {
 	set backgroundColor(value: FlexColor) {
 		this.style.backgroundColor = value;
 
-		if (this.layout.size && value !== 'transparent') {
-			const color = getColor(value);
+		const { width, height } = this.layout;
+		const color = getColor(value);
 
+		console.log('set background color', {
+			color,
+			width,
+			height,
+			borderRadius: this.borderRadius,
+		});
+
+		if (width && height && value !== 'transparent') {
 			this.bg
 				.clear()
 				.beginFill(color.hex, color.opacity)
@@ -179,5 +191,10 @@ export class StyleController {
 
 	set position(value: Position) {
 		this.style.position = value;
+	}
+
+	update() {
+		this.backgroundColor = this.styles.backgroundColor;	
+		this.overflow = this.styles.overflow;
 	}
 }

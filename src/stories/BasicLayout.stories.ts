@@ -7,7 +7,6 @@ import {
 	POSITION,
 	ALIGN,
 } from '../utils/constants';
-import { preloadAssets } from '../utils/helpers';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 
@@ -17,8 +16,9 @@ const args = {
 	width: 50,
 	height: 50,
 	opacity: 1,
-	align: ALIGN,
 	fontSize: 24,
+	borderRadius: 20,
+	align: ALIGN,
 	overflow: ['hidden', 'visible'],
 	position: POSITION,
 };
@@ -34,8 +34,9 @@ class LayoutStory {
 		height,
 		opacity,
 		overflow,
-		align,
 		fontSize,
+		borderRadius,
+		align,
 		position,
 	}: any) {
 		this.layout = new Layout({
@@ -52,14 +53,11 @@ class LayoutStory {
 				align,
 				fontSize,
 				position,
+				borderRadius,
 			},
 		});
 
 		this.view.addChild(this.layout);
-	}
-
-	update() {
-		// this.layout.update();
 	}
 
 	resize(w: number, h: number) {
