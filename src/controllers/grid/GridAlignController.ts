@@ -4,15 +4,11 @@ import { Layout } from '../../components/Layout';
 type Items = Container[];
 
 export class GridAlignController {
-	private root: Layout;
+	private layout: Layout;
 	private items: Items = [];
 
-	constructor(root: Layout, items?: Items) {
-		this.root = root;
-
-		if (items) {
-			this.items = items;
-		}
+	constructor(layout: Layout) {
+		this.layout = layout;
 	}
 
 	add(items: Items | Container) {

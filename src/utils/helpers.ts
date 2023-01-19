@@ -59,6 +59,10 @@ export function isDefined(value: any): boolean {
 }
 
 export function getColor(color: FlexColor): Color {
+	if (color === 'transparent') {
+		return undefined;
+	}
+
 	if (color === undefined) {
 		return undefined;
 	}

@@ -1,28 +1,23 @@
 import { Container } from 'pixi.js';
 import { Layout } from '../components/Layout';
+import { Containers } from '../utils/types';
 import { FlexAlignController } from './flex/FlexAlignController';
 import { GridAlignController } from './grid/GridAlignController';
 
-type Items = Container[];
-
 export class AlignController {
 	private layout: Layout;
-	private items: Items = [];
+	private items: Containers = [];
 	private flexController: FlexAlignController;
 	private gridController: GridAlignController;
 
-	constructor(root: Layout, items?: Items) {
-		this.layout = root;
+	constructor(layout: Layout) {
+		this.layout = layout;
 
-		if (items) {
-			this.items = items;
-		}
-
-		this.flexController = new FlexAlignController(root, items);
-		this.gridController = new GridAlignController(root, items);
+		this.flexController = new FlexAlignController(layout);
+		this.gridController = new GridAlignController(layout);
 	}
 
-	add(items: Items | Container) {
+	add(items: Containers | Container) {
 		if (Array.isArray(items)) {
 			items.forEach((item) => this.items.push(item));
 		} else {
@@ -34,7 +29,7 @@ export class AlignController {
 	}
 
 	update(width: number, height: number) {
-		switch (this.layout.display) {
+		switch (this.layout.style.display) {
 			// TODO: 'inline-flex'
 			case 'flex':
 				this.flexController.update();
@@ -61,7 +56,7 @@ export class AlignController {
 			let childDisplay = 'block';
 
 			if (child instanceof Layout) {
-				childDisplay = child.display;
+				childDisplay = child.style.display;
 			}
 
 			if (child.height && child.width) {
@@ -98,7 +93,7 @@ export class AlignController {
 	}
 
 	private setPosition(width: number, height: number) {
-		const { position } = this.layout.options.styles || {};
+		const { position } = this.layout.style || {};
 
 		switch (position) {
 			// we skip 'left', 'top' and 'leftTop' because they are default

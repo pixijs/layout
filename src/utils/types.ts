@@ -6,6 +6,7 @@ import {
 	FLEX_DIRECTION,
 	FLEX_WRAP,
 	JUSTIFY_CONTENT,
+	OVERFLOW,
 } from './constants';
 import { Layout } from '../components/Layout';
 
@@ -43,11 +44,13 @@ type flexProperties = {
 	// gap, row-gap, column-gap
 };
 
-export type Overflow = 'visible' | 'hidden';
+export type Containers = Container[];
+export type Overflow = typeof OVERFLOW[number];
 
 export type Styles = TextStyles &
 	flexProperties & {
 		background?: FlexColor;
+		backgroundColor?: FlexColor;
 		color?: FlexColor;
 		width?: FlexNumber;
 		height?: FlexNumber;
@@ -56,6 +59,7 @@ export type Styles = TextStyles &
 		overflow?: Overflow; // TODO: scroll pixi-ui scrollBox can be used here & 'scale' to fit children when overflow
 		position?: Position;
 		display?: Display;
+		borderRadius?: number;
 
 		// TODO:
 
@@ -65,7 +69,6 @@ export type Styles = TextStyles &
 		// maxHeight?: FlexNumber;
 
 		// border?: string;
-		// borderRadius?: FlexNumber;
 		// borderWidth?: FlexNumber;
 		// borderColor?: FlexColor;
 		// boxShadow?: string;

@@ -6,15 +6,11 @@ import { JustifyContent } from '../../utils/types';
 type Items = Container[];
 // TODO: alignRowReverse, alignFlexColumn (alignColumnReverse, alignColumnWrap, alignColumnNowrap)
 export class FlexAlignController {
-	private root: Layout;
+	private layout: Layout;
 	private items: Items = [];
 
-	constructor(root: Layout, items?: Items) {
-		this.root = root;
-
-		if (items) {
-			this.items = items;
-		}
+	constructor(root: Layout) {
+		this.layout = root;
 	}
 
 	add(items: Items | Container) {
@@ -27,8 +23,8 @@ export class FlexAlignController {
 
 	update() {
 		const flexDirection =
-			this.root.options?.styles?.flexDirection ??
-			getFlexDirection(this.root.options?.styles?.flexFlow);
+			this.layout.options?.styles?.flexDirection ??
+			getFlexDirection(this.layout.options?.styles?.flexFlow);
 
 		switch (flexDirection) {
 			case 'row':
@@ -59,10 +55,10 @@ export class FlexAlignController {
 
 	private alignFlexRow(items: Items) {
 		const flexWrap =
-			this.root.options?.styles?.flexWrap ??
-			getFlexWrap(this.root.options?.styles?.flexFlow);
+			this.layout.options?.styles?.flexWrap ??
+			getFlexWrap(this.layout.options?.styles?.flexFlow);
 
-		const justifyContent = this.root.options?.styles?.justifyContent;
+		const justifyContent = this.layout.options?.styles?.justifyContent;
 
 		switch (flexWrap) {
 			case 'wrap-reverse':
@@ -87,9 +83,9 @@ export class FlexAlignController {
 			child.x = x;
 			child.y = y;
 
-			if (x + child.width > this.root.width) {
+			if (x + child.width > this.layout.width) {
 				// TODO: refactor this with the last element calculations
-				const space = this.root.width - x;
+				const space = this.layout.width - x;
 				const lineAmount = id - firstLineElementID ;
 				let number = 0;
 
@@ -141,7 +137,7 @@ export class FlexAlignController {
 
 		// TODO: refactor this with the new line calculations
 		const id = items.length - 1;
-		const space = this.root.width - x;
+		const space = this.layout.width - x;
 		const lineAmount = id - firstLineElementID;
 		let number = 0;
 		
@@ -186,7 +182,7 @@ export class FlexAlignController {
 		items.forEach((child) => {
 			child.x = x;
 
-			if (x + child.width > this.root.width) {
+			if (x + child.width > this.layout.width) {
 				x = child.width;
 				y += maxChildHeight;
 
@@ -227,8 +223,8 @@ export class FlexAlignController {
 		let x = 0;
 
 		const totalWidth = items.reduce((acc, child) => acc + child.width, 0);
-		const offset = (this.root.width - totalWidth) / 2;
-		const space = this.root.width - totalWidth;
+		const offset = (this.layout.width - totalWidth) / 2;
+		const space = this.layout.width - totalWidth;
 
 		switch (justifyContent) {
 			case 'flex-start':
@@ -244,7 +240,7 @@ export class FlexAlignController {
 			case 'end':
 			case 'right':
 				items.slice().reverse().forEach((child) => {
-					child.x = this.root.width - x - child.width;
+					child.x = this.layout.width - x - child.width;
 					x += child.width;
 				});
 				break;

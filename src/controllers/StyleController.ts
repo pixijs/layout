@@ -1,24 +1,44 @@
-import { Overflow, Styles, TextStyles } from "../utils/types";
+import { Display, FlexColor, FlexNumber, Opacity, Overflow, Position, Styles, TextStyles } from "../utils/types";
 import { getColor } from '../utils/helpers';
-import { TEXT_GRADIENT } from 'pixi.js';
+import { TEXT_GRADIENT, Graphics } from 'pixi.js';
+import { Layout } from "../components/Layout";
+import { OVERFLOW, POSITION } from "../utils/constants";
 
 export class StyleController {
-    private styles: Styles = {};
+	private layout: Layout;
+    private style: Styles = {};
 	textStyles: TextStyles = {}; // this is to be nested by children
 
-    constructor(styles?: Styles) {
+	private bg = new Graphics();
+	private overflowMask = new Graphics();
+
+    constructor(layout: Layout) {
+		this.layout = layout;
+
+		this.layout.addChild(this.bg);
+		this.layout.addChild(this.overflowMask);
+	}
+
+	set styles(styles: Styles) {
         if (!styles) { return }
 
-        this.styles.background = styles.background;
-        this.styles.color = styles.color;
-        this.styles.width = styles.width;
-        this.styles.height = styles.height;
-        this.styles.margin = styles.margin;
-        this.styles.opacity = styles.opacity;
-        this.styles.overflow = styles.overflow;
-        this.styles.position = styles.position;
-        this.styles.display = styles.display;
+		this.style = styles;
+		this.setTextStyles(styles);
 
+		if (styles.background && styles.backgroundColor) {
+			this.background = styles.background;
+		}
+
+		if (styles.overflow) {
+			this.overflow = styles.overflow;
+		}
+	}
+
+	get styles(): Styles {
+		return this.style;
+	}
+
+	setTextStyles(styles: Styles) {
 		this.textStyles = {
 			align: styles.align ?? 'left',
 			breakWords: styles.breakWords ?? false,
@@ -54,10 +74,110 @@ export class StyleController {
 	}
 
 	get overflow(): Overflow {
-		return this.styles.overflow ?? 'visible';
+		return this.style.overflow ?? OVERFLOW[0];
 	}
 
 	set overflow(value: Overflow) {
-		this.styles.overflow = value;
+		this.style.overflow = value;
+
+		if (this.style.overflow === 'hidden' && this.layout.size) {
+			this.overflowMask
+				.clear()
+				.beginFill(0xffffff)
+				.drawRoundedRect(
+					0, 0, 
+					this.layout.size.width, this.layout.size.height, 
+					this.borderRadius)
+				.endFill();
+
+				this.layout.mask = this.overflowMask;
+		} else {
+			this.overflowMask.clear();
+			this.layout.mask = null;
+		}
+	}
+
+	get width(): FlexNumber {
+		return this.style.width ?? 0;
+	}
+
+	set width(value: FlexNumber) {
+		this.style.width = value;
+	}
+
+	get height(): FlexNumber {
+		return this.style.height ?? 0;
+	}
+
+	set height(value: FlexNumber) {
+		this.style.height = value;
+	}
+
+	get opacity(): Opacity {
+		return this.style.opacity ?? 1;
+	}
+
+	set opacity(value: Opacity) {
+		if (value !== undefined) {
+			this.layout.alpha = value;
+		}
+
+		this.style.opacity = value;
+	}
+
+	get display(): Display {
+		return this.style.display ?? 'block';
+	}
+
+	set display(value: Display) {
+		this.style.display = value;
+	}
+
+	get borderRadius(): number {
+		return this.style.borderRadius ?? 0;
+	}
+
+	set borderRadius(value: number) {
+		this.style.borderRadius = value;
+	}
+
+	get backgroundColor(): FlexColor {
+		return this.style.backgroundColor;
+	}
+
+	set backgroundColor(value: FlexColor) {
+		this.style.backgroundColor = value;
+
+		if (this.layout.size && value !== 'transparent') {
+			const color = getColor(value);
+
+			this.bg
+				.clear()
+				.beginFill(color.hex, color.opacity)
+				.drawRoundedRect(
+					0, 0, 
+					this.layout.size.width, this.layout.size.height, 
+					this.borderRadius
+				)
+				.endFill();
+		} else {
+			this.bg.clear();
+		}
+	}
+
+	get background(): FlexColor {
+		return this.backgroundColor;
+	}
+
+	set background(value: FlexColor) {
+		this.backgroundColor = value;
+	}
+
+	get position(): Position {
+		return this.style.position ?? POSITION[0];
+	}
+
+	set position(value: Position) {
+		this.style.position = value;
 	}
 }

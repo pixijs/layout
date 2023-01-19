@@ -166,6 +166,7 @@ export const FLEX_DIRECTION = [
 ];
 
 export const FLEX_WRAP = ['nowrap', 'wrap', 'wrap-reverse'];
+export const OVERFLOW = ['visible', 'hidden'];
 
 export const JUSTIFY_CONTENT = [
 	'flex-start',
@@ -181,12 +182,12 @@ export const JUSTIFY_CONTENT = [
 ];
 
 export const POSITION = [
-	'center',
-
 	'left',
 	'right',
 	'top',
 	'bottom',
+	
+	'center',
 
 	'leftTop',
 	'rightTop',

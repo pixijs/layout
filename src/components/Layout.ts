@@ -1,123 +1,40 @@
-import { Graphics, Text, Container } from 'pixi.js';
-import {
-	Content,
-	Display,
-	LayoutOptions,
-} from '../utils/types';
-import { getColor, getNumber } from '../utils/helpers';
+import { Text, Container } from 'pixi.js';
+import { LayoutOptions } from '../utils/types';
 import { AlignController } from '../controllers/AlignController';
 import { StyleController } from '../controllers/StyleController';
+import { SizeController } from '../controllers/SizeController';
+import { ContentController } from '../controllers/ContentController';
 
 export class Layout extends Container {
-	private bg = new Graphics();
-	private overflowMask = new Graphics();
-	private size: { width: number; height: number } = { width: 0, height: 0 };
-	private alignController: AlignController;
-	private style: StyleController;
-
 	id: string;
-	display: Display = 'block';
 	options: LayoutOptions;
+
+	size: SizeController;
+	align: AlignController;
+	style: StyleController;
+	content: ContentController;
 
 	constructor(options: LayoutOptions) {
 		super();
 
 		this.id = options.id;
-		this.options = options;
 
-		this.style = new StyleController(options.styles);
-		this.alignController = new AlignController(this);
+		// order here is important as controllers are dependent on each other
+		this.style = new StyleController(this);
+		this.size = new SizeController(this);
+		this.align = new AlignController(this);
+		this.content = new ContentController(this, options.content);
 
-		if (options.content) {
-			this.createContent();
-		}
-	}
-
-	private createContent(content: Content = this.options.content) {
-		this.addChild(this.bg);
-		this.addChild(this.overflowMask);
-
-		if (typeof content === 'string') {
-			const text = new Text(content, this.style.textStyles);
-			this.addChild(text);
-			this.alignController.add(text);
-		} else if (content instanceof Container || content instanceof Layout) {
-			this.addChild(content);
-			this.alignController.add(content);
-		} else if (Array.isArray(content)) {
-			content.forEach((content) => {
-				this.createContent(content);
-			});
-		} else if (typeof content === 'object') {
-			if ((content as LayoutOptions).id) {
-				const layout = new Layout(content as LayoutOptions);
-				this.addChild(layout);
-				this.alignController.add(layout);
-			} else {
-				throw new Error('Invalid content');
-			}
-		}
+		// this should initiate chain of controllers work
+		this.style.styles = options.styles;
 	}
 
 	resize(parentWidth: number, parentHeight: number) {
-		let { background, width, height, opacity } = this.options.styles || {};
-
-		const bgColor = getColor(background); // TODO: add support for sprite BG
-		this.size.width = getNumber(width, parentWidth) ?? parentWidth;
-		this.size.height = getNumber(height, parentHeight) ?? parentHeight;
-
-		if (bgColor && this.size.width && this.size.height) {
-			this.bg
-				.clear()
-				.beginFill(bgColor.hex, bgColor.opacity)
-				.drawRect(0, 0, this.size.width, this.size.height)
-				.endFill();
-		}
-
-		if (this.style.overflow === 'hidden') {
-			this.overflowMask
-				.clear()
-				.beginFill(0xffffff)
-				.drawRect(0, 0, this.size.width, this.size.height)
-				.endFill();
-
-			this.mask = this.overflowMask;
-		} else {
-			this.overflowMask.clear();
-			this.mask = null;
-		}
-
-		if (opacity !== undefined) {
-			this.alpha = opacity;
-		}
-
-		this.resizeChildren();
-		this.alignController.update(parentWidth, parentHeight);
-		this.resizeChildren();
-	}
-
-
-	private resizeChildren() {
-		this.children.forEach((child) => {
-			if (child instanceof Text) {
-				child.style.wordWrapWidth = this.width;
-
-				if (child.width < this.width) {
-					if (this.style.textStyles.align === 'center') {
-						child.anchor.set(0.5, 0);
-						child.x = this.width / 2;
-					} else if (this.style.textStyles.align === 'right') {
-						child.anchor.set(1, 0);
-						child.x = this.width;
-					}
-				} else {
-					child.anchor.set(0, 0);
-					child.x = 0;
-				}
-			} else if (child instanceof Layout) {
-				child.resize(this.width, this.height);
-			}
-		});
+		this.size.update(parentWidth, parentHeight);
+		this.content.resize(this.width, this.height);
+		this.align.update(this.width, this.height);
+		// TODO: fix to remove this
+		this.content.resize(this.width, this.height);
 	}
 
 	override set width(value: number) {
