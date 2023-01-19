@@ -58,6 +58,9 @@ export class StyleController {
 				case 'borderRadius':
 					this.borderRadius = styles.borderRadius;
 					break;
+				case 'padding':
+					this.padding = styles.padding;
+					break;
 				default:
 					console.error(`Invalid style: ${style}`);
 					break;
@@ -239,5 +242,13 @@ export class StyleController {
 
 	get fontSize(): number | string {
 		return this.textStyles.fontSize;
+	}
+
+	get padding(): number {
+		return this.styles.padding;
+	}
+
+	set padding(value: number) {
+		this.styles.padding = value;
 	}
 }

@@ -28,7 +28,7 @@ export class AlignController {
 		this.gridController.add(items);
 	}
 
-	update(width: number, height: number) {
+	update(width: number, height: number) {		
 		switch (this.layout.style.display) {
 			// TODO: 'inline-flex'
 			case 'flex':
@@ -38,19 +38,22 @@ export class AlignController {
 				this.gridController.update();
 				break;
 			// TODO: 
-			// 'block',
-			// 'inline-block',
-			// 'inline',
+			// case 'inline-block',
+			// case 'inline',
+			// case 'block':
 			default:
-				this.alignDefault(width, height);
+				this.setSelfPosition(width, height);
+				this.alignChildren();
 				break;
 		}
 	}
 
-	private alignDefault(width: number, height: number) {
+	private alignChildren() {
 		let maxChildHeight = 0;
-		let x = 0;
-		let y = 0;
+		const padding = this.layout.style.padding;
+		let x = padding ?? 0;
+		let y = padding ?? 0;
+		const parentWidth = this.layout.width + padding;
 
 		this.items.forEach((child) => {
 			let childDisplay = 'block';
@@ -71,7 +74,7 @@ export class AlignController {
 					case 'inline':
 					case 'inline-flex':
 					case 'inline-block':
-						if (x + child.width > this.layout.width) {
+						if (x + child.width > parentWidth) {
 							x = child.width;
 							y += maxChildHeight;
 
@@ -88,54 +91,66 @@ export class AlignController {
 				}
 			}
 		});
-
-		this.setPosition(width, height)
 	}
 
-	private setPosition(width: number, height: number) {
+	private setSelfPosition(parentWidth: number, parentHeight: number) {
 		const { position } = this.layout.style || {};
+
+		console.log({
+			width: parentWidth,
+			height: parentHeight,
+			position,
+		});
 
 		switch (position) {
 			// we skip 'left', 'top' and 'leftTop' because they are default
 			case 'rightTop':
 			case 'right':
 				this.layout.y = 0;
-				this.layout.x = width - this.layout.width;
+				this.layout.x = parentWidth - this.layout.width;
 				break;
 
 			case 'leftBottom':
 			case 'bottom':
 				this.layout.x = 0;
-				this.layout.y = height - this.layout.height;
+				this.layout.y = parentHeight - this.layout.height;
+
+				console.log('bottom', {
+					height: parentHeight,
+					width: parentWidth,
+					x: this.layout.x,
+					y: this.layout.y,
+				});
+				
 				break;
 
 			case 'rightBottom':
-				this.layout.x = width - this.layout.width;
-				this.layout.y = height - this.layout.height;
+				this.layout.x = parentWidth - this.layout.width;
+				this.layout.y = parentHeight - this.layout.height;
 				break;
 
 			case 'center':
-				this.layout.x = width / 2 - this.layout.width / 2;
-				this.layout.y = height / 2 - this.layout.height / 2;
+				this.layout.x = parentWidth / 2 - this.layout.width / 2;
+				this.layout.y = parentHeight / 2 - this.layout.height / 2;
 				break;
 			case 'centerTop':
 				this.layout.y = 0;
-				this.layout.x = width / 2 - this.layout.width / 2;
+				this.layout.x = parentWidth / 2 - this.layout.width / 2;
 				break;
 
 			case 'centerBottom':
-				this.layout.x = width / 2 - this.layout.width / 2;
-				this.layout.y = height - this.layout.height;
+				this.layout.x = parentWidth / 2 - this.layout.width / 2;
+				this.layout.y = parentHeight - this.layout.height;
 				break;
 
 			case 'centerLeft':
 				this.layout.x = 0;
-				this.layout.y = height / 2 - this.layout.height / 2;
+				this.layout.y = parentHeight / 2 - this.layout.height / 2;
 				break;
 
 			case 'centerRight':
-				this.layout.y = height / 2 - this.layout.height / 2;
-				this.layout.x = width - this.layout.width;
+				this.layout.y = parentHeight / 2 - this.layout.height / 2;
+				this.layout.x = parentWidth - this.layout.width;
 				break;
 		}
 	}

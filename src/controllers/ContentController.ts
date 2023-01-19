@@ -56,7 +56,8 @@ export class ContentController {
 
         this.layout.children.forEach((child) => {
 			if (child instanceof Text) {
-				child.style.wordWrapWidth = width;
+                const padding = this.layout.style.padding;
+				child.style.wordWrapWidth = width - padding * 2;
 
 				if (child.width < width) {
 					if (textStyles.align === 'center') {

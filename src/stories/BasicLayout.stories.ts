@@ -15,6 +15,7 @@ const args = {
 	backgroundColor: '#000000',
 	width: 50,
 	height: 50,
+	padding: 15,
 	opacity: 1,
 	fontSize: 24,
 	borderRadius: 20,
@@ -32,6 +33,7 @@ class LayoutStory {
 		backgroundColor,
 		width,
 		height,
+		padding,
 		opacity,
 		overflow,
 		fontSize,
@@ -46,6 +48,7 @@ class LayoutStory {
 				background: backgroundColor,
 				width: `${width}%`,
 				height: `${height}%`,
+				padding,
 				opacity,
 				overflow,
 				// text options

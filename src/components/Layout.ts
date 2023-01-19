@@ -31,9 +31,7 @@ export class Layout extends Container {
 	resize(parentWidth: number, parentHeight: number) {
 		this.size.update(parentWidth, parentHeight);
 		this.content.resize(this.width, this.height);
-		this.align.update(this.width, this.height);
-		// TODO: fix to remove this
-		this.content.resize(this.width, this.height);
+		this.align.update(parentWidth, parentHeight);
 	}
 
 	override set width(value: number) {
