@@ -1,4 +1,4 @@
-import { Styles, TextStyles } from "../utils/types";
+import { Overflow, Styles, TextStyles } from "../utils/types";
 import { getColor } from '../utils/helpers';
 import { TEXT_GRADIENT } from 'pixi.js';
 
@@ -53,5 +53,11 @@ export class StyleController {
 		};
 	}
 
-    //TODO: add styles setters with layout update
+	get overflow(): Overflow {
+		return this.styles.overflow ?? 'visible';
+	}
+
+	set overflow(value: Overflow) {
+		this.styles.overflow = value;
+	}
 }

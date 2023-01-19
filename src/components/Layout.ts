@@ -10,7 +10,7 @@ import { StyleController } from '../controllers/StyleController';
 
 export class Layout extends Container {
 	private bg = new Graphics();
-	private overflowMask = new Graphics();
+	private overflowMask: Graphics;
 	private size: { width: number; height: number } = { width: 0, height: 0 };
 	private alignController: AlignController;
 	private style: StyleController;
@@ -35,7 +35,6 @@ export class Layout extends Container {
 
 	private createContent(content: Content = this.options.content) {
 		this.addChild(this.bg);
-		this.addChild(this.overflowMask);
 
 		if (typeof content === 'string') {
 			const text = new Text(content, this.style.textStyles);
@@ -74,14 +73,19 @@ export class Layout extends Container {
 				.endFill();
 		}
 
-		if (this.overflowMask) {
-			this.overflowMask
-				.clear()
+		if (this.style.overflow === 'hidden') {
+			this.overflowMask = 
+				new Graphics()
 				.beginFill(0xffffff)
 				.drawRect(0, 0, this.size.width, this.size.height)
 				.endFill();
+			
+			this.addChild(this.overflowMask);
 
 			this.mask = this.overflowMask;
+		} else {
+			this.overflowMask?.destroy();
+			this.mask = null;
 		}
 
 		if (opacity !== undefined) {

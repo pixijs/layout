@@ -43,6 +43,8 @@ type flexProperties = {
 	// gap, row-gap, column-gap
 };
 
+export type Overflow = 'visible' | 'hidden';
+
 export type Styles = TextStyles &
 	flexProperties & {
 		background?: FlexColor;
@@ -51,7 +53,7 @@ export type Styles = TextStyles &
 		height?: FlexNumber;
 		margin?: FlexNumber;
 		opacity?: Opacity;
-		overflow?: 'visible' | 'hidden'; // TODO: scroll pixi-ui scrollBox can be used here & 'scale' to fit children when overflow
+		overflow?: Overflow; // TODO: scroll pixi-ui scrollBox can be used here & 'scale' to fit children when overflow
 		position?: Position;
 		display?: Display;
 
