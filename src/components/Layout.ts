@@ -21,8 +21,6 @@ export class Layout extends Container {
 			// check if there is a global style for this layout
 			const styles = options.globalStyles[this.id];
 
-			console.log(this.id, styles);
-
 			if (styles && options.styles) {
 				options.styles = { ...styles, ...options.styles };
 			} else if (styles) {
