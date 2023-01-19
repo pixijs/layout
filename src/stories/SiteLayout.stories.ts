@@ -2,14 +2,13 @@ import { Layout } from '../components/Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
 import { ALIGN, POSITION, LOREM_TEXT } from '../utils/constants';
-import { preloadAssets } from '../utils/helpers';
 
 const args = {
 	color: '#FFFFFF',
 	width: 90,
 	height: 90,
 	opacity: 1,
-	align: ALIGN,
+	textAlign: ALIGN,
 	fontSize: 32,
 	overflow: ['hidden', 'visible'],
 	position: POSITION,
@@ -25,12 +24,12 @@ class LayoutStory {
 		height,
 		opacity,
 		overflow,
-		align,
+		textAlign,
 		fontSize,
 		position,
 	}: any) {
 		const fontStyle = {
-			align,
+			textAlign,
 			fontSize,
 			color,
 			overflow,
@@ -77,7 +76,7 @@ class LayoutStory {
 					styles: {
 						position: 'center',
 						height: '80%',
-						align: 'center',
+						textAlign: 'center',
 						...fontStyle,
 					},
 				},
@@ -88,7 +87,7 @@ class LayoutStory {
 						position: 'bottom',
 						background: 'green',
 						height: '10%',
-						align: 'center',
+						textAlign: 'center',
 						...fontStyle,
 					},
 				},

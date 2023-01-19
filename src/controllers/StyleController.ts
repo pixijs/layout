@@ -182,7 +182,7 @@ export class StyleController {
 		const { width, height } = this.layout;
 		const color = getColor(value);
 
-		if (width && height && value !== 'transparent') {
+		if (color && width && height && value !== 'transparent') {
 			this.bg
 				.clear()
 				.beginFill(color.hex, color.opacity)

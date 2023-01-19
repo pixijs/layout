@@ -96,12 +96,6 @@ export class AlignController {
 	private setSelfPosition(parentWidth: number, parentHeight: number) {
 		const { position } = this.layout.style || {};
 
-		console.log({
-			width: parentWidth,
-			height: parentHeight,
-			position,
-		});
-
 		switch (position) {
 			// we skip 'left', 'top' and 'leftTop' because they are default
 			case 'rightTop':
@@ -114,14 +108,6 @@ export class AlignController {
 			case 'bottom':
 				this.layout.x = 0;
 				this.layout.y = parentHeight - this.layout.height;
-
-				console.log('bottom', {
-					height: parentHeight,
-					width: parentWidth,
-					x: this.layout.x,
-					y: this.layout.y,
-				});
-				
 				break;
 
 			case 'rightBottom':
