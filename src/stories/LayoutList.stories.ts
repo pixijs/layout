@@ -1,4 +1,4 @@
-import { Layout } from '../views/Layout';
+import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
 import {
@@ -48,9 +48,9 @@ class LayoutStory {
 					overflow: 'hidden',
 					align: 'center',
 					background,
-					width: 
+					width:
 						size +
-						(addRandomWidth ? Math.floor(Math.random() * 100) : 0),	
+						(addRandomWidth ? Math.floor(Math.random() * 100) : 0),
 					height:
 						size +
 						(addRandomHeight ? Math.floor(Math.random() * 100) : 0),

@@ -8,9 +8,20 @@ import {
 	JUSTIFY_CONTENT,
 	OVERFLOW,
 } from './constants';
-import { Layout } from '../views/Layout';
+import { Layout } from '../Layout';
 
-export type Opacity = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
+export type Opacity =
+	| 0
+	| 0.1
+	| 0.2
+	| 0.3
+	| 0.4
+	| 0.5
+	| 0.6
+	| 0.7
+	| 0.8
+	| 0.9
+	| 1;
 
 export type TextStyles = Partial<TextStyle>;
 
@@ -54,44 +65,19 @@ export type Styles = TextStyles &
 		color?: FlexColor;
 		width?: FlexNumber;
 		height?: FlexNumber;
-		margin?: FlexNumber;
+		margin?: number;
+		padding?: number;
 		opacity?: Opacity;
 		overflow?: Overflow; // TODO: scroll pixi-ui scrollBox can be used here & 'scale' to fit children when overflow
 		position?: Position;
 		display?: Display;
 		borderRadius?: number;
-		textAlign?:  TextStyleAlign;
-
-		// TODO:
-
-		// zIndex?: number;
-
-		// maxWidth?: FlexNumber;
-		// maxHeight?: FlexNumber;
-
-		// border?: string;
-		// borderWidth?: FlexNumber;
-		// borderColor?: FlexColor;
-		// boxShadow?: string;
-
-		// margin
-		// marginTop?: FlexNumber;
-		// marginRight?: FlexNumber;
-		// marginBottom?: FlexNumber;
-		// marginLeft?: FlexNumber;
-		// margin?: FlexNumber;
-
-		// padding
-		// paddingTop?: FlexNumber;
-		// paddingRight?: FlexNumber;
-		// paddingBottom?: FlexNumber;
-		// paddingLeft?: FlexNumber;
-		// padding?: FlexNumber;
+		textAlign?: TextStyleAlign;
 	};
-	
+
 export type LayoutStyles = {
 	[K: string]: Styles;
-}
+};
 
 export type LayoutOptions = {
 	id: string;

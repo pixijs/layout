@@ -1,4 +1,4 @@
-import { Layout } from '../views/Layout';
+import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
 import { ALIGN, POSITION, LOREM_TEXT } from '../utils/constants';
@@ -37,7 +37,7 @@ class LayoutStory {
 		};
 
 		const globalStyles: LayoutStyles = {
-			'root': {
+			root: {
 				color,
 				width: `${width}%`,
 				height: `${height}%`,
@@ -45,13 +45,13 @@ class LayoutStory {
 				position,
 				...fontStyle,
 			},
-			'header': {
+			header: {
 				position: 'top',
 				background: 'red',
 				height: '10%',
 				...fontStyle,
 			},
-			'content': {
+			content: {
 				position: 'center',
 				height: '80%',
 				textAlign: 'center',
@@ -70,14 +70,14 @@ class LayoutStory {
 				background: 'gray',
 				...fontStyle,
 			},
-			'footer': {
+			footer: {
 				position: 'bottom',
 				background: 'green',
 				height: '10%',
 				textAlign: 'center',
 				...fontStyle,
-			}
-		}
+			},
+		};
 
 		this.layout = new Layout({
 			id: 'root',

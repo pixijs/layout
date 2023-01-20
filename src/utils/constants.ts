@@ -184,12 +184,12 @@ export const JUSTIFY_CONTENT = [
 ];
 
 export const POSITION = [
+	'center',
+
 	'left',
 	'right',
 	'top',
 	'bottom',
-	
-	'center',
 
 	'leftTop',
 	'rightTop',
@@ -202,4 +202,4 @@ export const POSITION = [
 	'centerRight',
 ];
 
-export const ALIGN: TextStyleAlign[] = ['left', 'center' ,'right', 'justify'];
+export const ALIGN: TextStyleAlign[] = ['center', 'left', 'right', 'justify'];

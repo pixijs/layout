@@ -1,5 +1,5 @@
 import { Container } from 'pixi.js';
-import { Layout } from '../views/Layout';
+import { Layout } from '../Layout';
 import { Containers } from '../utils/types';
 import { FlexAlignController } from './flex/FlexAlignController';
 import { GridAlignController } from './grid/GridAlignController';
@@ -28,7 +28,7 @@ export class AlignController {
 		this.gridController.add(items);
 	}
 
-	update(width: number, height: number) {		
+	update(width: number, height: number) {
 		switch (this.layout.style.display) {
 			// TODO: 'inline-flex'
 			case 'flex':
@@ -37,7 +37,7 @@ export class AlignController {
 			case 'grid':
 				this.gridController.update();
 				break;
-			// TODO: 
+			// TODO:
 			// case 'inline-block',
 			// case 'inline',
 			// case 'block':
@@ -61,7 +61,7 @@ export class AlignController {
 			if (child instanceof Layout) {
 				childDisplay = child.style.display;
 			}
-			
+
 			if (child.height && child.width) {
 				child.x = x;
 				child.y = y;
@@ -100,14 +100,8 @@ export class AlignController {
 			// we skip 'left', 'top' and 'leftTop' because they are default
 			case 'rightTop':
 			case 'right':
-
-				console.log(`setSelfPosition`, this.layout.id, position);
-				console.log(`setSelfPosition`, this.layout.x, this.layout.y);
-				
 				this.layout.y = 0;
 				this.layout.x = parentWidth - this.layout.width;
-
-				console.log(`setSelfPosition`, this.layout.x, this.layout.y);
 				break;
 
 			case 'leftBottom':

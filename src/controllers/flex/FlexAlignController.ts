@@ -1,5 +1,5 @@
 import { Container } from 'pixi.js';
-import { Layout } from '../../views/Layout';
+import { Layout } from '../../Layout';
 import { getFlexDirection, getFlexWrap } from '../../utils/helpers';
 import { JustifyContent } from '../../utils/types';
 
@@ -78,7 +78,7 @@ export class FlexAlignController {
 		let x = 0;
 		let y = 0;
 		let firstLineElementID = 0;
-		
+
 		items.forEach((child, id) => {
 			child.x = x;
 			child.y = y;
@@ -86,7 +86,7 @@ export class FlexAlignController {
 			if (x + child.width > this.layout.width) {
 				// TODO: refactor this with the last element calculations
 				const space = this.layout.width - x;
-				const lineAmount = id - firstLineElementID ;
+				const lineAmount = id - firstLineElementID;
 				let number = 0;
 
 				for (let i = firstLineElementID; i <= id; i++) {
@@ -94,36 +94,36 @@ export class FlexAlignController {
 						case 'flex-end':
 						case 'end':
 						case 'right':
-								items[i].x += space;
+							items[i].x += space;
 							break;
 						case 'center':
-								items[i].x += space / 2;
+							items[i].x += space / 2;
 							break;
 						case 'space-between':
-								items[i].x += (space / (lineAmount - 1)) * number;
-								number++;
+							items[i].x += (space / (lineAmount - 1)) * number;
+							number++;
 							break;
 						case 'space-around':
-								items[i].x = number + space / 2 / lineAmount;
-								number += items[i].width + space / lineAmount;
+							items[i].x = number + space / 2 / lineAmount;
+							number += items[i].width + space / lineAmount;
 							break;
 						case 'space-evenly':
-								items[i].x = number + space / (lineAmount + 1);
-								number += items[i].width + space / (lineAmount + 1);
+							items[i].x = number + space / (lineAmount + 1);
+							number += items[i].width + space / (lineAmount + 1);
 							break;
 						case 'stretch':
 							// TODO
 							break;
 					}
 				}
-			
+
 				firstLineElementID = id;
 
 				x = child.width;
 				y += maxChildHeight;
 
 				maxChildHeight = 0;
-				
+
 				child.x = 0;
 				child.y = y;
 			} else {
@@ -140,36 +140,37 @@ export class FlexAlignController {
 		const space = this.layout.width - x;
 		const lineAmount = id - firstLineElementID;
 		let number = 0;
-		
+
 		for (let i = firstLineElementID; i <= id; i++) {
 			switch (justifyContent) {
 				case 'flex-end':
 				case 'end':
 				case 'right':
-						items[i].x += space;
+					items[i].x += space;
 					break;
 				case 'center':
-						items[i].x += space / 2;
+					items[i].x += space / 2;
 					break;
 				case 'space-between':
-						items[i].x += (lineAmount > 0 ? (space / lineAmount) : space) * number;
-						number++;
+					items[i].x +=
+						(lineAmount > 0 ? space / lineAmount : space) * number;
+					number++;
 					break;
 				case 'space-around':
-						items[i].x = number + space / 2 / (lineAmount + 1);
-						number += items[i].width + space / (lineAmount + 1);
+					items[i].x = number + space / 2 / (lineAmount + 1);
+					number += items[i].width + space / (lineAmount + 1);
 					break;
 				case 'space-evenly':
-						items[i].x = number + space / (lineAmount + 2);
-						number += items[i].width + space / (lineAmount + 2);
+					items[i].x = number + space / (lineAmount + 2);
+					number += items[i].width + space / (lineAmount + 2);
 					break;
 				case 'stretch':
 					// TODO
 					break;
-				}
 			}
+		}
 	}
-	
+
 	private alignRowReverse(items: Items, justifyContent: JustifyContent) {
 		let maxChildHeight = 0;
 		let x = 0;
@@ -239,10 +240,13 @@ export class FlexAlignController {
 			case 'flex-end':
 			case 'end':
 			case 'right':
-				items.slice().reverse().forEach((child) => {
-					child.x = this.layout.width - x - child.width;
-					x += child.width;
-				});
+				items
+					.slice()
+					.reverse()
+					.forEach((child) => {
+						child.x = this.layout.width - x - child.width;
+						x += child.width;
+					});
 				break;
 			case 'center':
 				items.forEach((child) => {
@@ -271,6 +275,6 @@ export class FlexAlignController {
 			case 'stretch':
 				// TODO
 				break;
-			}
+		}
 	}
 }

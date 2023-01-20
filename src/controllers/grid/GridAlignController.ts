@@ -1,5 +1,5 @@
 import { Container } from 'pixi.js';
-import { Layout } from '../../views/Layout';
+import { Layout } from '../../Layout';
 
 type Items = Container[];
 

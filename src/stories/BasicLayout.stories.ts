@@ -1,4 +1,4 @@
-import { Layout } from '../views/Layout';
+import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
 import {
