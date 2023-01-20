@@ -46,8 +46,8 @@ export class StyleController {
 	// paddingLeft: number;
 
 	// controlled properties
-	width: FlexNumber = 0;
-	height: FlexNumber = 0;
+	width: FlexNumber;
+	height: FlexNumber;
 
 	_background: FlexColor = 'transparent';
 	_color: FlexColor = 'black';

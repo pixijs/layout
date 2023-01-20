@@ -5,7 +5,7 @@ import { Container, Text } from 'pixi.js';
 export class ContentController {
 	private layout: Layout;
 
-	content: Containers = [];
+	children: Containers = [];
 
 	constructor(
 		layout: Layout,
@@ -28,13 +28,11 @@ export class ContentController {
 
 			const text = new Text(content, textStyles);
 
-			this.content.push(text);
+			this.children.push(text);
 			this.layout.addChild(text);
-			this.layout.align.add(text);
 		} else if (content instanceof Container) {
-			this.content.push(content);
+			this.children.push(content);
 			this.layout.addChild(content);
-			this.layout.align.add(content);
 		} else if (Array.isArray(content)) {
 			content.forEach((content) => {
 				this.createContent(content, parentGlobalStyles);
@@ -56,9 +54,8 @@ export class ContentController {
 
 				const layout = new Layout(content);
 
-				this.content.push(layout);
+				this.children.push(layout);
 				this.layout.addChild(layout);
-				this.layout.align.add(layout);
 			} else {
 				throw new Error('Invalid content');
 			}

@@ -1,12 +1,9 @@
-import { Container } from 'pixi.js';
 import { Layout } from '../Layout';
-import { Containers } from '../utils/types';
 import { FlexAlignController } from './flex/FlexAlignController';
 import { GridAlignController } from './grid/GridAlignController';
 
 export class AlignController {
 	private layout: Layout;
-	private items: Containers = [];
 	private flexController: FlexAlignController;
 	private gridController: GridAlignController;
 
@@ -15,17 +12,6 @@ export class AlignController {
 
 		this.flexController = new FlexAlignController(layout);
 		this.gridController = new GridAlignController(layout);
-	}
-
-	add(items: Containers | Container) {
-		if (Array.isArray(items)) {
-			items.forEach((item) => this.items.push(item));
-		} else {
-			this.items.push(items);
-		}
-
-		this.flexController.add(items);
-		this.gridController.add(items);
 	}
 
 	update(width: number, height: number) {
@@ -55,7 +41,9 @@ export class AlignController {
 		let y = padding ?? 0;
 		const parentWidth = this.layout.width + padding;
 
-		this.items.forEach((child) => {
+		const children = this.layout.content.children;
+
+		children.forEach((child) => {
 			let childDisplay = 'block';
 
 			if (child instanceof Layout) {

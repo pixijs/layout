@@ -66,6 +66,9 @@ class LayoutStory {
 				display: rootDisplay,
 				flexFlow: `${flexDirection} ${flexWrap}`,
 				justifyContent,
+				background: 'white',
+				// width: '100%',
+				// height: '100%',
 			},
 		});
 

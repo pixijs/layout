@@ -4,8 +4,8 @@ import { FlexNumber } from '../utils/types';
 
 export class SizeController {
 	private layout: Layout;
-	private _width = 0;
-	private _height = 0;
+	private _width: number;
+	private _height: number;
 
 	parentWidth = 0;
 	parentHeight = 0;
@@ -20,6 +20,7 @@ export class SizeController {
 
 		this.width = this.layout.style.width;
 		this.height = this.layout.style.height;
+		console.log(this.height, this.width);
 
 		if (this.width === undefined && this.layout.style.display === 'block') {
 			this.width = this.parentWidth;

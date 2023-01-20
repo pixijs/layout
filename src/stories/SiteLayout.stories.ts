@@ -82,6 +82,7 @@ class LayoutStory {
 		this.layout = new Layout({
 			id: 'root',
 			content: [
+				// array of children
 				{
 					id: 'header',
 					content: 'Header',
