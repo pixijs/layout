@@ -2,10 +2,10 @@ import type { Display, FlexColor, FlexNumber, Opacity, Overflow, Position, Style
 import type { TextStyleAlign } from "pixi.js";
 import { getColor } from '../utils/helpers';
 import { TEXT_GRADIENT, Graphics } from 'pixi.js';
-import { Layout } from "../components/Layout";
+import { Layout } from "../views/Layout";
 import { OVERFLOW, POSITION, ALIGN } from "../utils/constants";
 
-export class StyleController {
+export class StyleModel {
 	private layout: Layout;
     private style: Styles = {};
 	textStyles: TextStyles = {}; // this is to be nested by children

@@ -1,4 +1,4 @@
-import { Layout } from "../components/Layout";
+import { Layout } from "../views/Layout";
 import { Containers, Content, LayoutStyles } from "../utils/types";
 import { Container, Text } from 'pixi.js';
 

@@ -1,5 +1,5 @@
 import { Container } from 'pixi.js';
-import { Layout } from '../components/Layout';
+import { Layout } from '../views/Layout';
 import { Containers } from '../utils/types';
 import { FlexAlignController } from './flex/FlexAlignController';
 import { GridAlignController } from './grid/GridAlignController';
@@ -42,7 +42,7 @@ export class AlignController {
 			// case 'inline',
 			// case 'block':
 			default:
-				// this.alignChildren();
+				this.alignChildren();
 				this.setSelfPosition(width, height);
 				break;
 		}

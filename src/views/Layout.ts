@@ -1,7 +1,7 @@
 import { Container } from 'pixi.js';
 import { LayoutOptions } from '../utils/types';
 import { AlignController } from '../controllers/AlignController';
-import { StyleController } from '../controllers/StyleController';
+import { StyleModel } from '../models/StyleModel';
 import { SizeController } from '../controllers/SizeController';
 import { ContentController } from '../controllers/ContentController';
 
@@ -9,7 +9,7 @@ export class Layout extends Container {
 	id: string;
 	size: SizeController;
 	align: AlignController;
-	style: StyleController;
+	style: StyleModel;
 	content: ContentController;
 
 	constructor(options: LayoutOptions) {
@@ -29,7 +29,7 @@ export class Layout extends Container {
 		}
 
 		// order here is important as controllers are dependent on each other
-		this.style = new StyleController(this);
+		this.style = new StyleModel(this);
 		this.size = new SizeController(this);
 		this.align = new AlignController(this);
 

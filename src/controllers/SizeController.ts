@@ -1,5 +1,5 @@
 import { getNumber } from "../utils/helpers";
-import { Layout } from '../components/Layout';
+import { Layout } from '../views/Layout';
 import { FlexNumber } from "../utils/types";
 
 export class SizeController {

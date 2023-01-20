@@ -1,4 +1,4 @@
-import { Layout } from '../components/Layout';
+import { Layout } from '../views/Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
 import { ALIGN, POSITION, LOREM_TEXT } from '../utils/constants';
