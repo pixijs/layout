@@ -202,4 +202,4 @@ export const POSITION = [
 	'centerRight',
 ];
 
-export const ALIGN: TextStyleAlign[] = ['center', 'left', 'right', 'justify'];
+export const ALIGN: TextStyleAlign[] = ['left', 'center', 'right', 'justify'];

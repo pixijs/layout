@@ -102,7 +102,7 @@ export class StyleController {
 
 	private setTextStyles(styles: Styles) {
 		this.textStyles = {
-			align: styles.textAlign ?? ALIGN[1],
+			align: styles.textAlign ?? ALIGN[0],
 			breakWords: styles.breakWords ?? true,
 			dropShadow: styles.dropShadow ?? false,
 			dropShadowAlpha: styles.dropShadowAlpha ?? 1,

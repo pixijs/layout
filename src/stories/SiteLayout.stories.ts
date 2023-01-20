@@ -9,9 +9,8 @@ const args = {
 	width: 90,
 	height: 90,
 	opacity: 1,
-	textAlign: ALIGN,
 	fontSize: 32,
-	overflow: ['hidden', 'visible'],
+	textAlign: ALIGN,
 	position: POSITION,
 };
 
@@ -24,7 +23,6 @@ class LayoutStory {
 		width,
 		height,
 		opacity,
-		overflow,
 		textAlign,
 		fontSize,
 		position,
@@ -33,7 +31,6 @@ class LayoutStory {
 			textAlign,
 			fontSize,
 			color,
-			overflow,
 		};
 
 		const globalStyles: LayoutStyles = {
@@ -59,15 +56,15 @@ class LayoutStory {
 			},
 			'left-menu': {
 				width: '30%',
-				height: '80%',
 				position: 'left',
 				background: 'blue',
 				...fontStyle,
 			},
 			'main-content': {
-				width: '60%',
+				width: '70%',
 				position: 'right',
 				background: 'gray',
+				padding: 10,
 				...fontStyle,
 			},
 			footer: {

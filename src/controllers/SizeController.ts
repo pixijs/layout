@@ -20,7 +20,6 @@ export class SizeController {
 
 		this.width = this.layout.style.width;
 		this.height = this.layout.style.height;
-		console.log(this.height, this.width);
 
 		if (this.width === undefined && this.layout.style.display === 'block') {
 			this.width = this.parentWidth;
