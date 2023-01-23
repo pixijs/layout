@@ -39,18 +39,17 @@ class LayoutStory {
 		justifyContent,
 	}: any) {
 		const content: Content = [];
+		const randomMin = 0;
+		const randomMax = 50;
 
 		for (let i = 1; i < amount + 1; i++) {
 			const background = Object.keys(CSS_COLOR_NAMES)[i];
-			const randomWidth = addRandomWidth
-				? Math.floor(Math.random() * 100)
-				: 0;
-			const randomHeight = addRandomHeight
-				? Math.floor(Math.random() * 100)
-				: 0;
 
-			width = width + randomWidth;
-			height = height + randomHeight;
+			const random = Math.round(
+				Math.random() * (randomMax - randomMin) + randomMin,
+			);
+			const blockWidth = width + (addRandomWidth ? random : 0);
+			const blockHeight = height + (addRandomHeight ? random : 0);
 
 			content.push({
 				id: `block-${i}`,
@@ -59,8 +58,8 @@ class LayoutStory {
 					overflow: 'hidden',
 					textAlign: 'center',
 					background,
-					width,
-					height,
+					width: blockWidth,
+					height: blockHeight,
 					display: childrenDisplay,
 				},
 			});

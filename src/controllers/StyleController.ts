@@ -23,7 +23,13 @@ import type {
 } from 'pixi.js';
 import { getColor } from '../utils/helpers';
 import { TEXT_GRADIENT } from 'pixi.js';
-import { OVERFLOW, ALIGN, POSITION } from '../utils/constants';
+import {
+	OVERFLOW,
+	ALIGN,
+	POSITION,
+	FLEX_DIRECTION,
+	FLEX_WRAP,
+} from '../utils/constants';
 import { Layout } from '../Layout';
 
 export class StyleController {
@@ -110,6 +116,32 @@ export class StyleController {
 		this.height = styles.height ?? 'auto';
 
 		this.position = styles.position ?? POSITION[1];
+
+		const flexFlow = {
+			flexDirection: styles.flexDirection ?? 'row',
+			flexWrap: styles.flexWrap ?? 'nowrap',
+		};
+
+		if (styles.flexFlow) {
+			const flexFlowData = styles.flexFlow.split(' ');
+			if (flexFlowData.length === 2) {
+				const flexDirection = flexFlowData[0];
+				const flexWrap = flexFlowData[1];
+
+				if (FLEX_DIRECTION.includes(flexDirection)) {
+					flexFlow.flexDirection = flexFlowData[0];
+				}
+
+				if (FLEX_WRAP.includes(flexWrap)) {
+					flexFlow.flexWrap = flexFlowData[1];
+				}
+			}
+		}
+
+		this.flexDirection = flexFlow.flexDirection;
+		this.flexWrap = flexFlow.flexWrap;
+
+		this.justifyContent = styles.justifyContent ?? 'flex-start';
 	}
 
 	private setTextStyles(styles: Styles) {

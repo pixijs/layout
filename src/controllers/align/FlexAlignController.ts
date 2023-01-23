@@ -7,18 +7,9 @@ type Items = Container[];
 // TODO: alignRowReverse, alignFlexColumn (alignColumnReverse, alignColumnWrap, alignColumnNowrap)
 export class FlexAlignController {
 	private layout: Layout;
-	private items: Items = [];
 
 	constructor(root: Layout) {
 		this.layout = root;
-	}
-
-	add(items: Items | Container) {
-		if (Array.isArray(items)) {
-			items.forEach((item) => this.items.push(item));
-		} else {
-			this.items.push(items);
-		}
 	}
 
 	update() {
@@ -26,18 +17,20 @@ export class FlexAlignController {
 			this.layout.style.flexDirection ??
 			getFlexDirection(this.layout.style?.flexFlow);
 
+		const children = this.layout.content.children;
+
 		switch (flexDirection) {
 			case 'row':
-				this.alignFlexRow(this.items);
+				this.alignFlexRow(children);
 				break;
 			case 'row-reverse':
-				this.alignFlexRow(this.items.slice().reverse());
+				this.alignFlexRow(children.slice().reverse());
 				break;
 			case 'column':
-				this.alignFlexColumn(this.items);
+				this.alignFlexColumn(children);
 				break;
 			case 'column-reverse':
-				this.alignFlexColumn(this.items.slice().reverse());
+				this.alignFlexColumn(children.slice().reverse());
 				break;
 			default:
 				throw new Error('Invalid flex-direction value');
@@ -55,10 +48,10 @@ export class FlexAlignController {
 
 	private alignFlexRow(items: Items) {
 		const flexWrap =
-			this.layout.options?.styles?.flexWrap ??
-			getFlexWrap(this.layout.options?.styles?.flexFlow);
+			this.layout.style.flexWrap ??
+			getFlexWrap(this.layout.style.flexFlow);
 
-		const justifyContent = this.layout.options?.styles?.justifyContent;
+		const justifyContent = this.layout.style.justifyContent;
 
 		switch (flexWrap) {
 			case 'wrap-reverse':

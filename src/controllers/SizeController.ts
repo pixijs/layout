@@ -28,6 +28,7 @@ export class SizeController {
 
 			switch (display) {
 				case 'block':
+				case 'flex':
 					this.width = this.parentWidth;
 					break;
 
