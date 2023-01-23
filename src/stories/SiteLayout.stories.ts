@@ -1,17 +1,17 @@
-import { Layout } from '../components/Layout';
+import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
 import { ALIGN, POSITION, LOREM_TEXT } from '../utils/constants';
-import { preloadAssets } from '../utils/helpers';
+import { LayoutStyles } from '../utils/types';
 
 const args = {
 	color: '#FFFFFF',
 	width: 90,
 	height: 90,
 	opacity: 1,
-	align: ALIGN,
 	fontSize: 32,
-	overflow: ['hidden', 'visible'],
+	padding: 15,
+	textAlign: ALIGN,
 	position: POSITION,
 };
 
@@ -24,31 +24,66 @@ class LayoutStory {
 		width,
 		height,
 		opacity,
-		overflow,
-		align,
+		textAlign,
 		fontSize,
 		position,
+		padding,
 	}: any) {
 		const fontStyle = {
-			align,
+			textAlign,
 			fontSize,
 			color,
-			overflow,
-			padding: 10,
+			overflow: 'hidden',
+			padding,
+		};
+
+		const globalStyles: LayoutStyles = {
+			root: {
+				color,
+				width: `${width}%`,
+				height: `${height}%`,
+				opacity,
+				position,
+			},
+			header: {
+				position: 'top',
+				background: 'red',
+				height: '10%',
+				...fontStyle,
+			},
+			content: {
+				position: 'center',
+				height: '80%',
+			},
+			'left-menu': {
+				width: '30%',
+				height: '100%',
+				position: 'left',
+				background: 'blue',
+				...fontStyle,
+			},
+			'main-content': {
+				width: '70%',
+				height: '100%',
+				position: 'right',
+				background: 'gray',
+				...fontStyle,
+			},
+			footer: {
+				position: 'bottom',
+				background: 'green',
+				height: '10%',
+				...fontStyle,
+			},
 		};
 
 		this.layout = new Layout({
 			id: 'root',
 			content: [
+				// array of children
 				{
 					id: 'header',
 					content: 'Header',
-					styles: {
-						position: 'top',
-						background: 'red',
-						height: '10%',
-						...fontStyle,
-					},
 				},
 				{
 					id: 'content',
@@ -57,57 +92,22 @@ class LayoutStory {
 						{
 							id: 'left-menu',
 							content: 'Left menu',
-							styles: {
-								width: '30%',
-								position: 'left',
-								background: 'blue',
-								...fontStyle,
-							},
 						},
 						{
 							id: 'main-content',
 							content: LOREM_TEXT,
-							styles: {
-								width: '60%',
-								position: 'right',
-								...fontStyle,
-							},
 						},
 					],
-					styles: {
-						position: 'center',
-						height: '80%',
-						align: 'center',
-						...fontStyle,
-					},
 				},
 				{
 					id: 'footer',
 					content: 'Footer',
-					styles: {
-						position: 'bottom',
-						background: 'green',
-						height: '10%',
-						align: 'center',
-						...fontStyle,
-					},
 				},
 			],
-			styles: {
-				color,
-				width: `${width}%`,
-				height: `${height}%`,
-				opacity,
-				position,
-				...fontStyle,
-			},
+			globalStyles,
 		});
 
 		this.view.addChild(this.layout);
-	}
-
-	update() {
-		// this.layout.update();
 	}
 
 	resize(w: number, h: number) {

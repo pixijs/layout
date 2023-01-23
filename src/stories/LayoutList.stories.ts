@@ -1,4 +1,4 @@
-import { Layout } from '../components/Layout';
+import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from 'pixi.js';
 import {
@@ -11,7 +11,8 @@ import { DISPLAY, FLEX_WRAP } from './../utils/constants';
 
 const args = {
 	amount: 5,
-	size: 100,
+	width: 100,
+	height: 100,
 	rootDisplay: DISPLAY,
 	childrenDisplay: DISPLAY,
 	flexDirection: FLEX_DIRECTION,
@@ -26,7 +27,8 @@ class LayoutStory {
 	view = new Container();
 
 	constructor({
-		size,
+		width,
+		height,
 		amount,
 		rootDisplay,
 		flexDirection,
@@ -37,23 +39,27 @@ class LayoutStory {
 		justifyContent,
 	}: any) {
 		const content: Content = [];
+		const randomMin = 0;
+		const randomMax = 50;
 
 		for (let i = 1; i < amount + 1; i++) {
 			const background = Object.keys(CSS_COLOR_NAMES)[i];
+
+			const random = Math.round(
+				Math.random() * (randomMax - randomMin) + randomMin,
+			);
+			const blockWidth = width + (addRandomWidth ? random : 0);
+			const blockHeight = height + (addRandomHeight ? random : 0);
 
 			content.push({
 				id: `block-${i}`,
 				content: `Block ${i}`,
 				styles: {
 					overflow: 'hidden',
-					align: 'center',
+					textAlign: 'center',
 					background,
-					width: 
-						size +
-						(addRandomWidth ? Math.floor(Math.random() * 100) : 0),	
-					height:
-						size +
-						(addRandomHeight ? Math.floor(Math.random() * 100) : 0),
+					width: blockWidth,
+					height: blockHeight,
 					display: childrenDisplay,
 				},
 			});

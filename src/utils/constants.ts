@@ -1,3 +1,5 @@
+import { TextStyleAlign } from 'pixi.js';
+
 export const CSS_COLOR_NAMES = {
 	white: 0xffffff,
 	red: 0xff0000,
@@ -166,6 +168,7 @@ export const FLEX_DIRECTION = [
 ];
 
 export const FLEX_WRAP = ['nowrap', 'wrap', 'wrap-reverse'];
+export const OVERFLOW = ['visible', 'hidden'];
 
 export const JUSTIFY_CONTENT = [
 	'flex-start',
@@ -199,4 +202,4 @@ export const POSITION = [
 	'centerRight',
 ];
 
-export const ALIGN = ['left', 'center' ,'right', 'justify'];
+export const ALIGN: TextStyleAlign[] = ['left', 'center', 'right', 'justify'];
