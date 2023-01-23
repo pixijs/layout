@@ -18,20 +18,36 @@ export class SizeController {
 		this.parentWidth = parentWidth;
 		this.parentHeight = parentHeight;
 
-		this.width = this.layout.style.width;
-		this.height = this.layout.style.height;
-
-		if (this.width === undefined && this.layout.style.display === 'block') {
-			this.width = this.parentWidth;
-		}
-
-		if (this.height === 0 || this.width === 0) {
+		if (this.layout.style.width === 0 || this.layout.style.height === 0) {
 			this.layout.visible = false;
+			return;
 		}
 
-		if (this.height === undefined) {
-			// set height basing on content
+		if (this.layout.style.width === 'auto') {
+			const display = this.layout.style.display;
+
+			switch (display) {
+				case 'block':
+					this.width = this.parentWidth;
+					break;
+
+				default:
+					this.width = this.layout.getContentWidth();
+					break;
+			}
+		} else {
+			this.width = this.layout.style.width;
+		}
+
+		if (this.layout.style.height === 'auto') {
 			this.height = this.layout.getContentHeight();
+		} else {
+			this.height = this.layout.style.height;
+		}
+
+		if (this.width === 0 || this.height === 0) {
+			this.layout.visible = false;
+			return;
 		}
 
 		this.layout.updateBG();
@@ -47,11 +63,10 @@ export class SizeController {
 	}
 
 	set width(width: FlexNumber) {
-		this._width = getNumber(width, this.parentWidth) ?? this.parentWidth;
+		this._width = getNumber(width, this.parentWidth);
 	}
 
 	set height(height: FlexNumber) {
-		this._height =
-			getNumber(height, this.parentHeight) ?? this.parentHeight;
+		this._height = getNumber(height, this.parentHeight);
 	}
 }

@@ -1,6 +1,6 @@
 import { Container, Graphics } from 'pixi.js';
 import { LayoutOptions } from './utils/types';
-import { AlignController } from './controllers/AlignController';
+import { AlignController } from './controllers/align/AlignController';
 import { StyleController } from './controllers/StyleController';
 import { SizeController } from './controllers/SizeController';
 import { ContentController } from './controllers/ContentController';
@@ -56,7 +56,7 @@ export class Layout extends Container {
 	}
 
 	updateBG() {
-		const { background } = this.style;
+		const { background, borderRadius } = this.style;
 		const { width, height } = this;
 		const color = background !== 'transparent' && getColor(background);
 
@@ -64,7 +64,7 @@ export class Layout extends Container {
 			this.bg
 				.clear()
 				.beginFill(color.hex, color.opacity)
-				.drawRect(0, 0, width, height)
+				.drawRoundedRect(0, 0, width, height, borderRadius)
 				.endFill();
 		} else {
 			this.bg.clear();

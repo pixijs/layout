@@ -23,8 +23,8 @@ export class FlexAlignController {
 
 	update() {
 		const flexDirection =
-			this.layout.options?.styles?.flexDirection ??
-			getFlexDirection(this.layout.options?.styles?.flexFlow);
+			this.layout.style.flexDirection ??
+			getFlexDirection(this.layout.style?.flexFlow);
 
 		switch (flexDirection) {
 			case 'row':

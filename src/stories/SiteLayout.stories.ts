@@ -10,6 +10,7 @@ const args = {
 	height: 90,
 	opacity: 1,
 	fontSize: 32,
+	padding: 15,
 	textAlign: ALIGN,
 	position: POSITION,
 };
@@ -26,11 +27,14 @@ class LayoutStory {
 		textAlign,
 		fontSize,
 		position,
+		padding,
 	}: any) {
 		const fontStyle = {
 			textAlign,
 			fontSize,
 			color,
+			overflow: 'hidden',
+			padding,
 		};
 
 		const globalStyles: LayoutStyles = {
@@ -40,7 +44,6 @@ class LayoutStory {
 				height: `${height}%`,
 				opacity,
 				position,
-				...fontStyle,
 			},
 			header: {
 				position: 'top',
@@ -51,27 +54,25 @@ class LayoutStory {
 			content: {
 				position: 'center',
 				height: '80%',
-				textAlign: 'center',
-				...fontStyle,
 			},
 			'left-menu': {
 				width: '30%',
+				height: '100%',
 				position: 'left',
 				background: 'blue',
 				...fontStyle,
 			},
 			'main-content': {
 				width: '70%',
+				height: '100%',
 				position: 'right',
 				background: 'gray',
-				padding: 10,
 				...fontStyle,
 			},
 			footer: {
 				position: 'bottom',
 				background: 'green',
 				height: '10%',
-				textAlign: 'center',
 				...fontStyle,
 			},
 		};

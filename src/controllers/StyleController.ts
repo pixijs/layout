@@ -1,7 +1,11 @@
 import type {
 	Display,
 	FlexColor,
+	FlexDirection,
+	FlexFlow,
 	FlexNumber,
+	FlexWrap,
+	JustifyContent,
 	Opacity,
 	Overflow,
 	Position,
@@ -45,9 +49,17 @@ export class StyleController {
 	// paddingBottom: number;
 	// paddingLeft: number;
 
+	flexDirection?: FlexDirection;
+	flexWrap?: FlexWrap;
+	flexFlow?: FlexFlow;
+	justifyContent?: JustifyContent;
+
+	// alignContent?: AlignContent;
+	// gap, row-gap, column-gap
+
 	// controlled properties
-	width: FlexNumber;
-	height: FlexNumber;
+	width: FlexNumber | 'auto';
+	height: FlexNumber | 'auto';
 
 	_background: FlexColor = 'transparent';
 	_color: FlexColor = 'black';
@@ -94,8 +106,8 @@ export class StyleController {
 		this.stroke = styles.stroke ?? 'black';
 		this.background = styles.background ?? styles.backgroundColor;
 
-		styles.width && (this.width = styles.width);
-		styles.height && (this.height = styles.height);
+		this.width = styles.width ?? 'auto';
+		this.height = styles.height ?? 'auto';
 
 		this.position = styles.position ?? POSITION[1];
 	}

@@ -11,7 +11,8 @@ import { DISPLAY, FLEX_WRAP } from './../utils/constants';
 
 const args = {
 	amount: 5,
-	size: 100,
+	width: 100,
+	height: 100,
 	rootDisplay: DISPLAY,
 	childrenDisplay: DISPLAY,
 	flexDirection: FLEX_DIRECTION,
@@ -26,7 +27,8 @@ class LayoutStory {
 	view = new Container();
 
 	constructor({
-		size,
+		width,
+		height,
 		amount,
 		rootDisplay,
 		flexDirection,
@@ -40,20 +42,25 @@ class LayoutStory {
 
 		for (let i = 1; i < amount + 1; i++) {
 			const background = Object.keys(CSS_COLOR_NAMES)[i];
+			const randomWidth = addRandomWidth
+				? Math.floor(Math.random() * 100)
+				: 0;
+			const randomHeight = addRandomHeight
+				? Math.floor(Math.random() * 100)
+				: 0;
+
+			width = width + randomWidth;
+			height = height + randomHeight;
 
 			content.push({
 				id: `block-${i}`,
 				content: `Block ${i}`,
 				styles: {
 					overflow: 'hidden',
-					align: 'center',
+					textAlign: 'center',
 					background,
-					width:
-						size +
-						(addRandomWidth ? Math.floor(Math.random() * 100) : 0),
-					height:
-						size +
-						(addRandomHeight ? Math.floor(Math.random() * 100) : 0),
+					width,
+					height,
 					display: childrenDisplay,
 				},
 			});

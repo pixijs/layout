@@ -58,7 +58,7 @@ type flexProperties = {
 export type Containers = Container[];
 export type Overflow = typeof OVERFLOW[number];
 
-export type Styles = TextStyles &
+export type Styles = Partial<TextStyles> &
 	flexProperties & {
 		background?: FlexColor;
 		backgroundColor?: FlexColor;

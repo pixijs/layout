@@ -1,6 +1,6 @@
-import { Layout } from '../Layout';
-import { FlexAlignController } from './flex/FlexAlignController';
-import { GridAlignController } from './grid/GridAlignController';
+import { Layout } from '../../Layout';
+import { FlexAlignController } from './FlexAlignController';
+import { GridAlignController } from './GridAlignController';
 
 export class AlignController {
 	private layout: Layout;
