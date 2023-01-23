@@ -4,7 +4,7 @@ import { getFlexDirection, getFlexWrap } from '../../utils/helpers';
 import { JustifyContent } from '../../utils/types';
 
 type Items = Container[];
-// TODO: alignRowReverse, alignFlexColumn (alignColumnReverse, alignColumnWrap, alignColumnNowrap)
+// TODO: alignFlexColumn (alignColumnReverse, alignColumnWrap, alignColumnNowrap)
 export class FlexAlignController {
 	private layout: Layout;
 

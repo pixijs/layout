@@ -11,6 +11,8 @@ import { DISPLAY, FLEX_WRAP } from './../utils/constants';
 
 const args = {
 	amount: 5,
+	rootWidth: 90,
+	rootHeight: 90,
 	width: 100,
 	height: 100,
 	rootDisplay: DISPLAY,
@@ -30,6 +32,8 @@ class LayoutStory {
 		width,
 		height,
 		amount,
+		rootWidth,
+		rootHeight,
 		rootDisplay,
 		flexDirection,
 		childrenDisplay,
@@ -65,9 +69,14 @@ class LayoutStory {
 			id: 'root-layout',
 			content,
 			styles: {
+				width: `${rootWidth}%`,
+				height: `${rootHeight}%`,
+				overflow: 'hidden',
+				background: 'white',
 				display: rootDisplay,
 				flexFlow: `${flexDirection} ${flexWrap}`,
 				justifyContent,
+				position: 'center',
 			},
 		});
 
