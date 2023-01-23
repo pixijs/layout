@@ -39,15 +39,11 @@ class LayoutStory {
 		justifyContent,
 	}: any) {
 		const content: Content = [];
-		const randomMin = 0;
-		const randomMax = 50;
 
 		for (let i = 1; i < amount + 1; i++) {
 			const background = Object.keys(CSS_COLOR_NAMES)[i];
 
-			const random = Math.round(
-				Math.random() * (randomMax - randomMin) + randomMin,
-			);
+			const random = Math.round(Math.random() * 50);
 			const blockWidth = width + (addRandomWidth ? random : 0);
 			const blockHeight = height + (addRandomHeight ? random : 0);
 
