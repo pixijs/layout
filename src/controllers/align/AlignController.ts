@@ -58,6 +58,10 @@ export class AlignController {
 					maxChildHeight = child.height;
 				}
 
+				if (childDisplay === 'block' && child.width < parentWidth) {
+					childDisplay = 'inline-block';
+				}
+
 				switch (childDisplay) {
 					case 'inline':
 					case 'inline-flex':

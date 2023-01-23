@@ -50,6 +50,10 @@ export class Layout extends Container {
 		this.size.update(parentWidth, parentHeight);
 		this.align.update(parentWidth, parentHeight);
 		this.content.resize(this.width, this.height);
+		// align and content controllers are dependent on each other so we need to update them twice
+		// TODO: find a better way to do this
+		this.align.update(parentWidth, parentHeight);
+		this.content.resize(this.width, this.height);
 
 		this.updateBG();
 		this.updateMask();
