@@ -7,7 +7,7 @@ Here are some useful resources:
 
 -   [Full docs](https://pixijs.io/layout/)
 -   [Github Repo](https://github.com/pixijs/layout)
--   [Storybook](https://pixijs.io/ui/layout/)
+-   [Storybook](https://pixijs.io/layout/storybook)
 
 ## Install
 
