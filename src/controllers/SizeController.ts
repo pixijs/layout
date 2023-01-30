@@ -2,72 +2,89 @@ import { getNumber } from '../utils/helpers';
 import { Layout } from '../Layout';
 import { FlexNumber } from '../utils/types';
 
-export class SizeController {
-	private layout: Layout;
-	private _width: number;
-	private _height: number;
+export class SizeController
+{
+    private layout: Layout;
+    private _width: number;
+    private _height: number;
 
-	parentWidth = 0;
-	parentHeight = 0;
+    parentWidth = 0;
+    parentHeight = 0;
 
-	constructor(layout: Layout) {
-		this.layout = layout;
-	}
+    constructor(layout: Layout)
+    {
+        this.layout = layout;
+    }
 
-	update(parentWidth: number, parentHeight: number) {
-		this.parentWidth = parentWidth;
-		this.parentHeight = parentHeight;
+    update(parentWidth: number, parentHeight: number)
+    {
+        this.parentWidth = parentWidth;
+        this.parentHeight = parentHeight;
 
-		if (this.layout.style.width === 0 || this.layout.style.height === 0) {
-			this.layout.visible = false;
-			return;
-		}
+        if (this.layout.style.width === 0 || this.layout.style.height === 0)
+        {
+            this.layout.visible = false;
 
-		if (this.layout.style.width === 'auto') {
-			const display = this.layout.style.display;
+            return;
+        }
 
-			switch (display) {
-				case 'block':
-				case 'flex':
-					this.width = this.parentWidth;
-					break;
+        if (this.layout.style.width === 'auto')
+        {
+            const display = this.layout.style.display;
 
-				default:
-					this.width = this.layout.getContentWidth();
-					break;
-			}
-		} else {
-			this.width = this.layout.style.width;
-		}
+            switch (display)
+            {
+                case 'block':
+                case 'flex':
+                    this.width = this.parentWidth;
+                    break;
 
-		if (this.layout.style.height === 'auto') {
-			this.height = this.layout.getContentHeight();
-		} else {
-			this.height = this.layout.style.height;
-		}
+                default:
+                    this.width = this.layout.getContentWidth();
+                    break;
+            }
+        }
+        else
+        {
+            this.width = this.layout.style.width;
+        }
 
-		if (this.width === 0 || this.height === 0) {
-			this.layout.visible = false;
-			return;
-		}
+        if (this.layout.style.height === 'auto')
+        {
+            this.height = this.layout.getContentHeight();
+        }
+        else
+        {
+            this.height = this.layout.style.height;
+        }
 
-		this.layout.updateBG();
-		this.layout.updateMask();
-	}
+        if (this.width === 0 || this.height === 0)
+        {
+            this.layout.visible = false;
 
-	get width(): number {
-		return this._width;
-	}
+            return;
+        }
 
-	get height(): number {
-		return this._height;
-	}
+        this.layout.updateBG();
+        this.layout.updateMask();
+    }
 
-	set width(width: FlexNumber) {
-		this._width = getNumber(width, this.parentWidth);
-	}
+    get width(): number
+    {
+        return this._width;
+    }
+    set width(width: FlexNumber)
+    {
+        this._width = getNumber(width, this.parentWidth);
+    }
 
-	set height(height: FlexNumber) {
-		this._height = getNumber(height, this.parentHeight);
-	}
+    get height(): number
+    {
+        return this._height;
+    }
+
+    set height(height: FlexNumber)
+    {
+        this._height = getNumber(height, this.parentHeight);
+    }
 }

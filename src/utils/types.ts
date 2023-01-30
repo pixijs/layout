@@ -1,4 +1,5 @@
-import { TextStyle, Container, TextStyleAlign } from 'pixi.js';
+import { TextStyle, TextStyleAlign } from '@pixi/text';
+import { Container } from '@pixi/display';
 import {
     CSS_COLOR_NAMES,
     POSITION,

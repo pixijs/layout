@@ -1,4 +1,5 @@
-import { Container, Graphics } from 'pixi.js';
+import { Graphics } from '@pixi/graphics';
+import { Container } from '@pixi/display';
 import { LayoutOptions } from './utils/types';
 import { AlignController } from './controllers/align/AlignController';
 import { StyleController } from './controllers/StyleController';
@@ -8,16 +9,15 @@ import { getColor } from './utils/helpers';
 
 /**
  * Universal layout class for Pixi.js.
- * 
+ *
  * You can consider layout as div from CSS.
- * 
+ *
  * It will be rendered as PIXI.Container and can be used for automatic align and resize blocks and text.
- * 
- * Also it brings a list of css-like properties for styling itself and it's children. 
- * 
- * Children will be resized and aligned to fit parent size, if they have width and height properties 
+ *
+ * Also it brings a list of css-like properties for styling itself and it's children.
+ *
+ * Children will be resized and aligned to fit parent size, if they have width and height properties
  * (like Sprite of Graphics instances from Pixi.js.
- * 
  * @example
  * const layout = new Layout({
  * 	id: 'myLayout',
@@ -49,141 +49,165 @@ import { getColor } from './utils/helpers';
  * 	},
  * });
  */
-export class Layout extends Container {
-	private bg = new Graphics();
-	private overflowMask = new Graphics();
+export class Layout extends Container
+{
+    private bg = new Graphics();
+    private overflowMask = new Graphics();
 
-	/** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
-	id: string;
+    /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
+    id: string;
 
-	/** Size controller is a class for controlling size. */
-	size: SizeController;
+    /** Size controller is a class for controlling size. */
+    size: SizeController;
 
-	/** Align controller is a class for controlling alignment. */
-	align: AlignController;
+    /** Align controller is a class for controlling alignment. */
+    align: AlignController;
 
-	/** Style controller is a class for controlling styles. */
-	style: StyleController;
+    /** Style controller is a class for controlling styles. */
+    style: StyleController;
 
-	/** Content controller is a class for controlling children. */
-	content: ContentController;
+    /** Content controller is a class for controlling children. */
+    content: ContentController;
 
-	/** Creates layout 
-	 * @param options - Layout options
-	 * @param options.id - ID of the layout.
-	 * @param options.styles - Styles of the layout.
-	 * @param options.content - Content of tre layout.
-	 * @param options.globalStyles - Global styles for layout and it's children.
-	*/
-	constructor(options: LayoutOptions) {
-		super();
+    /**
+     * Creates layout
+     * @param options - Layout options
+     * @param options.id - ID of the layout.
+     * @param options.styles - Styles of the layout.
+     * @param options.content - Content of tre layout.
+     * @param options.globalStyles - Global styles for layout and it's children.
+     */
+    constructor(options: LayoutOptions)
+    {
+        super();
 
-		this.id = options.id;
+        this.id = options.id;
 
-		this.addChild(this.bg);
-		this.addChild(this.overflowMask);
+        this.addChild(this.bg);
+        this.addChild(this.overflowMask);
 
-		if (options.globalStyles) {
-			// check if there is a global style for this layout
-			const styles = options.globalStyles[this.id];
+        if (options.globalStyles)
+        {
+            // check if there is a global style for this layout
+            const styles = options.globalStyles[this.id];
 
-			if (styles && options.styles) {
-				options.styles = { ...styles, ...options.styles };
-			} else if (styles) {
-				options.styles = styles;
-			}
-		}
+            if (styles && options.styles)
+            {
+                options.styles = { ...styles, ...options.styles };
+            }
+            else if (styles)
+            {
+                options.styles = styles;
+            }
+        }
 
-		// order here is important as controllers are dependent on each other
-		this.style = new StyleController(this, options.styles);
-		this.size = new SizeController(this);
-		this.align = new AlignController(this);
-		this.content = new ContentController(
-			this,
-			options.content,
-			options.globalStyles,
-		);
-	}
+        // order here is important as controllers are dependent on each other
+        this.style = new StyleController(this, options.styles);
+        this.size = new SizeController(this);
+        this.align = new AlignController(this);
+        this.content = new ContentController(
+            this,
+            options.content,
+            options.globalStyles,
+        );
+    }
 
-	/** Resize method should be called on every parent size change. */
-	resize(parentWidth: number, parentHeight: number) {
-		this.size.update(parentWidth, parentHeight);
-		this.align.update(parentWidth, parentHeight);
-		this.content.resize(this.width, this.height);
-		// align and content controllers are dependent on each other so we need to update them twice
-		// TODO: find a better way to do this
-		this.align.update(parentWidth, parentHeight);
-		this.content.resize(this.width, this.height);
+    /**
+     * Resize method should be called on every parent size change.
+     * @param parentWidth
+     * @param parentHeight
+     */
+    resize(parentWidth: number, parentHeight: number)
+    {
+        this.size.update(parentWidth, parentHeight);
+        this.align.update(parentWidth, parentHeight);
+        this.content.resize(this.width, this.height);
+        // align and content controllers are dependent on each other so we need to update them twice
+        // TODO: find a better way to do this
+        this.align.update(parentWidth, parentHeight);
+        this.content.resize(this.width, this.height);
 
-		this.updateBG();
-		this.updateMask();
-	}
+        this.updateBG();
+        this.updateMask();
+    }
 
-	/** Render and update the background of layout basing ot it's current state. */
-	updateBG() {
-		const { background, borderRadius } = this.style;
-		const { width, height } = this;
-		const color = background !== 'transparent' && getColor(background);
+    /** Render and update the background of layout basing ot it's current state. */
+    updateBG()
+    {
+        const { background, borderRadius } = this.style;
+        const { width, height } = this;
+        const color = background !== 'transparent' && getColor(background);
 
-		if (color && width && height) {
-			this.bg
-				.clear()
-				.beginFill(color.hex, color.opacity)
-				.drawRoundedRect(0, 0, width, height, borderRadius)
-				.endFill();
-		} else {
-			this.bg.clear();
-		}
-	}
+        if (color && width && height)
+        {
+            this.bg
+                .clear()
+                .beginFill(color.hex, color.opacity)
+                .drawRoundedRect(0, 0, width, height, borderRadius)
+                .endFill();
+        }
+        else
+        {
+            this.bg.clear();
+        }
+    }
 
-	/** Render and update the mask of layout basing ot it's current state. 
-	 * Mask is used to hide overflowing content.
-	*/
-	updateMask() {
-		const { overflow, borderRadius } = this.style;
-		const { width, height } = this;
+    /** Render and update the mask of layout basing ot it's current state. Mask is used to hide overflowing content. */
+    updateMask()
+    {
+        const { overflow, borderRadius } = this.style;
+        const { width, height } = this;
 
-		if (overflow === 'hidden' && width && height) {
-			this.overflowMask
-				.clear()
-				.beginFill(0xffffff)
-				.drawRoundedRect(0, 0, width, height, borderRadius)
-				.endFill();
+        if (overflow === 'hidden' && width && height)
+        {
+            this.overflowMask
+                .clear()
+                .beginFill(0xffffff)
+                .drawRoundedRect(0, 0, width, height, borderRadius)
+                .endFill();
 
-			this.mask = this.overflowMask;
-		} else {
-			this.overflowMask.clear();
-			this.mask = null;
-		}
-	}
+            this.mask = this.overflowMask;
+        }
+        else
+        {
+            this.overflowMask.clear();
+            this.mask = null;
+        }
+    }
 
-	/** Returns with of the container */
-	getContentWidth(): number {
-		return super.width;
-	}
+    /** Returns with of the container */
+    getContentWidth(): number
+    {
+        return super.width;
+    }
 
-	/** Returns height of the container */
-	getContentHeight(): number {
-		return super.height;
-	}
+    /** Returns height of the container */
+    getContentHeight(): number
+    {
+        return super.height;
+    }
 
-	/** Sets the width of layout.  */
-	override set width(value: number) {
-		this.size.width = value;
-	}
+    /** Sets the width of layout.  */
+    override set width(value: number)
+    {
+        this.size.width = value;
+    }
 
-	/** Gets the width of layout. */
-	override get width() {
-		return this.size.width;
-	}
+    /** Gets the width of layout. */
+    override get width()
+    {
+        return this.size.width;
+    }
 
-	/** Sets the height of layout. */
-	override set height(value: number) {
-		this.size.height = value;
-	}
+    /** Sets the height of layout. */
+    override set height(value: number)
+    {
+        this.size.height = value;
+    }
 
-	/** Gets the height of layout. */
-	override get height() {
-		return this.size.height;
-	}
+    /** Gets the height of layout. */
+    override get height()
+    {
+        return this.size.height;
+    }
 }

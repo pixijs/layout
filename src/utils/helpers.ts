@@ -5,34 +5,23 @@ import {
     FlexColor,
     FlexNumber,
 } from './types';
-import { utils, Loader, Sprite, Texture } from 'pixi.js';
+import { utils } from '@pixi/core';
+import { Sprite } from '@pixi/sprite';
+import { Assets } from '@pixi/assets';
 
 export function sprite(texture: string)
 {
-    return new Sprite(Texture.from(texture));
+    return Sprite.from(texture);
 }
 
-export function preloadAssets(assets: string[]): Promise<void>
+export async function preloadAssets(assets: string[]): Promise<void>
 {
-    return new Promise((resolve) =>
-    {
-        const loader = Loader.shared;
-
-        assets.forEach((asset) =>
-        {
-            !loader.resources[asset] && loader.add(asset);
-        });
-
-        loader.load(() =>
-        {
-            resolve();
-        });
-    });
+    await Assets.load(assets);
 }
 
 export function rgba2Hex([r, g, b]: number[]): number
 {
-    return parseInt(`0x${getHex(r)}${getHex(g)}${getHex(b)}`);
+    return parseInt(`0x${getHex(r)}${getHex(g)}${getHex(b)}`, 16);
 }
 
 export function getHex(n: number)

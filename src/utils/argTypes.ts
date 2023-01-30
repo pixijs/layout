@@ -1,4 +1,4 @@
-type Types = { [name: string]: object | number | string | boolean };
+type Types = { [name: string]: object | number | string | boolean | Array<any>};
 
 const controls = {
     select: {
@@ -193,8 +193,7 @@ function getArgType(type: string)
             //     argTypes[key].options = options[keys[0]];
             // }
 
-            // @ts-ignore
-            return controls[control];
+            return (controls as any)[control];
         }
     }
 
@@ -212,8 +211,7 @@ export const getDefaultArgs = (args: Types) =>
             case 'object':
                 if (Array.isArray(args[key]))
                 {
-                    // @ts-ignore
-                    exportArgs[key] = args[key][0] as any;
+                    exportArgs[key] = (args as any)[key][0] as any;
                 }
                 break;
             default:

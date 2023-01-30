@@ -73,6 +73,7 @@
     "@pixi/extension-scripts": "^1.3.0",
     "@pixi/graphics": "^7.1.1",
     "@pixi/sprite": "^7.1.1",
+    "@pixi/assets": "^7.1.1",
     "@pixi/storybook-renderer": "^0.0.4",
     "@pixi/storybook-webpack5": "^0.0.4",
     "@pixi/text": "^7.1.1",
