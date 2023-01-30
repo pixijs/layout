@@ -1,11 +1,7 @@
 import type {
 	Display,
 	FlexColor,
-	FlexDirection,
-	FlexFlow,
 	FlexNumber,
-	FlexWrap,
-	JustifyContent,
 	Opacity,
 	Overflow,
 	Position,
@@ -27,8 +23,6 @@ import {
 	OVERFLOW,
 	ALIGN,
 	POSITION,
-	FLEX_DIRECTION,
-	FLEX_WRAP,
 } from '../utils/constants';
 import { Layout } from '../Layout';
 
@@ -54,11 +48,6 @@ export class StyleController {
 	// paddingRight: number;
 	// paddingBottom: number;
 	// paddingLeft: number;
-
-	flexDirection?: FlexDirection;
-	flexWrap?: FlexWrap;
-	flexFlow?: FlexFlow;
-	justifyContent?: JustifyContent;
 
 	// alignContent?: AlignContent;
 	// gap, row-gap, column-gap
@@ -116,32 +105,6 @@ export class StyleController {
 		this.height = styles.height ?? 'auto';
 
 		this.position = styles.position ?? POSITION[1];
-
-		const flexFlow = {
-			flexDirection: styles.flexDirection ?? 'row',
-			flexWrap: styles.flexWrap ?? 'nowrap',
-		};
-
-		if (styles.flexFlow) {
-			const flexFlowData = styles.flexFlow.split(' ');
-			if (flexFlowData.length === 2) {
-				const flexDirection = flexFlowData[0];
-				const flexWrap = flexFlowData[1];
-
-				if (FLEX_DIRECTION.includes(flexDirection)) {
-					flexFlow.flexDirection = flexFlowData[0];
-				}
-
-				if (FLEX_WRAP.includes(flexWrap)) {
-					flexFlow.flexWrap = flexFlowData[1];
-				}
-			}
-		}
-
-		this.flexDirection = flexFlow.flexDirection;
-		this.flexWrap = flexFlow.flexWrap;
-
-		this.justifyContent = styles.justifyContent ?? 'flex-start';
 	}
 
 	private setTextStyles(styles: Styles) {

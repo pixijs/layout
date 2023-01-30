@@ -156,32 +156,9 @@ export const DISPLAY = [
 	'block',
 	'inline-block',
 	'inline',
-	'flex',
-	'inline-flex',
-	'grid',
-];
-export const FLEX_DIRECTION = [
-	'row',
-	'row-reverse',
-	'column',
-	'column-reverse',
 ];
 
-export const FLEX_WRAP = ['nowrap', 'wrap', 'wrap-reverse'];
 export const OVERFLOW = ['visible', 'hidden'];
-
-export const JUSTIFY_CONTENT = [
-	'flex-start',
-	'flex-end',
-	'center',
-	'space-between',
-	'space-around',
-	'space-evenly',
-	'start',
-	'end',
-	'left',
-	'right',
-];
 
 export const POSITION = [
 	'center',

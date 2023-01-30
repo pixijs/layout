@@ -3,9 +3,6 @@ import {
 	CSS_COLOR_NAMES,
 	POSITION,
 	DISPLAY,
-	FLEX_DIRECTION,
-	FLEX_WRAP,
-	JUSTIFY_CONTENT,
 	OVERFLOW,
 } from './constants';
 import { Layout } from '../Layout';
@@ -37,29 +34,13 @@ export type CSSColor = keyof typeof CSS_COLOR_NAMES;
 export type Position = typeof POSITION[number];
 export type Display = typeof DISPLAY[number];
 
-export type FlexDirection = typeof FLEX_DIRECTION[number];
-export type FlexWrap = typeof FLEX_WRAP[number];
-export type FlexFlow = `${FlexDirection} ${FlexWrap}`;
-
-export type JustifyContent = typeof JUSTIFY_CONTENT[number];
-
 export type Content = string | Container | Layout | LayoutOptions | Content[];
-
-type flexProperties = {
-	flexDirection?: FlexDirection;
-	flexWrap?: FlexWrap;
-	flexFlow?: FlexFlow;
-	justifyContent?: JustifyContent;
-
-	// alignContent?: AlignContent;
-	// gap, row-gap, column-gap
-};
 
 export type Containers = Container[];
 export type Overflow = typeof OVERFLOW[number];
 
 export type Styles = Partial<TextStyles> &
-	flexProperties & {
+	{
 		background?: FlexColor;
 		backgroundColor?: FlexColor;
 		color?: FlexColor;
