@@ -105,11 +105,7 @@ export class Layout extends Container
         this.style = new StyleController(this, options.styles);
         this.size = new SizeController(this);
         this.align = new AlignController(this);
-        this.content = new ContentController(
-            this,
-            options.content,
-            options.globalStyles,
-        );
+        this.content = new ContentController(this, options.content, options.globalStyles);
     }
 
     /**
@@ -140,11 +136,7 @@ export class Layout extends Container
 
         if (color && width && height)
         {
-            this.bg
-                .clear()
-                .beginFill(color.hex, color.opacity)
-                .drawRoundedRect(0, 0, width, height, borderRadius)
-                .endFill();
+            this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(0, 0, width, height, borderRadius).endFill();
         }
         else
         {
@@ -160,11 +152,7 @@ export class Layout extends Container
 
         if (overflow === 'hidden' && width && height)
         {
-            this.overflowMask
-                .clear()
-                .beginFill(0xffffff)
-                .drawRoundedRect(0, 0, width, height, borderRadius)
-                .endFill();
+            this.overflowMask.clear().beginFill(0xffffff).drawRoundedRect(0, 0, width, height, borderRadius).endFill();
 
             this.mask = this.overflowMask;
         }

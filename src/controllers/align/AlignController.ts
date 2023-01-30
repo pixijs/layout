@@ -1,4 +1,5 @@
 import { Layout } from '../../Layout';
+import { Text } from '@pixi/text';
 
 export class AlignController
 {
@@ -27,14 +28,14 @@ export class AlignController
     private alignChildren()
     {
         let maxChildHeight = 0;
-        const padding = this.layout.style.padding;
-        let x = padding ?? 0;
-        let y = padding ?? 0;
+        const padding = this.layout.style.padding ?? 0;
+        let x = padding;
+        let y = padding;
         const parentWidth = this.layout.width + padding;
 
         const children = this.layout.content.children;
 
-        children.forEach((child) =>
+        children.forEach((child, childNumber) =>
         {
             let childDisplay = 'block';
 
@@ -53,22 +54,25 @@ export class AlignController
                     maxChildHeight = child.height;
                 }
 
-                if (childDisplay === 'block' && child.width < parentWidth)
+                if (childDisplay === 'block' && child.width < parentWidth - (padding * 2))
                 {
                     childDisplay = 'inline-block';
                 }
+
+                const childDoesNotFeet = Math.floor(x + child.width) > parentWidth - (padding * 2);
+                const isFirstChild = childNumber === 0;
 
                 switch (childDisplay)
                 {
                     case 'inline':
                     case 'inline-flex':
                     case 'inline-block':
-                        if (x + child.width > parentWidth)
+                        if (childDoesNotFeet && !isFirstChild)
                         {
-                            x = child.width;
+                            x = padding + child.width;
                             y += maxChildHeight;
 
-                            child.x = 0;
+                            child.x = padding;
                             child.y = y;
                         }
                         else

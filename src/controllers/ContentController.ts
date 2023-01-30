@@ -9,21 +9,14 @@ export class ContentController
 
     children: Containers = [];
 
-    constructor(
-        layout: Layout,
-        content?: Content,
-        globalStyles?: LayoutStyles,
-    )
+    constructor(layout: Layout, content?: Content, globalStyles?: LayoutStyles)
     {
         this.layout = layout;
 
         this.createContent(content, globalStyles);
     }
 
-    private createContent(
-        content?: Content,
-        parentGlobalStyles?: LayoutStyles,
-    )
+    private createContent(content?: Content, parentGlobalStyles?: LayoutStyles)
     {
         if (!content) return;
 
@@ -60,7 +53,7 @@ export class ContentController
                     {
                         content.globalStyles = {
                             ...parentGlobalStyles,
-                            ...content.globalStyles,
+                            ...content.globalStyles
                         };
                     }
                     else

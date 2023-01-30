@@ -1,13 +1,4 @@
-import type {
-    Display,
-    FlexColor,
-    FlexNumber,
-    Opacity,
-    Overflow,
-    Position,
-    Styles,
-    TextStyles,
-} from '../utils/types';
+import type { Display, FlexColor, FlexNumber, Opacity, Overflow, Position, Styles, TextStyles } from '../utils/types';
 import type {
     TextStyleAlign,
     TextStyleFontStyle,
@@ -15,15 +6,11 @@ import type {
     TextStyleFontWeight,
     TextStyleLineJoin,
     TextStyleTextBaseline,
-    TextStyleWhiteSpace,
+    TextStyleWhiteSpace
 } from '@pixi/text';
 import { TEXT_GRADIENT } from '@pixi/text';
 import { getColor } from '../utils/helpers';
-import {
-    OVERFLOW,
-    ALIGN,
-    POSITION,
-} from '../utils/constants';
+import { OVERFLOW, ALIGN, POSITION } from '../utils/constants';
 import { Layout } from '../Layout';
 
 export class StyleController
@@ -76,73 +63,72 @@ export class StyleController
         this.setTextStyles(styles);
     }
 
-    private setStyles(styles: Styles)
+    private setStyles(styles?: Styles)
     {
-        this.overflow = styles.overflow ?? OVERFLOW[0];
-        this.display = styles.display ?? 'block';
-        this.borderRadius = styles.borderRadius ?? 0;
-        this.opacity = styles.opacity ?? 1;
-        // this.zIndex = styles.zIndex;
-        // this.maxWidth = styles.maxWidth;
-        // this.maxHeight = styles.maxHeight;
-        // this.border = styles.border;
-        // this.borderWidth = styles.borderWidth;
-        // this.borderColor = styles.borderColor;
-        this.margin = styles.margin ?? 0;
-        // this.marginTop = styles.marginTop;
-        // this.marginRight = styles.marginRight;
-        // this.marginBottom = styles.marginBottom;
-        // this.marginLeft = styles.marginLeft;
-        this.padding = styles.padding ?? 0;
-        // this.paddingTop = styles.paddingTop;
-        // this.paddingRight = styles.paddingRight;
-        // this.paddingBottom = styles.paddingBottom;
-        // this.paddingLeft = styles.paddingLeft;
+        this.overflow = styles?.overflow ?? OVERFLOW[0];
+        this.display = styles?.display ?? 'block';
+        this.borderRadius = styles?.borderRadius ?? 0;
+        this.opacity = styles?.opacity ?? 1;
+        // this.zIndex = styles?.zIndex;
+        // this.maxWidth = styles?.maxWidth;
+        // this.maxHeight = styles?.maxHeight;
+        // this.border = styles?.border;
+        // this.borderWidth = styles?.borderWidth;
+        // this.borderColor = styles?.borderColor;
+        this.margin = styles?.margin ?? 0;
+        // this.marginTop = styles?.marginTop;
+        // this.marginRight = styles?.marginRight;
+        // this.marginBottom = styles?.marginBottom;
+        // this.marginLeft = styles?.marginLeft;
+        this.padding = styles?.padding ?? 0;
+        // this.paddingTop = styles?.paddingTop;
+        // this.paddingRight = styles?.paddingRight;
+        // this.paddingBottom = styles?.paddingBottom;
+        // this.paddingLeft = styles?.paddingLeft;
 
-        this.color = styles.color ?? 'black';
-        this.dropShadowColor = styles.dropShadowColor ?? 'black';
-        this.stroke = styles.stroke ?? 'black';
-        this.background = styles.background ?? styles.backgroundColor;
+        this.color = styles?.color ?? 'black';
+        this.dropShadowColor = styles?.dropShadowColor ?? 'black';
+        this.stroke = styles?.stroke ?? 'black';
+        this.background = styles?.background ?? styles?.backgroundColor;
 
-        this.width = styles.width ?? 'auto';
-        this.height = styles.height ?? 'auto';
+        this.width = styles?.width ?? 'auto';
+        this.height = styles?.height ?? 'auto';
 
-        this.position = styles.position ?? POSITION[1];
+        this.position = styles?.position ?? POSITION[1];
     }
 
     private setTextStyles(styles: Styles)
     {
         this.textStyles = {
-            align: styles.textAlign ?? ALIGN[0],
-            breakWords: styles.breakWords ?? true,
-            dropShadow: styles.dropShadow ?? false,
-            dropShadowAlpha: styles.dropShadowAlpha ?? 1,
-            dropShadowAngle: styles.dropShadowAngle ?? Math.PI / 6,
-            dropShadowBlur: styles.dropShadowBlur ?? 0,
-            dropShadowColor: styles.dropShadowColor ?? 'black',
-            dropShadowDistance: styles.dropShadowDistance ?? 5,
-            fill: styles.fill ?? getColor(styles.color)?.hex ?? 'black',
-            fillGradientType:
-				styles.fillGradientType ?? TEXT_GRADIENT.LINEAR_VERTICAL,
-            fillGradientStops: styles.fillGradientStops ?? [],
-            fontFamily: styles.fontFamily ?? 'Arial',
-            fontSize: styles.fontSize ?? 26,
-            fontStyle: styles.fontStyle ?? 'normal',
-            fontVariant: styles.fontVariant ?? 'normal',
-            fontWeight: styles.fontWeight ?? 'normal',
-            letterSpacing: styles.letterSpacing ?? 0,
-            lineHeight: styles.lineHeight ?? 0,
-            lineJoin: styles.lineJoin ?? 'miter',
-            miterLimit: styles.miterLimit ?? 10,
-            // padding: styles.padding ?? 0,
-            stroke: styles.stroke ?? 'black',
-            strokeThickness: styles.strokeThickness ?? 0,
-            textBaseline: styles.textBaseline ?? 'alphabetic',
-            trim: styles.trim ?? false,
-            whiteSpace: styles.whiteSpace ?? 'pre',
-            wordWrap: styles.wordWrap ?? true,
-            wordWrapWidth: styles.wordWrapWidth ?? 100,
-            leading: styles.leading ?? 0,
+            align: styles?.textAlign ?? ALIGN[0],
+            breakWords: styles?.breakWords ?? true,
+            dropShadow: styles?.dropShadow ?? false,
+            dropShadowAlpha: styles?.dropShadowAlpha ?? 1,
+            dropShadowAngle: styles?.dropShadowAngle ?? Math.PI / 6,
+            dropShadowBlur: styles?.dropShadowBlur ?? 0,
+            dropShadowColor: styles?.dropShadowColor ?? 'black',
+            dropShadowDistance: styles?.dropShadowDistance ?? 5,
+            fill: styles?.fill ?? getColor(styles?.color)?.hex ?? 'black',
+            fillGradientType: styles?.fillGradientType ?? TEXT_GRADIENT.LINEAR_VERTICAL,
+            fillGradientStops: styles?.fillGradientStops ?? [],
+            fontFamily: styles?.fontFamily ?? 'Arial',
+            fontSize: styles?.fontSize ?? 26,
+            fontStyle: styles?.fontStyle ?? 'normal',
+            fontVariant: styles?.fontVariant ?? 'normal',
+            fontWeight: styles?.fontWeight ?? 'normal',
+            letterSpacing: styles?.letterSpacing ?? 0,
+            lineHeight: styles?.lineHeight ?? 0,
+            lineJoin: styles?.lineJoin ?? 'miter',
+            miterLimit: styles?.miterLimit ?? 10,
+            // padding: styles?.padding ?? 0,
+            stroke: styles?.stroke ?? 'black',
+            strokeThickness: styles?.strokeThickness ?? 0,
+            textBaseline: styles?.textBaseline ?? 'alphabetic',
+            trim: styles?.trim ?? false,
+            whiteSpace: styles?.whiteSpace ?? 'pre',
+            wordWrap: styles?.wordWrap ?? true,
+            wordWrapWidth: styles?.wordWrapWidth ?? 100,
+            leading: styles?.leading ?? 0
         };
     }
 
