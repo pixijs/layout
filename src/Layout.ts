@@ -6,16 +6,75 @@ import { SizeController } from './controllers/SizeController';
 import { ContentController } from './controllers/ContentController';
 import { getColor } from './utils/helpers';
 
+/**
+ * Universal layout class for Pixi.js.
+ * 
+ * You can consider layout as div from CSS.
+ * 
+ * It will be rendered as PIXI.Container and can be used for automatic align and resize blocks and text.
+ * 
+ * Also it brings a list of css-like properties for styling itself and it's children. 
+ * 
+ * Children will be resized and aligned to fit parent size, if they have width and height properties 
+ * (like Sprite of Graphics instances from Pixi.js.
+ * 
+ * @example
+ * const layout = new Layout({
+ * 	id: 'myLayout',
+ * 	styles: {
+ * 		width: 100,
+ * 		height: 100,
+ * 		background: 'red',
+ * 	},
+ * 	content: [
+ * 		'Hello world',
+ * 		{
+ * 			id: 'innerLayout1',
+ * 			text: 'Inner layout 1',
+ * 		},
+ * 		{
+ * 			id: 'innerLayout2',
+ * 			text: 'Inner layout 2',
+ * 		},
+ * 	],
+ * 	globalStyles: {
+ * 		innerLayout1: {
+ * 			width: 200,
+ * 			height: 200,
+ * 		},
+ * 		innerLayout1: {
+ * 			width: 200,
+ * 			height: 200,
+ * 		},
+ * 	},
+ * });
+ */
 export class Layout extends Container {
 	private bg = new Graphics();
 	private overflowMask = new Graphics();
 
+	/** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
 	id: string;
+
+	/** Size controller is a class for controlling size. */
 	size: SizeController;
+
+	/** Align controller is a class for controlling alignment. */
 	align: AlignController;
+
+	/** Style controller is a class for controlling styles. */
 	style: StyleController;
+
+	/** Content controller is a class for controlling children. */
 	content: ContentController;
 
+	/** Creates layout 
+	 * @param options - Layout options
+	 * @param options.id - ID of the layout.
+	 * @param options.styles - Styles of the layout.
+	 * @param options.content - Content of tre layout.
+	 * @param options.globalStyles - Global styles for layout and it's children.
+	*/
 	constructor(options: LayoutOptions) {
 		super();
 
@@ -46,6 +105,7 @@ export class Layout extends Container {
 		);
 	}
 
+	/** Resize method should be called on every parent size change. */
 	resize(parentWidth: number, parentHeight: number) {
 		this.size.update(parentWidth, parentHeight);
 		this.align.update(parentWidth, parentHeight);
@@ -59,6 +119,7 @@ export class Layout extends Container {
 		this.updateMask();
 	}
 
+	/** Render and update the background of layout basing ot it's current state. */
 	updateBG() {
 		const { background, borderRadius } = this.style;
 		const { width, height } = this;
@@ -75,6 +136,9 @@ export class Layout extends Container {
 		}
 	}
 
+	/** Render and update the mask of layout basing ot it's current state. 
+	 * Mask is used to hide overflowing content.
+	*/
 	updateMask() {
 		const { overflow, borderRadius } = this.style;
 		const { width, height } = this;
@@ -93,26 +157,32 @@ export class Layout extends Container {
 		}
 	}
 
+	/** Returns with of the container */
 	getContentWidth(): number {
 		return super.width;
 	}
 
+	/** Returns height of the container */
 	getContentHeight(): number {
-		return super.width;
+		return super.height;
 	}
 
+	/** Sets the width of layout.  */
 	override set width(value: number) {
 		this.size.width = value;
 	}
 
+	/** Gets the width of layout. */
 	override get width() {
 		return this.size.width;
 	}
 
+	/** Sets the height of layout. */
 	override set height(value: number) {
 		this.size.height = value;
 	}
 
+	/** Gets the height of layout. */
 	override get height() {
 		return this.size.height;
 	}
