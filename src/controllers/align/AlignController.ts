@@ -1,28 +1,14 @@
 import { Layout } from '../../Layout';
-import { FlexAlignController } from './FlexAlignController';
-import { GridAlignController } from './GridAlignController';
 
 export class AlignController {
 	private layout: Layout;
-	private flexController: FlexAlignController;
-	private gridController: GridAlignController;
 
 	constructor(layout: Layout) {
 		this.layout = layout;
-
-		this.flexController = new FlexAlignController(layout);
-		this.gridController = new GridAlignController(layout);
 	}
 
 	update(width: number, height: number) {
 		switch (this.layout.style.display) {
-			// TODO: 'inline-flex'
-			case 'flex':
-				this.flexController.update();
-				break;
-			case 'grid':
-				this.gridController.update();
-				break;
 			// TODO:
 			// case 'inline-block',
 			// case 'inline',
