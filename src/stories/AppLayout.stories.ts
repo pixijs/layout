@@ -10,10 +10,10 @@ const args = {
     height: 90,
     opacity: 1,
     fontSize: 32,
-    padding: 0,
-    childWidth: 50,
-    childHeight: 34,
-    textAlign: ALIGN,
+    padding: 15,
+    childWidth: 48,
+    childHeight: 32,
+    textAlign: ['center', 'left', 'right'],
     position: POSITION
 };
 
@@ -38,7 +38,8 @@ class LayoutStory
             height: `${childHeight}%`,
             overflow: 'hidden',
             position: 'top',
-            textAlign
+            textAlign,
+            ...fontStyle
         };
 
         // Styles for all elements
