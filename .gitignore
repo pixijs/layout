@@ -25,7 +25,6 @@ npm-debug.log
 !.gitkeep
 *__temp
 node_modules
-# docs/
 bin/
 lib/
 dist/
@@ -38,3 +37,6 @@ pnpm-lock.yaml
 # jetBrains IDE ignores
 .idea
 .vs-code
+.eslintcache
+docs/
+example.api.json*
