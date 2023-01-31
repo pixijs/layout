@@ -1,14 +1,4 @@
-import type {
-    Display,
-    FlexColor,
-    FlexNumber,
-    Opacity,
-    Overflow,
-    Position,
-    Styles,
-    TextStyles,
-    VerticalAlign
-} from '../utils/types';
+import type { Display, FlexColor, FlexNumber, Opacity, Overflow, Position, Styles, VerticalAlign } from '../utils/types';
 import type {
     TextStyleAlign,
     TextStyleFontStyle,
@@ -18,7 +8,7 @@ import type {
     TextStyleTextBaseline,
     TextStyleWhiteSpace
 } from '@pixi/text';
-import { TEXT_GRADIENT } from '@pixi/text';
+import { TEXT_GRADIENT, TextStyle } from '@pixi/text';
 import { getColor } from '../utils/helpers';
 import { OVERFLOW, ALIGN, POSITION, VERTICAL_ALIGN } from '../utils/constants';
 import { Layout } from '../Layout';
@@ -119,7 +109,7 @@ export class StyleController
     verticalAlign?: VerticalAlign = VERTICAL_ALIGN[0];
 
     /** Holds all text related styles.. This is to be nested by children */
-    textStyles: TextStyles = {}; // this is to be nested by children
+    textStyle: Partial<TextStyle> = {}; // this is to be nested by children
 
     /**
      * Manages and sets all the styles of {@link Layout}
@@ -130,7 +120,7 @@ export class StyleController
     {
         this.layout = layout;
         this.setStyles(styles);
-        this.setTextStyles(styles);
+        this.setTextStyle(styles);
     }
 
     private setStyles(styles?: Styles)
@@ -168,9 +158,9 @@ export class StyleController
         this.verticalAlign = styles?.verticalAlign ?? VERTICAL_ALIGN[0];
     }
 
-    private setTextStyles(styles: Styles)
+    private setTextStyle(styles: Styles)
     {
-        this.textStyles = {
+        this.textStyle = {
             align: styles?.textAlign ?? ALIGN[1],
             breakWords: styles?.breakWords ?? true,
             dropShadow: styles?.dropShadow ?? false,
@@ -219,7 +209,7 @@ export class StyleController
     set color(value: FlexColor)
     {
         this._color = value;
-        this.textStyles.fill = getColor(value)?.hex;
+        this.textStyle.fill = getColor(value)?.hex;
     }
 
     /** Get text color. */
@@ -243,92 +233,92 @@ export class StyleController
     /** Set fontSize. */
     set fontSize(value: number | string)
     {
-        this.textStyles.fontSize = value;
+        this.textStyle.fontSize = value;
     }
 
     /** Get fontSize. */
     get fontSize(): FlexColor
     {
-        return this.textStyles.fontSize;
+        return this.textStyle.fontSize;
     }
 
     /** Set textAlign. */
     set textAlign(value: TextStyleAlign)
     {
-        this.textStyles.align = value;
+        this.textStyle.align = value;
     }
 
     /** Get textAlign. */
     get textAlign(): TextStyleAlign
     {
-        return this.textStyles.align;
+        return this.textStyle.align;
     }
 
     /** Set text breakWords. */
     set breakWords(value: boolean)
     {
-        this.textStyles.breakWords = value;
+        this.textStyle.breakWords = value;
     }
 
     /** Get text breakWords. */
     get breakWords(): boolean
     {
-        return this.textStyles.breakWords;
+        return this.textStyle.breakWords;
     }
 
     /** Set text dropShadow. */
     set dropShadow(value: boolean)
     {
-        this.textStyles.dropShadow = value;
+        this.textStyle.dropShadow = value;
     }
 
     /** Get text dropShadow. */
     get dropShadow(): boolean
     {
-        return this.textStyles.dropShadow;
+        return this.textStyle.dropShadow;
     }
 
     /** Set text dropShadowAlpha. */
     set dropShadowAlpha(value: number)
     {
-        this.textStyles.dropShadowAlpha = value;
+        this.textStyle.dropShadowAlpha = value;
     }
 
     /** Get text dropShadowAlpha. */
     get dropShadowAlpha(): number
     {
-        return this.textStyles.dropShadowAlpha;
+        return this.textStyle.dropShadowAlpha;
     }
 
     /** Set text dropShadowAngle. */
     set dropShadowAngle(value: number)
     {
-        this.textStyles.dropShadowAngle = value;
+        this.textStyle.dropShadowAngle = value;
     }
 
     /** Get text dropShadowAngle. */
     get dropShadowAngle(): number
     {
-        return this.textStyles.dropShadowAngle;
+        return this.textStyle.dropShadowAngle;
     }
 
     /** Set text dropShadowBlur. */
     set dropShadowBlur(value: number)
     {
-        this.textStyles.dropShadowBlur = value;
+        this.textStyle.dropShadowBlur = value;
     }
 
     /** Get text dropShadowBlur. */
     get dropShadowBlur(): number
     {
-        return this.textStyles.dropShadowBlur;
+        return this.textStyle.dropShadowBlur;
     }
 
     /** Set text dropShadowColor. */
     set dropShadowColor(value: FlexColor)
     {
         this._dropShadowColor = value;
-        this.textStyles.dropShadowColor = getColor(value)?.hex;
+        this.textStyle.dropShadowColor = getColor(value)?.hex;
     }
 
     /** Get text dropShadowColor. */
@@ -340,140 +330,140 @@ export class StyleController
     /** Set text dropShadowDistance. */
     set dropShadowDistance(value: number)
     {
-        this.textStyles.dropShadowDistance = value;
+        this.textStyle.dropShadowDistance = value;
     }
 
     /** Get text dropShadowDistance. */
     get dropShadowDistance(): number
     {
-        return this.textStyles.dropShadowDistance;
+        return this.textStyle.dropShadowDistance;
     }
 
     /** Set text fillGradientType. */
     set fillGradientType(value: TEXT_GRADIENT)
     {
-        this.textStyles.fillGradientType = value;
+        this.textStyle.fillGradientType = value;
     }
 
     /** Get text fillGradientType. */
     get fillGradientType(): TEXT_GRADIENT
     {
-        return this.textStyles.fillGradientType;
+        return this.textStyle.fillGradientType;
     }
 
     /** Set text fillGradientStops. */
     set fillGradientStops(value: number[])
     {
-        this.textStyles.fillGradientStops = value;
+        this.textStyle.fillGradientStops = value;
     }
 
     /** Get text fillGradientStops. */
     get fillGradientStops(): number[]
     {
-        return this.textStyles.fillGradientStops;
+        return this.textStyle.fillGradientStops;
     }
 
     /** Set text fontFamily. */
     set fontFamily(value: string | string[])
     {
-        this.textStyles.fontFamily = value;
+        this.textStyle.fontFamily = value;
     }
 
     /** Get text fontFamily. */
     get fontFamily(): string | string[]
     {
-        return this.textStyles.fontFamily;
+        return this.textStyle.fontFamily;
     }
 
     /** Set text fontStyle. */
     set fontStyle(value: TextStyleFontStyle)
     {
-        this.textStyles.fontStyle = value;
+        this.textStyle.fontStyle = value;
     }
 
     /** Get text fontStyle. */
     get fontStyle(): TextStyleFontStyle
     {
-        return this.textStyles.fontStyle;
+        return this.textStyle.fontStyle;
     }
 
     /** Set text fontVariant. */
     set fontVariant(value: TextStyleFontVariant)
     {
-        this.textStyles.fontVariant = value;
+        this.textStyle.fontVariant = value;
     }
 
     /** Get text fontVariant. */
     get fontVariant(): TextStyleFontVariant
     {
-        return this.textStyles.fontVariant;
+        return this.textStyle.fontVariant;
     }
 
     /** Set text fontWeight. */
     set fontWeight(value: TextStyleFontWeight)
     {
-        this.textStyles.fontWeight = value;
+        this.textStyle.fontWeight = value;
     }
 
     /** Get text fontWeight. */
     get fontWeight(): TextStyleFontWeight
     {
-        return this.textStyles.fontWeight;
+        return this.textStyle.fontWeight;
     }
 
     /** Set text letterSpacing. */
     set letterSpacing(value: number)
     {
-        this.textStyles.letterSpacing = value;
+        this.textStyle.letterSpacing = value;
     }
 
     /** Get text letterSpacing. */
     get letterSpacing(): number
     {
-        return this.textStyles.letterSpacing;
+        return this.textStyle.letterSpacing;
     }
 
     /** Set text lineHeight. */
     set lineHeight(value: number)
     {
-        this.textStyles.lineHeight = value;
+        this.textStyle.lineHeight = value;
     }
 
     /** Get text lineHeight. */
     get lineHeight(): number
     {
-        return this.textStyles.lineHeight;
+        return this.textStyle.lineHeight;
     }
 
     /** Set text lineJoin. */
     set lineJoin(value: TextStyleLineJoin)
     {
-        this.textStyles.lineJoin = value;
+        this.textStyle.lineJoin = value;
     }
 
     /** Get text lineJoin. */
     get lineJoin(): TextStyleLineJoin
     {
-        return this.textStyles.lineJoin;
+        return this.textStyle.lineJoin;
     }
 
     /** Set text miterLimit. */
     set miterLimit(value: number)
     {
-        this.textStyles.miterLimit = value;
+        this.textStyle.miterLimit = value;
     }
 
     /** Get text miterLimit. */
     get miterLimit(): number
     {
-        return this.textStyles.miterLimit;
+        return this.textStyle.miterLimit;
     }
 
     /** Set text stroke. */
     set stroke(value: FlexColor)
     {
         this._stroke = value;
-        this.textStyles.stroke = getColor(value)?.hex;
+        this.textStyle.stroke = getColor(value)?.hex;
     }
 
     /** Get text stroke. */
@@ -485,84 +475,84 @@ export class StyleController
     /** Set text strokeThickness. */
     set strokeThickness(value: number)
     {
-        this.textStyles.strokeThickness = value;
+        this.textStyle.strokeThickness = value;
     }
 
     /** Get text strokeThickness. */
     get strokeThickness(): number
     {
-        return this.textStyles.strokeThickness;
+        return this.textStyle.strokeThickness;
     }
 
     /** Set text textBaseline. */
     set textBaseline(value: TextStyleTextBaseline)
     {
-        this.textStyles.textBaseline = value;
+        this.textStyle.textBaseline = value;
     }
 
     /** Get text textBaseline. */
     get textBaseline(): TextStyleTextBaseline
     {
-        return this.textStyles.textBaseline;
+        return this.textStyle.textBaseline;
     }
 
     /** Set text trim. */
     set trim(value: boolean)
     {
-        this.textStyles.trim = value;
+        this.textStyle.trim = value;
     }
 
     /** Get text trim. */
     get trim(): boolean
     {
-        return this.textStyles.trim;
+        return this.textStyle.trim;
     }
 
     /** Set text whiteSpace. */
     set whiteSpace(value: TextStyleWhiteSpace)
     {
-        this.textStyles.whiteSpace = value;
+        this.textStyle.whiteSpace = value;
     }
 
     /** Get text whiteSpace. */
     get whiteSpace(): TextStyleWhiteSpace
     {
-        return this.textStyles.whiteSpace;
+        return this.textStyle.whiteSpace;
     }
 
     /** Set text wordWrap. */
     set wordWrap(value: boolean)
     {
-        this.textStyles.wordWrap = value;
+        this.textStyle.wordWrap = value;
     }
 
     /** Get text wordWrap. */
     get wordWrap(): boolean
     {
-        return this.textStyles.wordWrap;
+        return this.textStyle.wordWrap;
     }
 
     /** Set text wordWrapWidth. */
     set wordWrapWidth(value: number)
     {
-        this.textStyles.wordWrapWidth = value;
+        this.textStyle.wordWrapWidth = value;
     }
 
     /** Get text wordWrapWidth. */
     get wordWrapWidth(): number
     {
-        return this.textStyles.wordWrapWidth;
+        return this.textStyle.wordWrapWidth;
     }
 
     /** Set text leading. */
     set leading(value: number)
     {
-        this.textStyles.leading = value;
+        this.textStyle.leading = value;
     }
 
     /** Get text leading. */
     get leading(): number
     {
-        return this.textStyles.leading;
+        return this.textStyle.leading;
     }
 }

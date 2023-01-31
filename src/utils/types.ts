@@ -5,8 +5,6 @@ import { Layout } from '../Layout';
 
 export type Opacity = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
 
-export type TextStyles = Partial<TextStyle>;
-
 export type FlexNumber = number | string;
 export type FlexColor = FlexNumber | CSSColor;
 export type Color = {
@@ -24,7 +22,7 @@ export type Content = string | Container | Layout | LayoutOptions | Content[];
 export type Containers = Container[];
 export type Overflow = (typeof OVERFLOW)[number];
 
-export type Styles = Partial<TextStyles> & {
+export type Styles = Partial<TextStyle> & {
     background?: FlexColor;
     backgroundColor?: FlexColor;
     color?: FlexColor;

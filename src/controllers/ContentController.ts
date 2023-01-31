@@ -29,7 +29,7 @@ export class ContentController
 
         if (typeof content === 'string')
         {
-            const { textStyles } = this.layout.style;
+            const { textStyle: textStyles } = this.layout.style;
 
             const text = new Text(content, textStyles);
 

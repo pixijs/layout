@@ -64,7 +64,7 @@ export class SizeController
             this.height = getNumber(height, parentHeight);
         }
 
-        if (this.layout.parent && this.layout.parent instanceof Layout)
+        if (this.layout.parent instanceof Layout)
         {
             const parentPadding = this.layout.parent?.style.padding ?? 0;
 
