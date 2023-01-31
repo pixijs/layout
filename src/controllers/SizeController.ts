@@ -2,6 +2,7 @@ import { getNumber } from '../utils/helpers';
 import { Layout } from '../Layout';
 import { FlexNumber } from '../utils/types';
 
+/** Size controller manages {@link Layout} and it's content size. */
 export class SizeController
 {
     private layout: Layout;
@@ -11,11 +12,20 @@ export class SizeController
     parentWidth = 0;
     parentHeight = 0;
 
+    /**
+     * Creates size controller.
+     * @param {Layout} layout - Layout to control.
+     */
     constructor(layout: Layout)
     {
         this.layout = layout;
     }
 
+    /**
+     * Updates layout size and all children sizes
+     * @param {number} parentWidth - Parent width
+     * @param {number} parentHeight - Parent height
+     */
     update(parentWidth: number, parentHeight: number)
     {
         this.parentWidth = parentWidth;

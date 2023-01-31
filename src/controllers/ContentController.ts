@@ -3,12 +3,19 @@ import { Containers, Content, LayoutStyles } from '../utils/types';
 import { Container } from '@pixi/display';
 import { Text } from '@pixi/text';
 
+/** Controls all {@link Layout} children sizing. */
 export class ContentController
 {
     private layout: Layout;
 
     children: Containers = [];
 
+    /**
+     * Creates all instances and manages configs
+     * @param {Layout} layout - Layout instance
+     * @param content - Content of the layout
+     * @param globalStyles - Global styles for layout and it's children
+     */
     constructor(layout: Layout, content?: Content, globalStyles?: LayoutStyles)
     {
         this.layout = layout;
@@ -74,6 +81,11 @@ export class ContentController
         }
     }
 
+    /**
+     * Resizes all children.
+     * @param width
+     * @param height
+     */
     resize(width: number, height: number)
     {
         this.layout.children.forEach((child) =>

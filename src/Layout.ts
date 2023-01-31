@@ -57,16 +57,16 @@ export class Layout extends Container
     /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
     id: string;
 
-    /** Size controller is a class for controlling size. */
+    /** {@link SizeController} is a class for controlling layout and all it's children sizes. */
     size: SizeController;
 
-    /** Align controller is a class for controlling alignment. */
+    /** {@link AlignController} is a class for controlling layout and all it's children alignment. */
     align: AlignController;
 
     /** {@link StyleController} is a class for controlling styles. */
     style: StyleController;
 
-    /** Content controller is a class for controlling children. */
+    /** {@link ContentController} controller is a class for controlling layouts children. */
     content: ContentController;
 
     /**
