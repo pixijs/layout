@@ -63,7 +63,7 @@ export class Layout extends Container
     /** Align controller is a class for controlling alignment. */
     align: AlignController;
 
-    /** Style controller is a class for controlling styles. */
+    /** {@link StyleController} is a class for controlling styles. */
     style: StyleController;
 
     /** Content controller is a class for controlling children. */
@@ -73,7 +73,7 @@ export class Layout extends Container
      * Creates layout
      * @param options - Layout options
      * @param options.id - ID of the layout.
-     * @param options.styles - Styles of the layout.
+     * @param options.styles - Styles of the layout. List of available styles can be found in {@link StyleController}.
      * @param options.content - Content of tre layout.
      * @param options.globalStyles - Global styles for layout and it's children.
      */
