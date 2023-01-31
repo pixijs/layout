@@ -1,15 +1,25 @@
 import { Layout } from '../../Layout';
 import { Text } from '@pixi/text';
 
+/** Align controller manages {@link Layout} and it's content alignment. */
 export class AlignController
 {
     private layout: Layout;
 
+    /**
+     * Creates align controller.
+     * @param {Layout} layout - Layout to control.
+     */
     constructor(layout: Layout)
     {
         this.layout = layout;
     }
 
+    /**
+     * Updates layout and all children alignments.
+     * @param {number} width - Parent width
+     * @param {number} height - Parent height
+     */
     update(width: number, height: number)
     {
         switch (this.layout.style.display)
