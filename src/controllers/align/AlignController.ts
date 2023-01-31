@@ -32,11 +32,63 @@ export class AlignController
         let x = padding;
         let y = padding;
         const parentWidth = this.layout.width + padding;
+        const parentHeight = this.layout.height + padding;
 
         const children = this.layout.content.children;
 
         children.forEach((child, childNumber) =>
         {
+            if (child instanceof Text)
+            {
+                const padding = this.layout.style.padding;
+
+                child.style.wordWrapWidth = parentWidth - (padding * 2);
+
+                const align = this.layout.style.textAlign;
+
+                if (child.width < parentWidth)
+                {
+                    if (align === 'center')
+                    {
+                        child.anchor.x = 0.5;
+                        child.x = parentWidth / 2;
+                    }
+                    else if (align === 'right')
+                    {
+                        child.anchor.x = 1;
+                        child.x = parentWidth - padding;
+                    }
+                }
+                else
+                {
+                    child.anchor.x = 0;
+                    child.x = padding;
+                }
+
+                const verticalAlign = this.layout.style.verticalAlign;
+
+                if (child.height < parentHeight)
+                {
+                    if (verticalAlign === 'middle')
+                    {
+                        child.anchor.y = 0.5;
+                        child.y = parentHeight / 2;
+                    }
+                    else if (verticalAlign === 'bottom')
+                    {
+                        child.anchor.y = 1;
+                        child.y = parentHeight - padding;
+                    }
+                }
+                else
+                {
+                    child.anchor.y = 0;
+                    child.y = padding;
+                }
+
+                return;
+            }
+
             let childDisplay = 'block';
 
             if (child instanceof Layout)
@@ -59,13 +111,12 @@ export class AlignController
                     childDisplay = 'inline-block';
                 }
 
-                const childDoesNotFeet = Math.floor(x + child.width) > parentWidth - (padding * 2);
+                const childDoesNotFeet = x + child.width > parentWidth - (padding * 2);
                 const isFirstChild = childNumber === 0;
 
                 switch (childDisplay)
                 {
                     case 'inline':
-                    case 'inline-flex':
                     case 'inline-block':
                         if (childDoesNotFeet && !isFirstChild)
                         {

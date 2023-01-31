@@ -21,42 +21,48 @@ export class SizeController
         this.parentWidth = parentWidth;
         this.parentHeight = parentHeight;
 
-        if (this.layout.style.width === 0 || this.layout.style.height === 0)
+        const { width, height, display } = this.layout.style;
+
+        if (width === 0 || height === 0)
         {
             this.layout.visible = false;
 
             return;
         }
 
-        if (this.layout.style.width === 'auto')
+        if (width === 'auto')
         {
-            const display = this.layout.style.display;
-
             switch (display)
             {
                 case 'block':
-                case 'flex':
-                    this.width = this.parentWidth;
-                    break;
-
                 default:
-                    this.width = this.layout.getContentWidth();
+                    this.width = parentWidth;
                     break;
             }
         }
         else
         {
-            this.width = this.layout.style.width;
+            this.width = getNumber(width, parentWidth);
         }
 
-        if (this.layout.style.height === 'auto')
+        if (height === 'auto')
         {
             this.height = this.layout.getContentHeight();
         }
         else
         {
-            this.height = this.layout.style.height;
+            this.height = getNumber(height, parentHeight);
         }
+
+        if (this.layout.parent && this.layout.parent instanceof Layout)
+        {
+            const parentPadding = this.layout.parent?.style.padding ?? 0;
+
+            this.width -= parentPadding;
+            this.height -= parentPadding;
+        }
+        if (this.width < 0) this.width = 0;
+        if (this.height < 0) this.height = 0;
 
         if (this.width === 0 || this.height === 0)
         {

@@ -1,7 +1,7 @@
 import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { ALIGN, POSITION, CSS_COLOR_NAMES } from '../utils/constants';
+import { VERTICAL_ALIGN, ALIGN, POSITION, CSS_COLOR_NAMES, LOREM_TEXT } from '../utils/constants';
 import { LayoutStyles } from '../utils/types';
 
 const args = {
@@ -13,7 +13,8 @@ const args = {
     padding: 15,
     childWidth: 48,
     childHeight: 32,
-    textAlign: ['center', 'left', 'right'],
+    textAlign: ALIGN,
+    verticalAlign: VERTICAL_ALIGN,
     position: POSITION
 };
 
@@ -22,10 +23,23 @@ class LayoutStory
     private layout: Layout;
     view = new Container();
 
-    constructor({ color, width, height, opacity, textAlign, fontSize, position, padding, childWidth, childHeight }: any)
+    constructor({
+        color,
+        width,
+        height,
+        opacity,
+        textAlign,
+        fontSize,
+        position,
+        padding,
+        childWidth,
+        childHeight,
+        verticalAlign
+    }: any)
     {
         const fontStyle = {
             textAlign,
+            verticalAlign,
             fontSize,
             color,
             overflow: 'hidden',
@@ -107,7 +121,7 @@ class LayoutStory
                         // array of children
                         {
                             id: 'leftMenu',
-                            content: 'Left menu'
+                            content: LOREM_TEXT
                         },
                         {
                             id: 'mainContent',

@@ -1,25 +1,9 @@
 import { TextStyle, TextStyleAlign } from '@pixi/text';
 import { Container } from '@pixi/display';
-import {
-    CSS_COLOR_NAMES,
-    POSITION,
-    DISPLAY,
-    OVERFLOW,
-} from './constants';
+import { CSS_COLOR_NAMES, POSITION, DISPLAY, OVERFLOW, VERTICAL_ALIGN } from './constants';
 import { Layout } from '../Layout';
 
-export type Opacity =
-	| 0
-	| 0.1
-	| 0.2
-	| 0.3
-	| 0.4
-	| 0.5
-	| 0.6
-	| 0.7
-	| 0.8
-	| 0.9
-	| 1;
+export type Opacity = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
 
 export type TextStyles = Partial<TextStyle>;
 
@@ -32,16 +16,15 @@ export type Color = {
 
 export type CSSColor = keyof typeof CSS_COLOR_NAMES;
 
-export type Position = typeof POSITION[number];
-export type Display = typeof DISPLAY[number];
+export type Position = (typeof POSITION)[number];
+export type Display = (typeof DISPLAY)[number];
 
 export type Content = string | Container | Layout | LayoutOptions | Content[];
 
 export type Containers = Container[];
-export type Overflow = typeof OVERFLOW[number];
+export type Overflow = (typeof OVERFLOW)[number];
 
-export type Styles = Partial<TextStyles> &
-{
+export type Styles = Partial<TextStyles> & {
     background?: FlexColor;
     backgroundColor?: FlexColor;
     color?: FlexColor;
@@ -55,6 +38,7 @@ export type Styles = Partial<TextStyles> &
     display?: Display;
     borderRadius?: number;
     textAlign?: TextStyleAlign;
+    verticalAlign?: VerticalAlign;
 };
 
 export type LayoutStyles = {
@@ -67,3 +51,5 @@ export type LayoutOptions = {
     styles?: Styles;
     globalStyles?: LayoutStyles;
 };
+
+export type VerticalAlign = (typeof VERTICAL_ALIGN)[number];

@@ -1,4 +1,14 @@
-import type { Display, FlexColor, FlexNumber, Opacity, Overflow, Position, Styles, TextStyles } from '../utils/types';
+import type {
+    Display,
+    FlexColor,
+    FlexNumber,
+    Opacity,
+    Overflow,
+    Position,
+    Styles,
+    TextStyles,
+    VerticalAlign
+} from '../utils/types';
 import type {
     TextStyleAlign,
     TextStyleFontStyle,
@@ -10,7 +20,7 @@ import type {
 } from '@pixi/text';
 import { TEXT_GRADIENT } from '@pixi/text';
 import { getColor } from '../utils/helpers';
-import { OVERFLOW, ALIGN, POSITION } from '../utils/constants';
+import { OVERFLOW, ALIGN, POSITION, VERTICAL_ALIGN } from '../utils/constants';
 import { Layout } from '../Layout';
 
 export class StyleController
@@ -53,6 +63,7 @@ export class StyleController
 
     // library additional properties
     position?: Position = POSITION[1];
+    verticalAlign?: VerticalAlign = VERTICAL_ALIGN[0];
 
     textStyles: TextStyles = {}; // this is to be nested by children
 
@@ -95,12 +106,13 @@ export class StyleController
         this.height = styles?.height ?? 'auto';
 
         this.position = styles?.position ?? POSITION[1];
+        this.verticalAlign = styles?.verticalAlign ?? VERTICAL_ALIGN[0];
     }
 
     private setTextStyles(styles: Styles)
     {
         this.textStyles = {
-            align: styles?.textAlign ?? ALIGN[0],
+            align: styles?.textAlign ?? ALIGN[1],
             breakWords: styles?.breakWords ?? true,
             dropShadow: styles?.dropShadow ?? false,
             dropShadowAlpha: styles?.dropShadowAlpha ?? 1,

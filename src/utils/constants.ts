@@ -146,19 +146,16 @@ export const CSS_COLOR_NAMES = {
     wheat: 0xf5deb3,
     whitesmoke: 0xf5f5f5,
     yellowgreen: 0x9acd32,
-    black: 0x000000,
+    black: 0x000000
 };
 
-export const LOREM_TEXT
-	= `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab praesentium velit minima unde beatae. 
-	Illo earum, rem iure unde nemo, exercitationem nesciunt et voluptas nisi adipisci, 
-	provident cupiditate veritatis magnam?`;
+export const LOREM_TEXT = `Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
 
-export const DISPLAY = [
-    'block',
-    'inline-block',
-    'inline',
-];
+Ab praesentium velit minima unde beatae. Illo earum, rem iure unde nemo, 
+
+exercitationem nesciunt et voluptas nisi adipisci, provident cupiditate veritatis magnam?`;
+
+export const DISPLAY = ['block', 'inline-block', 'inline'];
 
 export const OVERFLOW = ['visible', 'hidden'];
 
@@ -178,7 +175,8 @@ export const POSITION = [
     'centerTop',
     'centerBottom',
     'centerLeft',
-    'centerRight',
+    'centerRight'
 ];
 
-export const ALIGN: TextStyleAlign[] = ['left', 'center', 'right', 'justify'];
+export const ALIGN: TextStyleAlign[] = ['center', 'left', 'right', 'justify'];
+export const VERTICAL_ALIGN = ['middle', 'top', 'bottom'];

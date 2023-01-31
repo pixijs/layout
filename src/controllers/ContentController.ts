@@ -78,33 +78,7 @@ export class ContentController
     {
         this.layout.children.forEach((child) =>
         {
-            if (child instanceof Text)
-            {
-                const align = this.layout.style.textAlign;
-                const padding = this.layout.style.padding;
-
-                child.style.wordWrapWidth = width - (padding * 2);
-
-                if (child.width < width)
-                {
-                    if (align === 'center')
-                    {
-                        child.anchor.set(0.5, 0);
-                        child.x = width / 2;
-                    }
-                    else if (align === 'right')
-                    {
-                        child.anchor.set(1, 0);
-                        child.x = width - padding;
-                    }
-                }
-                else
-                {
-                    child.anchor.set(0, 0);
-                    child.x = padding;
-                }
-            }
-            else if (child instanceof Layout)
+            if (child instanceof Layout)
             {
                 child.resize(width, height);
             }

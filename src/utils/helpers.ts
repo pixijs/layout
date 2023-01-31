@@ -1,10 +1,5 @@
 import { CSS_COLOR_NAMES } from './constants';
-import {
-    Color,
-    CSSColor,
-    FlexColor,
-    FlexNumber,
-} from './types';
+import { Color, CSSColor, FlexColor, FlexNumber } from './types';
 import { utils } from '@pixi/core';
 import { Sprite } from '@pixi/sprite';
 import { Assets } from '@pixi/assets';
@@ -73,7 +68,7 @@ export function getColor(color: FlexColor): Color
             {
                 return {
                     hex: utils.string2hex(color),
-                    opacity: 1,
+                    opacity: 1
                 };
             }
             else if (color.startsWith('rgba('))
@@ -83,7 +78,7 @@ export function getColor(color: FlexColor): Color
 
                 return {
                     hex: rgba2Hex(rgbData),
-                    opacity: parseFloat(colorData[3]),
+                    opacity: parseFloat(colorData[3])
                 };
             }
             else if (color.startsWith('rgb('))
@@ -93,7 +88,7 @@ export function getColor(color: FlexColor): Color
 
                 return {
                     hex: utils.rgb2hex(rgbData),
-                    opacity: 1,
+                    opacity: 1
                 };
             }
             else if (color.startsWith('hsla('))
@@ -103,16 +98,14 @@ export function getColor(color: FlexColor): Color
 
                 return {
                     hex: hsl2Hex(r, g, b),
-                    opacity: parseFloat(colorData[3]),
+                    opacity: parseFloat(colorData[3])
                 };
             }
-            else if (
-                Object.keys(CSS_COLOR_NAMES).includes(color as CSSColor)
-            )
+            else if (Object.keys(CSS_COLOR_NAMES).includes(color as CSSColor))
             {
                 return {
                     hex: CSS_COLOR_NAMES[color as CSSColor],
-                    opacity: 1,
+                    opacity: 1
                 };
             }
             throw new Error(`Unknown color format: ${color}`);
@@ -120,13 +113,13 @@ export function getColor(color: FlexColor): Color
         case 'number':
             return {
                 hex: color,
-                opacity: 1,
+                opacity: 1
             };
 
         default:
             return {
                 hex: parseInt(color, 16),
-                opacity: 1,
+                opacity: 1
             };
     }
 }
@@ -147,16 +140,16 @@ export function getNumber(value: FlexNumber, maxPercentValue?: number): number
     {
         if (value.endsWith('px'))
         {
-            return parseInt(value.slice(0, -2), 10);
+            return Math.floor(parseInt(value.slice(0, -2), 10));
         }
         else if (value.endsWith('%'))
         {
             const val = parseInt(value.slice(0, -1), 10);
 
-            return maxPercentValue ? (maxPercentValue / 100) * val : val;
+            return Math.floor(maxPercentValue ? (maxPercentValue / 100) * val : val);
         }
 
-        return parseInt(value, 10);
+        return Math.floor(parseInt(value, 10));
     }
 
     return 0;
