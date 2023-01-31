@@ -51,8 +51,8 @@ import { getColor } from './utils/helpers';
  */
 export class Layout extends Container
 {
-    private bg = new Graphics();
-    private overflowMask = new Graphics();
+    private bg: Graphics;
+    private overflowMask: Graphics;
 
     /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
     id: string;
@@ -82,9 +82,6 @@ export class Layout extends Container
         super();
 
         this.id = options.id;
-
-        this.addChild(this.bg);
-        this.addChild(this.overflowMask);
 
         if (options.globalStyles)
         {
@@ -136,11 +133,18 @@ export class Layout extends Container
 
         if (color && width && height)
         {
+            if (!this.bg)
+            {
+                this.bg = new Graphics();
+                this.addChildAt(this.bg, 0);
+            }
+
             this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(0, 0, width, height, borderRadius).endFill();
         }
         else
         {
             this.bg.clear();
+            delete this.bg;
         }
     }
 
@@ -152,14 +156,20 @@ export class Layout extends Container
 
         if (overflow === 'hidden' && width && height)
         {
+            if (!this.overflowMask)
+            {
+                this.overflowMask = new Graphics();
+                this.addChild(this.overflowMask);
+            }
+
             this.overflowMask.clear().beginFill(0xffffff).drawRoundedRect(0, 0, width, height, borderRadius).endFill();
 
             this.mask = this.overflowMask;
         }
         else
         {
-            this.overflowMask.clear();
             this.mask = null;
+            delete this.overflowMask;
         }
     }
 
