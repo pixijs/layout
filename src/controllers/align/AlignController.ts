@@ -32,7 +32,6 @@ export class AlignController
         let x = padding;
         let y = padding;
         const parentWidth = this.layout.width + padding;
-        const parentHeight = this.layout.height + padding;
 
         const children = this.layout.content.children;
 
@@ -42,11 +41,16 @@ export class AlignController
             {
                 const padding = this.layout.style.padding;
 
-                child.style.wordWrapWidth = parentWidth - (padding * 2);
+                const parentWidth = this.layout.width;
+                const parentHeight = this.layout.height;
+
+                const availableWidth = parentWidth - (padding * 2);
+
+                child.style.wordWrapWidth = availableWidth;
 
                 const align = this.layout.style.textAlign;
 
-                if (child.width < parentWidth)
+                if (child.width < availableWidth)
                 {
                     if (align === 'center')
                     {
@@ -58,6 +62,11 @@ export class AlignController
                         child.anchor.x = 1;
                         child.x = parentWidth - padding;
                     }
+                    else
+                    {
+                        child.anchor.x = 0;
+                        child.x = padding;
+                    }
                 }
                 else
                 {
@@ -67,7 +76,9 @@ export class AlignController
 
                 const verticalAlign = this.layout.style.verticalAlign;
 
-                if (child.height < parentHeight)
+                const availableHeight = parentHeight - (padding * 2);
+
+                if (child.height < availableHeight)
                 {
                     if (verticalAlign === 'middle')
                     {
@@ -78,6 +89,11 @@ export class AlignController
                     {
                         child.anchor.y = 1;
                         child.y = parentHeight - padding;
+                    }
+                    else
+                    {
+                        child.anchor.y = 0;
+                        child.y = padding;
                     }
                 }
                 else
