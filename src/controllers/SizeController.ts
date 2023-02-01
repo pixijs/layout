@@ -68,9 +68,10 @@ export class SizeController
         {
             const parentPadding = this.layout.parent?.style.padding ?? 0;
 
-            this.width -= parentPadding * 2;
-            this.height -= parentPadding * 2;
+            this.width -= parentPadding;
+            this.height -= parentPadding;
         }
+
         if (this.width < 0) this.width = 0;
         if (this.height < 0) this.height = 0;
 

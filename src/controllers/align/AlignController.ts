@@ -22,17 +22,8 @@ export class AlignController
      */
     update(width: number, height: number)
     {
-        switch (this.layout.style.display)
-        {
-            // TODO:
-            // case 'inline-block',
-            // case 'inline',
-            // case 'block':
-            default:
-                this.alignChildren();
-                this.setSelfPosition(width, height);
-                break;
-        }
+        this.alignChildren();
+        this.setSelfPosition(width, height);
     }
 
     private alignChildren()
@@ -47,6 +38,8 @@ export class AlignController
 
         children.forEach((child, childNumber) =>
         {
+            if (!child.height && !child.width) return;
+
             if (child instanceof Text)
             {
                 const padding = this.layout.style.padding;
@@ -122,46 +115,43 @@ export class AlignController
                 childDisplay = child.style.display;
             }
 
-            if (child.height && child.width)
+            child.x = x;
+            child.y = y;
+
+            if (child.height > maxChildHeight)
             {
-                child.x = x;
-                child.y = y;
+                maxChildHeight = child.height;
+            }
 
-                if (child.height > maxChildHeight)
-                {
-                    maxChildHeight = child.height;
-                }
+            if (childDisplay === 'block' && child.width < parentWidth - (padding * 2))
+            {
+                childDisplay = 'inline-block';
+            }
 
-                if (childDisplay === 'block' && child.width < parentWidth - (padding * 2))
-                {
-                    childDisplay = 'inline-block';
-                }
+            const childDoesNotFeet = x + child.width > parentWidth - (padding * 2);
+            const isFirstChild = childNumber === 0;
 
-                const childDoesNotFeet = x + child.width > parentWidth - (padding * 2);
-                const isFirstChild = childNumber === 0;
+            switch (childDisplay)
+            {
+                case 'inline':
+                case 'inline-block':
+                    if (childDoesNotFeet && !isFirstChild)
+                    {
+                        x = padding + child.width;
+                        y += maxChildHeight;
 
-                switch (childDisplay)
-                {
-                    case 'inline':
-                    case 'inline-block':
-                        if (childDoesNotFeet && !isFirstChild)
-                        {
-                            x = padding + child.width;
-                            y += maxChildHeight;
+                        child.x = padding;
+                        child.y = y;
+                    }
+                    else
+                    {
+                        x += child.width;
+                    }
+                    break;
 
-                            child.x = padding;
-                            child.y = y;
-                        }
-                        else
-                        {
-                            x += child.width;
-                        }
-                        break;
-
-                    default:
-                        y += child.height;
-                        break;
-                }
+                default:
+                    y += child.height;
+                    break;
             }
         });
     }

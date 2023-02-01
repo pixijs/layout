@@ -6,13 +6,13 @@ import { LayoutStyles } from '../utils/types';
 
 const args = {
     color: '#FFFFFF',
-    width: 90,
-    height: 90,
+    width: 95,
+    height: 95,
     opacity: 1,
     fontSize: 32,
-    padding: 15,
-    childWidth: 48,
-    childHeight: 32,
+    padding: 11,
+    childWidth: 50,
+    childHeight: 34,
     textAlign: ALIGN,
     verticalAlign: VERTICAL_ALIGN,
     position: POSITION
