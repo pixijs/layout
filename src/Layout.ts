@@ -51,7 +51,7 @@ import { getColor } from './utils/helpers';
  */
 export class Layout extends Container
 {
-    private bg: Graphics;
+    private bg: Graphics | Container;
     private overflowMask: Graphics;
 
     /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
@@ -127,9 +127,32 @@ export class Layout extends Container
     /** Render and update the background of layout basing ot it's current state. */
     updateBG()
     {
-        const { background, borderRadius } = this.style;
-        const { width, height } = this;
+        const { background } = this.style;
+
+        if (background instanceof Container)
+        {
+            const { width, height } = this.style;
+
+            this.bg = background;
+            this.addChildAt(this.bg, 0);
+
+            if (width === 'auto')
+            {
+                this.width = background.width;
+            }
+
+            if (height === 'auto')
+            {
+                this.height = background.height;
+            }
+
+            return;
+        }
+
         const color = background !== 'transparent' && getColor(background);
+
+        const { borderRadius } = this.style;
+        const { width, height } = this;
 
         if (color && width && height)
         {
@@ -139,7 +162,10 @@ export class Layout extends Container
                 this.addChildAt(this.bg, 0);
             }
 
-            this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(0, 0, width, height, borderRadius).endFill();
+            if (this.bg instanceof Graphics)
+            {
+                this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(0, 0, width, height, borderRadius);
+            }
         }
         else if (this.bg)
         {

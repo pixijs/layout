@@ -23,7 +23,7 @@ export type Containers = Container[];
 export type Overflow = (typeof OVERFLOW)[number];
 
 export type Styles = Partial<TextStyle> & {
-    background?: FlexColor;
+    background?: FlexColor | Container | string;
     backgroundColor?: FlexColor;
     color?: FlexColor;
     width?: FlexNumber;

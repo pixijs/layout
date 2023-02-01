@@ -12,6 +12,7 @@ import { TEXT_GRADIENT, TextStyle } from '@pixi/text';
 import { getColor } from '../utils/helpers';
 import { OVERFLOW, ALIGN, POSITION, VERTICAL_ALIGN } from '../utils/constants';
 import { Layout } from '../Layout';
+import { Container } from '@pixi/display';
 /** Style controller manages {@link Layout} styles. Here you can find all available styles and their default values. */
 export class StyleController
 {
@@ -67,12 +68,18 @@ export class StyleController
     height: FlexNumber | 'auto';
 
     /**
-     * Defines {@link Layout} background color.
+     * Defines {@link Layout} background.
      *
      * It is a flexible value, can be text color constant or hex number.
+     * Also this can be a Container instance, so you can use any PIXI container as a background.
+     * In case if you use Container instance, you can use it's children to create any background you want.
+     *
+     * If with is set to 'auto' or height is set to 'auto',
+     * and background is a Container based element with width and height (Sprite, Graphics etc.),
+     * layout size will bve set basing on background.
      * @default transparent
      */
-    private _background: FlexColor = 'transparent';
+    private _background: FlexColor | Container = 'transparent';
 
     /**
      * Defines {@link Layout} text color.
@@ -219,13 +226,13 @@ export class StyleController
     }
 
     /** Set background color. */
-    set background(value: FlexColor)
+    set background(value: FlexColor | Container)
     {
         this._background = value;
     }
 
     /** Get background color. */
-    get background(): FlexColor
+    get background(): FlexColor | Container
     {
         return this._background;
     }
