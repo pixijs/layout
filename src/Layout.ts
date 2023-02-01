@@ -143,7 +143,6 @@ export class Layout extends Container
         }
         else
         {
-            this.bg.clear();
             delete this.bg;
         }
     }
