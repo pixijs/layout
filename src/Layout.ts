@@ -141,8 +141,9 @@ export class Layout extends Container
 
             this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(0, 0, width, height, borderRadius).endFill();
         }
-        else
+        else if (this.bg)
         {
+            this.removeChild(this.bg);
             delete this.bg;
         }
     }
