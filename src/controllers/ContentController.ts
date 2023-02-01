@@ -1,14 +1,14 @@
 import { Layout } from '../Layout';
-import { Containers, Content, LayoutStyles } from '../utils/types';
+import { Content, LayoutStyles } from '../utils/types';
 import { Container } from '@pixi/display';
 import { Text } from '@pixi/text';
+import { SelectController } from './SelectController';
 
 /** Controls all {@link Layout} children sizing. */
 export class ContentController
 {
     private layout: Layout;
-
-    children: Containers = [];
+    private children: SelectController;
 
     /**
      * Creates all instances and manages configs
@@ -19,7 +19,7 @@ export class ContentController
     constructor(layout: Layout, content?: Content, globalStyles?: LayoutStyles)
     {
         this.layout = layout;
-
+        this.children = layout.elements;
         this.createContent(content, globalStyles);
     }
 
@@ -33,12 +33,12 @@ export class ContentController
 
             const text = new Text(content, textStyles);
 
-            this.children.push(text);
+            this.children.add(text, this.layout.id);
             this.layout.addChild(text);
         }
         else if (content instanceof Container)
         {
-            this.children.push(content);
+            this.children.add(content, this.layout.id);
             this.layout.addChild(content);
         }
         else if (Array.isArray(content))
@@ -69,10 +69,10 @@ export class ContentController
                     }
                 }
 
-                const layout = new Layout(content);
+                const newLayout = new Layout(content);
 
-                this.children.push(layout);
-                this.layout.addChild(layout);
+                this.children.add(newLayout, this.layout.id, content.id);
+                this.layout.addChild(newLayout);
             }
             else
             {
@@ -88,7 +88,7 @@ export class ContentController
      */
     resize(width: number, height: number)
     {
-        this.layout.children.forEach((child) =>
+        this.children.list.forEach((child) =>
         {
             if (child instanceof Layout)
             {

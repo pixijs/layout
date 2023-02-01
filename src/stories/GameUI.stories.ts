@@ -43,8 +43,8 @@ class LayoutStory
                         styles: {
                             textAlign: 'center',
                             color: 'white',
-                            fontSize: 50,
-                            paddingTop: 25
+                            fontSize: 70,
+                            paddingTop: 15
                         }
                     },
                     styles: {
@@ -55,7 +55,7 @@ class LayoutStory
                 }
             ],
             styles: {
-                background: 'red', // Sprite.from(assets.window),
+                background: Sprite.from(assets.window),
                 position: 'center'
             }
         });
