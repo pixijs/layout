@@ -45,10 +45,16 @@ export class StyleController
      * 100% of parent size is parentSize - padding * 2.
      */
     padding = 0;
-    // paddingTop: number;
-    // paddingRight: number;
-    // paddingBottom: number;
-    // paddingLeft: number;
+    paddingTop: number;
+    paddingRight: number;
+    paddingBottom: number;
+    paddingLeft: number;
+
+    margin = 0;
+    marginTop: number;
+    marginRight: number;
+    marginBottom: number;
+    marginLeft: number;
 
     // alignContent?: AlignContent;
     // gap, row-gap, column-gap
@@ -147,7 +153,17 @@ export class StyleController
         // this.marginRight = styles?.marginRight;
         // this.marginBottom = styles?.marginBottom;
         // this.marginLeft = styles?.marginLeft;
-        this.padding = styles?.padding ?? 0;
+        this.padding = styles.padding ?? styles?.padding ?? 0;
+        this.paddingTop = styles.paddingTop ?? styles?.padding ?? 0;
+        this.paddingLeft = styles.paddingLeft ?? styles?.padding ?? 0;
+        this.paddingBottom = styles.paddingBottom ?? styles?.padding ?? 0;
+        this.paddingRight = styles.paddingRight ?? styles?.padding ?? 0;
+
+        this.margin = styles.margin ?? styles?.margin ?? 0;
+        this.marginTop = styles.marginTop ?? styles?.margin ?? 0;
+        this.marginLeft = styles.marginLeft ?? styles?.margin ?? 0;
+        this.marginBottom = styles.marginBottom ?? styles?.margin ?? 0;
+        this.marginRight = styles.marginRight ?? styles?.margin ?? 0;
         // this.paddingTop = styles?.paddingTop;
         // this.paddingRight = styles?.paddingRight;
         // this.paddingBottom = styles?.paddingBottom;

@@ -28,8 +28,16 @@ export type Styles = Partial<TextStyle> & {
     color?: FlexColor;
     width?: FlexNumber;
     height?: FlexNumber;
-    margin?: number;
     padding?: number;
+    paddingTop?: number;
+    paddingRight?: number;
+    paddingBottom?: number;
+    paddingLeft?: number;
+    margin?: number;
+    marginTop?: number;
+    marginRight?: number;
+    marginBottom?: number;
+    marginLeft?: number;
     opacity?: Opacity;
     overflow?: Overflow; // TODO: scroll pixi-ui scrollBox can be used here & 'scale' to fit children when overflow
     position?: Position;

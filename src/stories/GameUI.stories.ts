@@ -11,7 +11,8 @@ const args = {
 };
 
 const assets = {
-    window: 'window.png'
+    window: 'Window/Window.png',
+    ribbon: 'Window/Ribbon.png'
 };
 
 class LayoutStory
@@ -30,27 +31,54 @@ class LayoutStory
     createLayout()
     {
         const { title } = this.params;
-        const bg = Sprite.from(assets.window);
 
         this.layout = new Layout({
-            id: 'root',
+            id: 'bg',
             content: [
                 {
-                    id: 'title',
-                    content: title,
+                    id: 'ribbon',
+                    content: {
+                        id: 'title',
+                        content: title,
+                        styles: {
+                            textAlign: 'center',
+                            color: 'white',
+                            fontSize: 50,
+                            paddingTop: 25
+                        }
+                    },
                     styles: {
-                        textAlign: 'center',
-                        color: 'white',
-                        position: 'topCenter',
-                        padding: 10
+                        background: Sprite.from(assets.ribbon),
+                        position: 'centerTop',
+                        marginTop: -58
                     }
                 }
             ],
             styles: {
-                ...this.params,
-                background: bg
+                background: 'red', // Sprite.from(assets.window),
+                position: 'center'
             }
         });
+
+        // this.layout = new Layout({
+        //     id: 'root',
+        //     content: [
+        //         {
+        //             id: 'title',
+        //             content: title,
+        //             styles: {
+        //                 textAlign: 'center',
+        //                 color: 'white',
+        //                 position: 'topCenter',
+        //                 padding: 10
+        //             }
+        //         }
+        //     ],
+        //     styles: {
+        //         ...this.params,
+        //         background: bg
+        //     }
+        // });
 
         this.view.addChild(this.layout);
         this.resize(window.innerWidth, window.innerHeight);

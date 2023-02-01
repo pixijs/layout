@@ -29,10 +29,18 @@ export class AlignController
     private alignChildren()
     {
         let maxChildHeight = 0;
-        const padding = this.layout.style.padding ?? 0;
-        let x = padding;
-        let y = padding;
-        const parentWidth = this.layout.width + padding;
+
+        const { style } = this.layout;
+
+        const paddingTop = style.paddingTop ?? 0;
+        const paddingRight = style.paddingRight ?? 0;
+        const paddingBottom = style.paddingBottom ?? 0;
+        const paddingLeft = style.paddingLeft ?? 0;
+
+        let x = paddingLeft;
+        let y = paddingTop;
+
+        const parentWidth = this.layout.width + paddingLeft;
 
         const children = this.layout.content.children;
 
@@ -42,12 +50,10 @@ export class AlignController
 
             if (child instanceof Text)
             {
-                const padding = this.layout.style.padding;
-
                 const parentWidth = this.layout.width;
                 const parentHeight = this.layout.height;
 
-                const availableWidth = parentWidth - (padding * 2);
+                const availableWidth = parentWidth - paddingLeft - paddingRight;
 
                 child.style.wordWrapWidth = availableWidth;
 
@@ -63,23 +69,23 @@ export class AlignController
                     else if (align === 'right')
                     {
                         child.anchor.x = 1;
-                        child.x = parentWidth - padding;
+                        child.x = parentWidth - paddingRight;
                     }
                     else
                     {
                         child.anchor.x = 0;
-                        child.x = padding;
+                        child.x = paddingLeft;
                     }
                 }
                 else
                 {
                     child.anchor.x = 0;
-                    child.x = padding;
+                    child.x = paddingLeft;
                 }
 
                 const verticalAlign = this.layout.style.verticalAlign;
 
-                const availableHeight = parentHeight - (padding * 2);
+                const availableHeight = parentHeight - paddingTop - paddingBottom;
 
                 if (child.height < availableHeight)
                 {
@@ -91,18 +97,18 @@ export class AlignController
                     else if (verticalAlign === 'bottom')
                     {
                         child.anchor.y = 1;
-                        child.y = parentHeight - padding;
+                        child.y = parentHeight - paddingBottom;
                     }
                     else
                     {
                         child.anchor.y = 0;
-                        child.y = padding;
+                        child.y = paddingTop;
                     }
                 }
                 else
                 {
                     child.anchor.y = 0;
-                    child.y = padding;
+                    child.y = paddingTop;
                 }
 
                 return;
@@ -123,12 +129,14 @@ export class AlignController
                 maxChildHeight = child.height;
             }
 
-            if (childDisplay === 'block' && child.width < parentWidth - (padding * 2))
+            const availableWidth = parentWidth - paddingLeft - paddingRight;
+
+            if (childDisplay === 'block' && child.width < availableWidth)
             {
                 childDisplay = 'inline-block';
             }
 
-            const childDoesNotFeet = x + child.width > parentWidth - (padding * 2);
+            const childDoesNotFeet = x + child.width > availableWidth;
             const isFirstChild = childNumber === 0;
 
             switch (childDisplay)
@@ -137,10 +145,10 @@ export class AlignController
                 case 'inline-block':
                     if (childDoesNotFeet && !isFirstChild)
                     {
-                        x = padding + child.width;
+                        x = paddingLeft + child.width;
                         y += maxChildHeight;
 
-                        child.x = padding;
+                        child.x = paddingLeft;
                         child.y = y;
                     }
                     else
@@ -165,19 +173,19 @@ export class AlignController
             // we skip 'left', 'top' and 'leftTop' because they are default
             case 'rightTop':
             case 'right':
-                this.layout.y = 0;
-                this.layout.x = parentWidth - this.layout.width;
+                this.layout.x = parentWidth - this.layout.width - (this.layout.style.marginRight ?? 0);
+                this.layout.y = this.layout.style.marginTop ?? 0;
                 break;
 
             case 'leftBottom':
             case 'bottom':
-                this.layout.x = 0;
-                this.layout.y = parentHeight - this.layout.height;
+                this.layout.x = this.layout.style.marginLeft ?? 0;
+                this.layout.y = parentHeight - this.layout.height - (this.layout.style.marginBottom ?? 0);
                 break;
 
             case 'rightBottom':
-                this.layout.x = parentWidth - this.layout.width;
-                this.layout.y = parentHeight - this.layout.height;
+                this.layout.x = parentWidth - this.layout.width - (this.layout.style.marginRight ?? 0);
+                this.layout.y = parentHeight - this.layout.height - (this.layout.style.marginBottom ?? 0);
                 break;
 
             case 'center':
@@ -185,23 +193,23 @@ export class AlignController
                 this.layout.y = (parentHeight / 2) - (this.layout.height / 2);
                 break;
             case 'centerTop':
-                this.layout.y = 0;
                 this.layout.x = (parentWidth / 2) - (this.layout.width / 2);
+                this.layout.y = this.layout.style.marginTop ?? 0;
                 break;
 
             case 'centerBottom':
                 this.layout.x = (parentWidth / 2) - (this.layout.width / 2);
-                this.layout.y = parentHeight - this.layout.height;
+                this.layout.y = parentHeight - this.layout.height - (this.layout.style.marginBottom ?? 0);
                 break;
 
             case 'centerLeft':
-                this.layout.x = 0;
+                this.layout.x = this.layout.style.marginLeft ?? 0;
                 this.layout.y = (parentHeight / 2) - (this.layout.height / 2);
                 break;
 
             case 'centerRight':
                 this.layout.y = (parentHeight / 2) - (this.layout.height / 2);
-                this.layout.x = parentWidth - this.layout.width;
+                this.layout.x = parentWidth - this.layout.width - (this.layout.style.marginRight ?? 0);
                 break;
         }
     }
