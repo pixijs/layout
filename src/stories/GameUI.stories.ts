@@ -6,7 +6,7 @@ import { preloadAssets } from '../utils/helpers';
 import { POSITION } from '../utils/constants';
 
 const args = {
-    title: 'Window Title',
+    title: 'Settings',
     position: POSITION
 };
 
