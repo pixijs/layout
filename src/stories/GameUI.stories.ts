@@ -1,10 +1,11 @@
+import { FancyButton } from '@pixi/ui';
 import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
 import { preloadAssets } from '../utils/helpers';
 import { POSITION } from '../utils/constants';
-import { defaultTextStyle } from './styles/text';
+import { Text } from '@pixi/text';
 
 const args = {
     title: 'Settings',
@@ -14,7 +15,10 @@ const args = {
 
 const assets = {
     window: 'Window/Window.png',
-    ribbon: 'Window/Ribbon.png'
+    ribbon: 'Window/Ribbon.png',
+    button: 'Buttons/Button.png',
+    buttonHover: 'Buttons/Button-hover.png',
+    buttonDown: 'Buttons/Button-pressed.png'
 };
 
 class LayoutStory
@@ -33,36 +37,60 @@ class LayoutStory
     createLayout()
     {
         const { title, scale } = this.params;
+        const ribbonOffset = 53;
 
         this.layout = new Layout({
-            id: 'bg',
-            content: {
-                id: 'ribbon',
-                content: {
-                    id: 'title',
-                    content: title,
+            id: 'root',
+            content: [
+                {
+                    id: 'ribbon',
+                    content: {
+                        id: 'title',
+                        content: title.toUpperCase(),
+                        styles: {
+                            textAlign: 'center',
+                            color: 'white',
+                            fontSize: 55,
+                            marginTop: -5,
+                            fontWeight: 'bold',
+                            stroke: 0x94dd30,
+                            strokeThickness: 10,
+                            overflow: 'hidden',
+                            height: 120
+                        }
+                    },
                     styles: {
-                        textAlign: 'center',
-                        color: 'white',
-                        fontSize: 70,
-                        paddingTop: 15,
-                        fontWeight: 'bold',
-                        dropShadow: true,
-                        dropShadowAlpha: 0.5,
-                        dropShadowDistance: 0,
-                        dropShadowBlur: 5
+                        background: Sprite.from(assets.ribbon),
+                        position: 'centerTop',
+                        marginTop: -ribbonOffset // offset of the ribbon
                     }
                 },
-                styles: {
-                    background: Sprite.from(assets.ribbon),
-                    position: 'centerTop',
-                    marginTop: -53 // offset of the ribbon
+                {
+                    id: 'applyButton',
+                    content: new FancyButton({
+                        defaultView: assets.button,
+                        hoverView: assets.buttonHover,
+                        pressedView: assets.buttonDown,
+                        text: new Text('APPLY', {
+                            fill: 0xffffff,
+                            fontSize: 55,
+                            fontWeight: 'bold',
+                            stroke: 0x94dd30,
+                            strokeThickness: 10
+                        })
+                    }),
+                    styles: {
+                        position: 'centerBottom',
+                        marginBottom: -70
+                    }
                 }
-            },
+            ],
             styles: {
                 ...this.params,
                 background: Sprite.from(assets.window),
-                marginTop: 53 * scale // offset of the ribbon should take into account the scale
+                marginTop: ribbonOffset * scale, // offset of the ribbon should take into account the scale
+                maxWidth: '100%',
+                maxHeight: '100%'
             }
         });
 

@@ -48,6 +48,9 @@ export type Styles = Partial<TextStyle> & {
     scale?: number;
     scaleX?: number;
     scaleY?: number;
+    maxWidth?: number;
+    maxHeight?: number;
+    zIndex?: number;
 };
 
 export type LayoutStyles = {

@@ -27,9 +27,15 @@ export class StyleController
     /** Defines {@link Layout} corners radius. */
     borderRadius = 0;
 
-    // zIndex: number;
-    // maxWidth: number;
-    // maxHeight: number;
+    /** Defines {@link Layout} z index. */
+    zIndex: number;
+
+    /** Defines {@link Layout} max width. */
+    maxWidth: FlexNumber;
+
+    /** Defines {@link Layout} max height. */
+    maxHeight: FlexNumber;
+
     // border: string;
     // borderWidth: number;
     // borderColor: number;
@@ -170,9 +176,10 @@ export class StyleController
         this.borderRadius = styles?.borderRadius ?? 0;
         this.opacity = styles?.opacity ?? 1;
 
-        // this.zIndex = styles?.zIndex;
-        // this.maxWidth = styles?.maxWidth;
-        // this.maxHeight = styles?.maxHeight;
+        this.maxWidth = styles?.maxWidth;
+        this.maxHeight = styles?.maxHeight;
+        this.zIndex = styles?.zIndex;
+
         // this.border = styles?.border;
         // this.borderWidth = styles?.borderWidth;
         // this.borderColor = styles?.borderColor;

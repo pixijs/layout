@@ -6,6 +6,7 @@ import { StyleController } from './controllers/StyleController';
 import { SizeController } from './controllers/SizeController';
 import { ContentController } from './controllers/ContentController';
 import { getColor } from './utils/helpers';
+import { Sprite } from '@pixi/sprite';
 
 /**
  * Universal layout class for Pixi.js.
@@ -121,14 +122,8 @@ export class Layout extends Container
         // align and content controllers are dependent on each other so we need to update them twice
         // TODO: find a better way to do this
 
-        this.scale.x = this.style.scaleX;
-        this.scale.y = this.style.scaleY;
-
         this.align.update(parentWidth, parentHeight);
         this.content.resize(this.width, this.height);
-
-        this.updateBG();
-        this.updateMask();
     }
 
     /** Render and update the background of layout basing ot it's current state. */
@@ -142,6 +137,11 @@ export class Layout extends Container
 
             this.bg = background;
             this.addChildAt(this.bg, 0);
+
+            if (this.bg instanceof Sprite)
+            {
+                this.bg.anchor.set(0);
+            }
 
             if (width === 'auto')
             {

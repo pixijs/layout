@@ -31,7 +31,7 @@ export class SizeController
         this.parentWidth = parentWidth;
         this.parentHeight = parentHeight;
 
-        const { width, height, display } = this.layout.style;
+        const { width, height, display, maxWidth, maxHeight, scaleX, scaleY } = this.layout.style;
 
         if (width === 0 || height === 0)
         {
@@ -82,8 +82,24 @@ export class SizeController
             return;
         }
 
+        this.layout.scale.x = scaleX;
+        this.layout.scale.y = scaleY;
+
         this.layout.updateBG();
         this.layout.updateMask();
+
+        // if (maxWidth || maxHeight)
+        // {
+        //     const maxWidthVal = getNumber(maxWidth, parentWidth);
+        //     const maxHeightVal = getNumber(maxHeight, parentHeight);
+
+        //     console.log(this.layout.width, maxWidthVal, parentWidth);
+
+    //     if (maxWidth && this.layout.width > maxWidthVal)
+    //     {
+    //         this.layout.scale.set(maxWidthVal / this.layout.width);
+    //     }
+    // }
     }
 
     get width(): number
