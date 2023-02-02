@@ -2,13 +2,12 @@ import { Layout } from '../Layout';
 import { Content, LayoutStyles } from '../utils/types';
 import { Container } from '@pixi/display';
 import { Text } from '@pixi/text';
-import { SelectController } from './SelectController';
 
 /** Controls all {@link Layout} children sizing. */
 export class ContentController
 {
     private layout: Layout;
-    private children: SelectController;
+    private children: Array<Container>;
 
     /**
      * Creates all instances and manages configs
@@ -33,12 +32,12 @@ export class ContentController
 
             const text = new Text(content, textStyles);
 
-            this.children.add(text, this.layout.id);
+            this.children.push(text);
             this.layout.addChild(text);
         }
         else if (content instanceof Container)
         {
-            this.children.add(content, this.layout.id);
+            this.children.push(content);
             this.layout.addChild(content);
         }
         else if (Array.isArray(content))
@@ -71,7 +70,7 @@ export class ContentController
 
                 const newLayout = new Layout(content);
 
-                this.children.add(newLayout, this.layout.id, content.id);
+                this.children.push(newLayout);
                 this.layout.addChild(newLayout);
             }
             else
@@ -88,7 +87,7 @@ export class ContentController
      */
     resize(width: number, height: number)
     {
-        this.children.list.forEach((child) =>
+        this.children.forEach((child) =>
         {
             if (child instanceof Layout)
             {

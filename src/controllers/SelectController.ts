@@ -52,7 +52,12 @@ export class SelectController
         }
     }
 
-    get(id: string): Container
+    getNode(id: string): Map<string, Container>
+    {
+        return this._tree.get(id);
+    }
+
+    getElementByID(id: string): Container
     {
         return this._list.get(id);
     }

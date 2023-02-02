@@ -42,7 +42,7 @@ export class AlignController
 
         const parentWidth = this.layout.width + paddingLeft;
 
-        const children = this.layout.elements.list;
+        const children = this.layout.elements;
 
         children.forEach((child, childNumber) =>
         {

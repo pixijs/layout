@@ -5,7 +5,6 @@ import { AlignController } from './controllers/align/AlignController';
 import { StyleController } from './controllers/StyleController';
 import { SizeController } from './controllers/SizeController';
 import { ContentController } from './controllers/ContentController';
-import { SelectController } from './controllers/SelectController';
 import { getColor } from './utils/helpers';
 
 /**
@@ -70,8 +69,8 @@ export class Layout extends Container
     /** {@link ContentController} controller is a class for controlling layouts children. */
     content: ContentController;
 
-    /** {@link SelectController} is a class for selecting layout children. */
-    elements: SelectController;
+    /** List of all layout children. */
+    elements: Array<Container> = [];
 
     /**
      * Creates layout
@@ -103,7 +102,6 @@ export class Layout extends Container
         }
 
         // order here is important as controllers are dependent on each other
-        this.elements = new SelectController();
         this.style = new StyleController(this, options.styles);
         this.size = new SizeController(this);
         this.align = new AlignController(this);
