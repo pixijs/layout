@@ -172,7 +172,13 @@ export class AlignController
 
         switch (position)
         {
-            // we skip 'left', 'top' and 'leftTop' because they are default
+            case 'leftTop':
+            case 'left':
+            case 'top':
+                this.layout.x = marginLeft;
+                this.layout.y = marginTop;
+                break;
+
             case 'rightTop':
             case 'right':
                 this.layout.x = parentWidth - width - marginRight;

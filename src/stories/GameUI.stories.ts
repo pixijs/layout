@@ -51,14 +51,14 @@ class LayoutStory
                     styles: {
                         background: Sprite.from(assets.ribbon),
                         position: 'centerTop',
-                        marginTop: -53
+                        marginTop: -53 // offset of the ribbon
                     }
                 }
             ],
             styles: {
+                ...this.params,
                 background: Sprite.from(assets.window),
-                position: 'center',
-                scale
+                marginTop: 53 * this.params.scale // offset of the ribbon should take into account the scale
             }
         });
 
@@ -83,7 +83,7 @@ class LayoutStory
         // });
 
         this.view.addChild(this.layout);
-        this.resize(window.innerWidth, window.innerHeight);
+        this.layout?.resize(window.innerWidth, window.innerHeight);
     }
 
     resize(w: number, h: number)
