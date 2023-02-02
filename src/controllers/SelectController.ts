@@ -8,10 +8,22 @@ export class SelectController
 
     private _list: Map<string, Container>;
 
-    constructor()
+    private static _instance: SelectController;
+
+    private constructor()
     {
         this._list = new Map();
         this._tree = new Map();
+    }
+
+    static get instance(): SelectController
+    {
+        if (!this._instance)
+        {
+            this._instance = new this();
+        }
+
+        return this._instance;
     }
 
     add(container: Container, parentID: string, id?: string)
