@@ -7,6 +7,7 @@ import { POSITION } from '../utils/constants';
 
 const args = {
     title: 'Settings',
+    scale: 0.5,
     position: POSITION
 };
 
@@ -30,7 +31,7 @@ class LayoutStory
 
     createLayout()
     {
-        const { title } = this.params;
+        const { title, scale } = this.params;
 
         this.layout = new Layout({
             id: 'bg',
@@ -50,13 +51,14 @@ class LayoutStory
                     styles: {
                         background: Sprite.from(assets.ribbon),
                         position: 'centerTop',
-                        marginTop: -58
+                        marginTop: -53
                     }
                 }
             ],
             styles: {
                 background: Sprite.from(assets.window),
-                position: 'center'
+                position: 'center',
+                scale
             }
         });
 

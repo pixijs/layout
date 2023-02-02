@@ -166,50 +166,52 @@ export class AlignController
 
     private setSelfPosition(parentWidth: number, parentHeight: number)
     {
-        const { position } = this.layout.style || {};
+        const { position, marginRight, marginBottom, marginTop, marginLeft, scaleX, scaleY } = this.layout.style || {};
+        const width = this.layout.width * scaleX;
+        const height = this.layout.height * scaleY;
 
         switch (position)
         {
             // we skip 'left', 'top' and 'leftTop' because they are default
             case 'rightTop':
             case 'right':
-                this.layout.x = parentWidth - this.layout.width - (this.layout.style.marginRight ?? 0);
-                this.layout.y = this.layout.style.marginTop ?? 0;
+                this.layout.x = parentWidth - width - marginRight;
+                this.layout.y = marginTop;
                 break;
 
             case 'leftBottom':
             case 'bottom':
-                this.layout.x = this.layout.style.marginLeft ?? 0;
-                this.layout.y = parentHeight - this.layout.height - (this.layout.style.marginBottom ?? 0);
+                this.layout.x = marginLeft;
+                this.layout.y = parentHeight - height - marginBottom;
                 break;
 
             case 'rightBottom':
-                this.layout.x = parentWidth - this.layout.width - (this.layout.style.marginRight ?? 0);
-                this.layout.y = parentHeight - this.layout.height - (this.layout.style.marginBottom ?? 0);
+                this.layout.x = parentWidth - width - marginRight;
+                this.layout.y = parentHeight - height - marginBottom;
                 break;
 
             case 'center':
-                this.layout.x = (parentWidth / 2) - (this.layout.width / 2);
-                this.layout.y = (parentHeight / 2) - (this.layout.height / 2);
+                this.layout.x = (parentWidth - width) / 2;
+                this.layout.y = (parentHeight - height) / 2;
                 break;
             case 'centerTop':
-                this.layout.x = (parentWidth / 2) - (this.layout.width / 2);
-                this.layout.y = this.layout.style.marginTop ?? 0;
+                this.layout.x = (parentWidth - width) / 2;
+                this.layout.y = marginTop;
                 break;
 
             case 'centerBottom':
-                this.layout.x = (parentWidth / 2) - (this.layout.width / 2);
-                this.layout.y = parentHeight - this.layout.height - (this.layout.style.marginBottom ?? 0);
+                this.layout.x = (parentWidth - width) / 2;
+                this.layout.y = parentHeight - height - marginBottom;
                 break;
 
             case 'centerLeft':
-                this.layout.x = this.layout.style.marginLeft ?? 0;
-                this.layout.y = (parentHeight / 2) - (this.layout.height / 2);
+                this.layout.x = marginLeft;
+                this.layout.y = (parentHeight - height) / 2;
                 break;
 
             case 'centerRight':
-                this.layout.y = (parentHeight / 2) - (this.layout.height / 2);
-                this.layout.x = parentWidth - this.layout.width - (this.layout.style.marginRight ?? 0);
+                this.layout.y = (parentHeight - height) / 2;
+                this.layout.x = parentWidth - width - marginRight;
                 break;
         }
     }

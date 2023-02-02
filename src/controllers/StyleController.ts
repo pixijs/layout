@@ -34,27 +34,54 @@ export class StyleController
     // borderWidth: number;
     // borderColor: number;
 
-    // margin = 0;
-    // marginTop: number;
-    // marginRight: number;
-    // marginBottom: number;
-    // marginLeft: number;
-
     /**
      * Defines {@link Layout} paddings. This will also impact inner elements size.
      * 100% of parent size is parentSize - padding * 2.
      */
     padding = 0;
+    /**
+     * Defines {@link Layout} top padding. This will also impact inner elements size.
+     * 100% of parent size is parentSize - padding * 2.
+     */
     paddingTop: number;
+    /**
+     * Defines {@link Layout} right padding. This will also impact inner elements size.
+     * 100% of parent size is parentSize - padding * 2.
+     */
     paddingRight: number;
+    /**
+     * Defines {@link Layout} bottom padding. This will also impact inner elements size.
+     * 100% of parent size is parentSize - padding * 2.
+     */
     paddingBottom: number;
+    /**
+     * Defines {@link Layout} left padding. This will also impact inner elements size.
+     * 100% of parent size is parentSize - padding * 2.
+     */
     paddingLeft: number;
 
+    /** Defines {@link Layout} margins. */
     margin = 0;
+
+    /** Defines {@link Layout} top margin. */
     marginTop: number;
+
+    /** Defines {@link Layout} right margin. */
     marginRight: number;
+
+    /** Defines {@link Layout} bottom margin. */
     marginBottom: number;
+
+    /** Defines {@link Layout} left margin. */
     marginLeft: number;
+
+    /** Defines {@link Layout} scale. */
+    scale: number;
+
+    /** Defines {@link Layout} scale x. */
+    scaleX: number;
+    /** Defines {@link Layout} scale y. */
+    scaleY: number;
 
     // alignContent?: AlignContent;
     // gap, row-gap, column-gap
@@ -142,32 +169,29 @@ export class StyleController
         this.display = styles?.display ?? 'block';
         this.borderRadius = styles?.borderRadius ?? 0;
         this.opacity = styles?.opacity ?? 1;
+
         // this.zIndex = styles?.zIndex;
         // this.maxWidth = styles?.maxWidth;
         // this.maxHeight = styles?.maxHeight;
         // this.border = styles?.border;
         // this.borderWidth = styles?.borderWidth;
         // this.borderColor = styles?.borderColor;
-        // this.margin = styles?.margin ?? 0;
-        // this.marginTop = styles?.marginTop;
-        // this.marginRight = styles?.marginRight;
-        // this.marginBottom = styles?.marginBottom;
-        // this.marginLeft = styles?.marginLeft;
-        this.padding = styles.padding ?? styles?.padding ?? 0;
+
+        this.padding = styles.padding ?? 0;
         this.paddingTop = styles.paddingTop ?? styles?.padding ?? 0;
         this.paddingLeft = styles.paddingLeft ?? styles?.padding ?? 0;
         this.paddingBottom = styles.paddingBottom ?? styles?.padding ?? 0;
         this.paddingRight = styles.paddingRight ?? styles?.padding ?? 0;
 
-        this.margin = styles.margin ?? styles?.margin ?? 0;
+        this.margin = styles.margin ?? 0;
         this.marginTop = styles.marginTop ?? styles?.margin ?? 0;
         this.marginLeft = styles.marginLeft ?? styles?.margin ?? 0;
         this.marginBottom = styles.marginBottom ?? styles?.margin ?? 0;
         this.marginRight = styles.marginRight ?? styles?.margin ?? 0;
-        // this.paddingTop = styles?.paddingTop;
-        // this.paddingRight = styles?.paddingRight;
-        // this.paddingBottom = styles?.paddingBottom;
-        // this.paddingLeft = styles?.paddingLeft;
+
+        this.scale = styles.scale ?? 1;
+        this.scaleX = styles.scaleX ?? styles?.scale ?? 1;
+        this.scaleY = styles.scaleY ?? styles?.scale ?? 1;
 
         this.color = styles?.color ?? 'black';
         this.dropShadowColor = styles?.dropShadowColor ?? 'black';

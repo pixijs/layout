@@ -45,6 +45,9 @@ export type Styles = Partial<TextStyle> & {
     borderRadius?: number;
     textAlign?: TextStyleAlign;
     verticalAlign?: VerticalAlign;
+    scale?: number;
+    scaleX?: number;
+    scaleY?: number;
 };
 
 export type LayoutStyles = {
