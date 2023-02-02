@@ -49,7 +49,7 @@ export class ContentController
         }
         else if (typeof content === 'object')
         {
-            if (content.id)
+            if (content.id && content.content)
             {
                 // we consider this as Layout
 

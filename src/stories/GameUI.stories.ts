@@ -4,6 +4,7 @@ import { Container } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
 import { preloadAssets } from '../utils/helpers';
 import { POSITION } from '../utils/constants';
+import { defaultTextStyle } from './styles/text';
 
 const args = {
     title: 'Settings',
@@ -35,52 +36,35 @@ class LayoutStory
 
         this.layout = new Layout({
             id: 'bg',
-            content: [
-                {
-                    id: 'ribbon',
-                    content: {
-                        id: 'title',
-                        content: title,
-                        styles: {
-                            textAlign: 'center',
-                            color: 'white',
-                            fontSize: 70,
-                            paddingTop: 15
-                        }
-                    },
+            content: {
+                id: 'ribbon',
+                content: {
+                    id: 'title',
+                    content: title,
                     styles: {
-                        background: Sprite.from(assets.ribbon),
-                        position: 'centerTop',
-                        marginTop: -53 // offset of the ribbon
+                        textAlign: 'center',
+                        color: 'white',
+                        fontSize: 70,
+                        paddingTop: 15,
+                        fontWeight: 'bold',
+                        dropShadow: true,
+                        dropShadowAlpha: 0.5,
+                        dropShadowDistance: 0,
+                        dropShadowBlur: 5
                     }
+                },
+                styles: {
+                    background: Sprite.from(assets.ribbon),
+                    position: 'centerTop',
+                    marginTop: -53 // offset of the ribbon
                 }
-            ],
+            },
             styles: {
                 ...this.params,
                 background: Sprite.from(assets.window),
-                marginTop: 53 * this.params.scale // offset of the ribbon should take into account the scale
+                marginTop: 53 * scale // offset of the ribbon should take into account the scale
             }
         });
-
-        // this.layout = new Layout({
-        //     id: 'root',
-        //     content: [
-        //         {
-        //             id: 'title',
-        //             content: title,
-        //             styles: {
-        //                 textAlign: 'center',
-        //                 color: 'white',
-        //                 position: 'topCenter',
-        //                 padding: 10
-        //             }
-        //         }
-        //     ],
-        //     styles: {
-        //         ...this.params,
-        //         background: bg
-        //     }
-        // });
 
         this.view.addChild(this.layout);
         this.layout?.resize(window.innerWidth, window.innerHeight);
