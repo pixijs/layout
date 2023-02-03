@@ -6,6 +6,7 @@ import { Sprite } from '@pixi/sprite';
 import { preloadAssets } from '../utils/helpers';
 import { POSITION } from '../utils/constants';
 import { Text } from '@pixi/text';
+import { Styles } from '../utils/types';
 
 const args = {
     title: 'Settings',
@@ -44,6 +45,15 @@ class LayoutStory
         const { title, scale, position } = this.params;
         const ribbonOffset = 53;
         const applyButtonOffset = 70;
+        const textStyles: Styles = {
+            textAlign: 'center',
+            color: 'white',
+            fontSize: 55,
+            fontWeight: 'bold',
+            stroke: 0x94dd30,
+            strokeThickness: 10,
+            wordWrap: false
+        };
 
         this.layout = new Layout({
             id: 'root',
@@ -54,13 +64,7 @@ class LayoutStory
                         id: 'title',
                         content: title.toUpperCase(),
                         styles: {
-                            textAlign: 'center',
-                            color: 'white',
-                            fontSize: 55,
-                            fontWeight: 'bold',
-                            stroke: 0x94dd30,
-                            strokeThickness: 10,
-                            wordWrap: false,
+                            ...textStyles,
                             overflow: 'hidden',
                             position: 'centerTop',
                             marginTop: 20,
@@ -81,10 +85,10 @@ class LayoutStory
                         icon: assets.closeIcon,
                         iconOffset: {
                             y: -10
-                        }
+                        },
+                        scale: 0.8
                     }),
                     styles: {
-                        scale: 0.8,
                         position: 'rightTop',
                         display: 'inlineBlock'
                     }
@@ -94,7 +98,19 @@ class LayoutStory
                     content: [
                         {
                             id: 'gfxController',
-                            content: 'GFX',
+                            content: [
+                                {
+                                    id: 'gfxControllerLabel',
+                                    content: 'GFX',
+                                    styles: {
+                                        ...textStyles,
+                                        stroke: 0xefcf6f,
+                                        strokeThickness: 15,
+                                        width: '20%',
+                                        position: 'centerLeft'
+                                    }
+                                }
+                            ],
                             styles: {
                                 background: Sprite.from(assets.substrate),
                                 maxWidth: '100%'
@@ -102,7 +118,19 @@ class LayoutStory
                         },
                         {
                             id: 'bgmController',
-                            content: 'BGM',
+                            content: [
+                                {
+                                    id: 'gfxControllerLabel',
+                                    content: 'GFX',
+                                    styles: {
+                                        ...textStyles,
+                                        stroke: 0xefcf6f,
+                                        strokeThickness: 15,
+                                        width: '20%',
+                                        position: 'centerLeft'
+                                    }
+                                }
+                            ],
                             styles: {
                                 background: Sprite.from(assets.substrate),
                                 maxWidth: '100%'
@@ -112,12 +140,58 @@ class LayoutStory
                             id: 'optionsBottomLeft',
                             content: [
                                 {
-                                    id: 'sfx',
-                                    content: 'SFX'
+                                    id: 'sfxContainer',
+                                    content: [
+                                        {
+                                            id: 'sfx',
+                                            content: 'SFX',
+                                            styles: {
+                                                ...textStyles,
+                                                stroke: 0xefcf6f,
+                                                strokeThickness: 15,
+                                                width: '20%'
+                                            }
+                                        },
+                                        {
+                                            id: 'sfxSWITCH',
+                                            content: new FancyButton({
+                                                defaultView: assets.button,
+                                                scale: 0.4
+                                            }),
+                                            styles: {
+                                                display: 'inlineBlock',
+                                                paddingLeft: 90,
+                                                paddingTop: 15
+                                            }
+                                        }
+                                    ]
                                 },
                                 {
-                                    id: 'gpu',
-                                    content: 'GPU'
+                                    id: 'gpuContainer',
+                                    content: [
+                                        {
+                                            id: 'gpu',
+                                            content: 'GPU',
+                                            styles: {
+                                                ...textStyles,
+                                                stroke: 0xefcf6f,
+                                                strokeThickness: 15,
+                                                width: '20%'
+                                            }
+                                        },
+                                        {
+                                            id: 'gpuSWITCH',
+                                            content: new FancyButton({
+                                                defaultView: assets.button,
+                                                scale: 0.4
+                                            }),
+                                            styles: {
+                                                display: 'inlineBlock',
+                                                paddingLeft: 90,
+                                                paddingTop: 15
+                                            }
+                                        }
+                                    ]
                                 }
                             ],
                             styles: {
@@ -129,15 +203,111 @@ class LayoutStory
                             content: [
                                 {
                                     id: 'antiAliasing',
-                                    content: 'ANTI-ALIASING'
+                                    content: 'ANTI-ALIASING',
+                                    styles: {
+                                        ...textStyles,
+                                        stroke: 0xefcf6f,
+                                        fontSize: 40
+                                    }
                                 },
                                 {
-                                    id: 'subtitles',
-                                    content: 'SUBTITLES'
+                                    id: 'antiAliasingSWITCH',
+                                    content: [
+                                        {
+                                            id: 'antiAliasing2x',
+                                            content: new FancyButton({
+                                                defaultView: assets.button,
+                                                scale: 0.3,
+                                                text: '2x'
+                                            }),
+                                            styles: {
+                                                display: 'inline',
+                                                width: '33%'
+                                            }
+                                        },
+                                        {
+                                            id: 'antiAliasing4x',
+                                            content: new FancyButton({
+                                                defaultView: assets.button,
+                                                scale: 0.3,
+                                                text: '4x'
+                                            }),
+                                            styles: {
+                                                display: 'inline',
+                                                width: '33%'
+                                            }
+                                        },
+                                        {
+                                            id: 'antiAliasing16x',
+                                            content: new FancyButton({
+                                                defaultView: assets.button,
+                                                scale: 0.3,
+                                                text: '16x'
+                                            }),
+                                            styles: {
+                                                display: 'inline',
+                                                width: '33%'
+                                            }
+                                        }
+                                    ]
                                 },
                                 {
-                                    id: 'cutscenes',
-                                    content: 'CUTSCENES'
+                                    id: 'subtitlesContainer',
+                                    content: [
+                                        {
+                                            id: 'subtitles',
+                                            content: 'SUBTITLES',
+                                            styles: {
+                                                ...textStyles,
+                                                stroke: 0xefcf6f,
+                                                width: '20%',
+                                                fontSize: 30
+                                            }
+                                        },
+                                        {
+                                            id: 'subtitlesSWITCH',
+                                            content: new FancyButton({
+                                                defaultView: assets.button,
+                                                scale: 0.3
+                                            }),
+                                            styles: {
+                                                display: 'inlineBlock',
+                                                paddingLeft: 175
+                                            }
+                                        }
+                                    ],
+                                    styles: {
+                                        paddingTop: 20
+                                    }
+                                },
+                                {
+                                    id: 'cutscenesContainer',
+                                    content: [
+                                        {
+                                            id: 'cutscenes',
+                                            content: 'CUTSCENES',
+                                            styles: {
+                                                ...textStyles,
+                                                stroke: 0xefcf6f,
+                                                width: '20%',
+                                                fontSize: 30
+                                            }
+                                        },
+                                        {
+                                            id: 'subtitlesSWITCH',
+                                            content: new FancyButton({
+                                                defaultView: assets.button,
+                                                scale: 0.3
+                                            }),
+                                            styles: {
+                                                display: 'inlineBlock',
+                                                paddingLeft: 175
+                                            }
+                                        }
+                                    ],
+                                    styles: {
+                                        paddingTop: 20
+                                    }
                                 }
                             ],
                             styles: {
