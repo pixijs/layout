@@ -18,17 +18,29 @@ export class StyleController
 {
     private layout: Layout;
 
-    /** Defines should you see content if it overflows parent size. */
+    /**
+     * Defines should you see content if it overflows parent size.
+     * @default 'visible'
+     */
     overflow: Overflow = OVERFLOW[0];
 
-    /** Defines main {@link Layout} behavior in terms of aligning and resizing. */
-    display: Display = 'block';
+    /**
+     * Defines main {@link Layout} behavior in terms of aligning and resizing.
+     * @default 'inlineBlock'
+     */
+    display: Display = 'inlineBlock';
 
-    /** Defines {@link Layout} corners radius. */
+    /**
+     * Defines {@link Layout} corners radius.
+     * @default 0
+     */
     borderRadius = 0;
 
-    /** Defines {@link Layout} z index. */
-    zIndex: number;
+    /**
+     * Defines {@link Layout} z index.
+     * @default 1
+     */
+    zIndex = 1;
 
     /** Defines {@link Layout} max width. */
     maxWidth: FlexNumber;
@@ -36,58 +48,90 @@ export class StyleController
     /** Defines {@link Layout} max height. */
     maxHeight: FlexNumber;
 
-    // border: string;
-    // borderWidth: number;
-    // borderColor: number;
-
     /**
      * Defines {@link Layout} paddings. This will also impact inner elements size.
      * 100% of parent size is parentSize - padding * 2.
+     * @default 0
      */
     padding = 0;
     /**
      * Defines {@link Layout} top padding. This will also impact inner elements size.
      * 100% of parent size is parentSize - padding * 2.
+     * @default 0
      */
     paddingTop: number;
     /**
      * Defines {@link Layout} right padding. This will also impact inner elements size.
      * 100% of parent size is parentSize - padding * 2.
+     * @default 0
      */
     paddingRight: number;
     /**
      * Defines {@link Layout} bottom padding. This will also impact inner elements size.
      * 100% of parent size is parentSize - padding * 2.
+     * @default 0
      */
     paddingBottom: number;
     /**
      * Defines {@link Layout} left padding. This will also impact inner elements size.
      * 100% of parent size is parentSize - padding * 2.
+     * @default 0
      */
     paddingLeft: number;
 
-    /** Defines {@link Layout} margins. */
+    /**
+     * Defines {@link Layout} margins.
+     * @default 0
+     */
     margin = 0;
 
-    /** Defines {@link Layout} top margin. */
-    marginTop: number;
+    /**
+     * Defines {@link Layout} top margin.
+     * @default 0
+     */
+    marginTop = 0;
 
-    /** Defines {@link Layout} right margin. */
-    marginRight: number;
+    /**
+     * Defines {@link Layout} right margin.
+     * @default 0
+     */
+    marginRight = 0;
 
-    /** Defines {@link Layout} bottom margin. */
-    marginBottom: number;
+    /**
+     * Defines {@link Layout} bottom margin.
+     * @default 0
+     */
+    marginBottom = 0;
 
-    /** Defines {@link Layout} left margin. */
-    marginLeft: number;
+    /**
+     * Defines {@link Layout} left margin.
+     * @default 0
+     */
+    marginLeft = 0;
 
-    /** Defines {@link Layout} scale. */
-    scale: number;
+    /**
+     * Defines {@link Layout} scale.
+     * @default 1
+     */
+    scale = 1;
 
-    /** Defines {@link Layout} scale x. */
-    scaleX: number;
-    /** Defines {@link Layout} scale y. */
-    scaleY: number;
+    /**
+     * Defines {@link Layout} scale x.
+     * @default 1
+     */
+
+    scaleX = 1;
+
+    /**
+     * Defines {@link Layout} scale y.
+     * @default 1
+     */
+    scaleY = 1;
+
+    // TODO: add support for missing properties
+    // border: string;
+    // borderWidth: number;
+    // borderColor: number;
 
     // alignContent?: AlignContent;
     // gap, row-gap, column-gap
@@ -97,14 +141,16 @@ export class StyleController
      * Defines {@link Layout} width.
      * It is a flexible number, so you can use 'auto' to make it fit parent size,
      * or set it to 100% to make it fit parent size.
+     * @default 'auto'
      */
-    width: FlexNumber | 'auto';
+    width: FlexNumber | 'auto' = 'auto';
     /**
      * Defines {@link Layout} height.
      * It is a flexible number, so you can use 'auto' to make it fit parent size,
      * or set it to 100% to make it fit parent size.
+     * @default 'auto'
      */
-    height: FlexNumber | 'auto';
+    height: FlexNumber | 'auto' = 'auto';
 
     /**
      * Defines {@link Layout} background.
@@ -116,7 +162,7 @@ export class StyleController
      * If with is set to 'auto' or height is set to 'auto',
      * and background is a Container based element with width and height (Sprite, Graphics etc.),
      * layout size will bve set basing on background.
-     * @default transparent
+     * @default 'transparent'
      */
     private _background: FlexColor | Container = 'transparent';
 
@@ -124,7 +170,7 @@ export class StyleController
      * Defines {@link Layout} text color.
      *
      * It is a flexible value, can be text color constant or hex number.
-     * @default black
+     * @default 'black'
      */
     private _color: FlexColor = 'black';
 
@@ -172,7 +218,7 @@ export class StyleController
     private setStyles(styles?: Styles)
     {
         this.overflow = styles?.overflow ?? OVERFLOW[0];
-        this.display = styles?.display ?? 'block';
+        this.display = styles?.display ?? 'inlineBlock';
         this.borderRadius = styles?.borderRadius ?? 0;
         this.opacity = styles?.opacity ?? 1;
 

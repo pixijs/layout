@@ -189,13 +189,13 @@ export class Layout extends Container
     }
 
     /** Returns with of the container */
-    getContentWidth(): number
+    get contentWidth(): number
     {
         return super.width;
     }
 
     /** Returns height of the container */
-    getContentHeight(): number
+    get contentHeight(): number
     {
         return super.height;
     }

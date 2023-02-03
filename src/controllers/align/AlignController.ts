@@ -17,18 +17,18 @@ export class AlignController
 
     /**
      * Updates layout and all children alignments.
-     * @param {number} width - Parent width
-     * @param {number} height - Parent height
+     * @param {number} parentWidth
+     * @param {number} parentHeight
      */
-    update(width: number, height: number)
+    update(parentWidth: number, parentHeight: number)
     {
-        this.setSelfPosition(width, height);
-        this.alignChildren();
+        this.setSelfPosition(parentWidth, parentHeight);
+        this.alignChildren(parentWidth, parentHeight);
 
         this.layout.content.resize(this.layout.width, this.layout.height);
     }
 
-    private alignChildren()
+    private alignChildren(parentWidth: number, parentHeight: number)
     {
         let maxChildHeight = 0;
 
@@ -42,8 +42,6 @@ export class AlignController
         let x = paddingLeft;
         let y = paddingTop;
 
-        const parentWidth = this.layout.width + paddingLeft;
-
         const children = this.layout.elements;
 
         children.forEach((child, childNumber) =>
@@ -52,9 +50,6 @@ export class AlignController
 
             if (child instanceof Text)
             {
-                const parentWidth = this.layout.width;
-                const parentHeight = this.layout.height;
-
                 const availableWidth = parentWidth - paddingLeft - paddingRight;
 
                 child.style.wordWrapWidth = availableWidth;

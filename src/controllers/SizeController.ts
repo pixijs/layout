@@ -1,7 +1,7 @@
 import { getNumber } from '../utils/helpers';
 import { Layout } from '../Layout';
 import { FlexNumber } from '../utils/types';
-import { Sprite } from '@pixi/sprite';
+import { Container } from '@pixi/display';
 
 /** Size controller manages {@link Layout} and it's content size. */
 export class SizeController
@@ -48,6 +48,10 @@ export class SizeController
         {
             switch (display)
             {
+                case 'inlineBlock':
+                    finalWidth = this.layout.contentWidth;
+                    break;
+
                 case 'block':
                 default:
                     finalWidth = parentWidth;
@@ -61,7 +65,7 @@ export class SizeController
 
         if (height === 'auto')
         {
-            finalHeight = this.layout.getContentHeight();
+            finalHeight = this.layout.contentHeight;
         }
         else
         {
@@ -86,7 +90,7 @@ export class SizeController
             return;
         }
 
-        if (background instanceof Sprite)
+        if (background instanceof Container)
         {
             if (width === 'auto')
             {
@@ -114,6 +118,27 @@ export class SizeController
         this.layout.updateBG();
         this.layout.updateMask();
 
+        this.layout.align.update(this.parentWidth, this.parentHeight);
+    }
+
+    get width(): number
+    {
+        return this._width;
+    }
+    set width(width: FlexNumber)
+    {
+        this._width = getNumber(width, this.parentWidth);
+        this.layout.align.update(this.parentWidth, this.parentHeight);
+    }
+
+    get height(): number
+    {
+        return this._height;
+    }
+
+    set height(height: FlexNumber)
+    {
+        this._height = getNumber(height, this.parentHeight);
         this.layout.align.update(this.parentWidth, this.parentHeight);
     }
 
@@ -147,26 +172,5 @@ export class SizeController
         }
 
         this.layout.scale.set(Math.min(finalScaleX, finalScaleY));
-    }
-
-    get width(): number
-    {
-        return this._width;
-    }
-    set width(width: FlexNumber)
-    {
-        this._width = getNumber(width, this.parentWidth);
-        this.layout.align.update(this.parentWidth, this.parentHeight);
-    }
-
-    get height(): number
-    {
-        return this._height;
-    }
-
-    set height(height: FlexNumber)
-    {
-        this._height = getNumber(height, this.parentHeight);
-        this.layout.align.update(this.parentWidth, this.parentHeight);
     }
 }
