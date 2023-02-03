@@ -28,7 +28,7 @@ export class StyleController
      * Defines main {@link Layout} behavior in terms of aligning and resizing.
      * @default 'inlineBlock'
      */
-    display: Display = 'inlineBlock';
+    display: Display = 'block';
 
     /**
      * Defines {@link Layout} corners radius.
@@ -188,9 +188,8 @@ export class StyleController
      * Can be used as analog of CSS position absolute property but with text constants.
      *
      * This is how you anc stick {@link Layout} to any sides of the parent.
-     *  @default 'left'
      */
-    position?: Position = POSITION[1];
+    position?: Position;
 
     /**
      * Defines {@link Layout} text vertical alignment.
@@ -200,7 +199,7 @@ export class StyleController
      */
     verticalAlign?: VerticalAlign = VERTICAL_ALIGN[0];
 
-    /** Holds all text related styles.. This is to be nested by children */
+    /** Holds all text related styles. This is to be nested by children */
     textStyle: Partial<TextStyle> = {}; // this is to be nested by children
 
     /**
@@ -218,7 +217,7 @@ export class StyleController
     private setStyles(styles?: Styles)
     {
         this.overflow = styles?.overflow ?? OVERFLOW[0];
-        this.display = styles?.display ?? 'inlineBlock';
+        this.display = styles?.display ?? 'block';
         this.borderRadius = styles?.borderRadius ?? 0;
         this.opacity = styles?.opacity ?? 1;
 
@@ -230,21 +229,21 @@ export class StyleController
         // this.borderWidth = styles?.borderWidth;
         // this.borderColor = styles?.borderColor;
 
-        this.padding = styles.padding ?? 0;
-        this.paddingTop = styles.paddingTop ?? styles?.padding ?? 0;
-        this.paddingLeft = styles.paddingLeft ?? styles?.padding ?? 0;
-        this.paddingBottom = styles.paddingBottom ?? styles?.padding ?? 0;
-        this.paddingRight = styles.paddingRight ?? styles?.padding ?? 0;
+        this.padding = styles?.padding ?? 0;
+        this.paddingTop = styles?.paddingTop ?? styles?.padding ?? 0;
+        this.paddingLeft = styles?.paddingLeft ?? styles?.padding ?? 0;
+        this.paddingBottom = styles?.paddingBottom ?? styles?.padding ?? 0;
+        this.paddingRight = styles?.paddingRight ?? styles?.padding ?? 0;
 
-        this.margin = styles.margin ?? 0;
-        this.marginTop = styles.marginTop ?? styles?.margin ?? 0;
-        this.marginLeft = styles.marginLeft ?? styles?.margin ?? 0;
-        this.marginBottom = styles.marginBottom ?? styles?.margin ?? 0;
-        this.marginRight = styles.marginRight ?? styles?.margin ?? 0;
+        this.margin = styles?.margin ?? 0;
+        this.marginTop = styles?.marginTop ?? styles?.margin ?? 0;
+        this.marginLeft = styles?.marginLeft ?? styles?.margin ?? 0;
+        this.marginBottom = styles?.marginBottom ?? styles?.margin ?? 0;
+        this.marginRight = styles?.marginRight ?? styles?.margin ?? 0;
 
-        this.scale = styles.scale ?? 1;
-        this.scaleX = styles.scaleX ?? styles?.scale ?? 1;
-        this.scaleY = styles.scaleY ?? styles?.scale ?? 1;
+        this.scale = styles?.scale ?? 1;
+        this.scaleX = styles?.scaleX ?? styles?.scale ?? 1;
+        this.scaleY = styles?.scaleY ?? styles?.scale ?? 1;
 
         this.color = styles?.color ?? 'black';
         this.dropShadowColor = styles?.dropShadowColor ?? 'black';
@@ -254,7 +253,7 @@ export class StyleController
         this.width = styles?.width ?? 'auto';
         this.height = styles?.height ?? 'auto';
 
-        this.position = styles?.position ?? POSITION[1];
+        this.position = styles?.position;
         this.verticalAlign = styles?.verticalAlign ?? VERTICAL_ALIGN[0];
     }
 

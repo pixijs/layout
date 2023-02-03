@@ -23,9 +23,11 @@ export class AlignController
     update(parentWidth: number, parentHeight: number)
     {
         this.setSelfPosition(parentWidth, parentHeight);
-        this.alignChildren(parentWidth, parentHeight);
 
         this.layout.content.resize(this.layout.width, this.layout.height);
+
+        // !!! important to align children AFTER content resize
+        this.alignChildren(this.layout.width, this.layout.height);
     }
 
     private alignChildren(parentWidth: number, parentHeight: number)
@@ -111,11 +113,18 @@ export class AlignController
                 return;
             }
 
-            let childDisplay = 'block';
+            let childDisplay = 'inline-block';
 
             if (child instanceof Layout)
             {
                 childDisplay = child.style.display;
+                const childPosition = child.style.position;
+
+                if (childPosition)
+                {
+                    // this layout position will be handled by it's own controller
+                    return;
+                }
             }
 
             child.x = x;
@@ -164,6 +173,9 @@ export class AlignController
     private setSelfPosition(parentWidth: number, parentHeight: number)
     {
         const { position, marginRight, marginBottom, marginTop, marginLeft } = this.layout.style || {};
+
+        if (!position) return;
+
         const scaleX = this.layout.scale.x;
         const scaleY = this.layout.scale.y;
         const width = this.layout.width * scaleX;
