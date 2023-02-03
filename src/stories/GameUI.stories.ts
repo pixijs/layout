@@ -36,7 +36,7 @@ class LayoutStory
 
     createLayout()
     {
-        const { title, scale } = this.params;
+        const { title, scale, position } = this.params;
         const ribbonOffset = 53;
         const applyButtonOffset = 70;
 
@@ -49,10 +49,10 @@ class LayoutStory
                         id: 'title',
                         content: title.toUpperCase(),
                         styles: {
-                            textAlign: 'center',
+                            // textAlign: 'center',
                             color: 'white',
                             fontSize: 55,
-                            marginTop: -5,
+                            // marginTop: -5,
                             fontWeight: 'bold',
                             stroke: 0x94dd30,
                             strokeThickness: 10,
@@ -61,9 +61,9 @@ class LayoutStory
                         }
                     },
                     styles: {
-                        background: Sprite.from(assets.ribbon),
-                        position: 'centerTop',
-                        marginTop: -ribbonOffset // offset of the ribbon
+                        background: Sprite.from(assets.ribbon)
+                        // position: 'centerTop'
+                        // marginTop: -ribbonOffset // offset of the ribbon
                     }
                 },
                 {
@@ -87,17 +87,18 @@ class LayoutStory
                 }
             ],
             styles: {
-                ...this.params,
+                scale,
+                position,
                 background: Sprite.from(assets.window),
-                // marginTop: ribbonOffset * scale, // offset of the ribbon should take into account the scale
-                // marginBottom: applyButtonOffset * scale, // offset of the ribbon should take into account the scale
+                marginTop: ribbonOffset * scale, // offset of the ribbon should take into account the scale
+                marginBottom: applyButtonOffset * scale, // offset of the ribbon should take into account the scale
                 maxWidth: '100%',
                 maxHeight: '100%'
             }
         });
 
         this.view.addChild(this.layout);
-        this.layout?.resize(window.innerWidth, window.innerHeight);
+        this.resize(window.innerWidth, window.innerHeight);
     }
 
     resize(w: number, h: number)

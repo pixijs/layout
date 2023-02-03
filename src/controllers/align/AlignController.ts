@@ -22,8 +22,10 @@ export class AlignController
      */
     update(width: number, height: number)
     {
-        this.alignChildren();
         this.setSelfPosition(width, height);
+        this.alignChildren();
+
+        this.layout.content.resize(width, height);
     }
 
     private alignChildren()

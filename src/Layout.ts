@@ -117,13 +117,6 @@ export class Layout extends Container
     resize(parentWidth: number, parentHeight: number)
     {
         this.size.update(parentWidth, parentHeight);
-        this.align.update(parentWidth, parentHeight);
-        this.content.resize(this.width, this.height);
-        // align and content controllers are dependent on each other so we need to update them twice
-        // TODO: find a better way to do this
-
-        this.align.update(parentWidth, parentHeight);
-        this.content.resize(this.width, this.height);
     }
 
     /** Render and update the background of layout basing ot it's current state. */
@@ -133,51 +126,40 @@ export class Layout extends Container
 
         if (background instanceof Container)
         {
-            const { width, height } = this.style;
+            if (background instanceof Sprite)
+            {
+                background.anchor.set(0);
+            }
 
             this.bg = background;
+
             this.addChildAt(this.bg, 0);
-
-            if (this.bg instanceof Sprite)
-            {
-                this.bg.anchor.set(0);
-            }
-
-            if (width === 'auto')
-            {
-                this.width = background.width;
-            }
-
-            if (height === 'auto')
-            {
-                this.height = background.height;
-            }
-
-            return;
         }
-
-        const color = background !== 'transparent' && getColor(background);
-
-        const { borderRadius } = this.style;
-        const { width, height } = this;
-
-        if (color && width && height)
+        else
         {
-            if (!this.bg)
-            {
-                this.bg = new Graphics();
-                this.addChildAt(this.bg, 0);
-            }
+            const color = background !== 'transparent' && getColor(background);
 
-            if (this.bg instanceof Graphics)
+            const { borderRadius } = this.style;
+            const { width, height } = this;
+
+            if (color && width && height)
             {
-                this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(0, 0, width, height, borderRadius);
+                if (!this.bg)
+                {
+                    this.bg = new Graphics();
+                    this.addChildAt(this.bg, 0);
+                }
+
+                if (this.bg instanceof Graphics)
+                {
+                    this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(0, 0, width, height, borderRadius);
+                }
             }
-        }
-        else if (this.bg)
-        {
-            this.removeChild(this.bg);
-            delete this.bg;
+            else if (this.bg)
+            {
+                this.removeChild(this.bg);
+                delete this.bg;
+            }
         }
     }
 

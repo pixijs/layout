@@ -1,6 +1,7 @@
 import { getNumber } from '../utils/helpers';
 import { Layout } from '../Layout';
 import { FlexNumber } from '../utils/types';
+import { Sprite } from '@pixi/sprite';
 
 /** Size controller manages {@link Layout} and it's content size. */
 export class SizeController
@@ -28,10 +29,13 @@ export class SizeController
      */
     update(parentWidth: number, parentHeight: number)
     {
+        let finalWidth = 0;
+        let finalHeight = 0;
+
         this.parentWidth = parentWidth;
         this.parentHeight = parentHeight;
 
-        const { width, height, display, maxWidth, maxHeight, scaleX, scaleY } = this.layout.style;
+        const { width, height, display, maxWidth, maxHeight, scaleX, scaleY, background } = this.layout.style;
 
         if (width === 0 || height === 0)
         {
@@ -46,69 +50,103 @@ export class SizeController
             {
                 case 'block':
                 default:
-                    this.width = parentWidth;
+                    finalWidth = parentWidth;
                     break;
             }
         }
         else
         {
-            this.width = getNumber(width, parentWidth);
+            finalWidth = getNumber(width, parentWidth);
         }
 
         if (height === 'auto')
         {
-            this.height = this.layout.getContentHeight();
+            finalHeight = this.layout.getContentHeight();
         }
         else
         {
-            this.height = getNumber(height, parentHeight);
+            finalHeight = getNumber(height, parentHeight);
         }
 
         if (this.layout.parent instanceof Layout)
         {
             const parentPadding = this.layout.parent?.style.padding ?? 0;
 
-            this.width -= parentPadding;
-            this.height -= parentPadding;
+            finalWidth -= parentPadding;
+            finalHeight -= parentPadding;
         }
 
-        if (this.width < 0) this.width = 0;
-        if (this.height < 0) this.height = 0;
+        if (finalWidth < 0) finalWidth = 0;
+        if (finalHeight < 0) finalHeight = 0;
 
-        if (this.width === 0 || this.height === 0)
+        if (finalWidth === 0 || finalHeight === 0)
         {
             this.layout.visible = false;
 
             return;
         }
 
-        this.layout.scale.x = scaleX;
-        this.layout.scale.y = scaleY;
+        if (background instanceof Sprite)
+        {
+            if (width === 'auto')
+            {
+                // size is basing on background size
+                finalWidth = background.width;
+            }
+
+            if (height === 'auto')
+            {
+                // size is basing on background size
+                finalHeight = background.height;
+            }
+        }
+
+        this._width = getNumber(finalWidth, this.parentWidth);
+        this._height = getNumber(finalHeight, this.parentHeight);
+
+        this.layout.scale.set(scaleX, scaleY);
+
+        if (maxWidth || maxHeight)
+        {
+            this.fitToSize(parentWidth, parentHeight);
+        }
 
         this.layout.updateBG();
         this.layout.updateMask();
 
-        if (maxWidth || maxHeight)
+        this.layout.align.update(this.parentWidth, this.parentHeight);
+    }
+
+    private fitToSize(parentWidth: number, parentHeight: number)
+    {
+        const { maxWidth, maxHeight } = this.layout.style;
+
+        const currentScaleX = this.layout.scale.x;
+        const currentScaleY = this.layout.scale.y;
+
+        const layoutWidth = this.layout.width;
+        const layoutHeight = this.layout.height;
+
+        const maxWidthVal = getNumber(maxWidth, parentWidth);
+        const maxHeightVal = getNumber(maxHeight, parentHeight);
+
+        const fitScaleX = maxWidthVal / layoutWidth;
+        const fitScaleY = maxHeightVal / layoutHeight;
+
+        let finalScaleX = currentScaleX;
+        let finalScaleY = currentScaleY;
+
+        if (layoutWidth * currentScaleX > maxWidthVal)
         {
-            const maxWidthVal = getNumber(maxWidth, parentWidth);
-            const maxHeightVal = getNumber(maxHeight, parentHeight);
-            const layoutWidth = this.layout.width * this.layout.scale.x;
-            const layoutHeight = this.layout.height * this.layout.scale.y;
-            let scaleX = this.layout.scale.x;
-            let scaleY = this.layout.scale.y;
-
-            if (maxWidth && layoutWidth > maxWidthVal)
-            {
-                scaleX *= maxWidthVal / layoutWidth;
-            }
-
-            if (maxHeight && layoutHeight > maxHeightVal)
-            {
-                scaleY *= maxHeightVal / layoutHeight;
-            }
-
-            this.layout.scale.set(Math.min(scaleX, scaleY));
+            finalScaleX = fitScaleX;
         }
+
+        if (layoutHeight * currentScaleY > maxHeightVal)
+        {
+            finalScaleY = fitScaleY;
+        }
+
+        this.layout.scale.set(Math.min(finalScaleX, finalScaleY));
     }
 
     get width(): number
@@ -118,6 +156,7 @@ export class SizeController
     set width(width: FlexNumber)
     {
         this._width = getNumber(width, this.parentWidth);
+        this.layout.align.update(this.parentWidth, this.parentHeight);
     }
 
     get height(): number
@@ -128,5 +167,6 @@ export class SizeController
     set height(height: FlexNumber)
     {
         this._height = getNumber(height, this.parentHeight);
+        this.layout.align.update(this.parentWidth, this.parentHeight);
     }
 }

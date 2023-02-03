@@ -48,8 +48,8 @@ export type Styles = Partial<TextStyle> & {
     scale?: number;
     scaleX?: number;
     scaleY?: number;
-    maxWidth?: number;
-    maxHeight?: number;
+    maxWidth?: FlexNumber;
+    maxHeight?: FlexNumber;
     zIndex?: number;
 };
 
