@@ -20,3 +20,4 @@ There is no default export. The correct way to import pixi-layout is:
 ```js
 import { Layout } from '@pixijs/layout';
 ```
+<img width="827" alt="Screenshot 2023-02-03 at 11 28 29" src="https://user-images.githubusercontent.com/11766115/216563791-c4363601-00cd-47ec-a338-95b06baf9e2d.png">
