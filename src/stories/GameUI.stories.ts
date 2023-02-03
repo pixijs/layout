@@ -58,6 +58,7 @@ class LayoutStory
         this.layout = new Layout({
             id: 'root',
             content: [
+                // ribbon
                 {
                     id: 'ribbon',
                     content: {
@@ -77,6 +78,7 @@ class LayoutStory
                         marginTop: -ribbonOffset // offset of the ribbon
                     }
                 },
+                // closeButton
                 {
                     id: 'closeButton',
                     content: new FancyButton({
@@ -93,9 +95,11 @@ class LayoutStory
                         display: 'inlineBlock'
                     }
                 },
+                // windowContent
                 {
                     id: 'windowContent',
                     content: [
+                        // gfxController
                         {
                             id: 'gfxController',
                             content: [
@@ -116,6 +120,7 @@ class LayoutStory
                                 maxWidth: '100%'
                             }
                         },
+                        // bgmController
                         {
                             id: 'bgmController',
                             content: [
@@ -136,9 +141,11 @@ class LayoutStory
                                 maxWidth: '100%'
                             }
                         },
+                        // optionsBottomLeft
                         {
                             id: 'optionsBottomLeft',
                             content: [
+                                // sfxContainer
                                 {
                                     id: 'sfxContainer',
                                     content: [
@@ -166,6 +173,7 @@ class LayoutStory
                                         }
                                     ]
                                 },
+                                // gpuContainer
                                 {
                                     id: 'gpuContainer',
                                     content: [
@@ -198,9 +206,11 @@ class LayoutStory
                                 width: '50%'
                             }
                         },
+                        // optionsBottomRight
                         {
                             id: 'optionsBottomRight',
                             content: [
+                                // antiAliasing
                                 {
                                     id: 'antiAliasing',
                                     content: 'ANTI-ALIASING',
@@ -210,9 +220,11 @@ class LayoutStory
                                         fontSize: 40
                                     }
                                 },
+                                // antiAliasingSWITCH
                                 {
                                     id: 'antiAliasingSWITCH',
                                     content: [
+                                        // antiAliasing2x
                                         {
                                             id: 'antiAliasing2x',
                                             content: new FancyButton({
@@ -225,6 +237,7 @@ class LayoutStory
                                                 width: '33%'
                                             }
                                         },
+                                        // antiAliasing4x
                                         {
                                             id: 'antiAliasing4x',
                                             content: new FancyButton({
@@ -237,6 +250,7 @@ class LayoutStory
                                                 width: '33%'
                                             }
                                         },
+                                        // antiAliasing16x
                                         {
                                             id: 'antiAliasing16x',
                                             content: new FancyButton({
@@ -251,9 +265,11 @@ class LayoutStory
                                         }
                                     ]
                                 },
+                                // subtitlesContainer
                                 {
                                     id: 'subtitlesContainer',
                                     content: [
+                                        // subtitles
                                         {
                                             id: 'subtitles',
                                             content: 'SUBTITLES',
@@ -264,6 +280,7 @@ class LayoutStory
                                                 fontSize: 30
                                             }
                                         },
+                                        // subtitlesSWITCH
                                         {
                                             id: 'subtitlesSWITCH',
                                             content: new FancyButton({
@@ -280,9 +297,11 @@ class LayoutStory
                                         paddingTop: 20
                                     }
                                 },
+                                // cutscenesContainer
                                 {
                                     id: 'cutscenesContainer',
                                     content: [
+                                        // cutscenes
                                         {
                                             id: 'cutscenes',
                                             content: 'CUTSCENES',
@@ -293,6 +312,7 @@ class LayoutStory
                                                 fontSize: 30
                                             }
                                         },
+                                        // subtitlesSWITCH
                                         {
                                             id: 'subtitlesSWITCH',
                                             content: new FancyButton({
@@ -322,6 +342,7 @@ class LayoutStory
                         position: 'center'
                     }
                 },
+                // applyButton
                 {
                     id: 'applyButton',
                     content: new FancyButton({
