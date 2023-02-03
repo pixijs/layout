@@ -49,21 +49,21 @@ class LayoutStory
                         id: 'title',
                         content: title.toUpperCase(),
                         styles: {
-                            // textAlign: 'center',
+                            textAlign: 'center',
                             color: 'white',
                             fontSize: 55,
-                            // marginTop: -5,
                             fontWeight: 'bold',
                             stroke: 0x94dd30,
                             strokeThickness: 10,
+                            marginTop: -5,
                             overflow: 'hidden',
                             height: 120
                         }
                     },
                     styles: {
-                        background: Sprite.from(assets.ribbon)
-                        // position: 'centerTop'
-                        // marginTop: -ribbonOffset // offset of the ribbon
+                        background: Sprite.from(assets.ribbon),
+                        position: 'centerTop',
+                        marginTop: -ribbonOffset // offset of the ribbon
                     }
                 },
                 {
