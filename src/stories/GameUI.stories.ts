@@ -38,6 +38,7 @@ class LayoutStory
     {
         const { title, scale } = this.params;
         const ribbonOffset = 53;
+        const applyButtonOffset = 70;
 
         this.layout = new Layout({
             id: 'root',
@@ -81,14 +82,15 @@ class LayoutStory
                     }),
                     styles: {
                         position: 'centerBottom',
-                        marginBottom: -70
+                        marginBottom: -applyButtonOffset
                     }
                 }
             ],
             styles: {
                 ...this.params,
                 background: Sprite.from(assets.window),
-                marginTop: ribbonOffset * scale, // offset of the ribbon should take into account the scale
+                // marginTop: ribbonOffset * scale, // offset of the ribbon should take into account the scale
+                // marginBottom: applyButtonOffset * scale, // offset of the ribbon should take into account the scale
                 maxWidth: '100%',
                 maxHeight: '100%'
             }

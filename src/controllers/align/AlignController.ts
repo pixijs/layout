@@ -166,7 +166,9 @@ export class AlignController
 
     private setSelfPosition(parentWidth: number, parentHeight: number)
     {
-        const { position, marginRight, marginBottom, marginTop, marginLeft, scaleX, scaleY } = this.layout.style || {};
+        const { position, marginRight, marginBottom, marginTop, marginLeft } = this.layout.style || {};
+        const scaleX = this.layout.scale.x;
+        const scaleY = this.layout.scale.y;
         const width = this.layout.width * scaleX;
         const height = this.layout.height * scaleY;
 
@@ -200,6 +202,7 @@ export class AlignController
                 this.layout.x = (parentWidth - width) / 2;
                 this.layout.y = (parentHeight - height) / 2;
                 break;
+
             case 'centerTop':
                 this.layout.x = (parentWidth - width) / 2;
                 this.layout.y = marginTop;

@@ -88,18 +88,27 @@ export class SizeController
         this.layout.updateBG();
         this.layout.updateMask();
 
-        // if (maxWidth || maxHeight)
-        // {
-        //     const maxWidthVal = getNumber(maxWidth, parentWidth);
-        //     const maxHeightVal = getNumber(maxHeight, parentHeight);
+        if (maxWidth || maxHeight)
+        {
+            const maxWidthVal = getNumber(maxWidth, parentWidth);
+            const maxHeightVal = getNumber(maxHeight, parentHeight);
+            const layoutWidth = this.layout.width * this.layout.scale.x;
+            const layoutHeight = this.layout.height * this.layout.scale.y;
+            let scaleX = this.layout.scale.x;
+            let scaleY = this.layout.scale.y;
 
-        //     console.log(this.layout.width, maxWidthVal, parentWidth);
+            if (maxWidth && layoutWidth > maxWidthVal)
+            {
+                scaleX *= maxWidthVal / layoutWidth;
+            }
 
-    //     if (maxWidth && this.layout.width > maxWidthVal)
-    //     {
-    //         this.layout.scale.set(maxWidthVal / this.layout.width);
-    //     }
-    // }
+            if (maxHeight && layoutHeight > maxHeightVal)
+            {
+                scaleY *= maxHeightVal / layoutHeight;
+            }
+
+            this.layout.scale.set(Math.min(scaleX, scaleY));
+        }
     }
 
     get width(): number
