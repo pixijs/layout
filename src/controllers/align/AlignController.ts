@@ -135,7 +135,7 @@ export class AlignController
                 maxChildHeight = child.height;
             }
 
-            const availableWidth = parentWidth - paddingLeft - paddingRight;
+            const availableWidth = parentWidth - paddingRight;
 
             if (childDisplay === 'block' && child.width < availableWidth)
             {

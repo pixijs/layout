@@ -51,7 +51,6 @@ class LayoutStory
             width: `${childWidth}%`,
             height: `${childHeight}%`,
             overflow: 'hidden',
-            position: 'top',
             textAlign,
             ...fontStyle
         };
