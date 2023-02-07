@@ -114,11 +114,20 @@ export class AlignController
             }
 
             let childDisplay = 'inline-block';
+            let childMarginLeft = 0;
+            let childMarginRight = 0;
+            let childMarginTop = 0;
+            let childMarginBottom = 0;
 
             if (child instanceof Layout)
             {
                 childDisplay = child.style.display;
                 const childPosition = child.style.position;
+
+                childMarginLeft = child.style.marginLeft;
+                childMarginRight = child.style.marginRight;
+                childMarginTop = child.style.marginTop;
+                childMarginBottom = child.style.marginBottom;
 
                 if (childPosition)
                 {
@@ -127,12 +136,12 @@ export class AlignController
                 }
             }
 
-            child.x = x;
-            child.y = y;
+            child.x = x + childMarginLeft;
+            child.y = y + childMarginTop;
 
-            if (child.height > maxChildHeight)
+            if (child.height + childMarginTop + childMarginBottom > maxChildHeight)
             {
-                maxChildHeight = child.height;
+                maxChildHeight = child.height + childMarginTop + childMarginBottom;
             }
 
             const availableWidth = parentWidth - paddingRight;
@@ -142,29 +151,29 @@ export class AlignController
                 childDisplay = 'inline-block';
             }
 
-            const childDoesNotFeet = x + child.width > availableWidth;
+            const isFeetParentWidth = x + child.width + childMarginRight <= availableWidth;
             const isFirstChild = childNumber === 0;
 
             switch (childDisplay)
             {
                 case 'inline':
                 case 'inline-block':
-                    if (childDoesNotFeet && !isFirstChild)
+                    if (!isFeetParentWidth && !isFirstChild)
                     {
-                        x = paddingLeft + child.width;
+                        x = paddingLeft + child.width + childMarginRight;
                         y += maxChildHeight;
 
-                        child.x = paddingLeft;
-                        child.y = y;
+                        child.x = paddingLeft + childMarginLeft;
+                        child.y = y + childMarginTop;
                     }
                     else
                     {
-                        x += child.width;
+                        x += child.width + childMarginRight;
                     }
                     break;
 
                 default:
-                    y += child.height;
+                    y += child.height + childMarginBottom;
                     break;
             }
         });
