@@ -48,7 +48,8 @@ export class SizeController
         {
             switch (display)
             {
-                case 'inlineBlock':
+                case 'inline-block':
+                case 'inline':
                     finalWidth = this.layout.contentWidth;
                     break;
 
