@@ -97,7 +97,7 @@ class LayoutStory
                     }),
                     styles: {
                         position: 'rightTop',
-                        display: 'inlineBlock'
+                        display: 'inline'
                     }
                 },
                 // windowContent
@@ -158,7 +158,7 @@ class LayoutStory
                         })
                     }),
                     styles: {
-                        display: 'inlineBlock',
+                        display: 'inline',
                         position: 'rightBottom',
                         marginBottom: -bottomButtonOffset,
                         marginRight: 80
@@ -180,7 +180,7 @@ class LayoutStory
                         })
                     }),
                     styles: {
-                        display: 'inlineBlock',
+                        display: 'inline',
                         position: 'leftBottom',
                         marginBottom: -bottomButtonOffset,
                         marginLeft: 80
