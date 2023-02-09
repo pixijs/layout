@@ -10,6 +10,8 @@ import { LOREM_TEXT } from '../utils/constants';
 import { Styles } from '../utils/types';
 
 const args = {
+    title: 'Warning',
+    text: `${LOREM_TEXT} ${LOREM_TEXT} ${LOREM_TEXT} ${LOREM_TEXT} ${LOREM_TEXT}`,
     health: 50,
     energy: 50
 };
@@ -17,7 +19,7 @@ const args = {
 const assets = {
     globalBG: 'Examples/BG.png',
     menu: 'Examples/Menu.png',
-    bg: 'Progress/SmallProgressBarBG.png',
+    smallProgressBar: 'Progress/SmallProgressBarBG.png',
     fillPink: 'Progress/SmallProgress-pink.png',
     fillBlue: 'Progress/SmallProgress-blue.png',
     hard: 'Icons/HardIcon.png',
@@ -91,7 +93,7 @@ class LayoutStory
                     },
                     styles: {
                         position: 'left',
-                        background: Sprite.from(assets.bg),
+                        background: Sprite.from(assets.smallProgressBar),
                         maxWidth: '45%',
                         margin: 20,
                         scale: 0.5
@@ -126,17 +128,13 @@ class LayoutStory
                     },
                     styles: {
                         position: 'right',
-                        background: Sprite.from(assets.bg),
+                        background: Sprite.from(assets.smallProgressBar),
                         maxWidth: '45%',
                         margin: 20,
                         scale: 0.5
                     }
                 },
-                this.createPopup({
-                    title: 'Warning',
-                    scale: 0.5,
-                    position: 'center'
-                })
+                this.createPopup()
             ],
             styles: {
                 width: '100%',
@@ -148,9 +146,9 @@ class LayoutStory
         this.resize(window.innerWidth, window.innerHeight);
     }
 
-    createPopup(params: any): Layout
+    createPopup(): Layout
     {
-        const { title, scale, position } = params;
+        const { title, text } = this.params;
         const ribbonOffset = 53;
         const bottomButtonOffset = 70;
 
@@ -173,7 +171,7 @@ class LayoutStory
             elementsMargin: 1,
             padding: 40,
             items: [
-                new Text(LOREM_TEXT.repeat(10), {
+                new Text(text, {
                     fill: 'white',
                     fontSize: 34,
                     wordWrapWidth: 700,
@@ -188,6 +186,85 @@ class LayoutStory
         });
 
         substrate.scale.set(1.2);
+
+        const animations = {
+            default: {
+                props: {
+                    scale: {
+                        x: 1,
+                        y: 1
+                    }
+                },
+                duration: 50
+            },
+            hover: {
+                props: {
+                    scale: {
+                        x: 1,
+                        y: 1
+                    }
+                },
+                duration: 50
+            },
+            pressed: {
+                props: {
+                    scale: {
+                        x: 0.95,
+                        y: 0.95
+                    }
+                },
+                duration: 50
+            }
+        };
+
+        const closeButton = new FancyButton({
+            defaultView: assets.smallButtonDown,
+            hoverView: assets.smallButtonHover,
+            icon: assets.closeIcon,
+            iconOffset: {
+                y: -10
+            },
+            scale: 0.8,
+            animations
+        });
+
+        closeButton.anchor.set(0.5);
+
+        const acceptButton = new FancyButton({
+            defaultView: assets.button,
+            hoverView: assets.buttonHover,
+            pressedView: assets.buttonDown,
+            text: new Text('ACCEPT', {
+                fill: 0xffffff,
+                fontSize: 55,
+                fontWeight: 'bold',
+                dropShadow: true,
+                dropShadowAlpha: 0.2,
+                dropShadowAngle: Math.PI / 2,
+                dropShadowBlur: 5
+            }),
+            animations
+        });
+
+        const declineButton = new FancyButton({
+            defaultView: assets.button,
+            hoverView: assets.buttonHover,
+            pressedView: assets.buttonDown,
+            text: new Text('DECLINE', {
+                fill: 0xffffff,
+                fontSize: 55,
+                fontWeight: 'bold',
+                dropShadow: true,
+                dropShadowAlpha: 0.2,
+                dropShadowAngle: Math.PI / 2,
+                dropShadowBlur: 5
+            }),
+            animations
+        });
+
+        declineButton.anchor.set(0.5);
+
+        acceptButton.anchor.set(0.5);
 
         return new Layout({
             id: 'root',
@@ -213,18 +290,11 @@ class LayoutStory
                 },
                 {
                     id: 'closeButton',
-                    content: new FancyButton({
-                        defaultView: assets.smallButtonDown,
-                        hoverView: assets.smallButtonHover,
-                        icon: assets.closeIcon,
-                        iconOffset: {
-                            y: -10
-                        },
-                        scale: 0.8
-                    }),
+                    content: closeButton,
                     styles: {
                         position: 'rightTop',
-                        display: 'inline'
+                        display: 'inline',
+                        padding: 63
                     }
                 },
                 {
@@ -245,7 +315,6 @@ class LayoutStory
                     styles: {
                         width: '80%',
                         height: '53%',
-                        // background: 'red',
                         overflow: 'hidden',
                         fontSize: 53,
                         color: 'white',
@@ -254,57 +323,31 @@ class LayoutStory
                 },
                 {
                     id: 'acceptButton',
-                    content: new FancyButton({
-                        defaultView: assets.button,
-                        hoverView: assets.buttonHover,
-                        pressedView: assets.buttonDown,
-                        text: new Text('ACCEPT', {
-                            fill: 0xffffff,
-                            fontSize: 55,
-                            fontWeight: 'bold',
-                            dropShadow: true,
-                            dropShadowAlpha: 0.2,
-                            dropShadowAngle: Math.PI / 2,
-                            dropShadowBlur: 5
-                        })
-                    }),
+                    content: acceptButton,
                     styles: {
                         display: 'inline',
                         position: 'rightBottom',
-                        marginBottom: -bottomButtonOffset,
-                        marginRight: 80
+                        marginBottom: -150,
+                        marginRight: -90
                     }
                 },
                 {
                     id: 'declineButton',
-                    content: new FancyButton({
-                        defaultView: assets.button,
-                        hoverView: assets.buttonHover,
-                        pressedView: assets.buttonDown,
-                        text: new Text('DECLINE', {
-                            fill: 0xffffff,
-                            fontSize: 55,
-                            fontWeight: 'bold',
-                            dropShadow: true,
-                            dropShadowAlpha: 0.2,
-                            dropShadowAngle: Math.PI / 2,
-                            dropShadowBlur: 5
-                        })
-                    }),
+                    content: declineButton,
                     styles: {
                         display: 'inline',
                         position: 'leftBottom',
-                        marginBottom: -bottomButtonOffset,
-                        marginLeft: 80
+                        marginBottom: -150,
+                        marginLeft: 260
                     }
                 }
             ],
             styles: {
-                scale,
-                position,
+                scale: 0.8,
+                position: 'center',
                 background: Sprite.from(assets.window),
-                marginTop: ribbonOffset * scale, // offset of the ribbon should take into account the scale
-                marginBottom: bottomButtonOffset * scale, // offset of the ribbon should take into account the scale
+                marginTop: ribbonOffset, // offset of the ribbon should take into account the scale
+                marginBottom: bottomButtonOffset, // offset of the ribbon should take into account the scale
                 maxWidth: '100%',
                 maxHeight: '100%'
             }
