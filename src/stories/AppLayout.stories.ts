@@ -5,12 +5,12 @@ import { VERTICAL_ALIGN, ALIGN, POSITION, CSS_COLOR_NAMES, LOREM_TEXT } from '..
 import { LayoutStyles } from '../utils/types';
 
 const args = {
-    color: '#FFFFFF',
+    color: '#000000',
     width: 95,
     height: 95,
     opacity: 1,
-    fontSize: 32,
-    padding: 11,
+    fontSize: 24,
+    padding: 10,
     childWidth: 50,
     childHeight: 34,
     textAlign: ALIGN,
@@ -42,8 +42,7 @@ class LayoutStory
             verticalAlign,
             fontSize,
             color,
-            overflow: 'hidden',
-            padding
+            overflow: 'hidden'
         };
 
         const contentStyles = {
@@ -52,6 +51,7 @@ class LayoutStory
             height: `${childHeight}%`,
             overflow: 'hidden',
             textAlign,
+            borderRadius: 20,
             ...fontStyle
         };
 
@@ -68,6 +68,7 @@ class LayoutStory
                 position: 'top',
                 background: 'red',
                 height: '10%',
+                borderRadius: 20,
                 ...fontStyle
             },
             content: {
@@ -79,6 +80,11 @@ class LayoutStory
                 width: '30%',
                 height: '100%',
                 position: 'left',
+                padding
+            },
+            leftMenuContent: {
+                height: '100%',
+                borderRadius: 20,
                 background: 'blue',
                 ...fontStyle
             },
@@ -101,6 +107,7 @@ class LayoutStory
                 position: 'bottom',
                 background: 'green',
                 height: '10%',
+                borderRadius: 20,
                 ...fontStyle
             }
         };
@@ -120,7 +127,10 @@ class LayoutStory
                         // array of children
                         {
                             id: 'leftMenu',
-                            content: LOREM_TEXT
+                            content: {
+                                id: 'leftMenuContent',
+                                content: 'Left menu'
+                            }
                         },
                         {
                             id: 'mainContent',
