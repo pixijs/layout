@@ -75,7 +75,24 @@ export class ContentController
             }
             else
             {
-                throw new Error('Invalid content');
+                // if ID is key of object instead of separate property
+                for (const id in content)
+                {
+                    if (Object.prototype.hasOwnProperty.call(content, id))
+                    {
+                        const idKey = id as keyof typeof content;
+                        const cont = content[idKey] as any;
+
+                        this.createContent(
+                            {
+                                ...cont,
+                                id
+                            },
+                            parentGlobalStyles
+                        );
+                        // console.log(id, content[id]);
+                    }
+                }
             }
         }
     }

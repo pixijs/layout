@@ -124,32 +124,26 @@ class LayoutStory
                         },
                         {
                             id: 'mainContent',
-                            content: [
-                                {
-                                    id: 'mainContent1',
+                            content: {
+                                mainContent1: {
                                     content: Object.keys(CSS_COLOR_NAMES)[10]
                                 },
-                                {
-                                    id: 'mainContent2',
+                                mainContent2: {
                                     content: Object.keys(CSS_COLOR_NAMES)[20]
                                 },
-                                {
-                                    id: 'mainContent3',
+                                mainContent3: {
                                     content: Object.keys(CSS_COLOR_NAMES)[30]
                                 },
-                                {
-                                    id: 'mainContent4',
+                                mainContent4: {
                                     content: Object.keys(CSS_COLOR_NAMES)[40]
                                 },
-                                {
-                                    id: 'mainContent5',
+                                mainContent5: {
                                     content: Object.keys(CSS_COLOR_NAMES)[50]
                                 },
-                                {
-                                    id: 'mainContent6',
+                                mainContent6: {
                                     content: Object.keys(CSS_COLOR_NAMES)[60]
                                 }
-                            ]
+                            }
                         }
                     ]
                 },

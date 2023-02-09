@@ -14,13 +14,13 @@ export type Color = {
 
 export type CSSColor = keyof typeof CSS_COLOR_NAMES;
 
-export type Position = (typeof POSITION)[number];
-export type Display = (typeof DISPLAY)[number];
+export type Position = typeof POSITION[number];
+export type Display = typeof DISPLAY[number];
 
-export type Content = string | Container | Layout | LayoutOptions | Content[];
+export type Content = string | Container | Layout | LayoutOptions | Content[] | { [ID: string]: Content };
 
 export type Containers = Container[];
-export type Overflow = (typeof OVERFLOW)[number];
+export type Overflow = typeof OVERFLOW[number];
 
 export type Styles = Partial<TextStyle> & {
     background?: FlexColor | Container | string;
@@ -58,10 +58,10 @@ export type LayoutStyles = {
 };
 
 export type LayoutOptions = {
-    id: string;
+    id?: string;
     content?: Content;
     styles?: Styles;
     globalStyles?: LayoutStyles;
 };
 
-export type VerticalAlign = (typeof VERTICAL_ALIGN)[number];
+export type VerticalAlign = typeof VERTICAL_ALIGN[number];

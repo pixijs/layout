@@ -1,10 +1,13 @@
-import { ProgressBar } from '@pixi/ui';
+import { ProgressBar, ScrollBox, FancyButton } from '@pixi/ui';
 import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
+import { Text } from '@pixi/text';
 import { preloadAssets } from '../utils/helpers';
 import { Graphics } from '@pixi/graphics';
+import { LOREM_TEXT } from '../utils/constants';
+import { Styles } from '../utils/types';
 
 const args = {
     health: 50,
@@ -18,7 +21,17 @@ const assets = {
     fillPink: 'Progress/SmallProgress-pink.png',
     fillBlue: 'Progress/SmallProgress-blue.png',
     hard: 'Icons/HardIcon.png',
-    energy: 'Icons/EnergyIcon.png'
+    energy: 'Icons/EnergyIcon.png',
+    window: 'Window/Window.png',
+    substrate: 'Window/SmallSubstrate.png',
+    ribbon: 'Window/Ribbon.png',
+    button: 'Buttons/Button.png',
+    buttonHover: 'Buttons/Button-hover.png',
+    buttonDown: 'Buttons/Button-pressed.png',
+    smallButton: 'Buttons/SmallButton.png',
+    smallButtonHover: 'Buttons/SmallButton-hover.png',
+    smallButtonDown: 'Buttons/SmallButton-pressed.png',
+    closeIcon: 'Icons/CloseIcon.png'
 };
 
 class LayoutStory
@@ -118,7 +131,12 @@ class LayoutStory
                         margin: 20,
                         scale: 0.5
                     }
-                }
+                },
+                this.createPopup({
+                    title: 'Warning',
+                    scale: 0.5,
+                    position: 'center'
+                })
             ],
             styles: {
                 width: '100%',
@@ -128,6 +146,169 @@ class LayoutStory
 
         this.view.addChild(this.layout);
         this.resize(window.innerWidth, window.innerHeight);
+    }
+
+    createPopup(params: any): Layout
+    {
+        const { title, scale, position } = params;
+        const ribbonOffset = 53;
+        const bottomButtonOffset = 70;
+
+        const textStyles: Styles = {
+            textAlign: 'center',
+            color: 'white',
+            fontSize: 55,
+            fontWeight: 'bold',
+            stroke: 0x94dd30,
+            strokeThickness: 10,
+            wordWrap: false
+        };
+
+        const substrate = Sprite.from(assets.substrate);
+
+        const scrollText = new ScrollBox({
+            type: 'vertical',
+            width: substrate.width * 1.15,
+            height: substrate.height * 1.1,
+            elementsMargin: 1,
+            padding: 40,
+            items: [
+                new Text(LOREM_TEXT.repeat(10), {
+                    fill: 'white',
+                    fontSize: 34,
+                    wordWrapWidth: 700,
+                    wordWrap: true,
+                    dropShadow: true,
+                    dropShadowAlpha: 0.2,
+                    dropShadowAngle: Math.PI / 2,
+                    dropShadowBlur: 5
+                })
+            ],
+            radius: 100
+        });
+
+        substrate.scale.set(1.2);
+
+        return new Layout({
+            id: 'root',
+            content: [
+                {
+                    id: 'ribbon',
+                    content: {
+                        id: 'title',
+                        content: title.toUpperCase(),
+                        styles: {
+                            ...textStyles,
+                            overflow: 'hidden',
+                            position: 'centerTop',
+                            marginTop: 20,
+                            width: '80%'
+                        }
+                    },
+                    styles: {
+                        background: Sprite.from(assets.ribbon),
+                        position: 'centerTop',
+                        marginTop: -ribbonOffset // offset of the ribbon
+                    }
+                },
+                {
+                    id: 'closeButton',
+                    content: new FancyButton({
+                        defaultView: assets.smallButtonDown,
+                        hoverView: assets.smallButtonHover,
+                        icon: assets.closeIcon,
+                        iconOffset: {
+                            y: -10
+                        },
+                        scale: 0.8
+                    }),
+                    styles: {
+                        position: 'rightTop',
+                        display: 'inline'
+                    }
+                },
+                {
+                    id: 'substrate',
+                    content: substrate,
+                    styles: {
+                        width: '85%',
+                        height: '60%',
+                        position: 'center'
+                    }
+                },
+                {
+                    id: 'windowContent',
+                    content: {
+                        id: 'text',
+                        content: scrollText
+                    },
+                    styles: {
+                        width: '80%',
+                        height: '53%',
+                        // background: 'red',
+                        overflow: 'hidden',
+                        fontSize: 53,
+                        color: 'white',
+                        position: 'center'
+                    }
+                },
+                {
+                    id: 'acceptButton',
+                    content: new FancyButton({
+                        defaultView: assets.button,
+                        hoverView: assets.buttonHover,
+                        pressedView: assets.buttonDown,
+                        text: new Text('ACCEPT', {
+                            fill: 0xffffff,
+                            fontSize: 55,
+                            fontWeight: 'bold',
+                            dropShadow: true,
+                            dropShadowAlpha: 0.2,
+                            dropShadowAngle: Math.PI / 2,
+                            dropShadowBlur: 5
+                        })
+                    }),
+                    styles: {
+                        display: 'inline',
+                        position: 'rightBottom',
+                        marginBottom: -bottomButtonOffset,
+                        marginRight: 80
+                    }
+                },
+                {
+                    id: 'declineButton',
+                    content: new FancyButton({
+                        defaultView: assets.button,
+                        hoverView: assets.buttonHover,
+                        pressedView: assets.buttonDown,
+                        text: new Text('DECLINE', {
+                            fill: 0xffffff,
+                            fontSize: 55,
+                            fontWeight: 'bold',
+                            dropShadow: true,
+                            dropShadowAlpha: 0.2,
+                            dropShadowAngle: Math.PI / 2,
+                            dropShadowBlur: 5
+                        })
+                    }),
+                    styles: {
+                        display: 'inline',
+                        position: 'leftBottom',
+                        marginBottom: -bottomButtonOffset,
+                        marginLeft: 80
+                    }
+                }
+            ],
+            styles: {
+                scale,
+                position,
+                background: Sprite.from(assets.window),
+                marginTop: ribbonOffset * scale, // offset of the ribbon should take into account the scale
+                marginBottom: bottomButtonOffset * scale, // offset of the ribbon should take into account the scale
+                maxWidth: '100%',
+                maxHeight: '100%'
+            }
+        });
     }
 
     resize(w: number, h: number)
