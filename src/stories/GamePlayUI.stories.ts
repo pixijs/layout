@@ -1,12 +1,14 @@
-import { FancyButton, ProgressBar, ScrollBox } from '@pixi/ui';
+import { ProgressBar } from '@pixi/ui';
 import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
 import { preloadAssets } from '../utils/helpers';
+import { Graphics } from '@pixi/graphics';
 
 const args = {
-    health: 50
+    health: 50,
+    energy: 50
 };
 
 const assets = {
@@ -38,59 +40,8 @@ class LayoutStory
                 {
                     id: 'left',
                     content: {
-                        id: 'life',
+                        id: 'leftProgress',
                         content: [
-                            {
-                                id: 'lifeProgress',
-                                content: new ProgressBar({
-                                    bg: assets.bg,
-                                    fill: assets.fillPink,
-                                    progress: this.params.health,
-                                    fillOffset: {
-                                        x: 30,
-                                        y: -8
-                                    }
-                                })
-                            },
-                            {
-                                id: 'hard',
-                                content: Sprite.from(assets.hard),
-                                styles: {
-                                    position: 'left',
-                                    marginLeft: -35,
-                                    marginTop: 5
-                                }
-                            }
-                        ],
-                        styles: {
-                            margin: 10,
-                            marginLeft: 30
-                        }
-                    },
-                    styles: {
-                        width: '50%',
-                        height: '100%',
-                        position: 'left',
-                        background: 'red'
-                    }
-                },
-                {
-                    id: 'right',
-                    content: {
-                        id: 'energy',
-                        content: [
-                            {
-                                id: 'energyProgress',
-                                content: new ProgressBar({
-                                    bg: assets.bg,
-                                    fill: assets.fillBlue,
-                                    progress: this.params.health,
-                                    fillOffset: {
-                                        x: 30,
-                                        y: -8
-                                    }
-                                })
-                            },
                             {
                                 id: 'energy',
                                 content: Sprite.from(assets.energy),
@@ -99,25 +50,67 @@ class LayoutStory
                                     marginLeft: -15,
                                     marginTop: -5
                                 }
+                            },
+                            {
+                                id: 'energyProgress',
+                                content: new ProgressBar({
+                                    bg: new Graphics().beginFill(0x000000, 0.0001).drawRect(0, 0, 355, 50).endFill(),
+                                    fill: assets.fillBlue,
+                                    progress: this.params.energy
+                                }),
+                                styles: {
+                                    marginLeft: 85,
+                                    marginTop: 20
+                                }
                             }
-                        ],
-                        styles: {
-                            position: 'right',
-                            margin: 10,
-                            marginRight: 20
-                        }
+                        ]
                     },
                     styles: {
-                        width: '50%',
-                        height: '100%',
+                        position: 'left',
+                        background: Sprite.from(assets.bg),
+                        maxWidth: '45%',
+                        margin: 20,
+                        scale: 0.5
+                    }
+                },
+                {
+                    id: 'right',
+                    content: {
+                        id: 'rightProgress',
+                        content: [
+                            {
+                                id: 'hard',
+                                content: Sprite.from(assets.hard),
+                                styles: {
+                                    position: 'left',
+                                    marginLeft: -35
+                                }
+                            },
+                            {
+                                id: 'hardProgress',
+                                content: new ProgressBar({
+                                    bg: new Graphics().beginFill(0x000000, 0.0001).drawRect(0, 0, 355, 50).endFill(),
+                                    fill: assets.fillPink,
+                                    progress: this.params.health
+                                }),
+                                styles: {
+                                    marginLeft: 85,
+                                    marginTop: 20
+                                }
+                            }
+                        ]
+                    },
+                    styles: {
                         position: 'right',
-                        background: 'green'
+                        background: Sprite.from(assets.bg),
+                        maxWidth: '45%',
+                        margin: 20,
+                        scale: 0.5
                     }
                 }
             ],
             styles: {
-                width: '100%',
-                height: '100%'
+                width: '100%'
             }
         });
 

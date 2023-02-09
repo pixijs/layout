@@ -63,7 +63,6 @@ class LayoutStory
         this.layout = new Layout({
             id: 'root',
             content: [
-                // ribbon
                 {
                     id: 'ribbon',
                     content: {
@@ -83,7 +82,6 @@ class LayoutStory
                         marginTop: -ribbonOffset // offset of the ribbon
                     }
                 },
-                // closeButton
                 {
                     id: 'closeButton',
                     content: new FancyButton({
@@ -100,7 +98,6 @@ class LayoutStory
                         display: 'inline'
                     }
                 },
-                // windowContent
                 {
                     id: 'substrate',
                     content: substrate,
@@ -113,6 +110,12 @@ class LayoutStory
                 {
                     id: 'windowContent',
                     content: LOREM_TEXT,
+                    // new ScrollBox({
+                    //     type: 'vertical',
+                    //     width: 600,
+                    //     height: 318,
+                    //     items: [new Text(LOREM_TEXT, { fill: 'white', fontSize: 34 })]
+                    // })
                     styles: {
                         width: '75%',
                         height: '45%',
@@ -123,26 +126,7 @@ class LayoutStory
                         stroke: 0xefcf6f,
                         strokeThickness: 5
                     }
-                    // new ScrollBox({
-                    //     type: 'vertical',
-                    //     width: 600,
-                    //     height: 318,
-                    //     items: [new Text(LOREM_TEXT, { fill: 'white', fontSize: 34 })]
-                    // })
                 },
-                // {
-                //     id: 'lorenText',
-                //     content: LOREM_TEXT,
-                //     styles: {
-                //         position: 'center',
-                //         padding: 50,
-                //         color: 'white',
-                //         fontSize: 34,
-                //         overflow: 'hidden',
-                //         scale: 1.2
-                //     }
-                // },
-                // acceptButton
                 {
                     id: 'acceptButton',
                     content: new FancyButton({
@@ -164,7 +148,6 @@ class LayoutStory
                         marginRight: 80
                     }
                 },
-                // declineButton
                 {
                     id: 'declineButton',
                     content: new FancyButton({

@@ -145,13 +145,13 @@ export class SizeController
 
     private fitToSize(parentWidth: number, parentHeight: number)
     {
-        const { maxWidth, maxHeight } = this.layout.style;
+        const { maxWidth, maxHeight, marginLeft, marginRight, marginBottom, marginTop } = this.layout.style;
 
         const currentScaleX = this.layout.scale.x;
         const currentScaleY = this.layout.scale.y;
 
-        const layoutWidth = this.layout.width;
-        const layoutHeight = this.layout.height;
+        const layoutWidth = this.layout.width + marginLeft + marginRight;
+        const layoutHeight = this.layout.height + marginTop + marginBottom;
 
         const maxWidthVal = getNumber(maxWidth, parentWidth);
         const maxHeightVal = getNumber(maxHeight, parentHeight);
