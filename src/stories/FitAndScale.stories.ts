@@ -36,6 +36,13 @@ const assets = {
     closeIcon: 'Icons/CloseIcon.png'
 };
 
+const textShadow = {
+    dropShadow: true,
+    dropShadowAlpha: 0.2,
+    dropShadowAngle: Math.PI / 2,
+    dropShadowBlur: 5
+};
+
 class LayoutStory
 {
     private layout!: Layout;
@@ -157,9 +164,9 @@ class LayoutStory
             color: 'white',
             fontSize: 55,
             fontWeight: 'bold',
-            stroke: 0x94dd30,
-            strokeThickness: 10,
-            wordWrap: false
+            fontFamily: 'Skia',
+            wordWrap: false,
+            ...textShadow
         };
 
         const substrate = Sprite.from(assets.substrate);
@@ -174,12 +181,10 @@ class LayoutStory
                 new Text(text, {
                     fill: 'white',
                     fontSize: 34,
+                    fontFamily: 'Skia',
                     wordWrapWidth: 700,
                     wordWrap: true,
-                    dropShadow: true,
-                    dropShadowAlpha: 0.2,
-                    dropShadowAngle: Math.PI / 2,
-                    dropShadowBlur: 5
+                    ...textShadow
                 })
             ],
             radius: 100
@@ -237,11 +242,9 @@ class LayoutStory
             text: new Text('ACCEPT', {
                 fill: 0xffffff,
                 fontSize: 55,
+                fontFamily: 'Skia',
                 fontWeight: 'bold',
-                dropShadow: true,
-                dropShadowAlpha: 0.2,
-                dropShadowAngle: Math.PI / 2,
-                dropShadowBlur: 5
+                ...textShadow
             }),
             animations
         });
@@ -253,11 +256,9 @@ class LayoutStory
             text: new Text('DECLINE', {
                 fill: 0xffffff,
                 fontSize: 55,
+                fontFamily: 'Skia',
                 fontWeight: 'bold',
-                dropShadow: true,
-                dropShadowAlpha: 0.2,
-                dropShadowAngle: Math.PI / 2,
-                dropShadowBlur: 5
+                ...textShadow
             }),
             animations
         });
