@@ -170,7 +170,7 @@ class LayoutStory
     }
 }
 
-export const Application = (params: any) => new LayoutStory(params);
+export const ApplicationLayout = (params: any) => new LayoutStory(params);
 
 export default {
     title: 'Layout',

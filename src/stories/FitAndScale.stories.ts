@@ -14,7 +14,7 @@ const args = {
 const assets = {
     globalBG: 'Examples/BG.png',
     menu: 'Examples/Menu.png',
-    bg: 'Progress/SmallPprogresBarBG.png',
+    bg: 'Progress/SmallProgressBarBG.png',
     fillPink: 'Progress/SmallProgress-pink.png',
     fillBlue: 'Progress/SmallProgress-blue.png',
     hard: 'Icons/HardIcon.png',
