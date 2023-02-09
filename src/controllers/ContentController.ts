@@ -90,7 +90,6 @@ export class ContentController
                             },
                             parentGlobalStyles
                         );
-                        // console.log(id, content[id]);
                     }
                 }
             }
