@@ -59,7 +59,7 @@ export class ContentController
                     {
                         content.globalStyles = {
                             ...parentGlobalStyles,
-                            ...content.globalStyles
+                            ...(content.globalStyles as any)
                         };
                     }
                     else
