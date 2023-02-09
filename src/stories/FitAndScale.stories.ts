@@ -44,7 +44,8 @@ class LayoutStory
                     content: ' ',
                     styles: {
                         background: Sprite.from(assets.globalBG),
-                        maxWidth: '100%'
+                        maxHeight: '100%',
+                        position: 'leftBottom'
                     }
                 },
                 {
@@ -120,7 +121,8 @@ class LayoutStory
                 }
             ],
             styles: {
-                width: '100%'
+                width: '100%',
+                height: '100%'
             }
         });
 
