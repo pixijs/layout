@@ -24,7 +24,8 @@ const assets = {
     smallButton: 'Buttons/SmallButton.png',
     smallButtonHover: 'Buttons/SmallButton-hover.png',
     smallButtonDown: 'Buttons/SmallButton-pressed.png',
-    closeIcon: 'Icons/CloseIcon.png'
+    closeIcon: 'Icons/CloseIcon.png',
+    globalBG: 'Examples/BG.png'
 };
 
 class LayoutStory
@@ -191,7 +192,7 @@ class LayoutStory
     }
 }
 
-export const GameUI = (params: any) => new LayoutStory(params);
+export const WindowLayout = (params: any) => new LayoutStory(params);
 
 export default {
     title: 'Layout',

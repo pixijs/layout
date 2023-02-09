@@ -12,6 +12,8 @@ const args = {
 };
 
 const assets = {
+    globalBG: 'Examples/BG.png',
+    menu: 'Examples/Menu.png',
     bg: 'Progress/SmallPprogresBarBG.png',
     fillPink: 'Progress/SmallProgress-pink.png',
     fillBlue: 'Progress/SmallProgress-blue.png',
@@ -37,6 +39,14 @@ class LayoutStory
         this.layout = new Layout({
             id: 'root',
             content: [
+                {
+                    id: 'globalBG',
+                    content: ' ',
+                    styles: {
+                        background: Sprite.from(assets.globalBG),
+                        maxWidth: '100%'
+                    }
+                },
                 {
                     id: 'left',
                     content: {
@@ -124,7 +134,7 @@ class LayoutStory
     }
 }
 
-export const GamePlayUI = (params: any) => new LayoutStory(params);
+export const FitAndScale = (params: any) => new LayoutStory(params);
 
 export default {
     title: 'Layout',
