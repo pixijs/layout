@@ -10,7 +10,7 @@ import type {
 } from '@pixi/text';
 import { TEXT_GRADIENT, TextStyle } from '@pixi/text';
 import { getColor } from '../utils/helpers';
-import { OVERFLOW, ALIGN, POSITION, VERTICAL_ALIGN } from '../utils/constants';
+import { OVERFLOW, ALIGN, VERTICAL_ALIGN } from '../utils/constants';
 import { Layout } from '../Layout';
 import { Container } from '@pixi/display';
 /** Style controller manages {@link Layout} styles. Here you can find all available styles and their default values. */
