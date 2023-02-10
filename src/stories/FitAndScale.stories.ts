@@ -4,7 +4,7 @@ import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
 import { Text } from '@pixi/text';
-import { preloadAssets } from '../utils/helpers';
+import { preloadAssets } from './utils/helpers';
 import { Graphics } from '@pixi/graphics';
 import { LOREM_TEXT } from '../utils/constants';
 import { Styles } from '../utils/types';

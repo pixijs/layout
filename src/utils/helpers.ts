@@ -1,18 +1,6 @@
 import { CSS_COLOR_NAMES } from './constants';
 import { Color, CSSColor, FlexColor, FlexNumber } from './types';
 import { utils } from '@pixi/core';
-import { Sprite } from '@pixi/sprite';
-import { Assets } from '@pixi/assets';
-
-export function sprite(texture: string)
-{
-    return Sprite.from(texture);
-}
-
-export async function preloadAssets(assets: string[]): Promise<void>
-{
-    await Assets.load(assets);
-}
 
 export function rgba2Hex([r, g, b]: number[]): number
 {
