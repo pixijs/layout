@@ -1,6 +1,6 @@
 import { ProgressBar, ScrollBox, FancyButton } from '@pixi/ui';
 import { Layout } from '../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { argTypes, getDefaultArgs } from './utils/argTypes';
 import { Container } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
 import { Text } from '@pixi/text';

@@ -1,5 +1,5 @@
 import { Layout } from '../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { argTypes, getDefaultArgs } from './utils/argTypes';
 import { Container } from '@pixi/display';
 import { CSS_COLOR_NAMES, LOREM_TEXT, POSITION, ALIGN } from '../utils/constants';
 

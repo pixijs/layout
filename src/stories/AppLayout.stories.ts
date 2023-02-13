@@ -1,5 +1,5 @@
 import { Layout } from '../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { argTypes, getDefaultArgs } from './utils/argTypes';
 import { Container } from '@pixi/display';
 import { VERTICAL_ALIGN, ALIGN, POSITION, CSS_COLOR_NAMES } from '../utils/constants';
 import { LayoutStyles } from '../utils/types';
