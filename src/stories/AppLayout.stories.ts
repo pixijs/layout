@@ -49,8 +49,6 @@ class LayoutStory
             padding: 10,
             width: `${childWidth}%`,
             height: `${childHeight}%`,
-            overflow: 'hidden',
-            textAlign,
             borderRadius: 20,
             ...fontStyle
         };
