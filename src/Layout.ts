@@ -78,7 +78,7 @@ export class Layout extends Container
      * @param options - Layout options
      * @param options.id - ID of the layout.
      * @param options.styles - Styles of the layout. List of available styles can be found in {@link StyleController}.
-     * @param options.content - Content of tre layout.
+     * @param options.content - Content of the layout.
      * @param options.globalStyles - Global styles for layout and it's children.
      */
     constructor(options: LayoutOptions)
