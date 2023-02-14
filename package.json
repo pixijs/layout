@@ -1,6 +1,6 @@
 {
   "name": "@pixi/layout",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "It is a library for arranging and resize pixi elements",
   "homepage": "https://github.com/pixijs/layout",
   "bugs": "https://github.com/pixijs/layout/issues",
