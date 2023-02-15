@@ -3,7 +3,7 @@ import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 
 const args = {
-    text: 'Size of this layout depends on thi text.'
+    text: 'Size of this layout depends on this text.'
 };
 
 class LayoutStory
