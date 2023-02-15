@@ -54,8 +54,6 @@ export class AlignController
             {
                 const availableWidth = parentWidth - paddingLeft - paddingRight;
 
-                child.style.wordWrapWidth = availableWidth;
-
                 const align = this.layout.style.textAlign;
 
                 if (child.width < availableWidth)

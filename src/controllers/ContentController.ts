@@ -7,7 +7,7 @@ import { Text } from '@pixi/text';
 export class ContentController
 {
     private layout: Layout;
-    private children: Array<Container>;
+    public children: Array<Container>;
 
     /**
      * Creates all instances and manages configs
@@ -28,9 +28,8 @@ export class ContentController
 
         if (typeof content === 'string')
         {
-            const { textStyle: textStyles } = this.layout.style;
-
-            const text = new Text(content, textStyles);
+            const { textStyle } = this.layout.style;
+            const text = new Text(content, textStyle);
 
             this.children.push(text);
             this.layout.addChild(text);

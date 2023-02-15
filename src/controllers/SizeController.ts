@@ -1,7 +1,8 @@
 import { getNumber } from '../utils/helpers';
 import { Layout } from '../Layout';
-import { FlexNumber } from '../utils/types';
+import { Text } from '@pixi/text';
 import { Container } from '@pixi/display';
+import { FlexNumber } from '../utils/types';
 
 /** Size controller manages {@link Layout} and it's content size. */
 export class SizeController
@@ -35,7 +36,20 @@ export class SizeController
         this.parentWidth = parentWidth;
         this.parentHeight = parentHeight;
 
-        const { width, height, display, maxWidth, maxHeight, scaleX, scaleY, background } = this.layout.style;
+        const {
+            width,
+            height,
+            display,
+            maxWidth,
+            maxHeight,
+            scaleX,
+            scaleY,
+            background,
+            paddingLeft,
+            paddingRight,
+            paddingTop,
+            paddingBottom
+        } = this.layout.style;
 
         if (width === 0 || height === 0)
         {
@@ -44,19 +58,46 @@ export class SizeController
             return;
         }
 
+        const hasOnly1Child = this.layout.content.children.length === 1;
+        const child = this.layout.content.children[0];
+
         if (width === 'auto')
         {
-            switch (display)
+            if (display === 'inline-block' || display === 'inline')
             {
-                case 'inline-block':
-                case 'inline':
-                    finalWidth = this.layout.contentWidth;
-                    break;
+                if (hasOnly1Child && child instanceof Text)
+                {
+                    // resize basing on text width
+                    if (!child.style.wordWrap && child.width >= parentWidth - paddingLeft - paddingRight)
+                    {
+                        child.style.wordWrap = true;
+                    }
 
-                case 'block':
-                default:
-                    finalWidth = parentWidth;
-                    break;
+                    if (child.style.wordWrap)
+                    {
+                        child.style.wordWrapWidth = parentWidth - paddingLeft - paddingRight;
+                    }
+
+                    // console.log(this.layout.id, {
+                    //     width: child.width,
+                    //     maxWidthVal,
+                    //     wordWrap: child.style.wordWrap,
+                    //     textAndPaddingsWidth,
+                    //     wordWrapWidth: child.style.wordWrapWidth
+                    // });
+
+                    finalWidth = child.width + paddingRight + paddingLeft;
+                }
+                else if (background instanceof Container)
+                {
+                    // resize basing on background width
+                    finalWidth = background.width;
+                }
+            }
+            else
+            {
+                // resize to parent width
+                finalWidth = parentWidth;
             }
         }
         else
@@ -66,7 +107,16 @@ export class SizeController
 
         if (height === 'auto')
         {
-            finalHeight = this.layout.contentHeight;
+            if (hasOnly1Child && child instanceof Text)
+            {
+                finalHeight = child.height + paddingBottom + paddingTop;
+            }
+
+            if (background instanceof Container)
+            {
+                // height is basing on background height
+                finalHeight = background.height;
+            }
         }
         else
         {
@@ -89,21 +139,6 @@ export class SizeController
             this.layout.visible = false;
 
             return;
-        }
-
-        if (background instanceof Container)
-        {
-            if (width === 'auto')
-            {
-                // size is basing on background size
-                finalWidth = background.width;
-            }
-
-            if (height === 'auto')
-            {
-                // size is basing on background size
-                finalHeight = background.height;
-            }
         }
 
         this._width = getNumber(finalWidth, this.parentWidth);
