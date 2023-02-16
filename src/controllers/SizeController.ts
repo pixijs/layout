@@ -47,8 +47,7 @@ export class SizeController
             paddingLeft,
             paddingRight,
             paddingTop,
-            paddingBottom,
-            display
+            paddingBottom
         } = this.layout.style;
 
         if (width === 0 || height === 0)
@@ -124,10 +123,24 @@ export class SizeController
 
                     break;
 
+                case 'parentSize':
                 case 'contentSize':
                 default:
+                    let maxBottomPoint = 0;
+
+                    // we need to resize content first to get it's height
+                    this.layout.content.resize(parentWidth, parentHeight);
+
+                    this.layout.content.children.forEach((child) =>
+                    {
+                        if (child.height)
+                        {
+                            maxBottomPoint = Math.max(maxBottomPoint, child.y + child.height);
+                        }
+                    });
+
                     // height is basing on content height
-                    finalHeight = this.layout.contentHeight;
+                    finalHeight = maxBottomPoint;
 
                     if (this.isItJustAText)
                     {

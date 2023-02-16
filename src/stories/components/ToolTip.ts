@@ -42,7 +42,6 @@ export async function toolTip(text: string): Promise<Layout>
         styles: {
             background: '#292c2e',
             width: '96%',
-            height: '10%',
             borderRadius: 20,
             position: 'centerTop',
             marginTop: 10

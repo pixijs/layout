@@ -31,7 +31,9 @@ class LayoutStory
             }
         });
 
-        this.addTooltip(`Width is not set (it is 'auto'), display is set to 'inline' or 'inline-Block'`);
+        this.addTooltip(
+            `Width and height are not set (it is 'auto'). Display is set to 'inline' or 'inline-Block'. Size of the layout will change basing on the inner text size.`
+        );
 
         this.view.addChild(this.layout);
     }
