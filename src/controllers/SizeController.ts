@@ -62,6 +62,7 @@ export class SizeController
             switch (this.autoSizeModificator)
             {
                 case 'innerText':
+                    // width is auto, there is only 1 child and it is text
                     // resize basing on text width
                     if (!this.innerText.style.wordWrap && this.innerText.width >= parentWidth - paddingLeft - paddingRight)
                     {
@@ -78,14 +79,35 @@ export class SizeController
                     break;
 
                 case 'background':
+                    // width is auto, there is more than 1 child or it is not text
                     // resize basing on background width
                     finalWidth = (background as Container).width;
 
                     break;
 
                 case 'contentSize':
-                    // height is basing on content width
-                    finalWidth = this.layout.contentWidth;
+                    // width is basing on content, content is not a single text
+                    // eslint-disable-next-line no-case-declarations
+                    let maxRightPoint = 0;
+
+                    // we need to resize content first to get it's height
+                    this.layout.content.resize(parentWidth, parentHeight);
+
+                    this.layout.content.children.forEach((child) =>
+                    {
+                        if (child.width)
+                        {
+                            maxRightPoint = Math.max(maxRightPoint, child.x + child.width);
+                        }
+                    });
+
+                    // height is basing on content height
+                    finalWidth = maxRightPoint + paddingLeft + paddingRight;
+
+                    if (this.isItJustAText)
+                    {
+                        finalHeight = this.innerText?.width + paddingLeft + paddingRight;
+                    }
 
                     break;
 
@@ -108,17 +130,22 @@ export class SizeController
             finalWidth = getNumber(width, parentWidth);
         }
 
+        this.fitInnerText(finalWidth);
+
         if (height === 'auto')
         {
             switch (this.autoSizeModificator)
             {
                 case 'innerText':
+                    // height is auto, there is only 1 child and it is text
+                    // resize basing on text height
                     finalHeight = this.innerText?.height + paddingBottom + paddingTop;
 
                     break;
 
                 case 'background':
-                    // height is basing on background height
+                    // height is auto, there is more than 1 child or it is not text
+                    // resize basing on background height
                     finalHeight = (background as Container).height;
 
                     break;
@@ -126,6 +153,8 @@ export class SizeController
                 case 'parentSize':
                 case 'contentSize':
                 default:
+                    // height is basing on content, content is not a single text
+                    // eslint-disable-next-line no-case-declarations
                     let maxBottomPoint = 0;
 
                     // we need to resize content first to get it's height
@@ -140,7 +169,7 @@ export class SizeController
                     });
 
                     // height is basing on content height
-                    finalHeight = maxBottomPoint;
+                    finalHeight = maxBottomPoint + paddingBottom + paddingTop;
 
                     if (this.isItJustAText)
                     {
@@ -187,6 +216,19 @@ export class SizeController
         this.layout.updateMask();
 
         this.layout.align.update(this.parentWidth, this.parentHeight);
+    }
+
+    private fitInnerText(width: number)
+    {
+        if (!this.isItJustAText)
+        {
+            return;
+        }
+
+        const { paddingLeft, paddingRight } = this.layout.style;
+
+        this.innerText.style.wordWrap = true;
+        this.innerText.style.wordWrapWidth = width - paddingRight - paddingLeft;
     }
 
     /** Get type of size control basing on styles and in case if width of the layout is set to `auto`. */

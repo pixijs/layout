@@ -19,7 +19,7 @@ export async function toolTip(text: string): Promise<Layout>
         id: 'toolTip',
         content: [
             {
-                id: 'text',
+                id: 'toolTipText',
                 content: text,
                 styles: {
                     display: 'inline',
@@ -30,7 +30,7 @@ export async function toolTip(text: string): Promise<Layout>
                 }
             },
             {
-                id: 'closeButton',
+                id: 'toolTipCloseButton',
                 content: closeButton,
                 styles: {
                     display: 'inline',

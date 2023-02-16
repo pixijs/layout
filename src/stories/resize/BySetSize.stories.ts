@@ -1,10 +1,14 @@
 import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
+import { LOREM_TEXT, ALIGN } from '../../utils/constants';
 import { toolTip } from '../components/ToolTip';
 
 const args = {
-    text: 'Size of layout depends on this text.'
+    width: 50,
+    height: 30,
+    padding: 15,
+    textAlign: ALIGN
 };
 
 class LayoutStory
@@ -15,27 +19,27 @@ class LayoutStory
     w: number;
     h: number;
 
-    constructor({ text }: any)
+    constructor({ textAlign, width, height, padding }: any)
     {
         this.layout = new Layout({
             id: 'root',
-            content: text,
+            content: LOREM_TEXT,
             styles: {
-                display: 'inline',
                 background: 'black',
-                padding: 20,
+                width: `${width}%`,
+                height: `${height}%`,
+                padding,
+                overflow: 'hidden',
+                // text options
                 color: 'white',
+                textAlign,
                 fontSize: 24,
                 position: 'center',
                 borderRadius: 20
             }
         });
 
-        this.addTooltip(
-            `Width and height are not set (it is 'auto').\n`
-        + `Display is set to 'inline' or 'inline-Block'.\n`
-        + `Size of the layout will change basing on the inner text size.`
-        );
+        this.addTooltip(`Width and height are set, so text will adapt to the layout size.`);
 
         this.view.addChild(this.layout);
     }
@@ -51,13 +55,12 @@ class LayoutStory
     {
         this.w = w;
         this.h = h;
-
         this.layout.resize(w, h);
         this.toolTip?.resize(w, h);
     }
 }
 
-export const ByText = (params: any) => new LayoutStory(params);
+export const BySetSize = (params: any) => new LayoutStory(params);
 
 export default {
     title: 'Resize',
