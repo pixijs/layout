@@ -47,8 +47,9 @@ class LayoutStory
                 padding: 20,
                 borderRadius: 20,
                 overflow: 'hidden',
-                maxHeight: '100%',
-                maxWidth: '100%'
+                maxHeight: '90%',
+                maxWidth: '100%',
+                marginTop: 350
             }
         });
         this.layout.resize(this.w, this.h);
