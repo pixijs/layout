@@ -2,7 +2,7 @@ import { getNumber } from '../utils/helpers';
 import { Layout } from '../Layout';
 import { Text } from '@pixi/text';
 import { Container } from '@pixi/display';
-import { FlexNumber } from '../utils/types';
+import { FlexNumber, SizeControl } from '../utils/types';
 
 /** Size controller manages {@link Layout} and it's content size. */
 export class SizeController
@@ -39,7 +39,6 @@ export class SizeController
         const {
             width,
             height,
-            display,
             maxWidth,
             maxHeight,
             scaleX,
@@ -58,24 +57,20 @@ export class SizeController
             return;
         }
 
-        const hasOnly1Child = this.layout.content.children.length === 1;
-        const child = this.layout.content.children[0];
-
         if (width === 'auto')
         {
-            if (display === 'inline-block' || display === 'inline')
+            switch (this.sizeControlType)
             {
-                if (hasOnly1Child && child instanceof Text)
-                {
+                case 'innerText':
                     // resize basing on text width
-                    if (!child.style.wordWrap && child.width >= parentWidth - paddingLeft - paddingRight)
+                    if (!this.innerText.style.wordWrap && this.innerText.width >= parentWidth - paddingLeft - paddingRight)
                     {
-                        child.style.wordWrap = true;
+                        this.innerText.style.wordWrap = true;
                     }
 
-                    if (child.style.wordWrap)
+                    if (this.innerText.style.wordWrap)
                     {
-                        child.style.wordWrapWidth = parentWidth - paddingLeft - paddingRight;
+                        this.innerText.style.wordWrapWidth = parentWidth - paddingLeft - paddingRight;
                     }
 
                     // console.log(this.layout.id, {
@@ -86,18 +81,22 @@ export class SizeController
                     //     wordWrapWidth: child.style.wordWrapWidth
                     // });
 
-                    finalWidth = child.width + paddingRight + paddingLeft;
-                }
-                else if (background instanceof Container)
-                {
+                    finalWidth = this.innerText.width + paddingRight + paddingLeft;
+
+                    break;
+
+                case 'stickToBackground':
                     // resize basing on background width
-                    finalWidth = background.width;
-                }
-            }
-            else
-            {
-                // resize to parent width
-                finalWidth = parentWidth;
+                    finalWidth = (background as Container).width;
+
+                    break;
+
+                case 'fitToParent':
+                default:
+                    // resize to parent width
+                    finalWidth = parentWidth;
+
+                    break;
             }
         }
         else
@@ -107,15 +106,21 @@ export class SizeController
 
         if (height === 'auto')
         {
-            if (hasOnly1Child && child instanceof Text)
+            switch (this.sizeControlType)
             {
-                finalHeight = child.height + paddingBottom + paddingTop;
-            }
+                case 'innerText':
+                    finalHeight = this.innerText?.height + paddingBottom + paddingTop;
 
-            if (background instanceof Container)
-            {
-                // height is basing on background height
-                finalHeight = background.height;
+                    break;
+
+                case 'stickToBackground':
+                    // height is basing on background height
+                    finalHeight = (background as Container).height;
+
+                    break;
+
+                default:
+                    break;
             }
         }
         else
@@ -157,27 +162,82 @@ export class SizeController
         this.layout.align.update(this.parentWidth, this.parentHeight);
     }
 
+    /** Get type of width control basing on styles and in case if width of the layout is set to `auto`. */
+    private get sizeControlType(): SizeControl
+    {
+        const { display, background } = this.layout.style;
+
+        if (this.isItJustAText)
+        {
+            return 'innerText';
+        }
+
+        if (display !== 'block' && background instanceof Container)
+        {
+            return 'stickToBackground';
+        }
+
+        return 'fitToParent';
+    }
+
+    /** Detect if layout is just a wrapper for a text element.  */
+    private get isItJustAText(): boolean
+    {
+        const hasOnly1Child = this.layout.content.children.length === 1;
+
+        return hasOnly1Child && this.layout.content.children[0] instanceof Text;
+    }
+
+    /** Get first child of the layout */
+    get innerText(): Text
+    {
+        if (!this.isItJustAText)
+        {
+            return null;
+        }
+
+        return this.layout.content.children[0] as Text;
+    }
+
+    /** Get width of the controlled layout. */
     get width(): number
     {
         return this._width;
     }
+
+    /**
+     * Set width of the controlled layout. And align children.
+     * @param {FlexNumber} width - Width to set.
+     */
     set width(width: FlexNumber)
     {
         this._width = getNumber(width, this.parentWidth);
         this.layout.align.update(this.parentWidth, this.parentHeight);
     }
 
+    /** Get height of the controlled layout. */
     get height(): number
     {
         return this._height;
     }
 
+    /**
+     * Set height of the controlled layout. And align children.
+     * @param {FlexNumber} height - Height to set.
+     */
     set height(height: FlexNumber)
     {
         this._height = getNumber(height, this.parentHeight);
         this.layout.align.update(this.parentWidth, this.parentHeight);
     }
 
+    /**
+     * Fits controlled layout into parent size, scales it down if does not fit.
+     *
+     * This method is called when maxWidth or maxHeight is set.
+     * @param parentWidth
+     * @param parentHeight
+     */
     private fitToSize(parentWidth: number, parentHeight: number)
     {
         const { maxWidth, maxHeight, marginLeft, marginRight, marginBottom, marginTop } = this.layout.style;
