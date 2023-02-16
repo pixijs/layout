@@ -63,9 +63,8 @@ class LayoutStory
             content: [
                 {
                     id: 'globalBG',
-                    content: ' ',
+                    content: Sprite.from(assets.globalBG),
                     styles: {
-                        background: Sprite.from(assets.globalBG),
                         maxHeight: '100%',
                         position: 'leftBottom'
                     }
@@ -99,6 +98,7 @@ class LayoutStory
                         ]
                     },
                     styles: {
+                        display: 'inline',
                         position: 'left',
                         background: Sprite.from(assets.smallProgressBar),
                         maxWidth: '45%',
@@ -115,6 +115,7 @@ class LayoutStory
                                 id: 'hard',
                                 content: Sprite.from(assets.hard),
                                 styles: {
+                                    display: 'inline',
                                     position: 'left',
                                     marginLeft: -35
                                 }
@@ -127,6 +128,7 @@ class LayoutStory
                                     progress: this.params.health
                                 }),
                                 styles: {
+                                    display: 'inline',
                                     marginLeft: 85,
                                     marginTop: 20
                                 }
@@ -134,6 +136,7 @@ class LayoutStory
                         ]
                     },
                     styles: {
+                        display: 'inline',
                         position: 'right',
                         background: Sprite.from(assets.smallProgressBar),
                         maxWidth: '45%',
@@ -284,6 +287,7 @@ class LayoutStory
                         }
                     },
                     styles: {
+                        display: 'inline',
                         background: Sprite.from(assets.ribbon),
                         position: 'centerTop',
                         marginTop: -ribbonOffset // offset of the ribbon
@@ -295,7 +299,8 @@ class LayoutStory
                     styles: {
                         position: 'rightTop',
                         display: 'inline',
-                        padding: 63
+                        marginTop: 60,
+                        marginRight: -60
                     }
                 },
                 {
@@ -344,6 +349,7 @@ class LayoutStory
                 }
             ],
             styles: {
+                display: 'inline',
                 scale: 0.8,
                 position: 'center',
                 background: Sprite.from(assets.window),
@@ -361,7 +367,7 @@ class LayoutStory
     }
 }
 
-export const FitAndScale = (params: any) => new LayoutStory(params);
+export const GameUI = (params: any) => new LayoutStory(params);
 
 export default {
     title: 'Layout',
