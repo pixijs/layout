@@ -47,7 +47,8 @@ export class SizeController
             paddingLeft,
             paddingRight,
             paddingTop,
-            paddingBottom
+            paddingBottom,
+            display
         } = this.layout.style;
 
         if (width === 0 || height === 0)
@@ -59,7 +60,7 @@ export class SizeController
 
         if (width === 'auto')
         {
-            switch (this.sizeControlType)
+            switch (this.autoSizeModificator)
             {
                 case 'innerText':
                     // resize basing on text width
@@ -73,28 +74,32 @@ export class SizeController
                         this.innerText.style.wordWrapWidth = parentWidth - paddingLeft - paddingRight;
                     }
 
-                    // console.log(this.layout.id, {
-                    //     width: child.width,
-                    //     maxWidthVal,
-                    //     wordWrap: child.style.wordWrap,
-                    //     textAndPaddingsWidth,
-                    //     wordWrapWidth: child.style.wordWrapWidth
-                    // });
-
                     finalWidth = this.innerText.width + paddingRight + paddingLeft;
 
                     break;
 
-                case 'stickToBackground':
+                case 'background':
                     // resize basing on background width
                     finalWidth = (background as Container).width;
 
                     break;
 
-                case 'fitToParent':
+                case 'contentSize':
+                    // height is basing on content width
+                    finalWidth = this.layout.contentWidth;
+
+                    break;
+
+                case 'parentSize':
                 default:
                     // resize to parent width
                     finalWidth = parentWidth;
+
+                    if (this.isItJustAText)
+                    {
+                        this.innerText.style.wordWrap = true;
+                        this.innerText.style.wordWrapWidth = parentWidth;
+                    }
 
                     break;
             }
@@ -106,20 +111,29 @@ export class SizeController
 
         if (height === 'auto')
         {
-            switch (this.sizeControlType)
+            switch (this.autoSizeModificator)
             {
                 case 'innerText':
                     finalHeight = this.innerText?.height + paddingBottom + paddingTop;
 
                     break;
 
-                case 'stickToBackground':
+                case 'background':
                     // height is basing on background height
                     finalHeight = (background as Container).height;
 
                     break;
 
+                case 'contentSize':
                 default:
+                    // height is basing on content height
+                    finalHeight = this.layout.contentHeight;
+
+                    if (this.isItJustAText)
+                    {
+                        finalHeight = this.innerText?.height + paddingBottom + paddingTop;
+                    }
+
                     break;
             }
         }
@@ -162,22 +176,36 @@ export class SizeController
         this.layout.align.update(this.parentWidth, this.parentHeight);
     }
 
-    /** Get type of width control basing on styles and in case if width of the layout is set to `auto`. */
-    private get sizeControlType(): SizeControl
+    /** Get type of size control basing on styles and in case if width of the layout is set to `auto`. */
+    private get autoSizeModificator(): SizeControl
     {
-        const { display, background } = this.layout.style;
+        const { background, display } = this.layout.style;
+
+        if (display === 'block')
+        {
+            return 'parentSize';
+        }
 
         if (this.isItJustAText)
         {
             return 'innerText';
         }
 
-        if (display !== 'block' && background instanceof Container)
+        if (background instanceof Container)
         {
-            return 'stickToBackground';
+            return 'background';
         }
 
-        return 'fitToParent';
+        const hasOnly1Child = this.layout.content.children.length === 1;
+        const firstChildIsContainer = this.layout.content.children[0] instanceof Container;
+        const firstChild = this.layout.content.children[0] as Container;
+
+        if (hasOnly1Child && firstChildIsContainer && firstChild.width && firstChild.height)
+        {
+            return 'contentSize';
+        }
+
+        return 'parentSize';
     }
 
     /** Detect if layout is just a wrapper for a text element.  */

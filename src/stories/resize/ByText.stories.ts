@@ -1,15 +1,19 @@
 import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
+import { toolTip } from '../components/ToolTip';
 
 const args = {
-    text: 'Size of this layout depends on this text.'
+    text: 'Size of layout depends on this text.'
 };
 
 class LayoutStory
 {
     private layout: Layout;
+    private toolTip: Layout;
     view = new Container();
+    w: number;
+    h: number;
 
     constructor({ text }: any)
     {
@@ -27,16 +31,29 @@ class LayoutStory
             }
         });
 
+        this.addTooltip(`Width is not set (it is 'auto'), display is set to 'inline' or 'inline-Block'`);
+
         this.view.addChild(this.layout);
+    }
+
+    async addTooltip(text: string)
+    {
+        this.toolTip = await toolTip(text);
+        this.view.addChild(this.toolTip);
+        this.toolTip.resize(this.w, this.h);
     }
 
     resize(w: number, h: number)
     {
+        this.w = w;
+        this.h = h;
+
         this.layout.resize(w, h);
+        this.toolTip?.resize(w, h);
     }
 }
 
-export const ByContent = (params: any) => new LayoutStory(params);
+export const ByText = (params: any) => new LayoutStory(params);
 
 export default {
     title: 'Resize',
