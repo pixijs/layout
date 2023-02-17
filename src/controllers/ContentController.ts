@@ -1,37 +1,35 @@
 import { Layout } from '../Layout';
-import { Containers, Content, LayoutStyles } from '../utils/types';
+import { Content, LayoutStyles } from '../utils/types';
 import { Container } from '@pixi/display';
 import { Text } from '@pixi/text';
 
+/** Controls all {@link Layout} children sizing. */
 export class ContentController
 {
     private layout: Layout;
+    public children: Array<Container>;
 
-    children: Containers = [];
-
-    constructor(
-        layout: Layout,
-        content?: Content,
-        globalStyles?: LayoutStyles,
-    )
+    /**
+     * Creates all instances and manages configs
+     * @param {Layout} layout - Layout instance
+     * @param content - Content of the layout
+     * @param globalStyles - Global styles for layout and it's children
+     */
+    constructor(layout: Layout, content?: Content, globalStyles?: LayoutStyles)
     {
         this.layout = layout;
-
+        this.children = layout.elements;
         this.createContent(content, globalStyles);
     }
 
-    private createContent(
-        content?: Content,
-        parentGlobalStyles?: LayoutStyles,
-    )
+    private createContent(content?: Content, parentGlobalStyles?: LayoutStyles)
     {
         if (!content) return;
 
         if (typeof content === 'string')
         {
-            const { textStyles } = this.layout.style;
-
-            const text = new Text(content, textStyles);
+            const { textStyle } = this.layout.style;
+            const text = new Text(content, textStyle);
 
             this.children.push(text);
             this.layout.addChild(text);
@@ -50,7 +48,7 @@ export class ContentController
         }
         else if (typeof content === 'object')
         {
-            if (content.id)
+            if (content.id && content.content)
             {
                 // we consider this as Layout
 
@@ -60,7 +58,7 @@ export class ContentController
                     {
                         content.globalStyles = {
                             ...parentGlobalStyles,
-                            ...content.globalStyles,
+                            ...(content.globalStyles as any)
                         };
                     }
                     else
@@ -69,49 +67,44 @@ export class ContentController
                     }
                 }
 
-                const layout = new Layout(content);
+                const newLayout = new Layout(content);
 
-                this.children.push(layout);
-                this.layout.addChild(layout);
+                this.children.push(newLayout);
+                this.layout.addChild(newLayout);
             }
             else
             {
-                throw new Error('Invalid content');
+                // if ID is key of object instead of separate property
+                for (const id in content)
+                {
+                    if (Object.prototype.hasOwnProperty.call(content, id))
+                    {
+                        const idKey = id as keyof typeof content;
+                        const cont = content[idKey] as any;
+
+                        this.createContent(
+                            {
+                                ...cont,
+                                id
+                            },
+                            parentGlobalStyles
+                        );
+                    }
+                }
             }
         }
     }
 
+    /**
+     * Resizes all children.
+     * @param width
+     * @param height
+     */
     resize(width: number, height: number)
     {
-        this.layout.children.forEach((child) =>
+        this.children.forEach((child) =>
         {
-            if (child instanceof Text)
-            {
-                const align = this.layout.style.textAlign;
-                const padding = this.layout.style.padding;
-
-                child.style.wordWrapWidth = width - (padding * 2);
-
-                if (child.width < width)
-                {
-                    if (align === 'center')
-                    {
-                        child.anchor.set(0.5, 0);
-                        child.x = width / 2;
-                    }
-                    else if (align === 'right')
-                    {
-                        child.anchor.set(1, 0);
-                        child.x = width - padding;
-                    }
-                }
-                else
-                {
-                    child.anchor.set(0, 0);
-                    child.x = padding;
-                }
-            }
-            else if (child instanceof Layout)
+            if (child instanceof Layout)
             {
                 child.resize(width, height);
             }

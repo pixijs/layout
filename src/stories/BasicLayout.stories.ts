@@ -1,12 +1,7 @@
 import { Layout } from '../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { argTypes, getDefaultArgs } from './utils/argTypes';
 import { Container } from '@pixi/display';
-import {
-    CSS_COLOR_NAMES,
-    LOREM_TEXT,
-    POSITION,
-    ALIGN,
-} from '../utils/constants';
+import { CSS_COLOR_NAMES, LOREM_TEXT, POSITION, ALIGN } from '../utils/constants';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 
@@ -21,7 +16,7 @@ const args = {
     borderRadius: 20,
     textAlign: ALIGN,
     overflow: ['hidden', 'visible'],
-    position: POSITION,
+    position: POSITION
 };
 
 class LayoutStory
@@ -40,7 +35,7 @@ class LayoutStory
         fontSize,
         borderRadius,
         textAlign,
-        position,
+        position
     }: any)
     {
         this.layout = new Layout({
@@ -58,8 +53,8 @@ class LayoutStory
                 textAlign,
                 fontSize,
                 position,
-                borderRadius,
-            },
+                borderRadius
+            }
         });
 
         this.view.addChild(this.layout);
@@ -71,10 +66,10 @@ class LayoutStory
     }
 }
 
-export const Basic = (params: any) => new LayoutStory(params);
+export const BasicBlock = (params: any) => new LayoutStory(params);
 
 export default {
     title: 'Layout',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args),
+    args: getDefaultArgs(args)
 };

@@ -6,6 +6,7 @@ import { StyleController } from './controllers/StyleController';
 import { SizeController } from './controllers/SizeController';
 import { ContentController } from './controllers/ContentController';
 import { getColor } from './utils/helpers';
+import { Sprite } from '@pixi/sprite';
 
 /**
  * Universal layout class for Pixi.js.
@@ -51,23 +52,26 @@ import { getColor } from './utils/helpers';
  */
 export class Layout extends Container
 {
-    private bg = new Graphics();
-    private overflowMask = new Graphics();
+    private bg: Graphics | Container;
+    private overflowMask: Graphics;
 
     /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
     id: string;
 
-    /** Size controller is a class for controlling size. */
+    /** {@link SizeController} is a class for controlling layout and all it's children sizes. */
     size: SizeController;
 
-    /** Align controller is a class for controlling alignment. */
+    /** {@link AlignController} is a class for controlling layout and all it's children alignment. */
     align: AlignController;
 
-    /** Style controller is a class for controlling styles. */
+    /** {@link StyleController} is a class for controlling styles. */
     style: StyleController;
 
-    /** Content controller is a class for controlling children. */
+    /** {@link ContentController} controller is a class for controlling layouts children. */
     content: ContentController;
+
+    /** List of all layout children. */
+    elements: Array<Container> = [];
 
     /**
      * Creates layout
@@ -82,9 +86,6 @@ export class Layout extends Container
         super();
 
         this.id = options.id;
-
-        this.addChild(this.bg);
-        this.addChild(this.overflowMask);
 
         if (options.globalStyles)
         {
@@ -105,11 +106,7 @@ export class Layout extends Container
         this.style = new StyleController(this, options.styles);
         this.size = new SizeController(this);
         this.align = new AlignController(this);
-        this.content = new ContentController(
-            this,
-            options.content,
-            options.globalStyles,
-        );
+        this.content = new ContentController(this, options.content, options.globalStyles);
     }
 
     /**
@@ -120,35 +117,49 @@ export class Layout extends Container
     resize(parentWidth: number, parentHeight: number)
     {
         this.size.update(parentWidth, parentHeight);
-        this.align.update(parentWidth, parentHeight);
-        this.content.resize(this.width, this.height);
-        // align and content controllers are dependent on each other so we need to update them twice
-        // TODO: find a better way to do this
-        this.align.update(parentWidth, parentHeight);
-        this.content.resize(this.width, this.height);
-
-        this.updateBG();
-        this.updateMask();
     }
 
     /** Render and update the background of layout basing ot it's current state. */
     updateBG()
     {
-        const { background, borderRadius } = this.style;
-        const { width, height } = this;
-        const color = background !== 'transparent' && getColor(background);
+        const { background } = this.style;
 
-        if (color && width && height)
+        if (background instanceof Container)
         {
-            this.bg
-                .clear()
-                .beginFill(color.hex, color.opacity)
-                .drawRoundedRect(0, 0, width, height, borderRadius)
-                .endFill();
+            if (background instanceof Sprite)
+            {
+                background.anchor.set(0);
+            }
+
+            this.bg = background;
+
+            this.addChildAt(this.bg, 0);
         }
         else
         {
-            this.bg.clear();
+            const color = background !== 'transparent' && getColor(background);
+
+            const { borderRadius } = this.style;
+            const { width, height } = this;
+
+            if (color && width && height)
+            {
+                if (!this.bg)
+                {
+                    this.bg = new Graphics();
+                    this.addChildAt(this.bg, 0);
+                }
+
+                if (this.bg instanceof Graphics)
+                {
+                    this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(0, 0, width, height, borderRadius);
+                }
+            }
+            else if (this.bg)
+            {
+                this.removeChild(this.bg);
+                delete this.bg;
+            }
         }
     }
 
@@ -160,29 +171,31 @@ export class Layout extends Container
 
         if (overflow === 'hidden' && width && height)
         {
-            this.overflowMask
-                .clear()
-                .beginFill(0xffffff)
-                .drawRoundedRect(0, 0, width, height, borderRadius)
-                .endFill();
+            if (!this.overflowMask)
+            {
+                this.overflowMask = new Graphics();
+                this.addChild(this.overflowMask);
+            }
+
+            this.overflowMask.clear().beginFill(0xffffff).drawRoundedRect(0, 0, width, height, borderRadius).endFill();
 
             this.mask = this.overflowMask;
         }
         else
         {
-            this.overflowMask.clear();
             this.mask = null;
+            delete this.overflowMask;
         }
     }
 
     /** Returns with of the container */
-    getContentWidth(): number
+    get contentWidth(): number
     {
         return super.width;
     }
 
     /** Returns height of the container */
-    getContentHeight(): number
+    get contentHeight(): number
     {
         return super.height;
     }
