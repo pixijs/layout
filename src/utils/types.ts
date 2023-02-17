@@ -65,3 +65,5 @@ export type LayoutOptions = {
 };
 
 export type VerticalAlign = typeof VERTICAL_ALIGN[number];
+
+export type SizeControl = 'innerText' | 'background' | 'parentSize' | 'contentSize';
