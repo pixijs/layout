@@ -1,12 +1,11 @@
 import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { LOREM_TEXT, ALIGN } from '../../utils/constants';
+import { ALIGN } from '../../utils/constants';
 import { toolTip } from '../components/ToolTip';
 
 const args = {
-    width: 50,
-    height: 30,
+    text: 'Height of layout depends on this text.',
     padding: 15,
     textAlign: ALIGN
 };
@@ -19,15 +18,13 @@ class LayoutStory
     w: number;
     h: number;
 
-    constructor({ textAlign, width, height, padding }: any)
+    constructor({ textAlign, padding, text }: any)
     {
         this.layout = new Layout({
             id: 'root',
-            content: LOREM_TEXT,
+            content: text,
             styles: {
                 background: 'black',
-                width: `${width}%`,
-                height: `${height}%`,
                 padding,
                 overflow: 'hidden',
                 // text options
@@ -40,7 +37,11 @@ class LayoutStory
         });
 
         this.addTooltip(
-            'Width and height values are set in percentage of the parent size,\n' + 'so text will adapt to the layout size.'
+            'Width and height values are not set,\n'
+        + 'display is not set, so it is "block" by default,\n'
+        + 'so text will adapt to the layout width,\n'
+        + 'and a layout width will adapt to the parent width.\n'
+        + 'height will adapt to the text height.'
         );
 
         this.view.addChild(this.layout);
@@ -62,7 +63,7 @@ class LayoutStory
     }
 }
 
-export const BySetSize = (params: any) => new LayoutStory(params);
+export const ByParentSize = (params: any) => new LayoutStory(params);
 
 export default {
     title: 'Resize',

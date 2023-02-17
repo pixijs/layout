@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { getNumber } from '../utils/helpers';
 import { Layout } from '../Layout';
 import { Text } from '@pixi/text';
@@ -86,27 +87,48 @@ export class SizeController
                     break;
 
                 case 'contentSize':
-                    // width is basing on content, content is not a single text
-                    // eslint-disable-next-line no-case-declarations
-                    let maxRightPoint = 0;
+                    // width is basing on content
+                    let childrenWidth = 0;
 
-                    // we need to resize content first to get it's height
+                    // we need to resize content, as it will update the sizes of the children first
                     this.layout.content.resize(parentWidth, parentHeight);
 
-                    this.layout.content.children.forEach((child) =>
+                    const firstChild = this.layout.content.children[0];
+
+                    // add first element as at lease one element to set width
+                    if (firstChild instanceof Layout)
                     {
-                        if (child.width)
+                        childrenWidth += firstChild.width;
+                    }
+                    else if (firstChild instanceof Container && firstChild.width)
+                    {
+                        childrenWidth += firstChild.width;
+                    }
+
+                    this.layout.content.children.forEach((child, id) =>
+                    {
+                        if (id === 0)
                         {
-                            maxRightPoint = Math.max(maxRightPoint, child.x + child.width);
+                            // skip first element as it was already added
+                            return;
+                        }
+
+                        if (child instanceof Layout && child.style.display !== 'block')
+                        {
+                            childrenWidth += child.width;
+                        }
+                        else if (child instanceof Container && child.width)
+                        {
+                            childrenWidth += child.width;
                         }
                     });
 
                     // height is basing on content height
-                    finalWidth = maxRightPoint + paddingLeft + paddingRight;
+                    finalWidth = childrenWidth + paddingLeft + paddingRight;
 
                     if (this.isItJustAText)
                     {
-                        finalHeight = this.innerText?.width + paddingLeft + paddingRight;
+                        finalWidth = this.innerText?.width + paddingLeft + paddingRight;
                     }
 
                     break;
@@ -153,28 +175,45 @@ export class SizeController
                 case 'parentSize':
                 case 'contentSize':
                 default:
-                    // height is basing on content, content is not a single text
-                    // eslint-disable-next-line no-case-declarations
-                    let maxBottomPoint = 0;
+                    // height is basing on content
+                    let childrenHeight = 0;
 
-                    // we need to resize content first to get it's height
+                    // we need to resize content, as it will update the sizes of the children first
                     this.layout.content.resize(parentWidth, parentHeight);
 
-                    this.layout.content.children.forEach((child) =>
+                    const firstChild = this.layout.content.children[0];
+
+                    // add first element as at lease one element to set width
+                    if (firstChild instanceof Layout)
                     {
-                        if (child.height)
+                        childrenHeight += firstChild.height;
+                    }
+                    else if (firstChild instanceof Container && firstChild.height)
+                    {
+                        childrenHeight += firstChild.height;
+                    }
+
+                    this.layout.content.children.forEach((child, id) =>
+                    {
+                        if (id === 0)
                         {
-                            maxBottomPoint = Math.max(maxBottomPoint, child.y + child.height);
+                            // skip first element as it was already added
+                            return;
+                        }
+
+                        if (child instanceof Layout && child.style.display === 'block')
+                        {
+                            childrenHeight += child.height;
                         }
                     });
 
-                    // height is basing on content height
-                    finalHeight = maxBottomPoint + paddingBottom + paddingTop;
-
                     if (this.isItJustAText)
                     {
-                        finalHeight = this.innerText?.height + paddingBottom + paddingTop;
+                        finalHeight = this.innerText?.height;
                     }
+
+                    // height is basing on content height
+                    finalHeight = childrenHeight + paddingTop + paddingBottom;
 
                     break;
             }
@@ -251,16 +290,7 @@ export class SizeController
             return 'background';
         }
 
-        const hasOnly1Child = this.layout.content.children.length === 1;
-        const firstChildIsContainer = this.layout.content.children[0] instanceof Container;
-        const firstChild = this.layout.content.children[0] as Container;
-
-        if (hasOnly1Child && firstChildIsContainer && firstChild.width && firstChild.height)
-        {
-            return 'contentSize';
-        }
-
-        return 'parentSize';
+        return 'contentSize';
     }
 
     /** Detect if layout is just a wrapper for a text element.  */

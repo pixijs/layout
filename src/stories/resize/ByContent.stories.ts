@@ -4,15 +4,19 @@ import { Container } from '@pixi/display';
 import { toolTip } from '../components/ToolTip';
 import { preloadAssets } from '../utils/helpers';
 import { Sprite } from '@pixi/sprite';
+import { Content } from '../../utils/types';
 
 const assets = {
     energy: 'Icons/EnergyIcon.png',
-    menu: 'Examples/Menu.png',
-    asset: 'Examples/Asset 51.png'
+    gem: 'Icons/gemIcon.png',
+    star: 'Icons/Star.png'
 };
 
 const args = {
-    image: Object.keys(assets)
+    image: Object.keys(assets),
+    amount: 3,
+    padding: 20,
+    maxWidth: 95
 };
 
 class LayoutStory
@@ -23,33 +27,37 @@ class LayoutStory
     w: number;
     h: number;
 
-    constructor({ image }: any)
+    constructor(props)
     {
         this.addTooltip(
             `Width and height are not set (it is 'auto').\n`
         + `Display is set to 'inline' or 'inline-Block'. \n`
-        + 'Content is single container-based element\n'
-        + `Size of the layout will change basing on the only one child size.`
+        + `Size of the layout will change basing on content.`
         );
 
-        preloadAssets(Object.values(assets)).then(() => this.createLayout(image));
+        preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 
-    createLayout(image: string)
+    createLayout({ image, padding, amount, maxWidth }: any)
     {
+        const content: Array<Content> = [];
+
+        for (let i = 0; i < amount; i++)
+        {
+            content.push(Sprite.from(assets[image]));
+        }
+
         this.layout = new Layout({
             id: 'root',
-            content: Sprite.from(assets[image]),
+            content,
             styles: {
                 display: 'inline-block',
                 background: 'black',
                 position: 'center',
-                padding: 20,
-                borderRadius: 20,
                 overflow: 'hidden',
-                maxHeight: '90%',
-                maxWidth: '100%',
-                marginTop: 350
+                padding,
+                borderRadius: 20,
+                maxWidth: `${maxWidth}%`
             }
         });
         this.layout.resize(this.w, this.h);
