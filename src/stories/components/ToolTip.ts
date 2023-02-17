@@ -44,7 +44,8 @@ export async function toolTip(text: string): Promise<Layout>
             width: '96%',
             borderRadius: 20,
             position: 'centerTop',
-            marginTop: 10
+            marginTop: 10,
+            zIndex: 100000
         }
     });
 

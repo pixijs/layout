@@ -40,7 +40,7 @@ class LayoutStory
         });
 
         this.addTooltip(
-            'Width and height values are set in percentage of the parent size,\n' + 'so text will adapt to the layout size.'
+            'Width and height values are set in percentage of the parent size.\n' + 'Text will adapt to the layout size.'
         );
 
         this.view.addChild(this.layout);

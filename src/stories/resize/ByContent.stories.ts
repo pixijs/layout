@@ -31,7 +31,7 @@ class LayoutStory
     {
         this.addTooltip(
             `Width and height are not set (it is 'auto').\n`
-        + `Display is set to 'inline' or 'inline-Block'. \n`
+        + `Display of root layout is set to 'inline' or 'inline-Block'.\n`
         + `Size of the layout will change basing on content.`
         );
 

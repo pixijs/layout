@@ -38,9 +38,9 @@ class LayoutStory
 
         this.addTooltip(
             'Width and height values are not set,\n'
-        + 'display is not set, so it is "block" by default,\n'
-        + 'so text will adapt to the layout width,\n'
-        + 'and a layout width will adapt to the parent width.\n'
+        + 'display is not set, so it is "block" by default.\n'
+        + 'Text will adapt to the layout width,\n'
+        + 'layout width will adapt to the parent width.\n'
         + 'height will adapt to the text height.'
         );
 

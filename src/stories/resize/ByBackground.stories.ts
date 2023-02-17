@@ -5,12 +5,15 @@ import { toolTip } from '../components/ToolTip';
 import { preloadAssets } from '../utils/helpers';
 import { Sprite } from '@pixi/sprite';
 
-const args = {
-    text: 'This text will fit into image size. '.repeat(20)
+const assets = {
+    horizontal: 'Window/SmallSubstrate.png',
+    vertical: 'Window/MenuWindow.png',
+    small: 'Window/Substrate.png'
 };
 
-const assets = {
-    smallSubstrate: 'Window/SmallSubstrate.png'
+const args = {
+    background: Object.keys(assets),
+    text: 'This text will fit into image size. '.repeat(20)
 };
 
 class LayoutStory
@@ -21,19 +24,19 @@ class LayoutStory
     w: number;
     h: number;
 
-    constructor({ text }: any)
+    constructor(props)
     {
         this.addTooltip(
             `Width and height are not set (it is 'auto').\n`
         + `Display is set to 'inline' or 'inline-Block'. \n`
-        + 'content is not set as a simple string\n'
+        + 'Content is not set as a simple string (it is not a text layout)\n'
         + `Size of the layout will change basing on background image.`
         );
 
-        preloadAssets(Object.values(assets)).then(() => this.createLayout(text));
+        preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 
-    createLayout(text: string)
+    createLayout({ text, background }: any)
     {
         this.layout = new Layout({
             id: 'root',
@@ -57,8 +60,10 @@ class LayoutStory
             },
             styles: {
                 display: 'inline-block',
-                background: Sprite.from(assets.smallSubstrate),
-                position: 'center'
+                background: Sprite.from(assets[background]),
+                position: 'center',
+                maxWidth: '95%',
+                maxHeight: '95%'
             }
         });
         this.layout.resize(this.w, this.h);
