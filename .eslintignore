@@ -1,8 +1,0 @@
-/docs/**
-**/dist/**
-**/lib/**
-**/types/**
-temp
-docs
-dist
-node_modules
