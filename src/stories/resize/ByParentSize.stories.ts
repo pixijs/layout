@@ -2,10 +2,14 @@ import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { ALIGN } from '../../utils/constants';
-import { toolTip } from '../components/ToolTip';
 
 const args = {
-    text: 'Height of layout depends on this text.',
+    text:
+    'Width and height values are not set,\n'
+    + 'display is not set, so it is "block" by default.\n'
+    + 'Text will adapt to the layout width,\n'
+    + 'layout width will adapt to the parent width.\n'
+    + 'height will adapt to the text height.',
     padding: 15,
     textAlign: ALIGN
 };
@@ -36,22 +40,7 @@ class LayoutStory
             }
         });
 
-        this.addTooltip(
-            'Width and height values are not set,\n'
-        + 'display is not set, so it is "block" by default.\n'
-        + 'Text will adapt to the layout width,\n'
-        + 'layout width will adapt to the parent width.\n'
-        + 'height will adapt to the text height.'
-        );
-
         this.view.addChild(this.layout);
-    }
-
-    async addTooltip(text: string)
-    {
-        this.toolTip = await toolTip(text);
-        this.view.addChild(this.toolTip);
-        this.toolTip.resize(this.w, this.h);
     }
 
     resize(w: number, h: number)

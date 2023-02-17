@@ -1,12 +1,12 @@
 import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { LOREM_TEXT, ALIGN } from '../../utils/constants';
-import { toolTip } from '../components/ToolTip';
+import { ALIGN } from '../../utils/constants';
 
 const args = {
+    text: 'Width and height values are set in percentage of the parent size.\n' + 'Text will adapt to the layout size.',
     width: 50,
-    height: 30,
+    height: 50,
     padding: 15,
     textAlign: ALIGN
 };
@@ -19,11 +19,11 @@ class LayoutStory
     w: number;
     h: number;
 
-    constructor({ textAlign, width, height, padding }: any)
+    constructor({ textAlign, width, height, padding, text }: any)
     {
         this.layout = new Layout({
             id: 'root',
-            content: LOREM_TEXT,
+            content: text,
             styles: {
                 background: 'black',
                 width: `${width}%`,
@@ -39,18 +39,7 @@ class LayoutStory
             }
         });
 
-        this.addTooltip(
-            'Width and height values are set in percentage of the parent size.\n' + 'Text will adapt to the layout size.'
-        );
-
         this.view.addChild(this.layout);
-    }
-
-    async addTooltip(text: string)
-    {
-        this.toolTip = await toolTip(text);
-        this.view.addChild(this.toolTip);
-        this.toolTip.resize(this.w, this.h);
     }
 
     resize(w: number, h: number)

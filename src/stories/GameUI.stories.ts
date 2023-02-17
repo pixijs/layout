@@ -11,7 +11,8 @@ import { Styles } from '../utils/types';
 
 const args = {
     title: 'Warning',
-    text: `${LOREM_TEXT} ${LOREM_TEXT} ${LOREM_TEXT} ${LOREM_TEXT} ${LOREM_TEXT}`,
+    text:
+    `This text is scrollable!!!\n\n\n` + `Window will scale on resize to fit the parent size.\n\n\n${LOREM_TEXT.repeat(10)}`,
     health: 50,
     energy: 50
 };
