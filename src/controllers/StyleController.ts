@@ -1,4 +1,4 @@
-import type { Display, FlexColor, FlexNumber, Opacity, Overflow, Position, Styles, VerticalAlign } from '../utils/types';
+import type { Display, FlexColor, FlexNumber, GradeToOne, Overflow, Position, Styles, VerticalAlign } from '../utils/types';
 import type {
     TextStyleAlign,
     TextStyleFontStyle,
@@ -152,6 +152,15 @@ export class StyleController
      */
     height: FlexNumber | 'auto' = 'auto';
 
+    /** Defines {@link Layout} offset basing on it's own size. */
+    anchor = 0;
+
+    /** Defines {@link Layout} offset X basing on it's own size. */
+    anchorX = 0;
+
+    /** Defines {@link Layout} offset Y basing on it's own size. */
+    anchorY = 0;
+
     /**
      * Defines {@link Layout} background.
      *
@@ -255,6 +264,38 @@ export class StyleController
 
         this.position = styles?.position;
         this.verticalAlign = styles?.verticalAlign ?? VERTICAL_ALIGN[0];
+
+        if (styles?.anchorX)
+        {
+            this.anchorX = styles.anchorX;
+        }
+        else if (styles?.anchor)
+        {
+            if (typeof styles.anchor === 'number')
+            {
+                this.anchorX = styles.anchor;
+            }
+            else if (Array.isArray(styles.anchor))
+            {
+                this.anchorX = styles.anchor[0];
+            }
+        }
+
+        if (styles?.anchorY)
+        {
+            this.anchorY = styles.anchorY;
+        }
+        else if (styles?.anchor)
+        {
+            if (typeof styles.anchor === 'number')
+            {
+                this.anchorY = styles.anchor;
+            }
+            else if (Array.isArray(styles.anchor))
+            {
+                this.anchorY = styles.anchor[1];
+            }
+        }
     }
 
     private setTextStyle(styles: Styles)
@@ -293,15 +334,15 @@ export class StyleController
     }
 
     /** Set alpha. */
-    set opacity(value: Opacity)
+    set opacity(value: GradeToOne)
     {
         this.layout.alpha = value;
     }
 
     /** Get alpha. */
-    get opacity(): Opacity
+    get opacity(): GradeToOne
     {
-        return this.layout.alpha as Opacity;
+        return this.layout.alpha as GradeToOne;
     }
 
     /** Set text color. */

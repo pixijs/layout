@@ -1,20 +1,15 @@
-import { Layout } from '../../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { Layout } from '../Layout';
+import { argTypes, getDefaultArgs } from './utils/argTypes';
 import { Container } from '@pixi/display';
-import { preloadAssets } from '../utils/helpers';
+import { ALIGN } from '../utils/constants';
 import { Sprite } from '@pixi/sprite';
-import { LOREM_TEXT } from '../../utils/constants';
+import { preloadAssets } from './utils/helpers';
 
 const assets = {
-    horizontal: 'Window/SmallSubstrate.png',
-    vertical: 'Window/MenuWindow.png',
     small: 'Window/Substrate.png'
 };
 
-const args = {
-    background: Object.keys(assets),
-    padding: 20
-};
+const args = {};
 
 class LayoutStory
 {
@@ -29,18 +24,26 @@ class LayoutStory
         preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 
-    createLayout({ background, padding }: any)
+    createLayout({}: any)
     {
         this.layout = new Layout({
             id: 'root',
-            content: LOREM_TEXT,
+            content: {
+                id: 'image',
+                content: Sprite.from(assets.small),
+                styles: {
+                    display: 'inline-block',
+                    position: 'left',
+                    anchor: 0.5
+                }
+            },
             styles: {
                 display: 'inline-block',
-                background: Sprite.from(assets[background]),
                 position: 'center',
                 maxWidth: '95%',
                 maxHeight: '95%',
-                padding
+                padding: 50,
+                background: 'black'
             }
         });
         this.layout.resize(this.w, this.h);
@@ -57,10 +60,10 @@ class LayoutStory
     }
 }
 
-export const ByBackground = (params: any) => new LayoutStory(params);
+export const ImageLayout = (params: any) => new LayoutStory(params);
 
 export default {
-    title: 'Resize',
+    title: 'Layout',
     argTypes: argTypes(args),
     args: getDefaultArgs(args)
 };

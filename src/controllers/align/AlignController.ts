@@ -54,7 +54,7 @@ export class AlignController
             {
                 const availableWidth = parentWidth - paddingLeft - paddingRight;
 
-                const align = this.layout.style.textAlign;
+                const align = style.textAlign;
 
                 if (child.width < availableWidth)
                 {
@@ -80,7 +80,7 @@ export class AlignController
                     child.x = paddingLeft;
                 }
 
-                const verticalAlign = this.layout.style.verticalAlign;
+                const verticalAlign = style.verticalAlign;
 
                 const availableHeight = parentHeight - paddingTop - paddingBottom;
 
@@ -134,8 +134,11 @@ export class AlignController
                 }
             }
 
-            child.x = x + childMarginLeft;
-            child.y = y + childMarginTop;
+            const anchorX = style.anchorX * this.layout.width;
+            const anchorY = style.anchorY * this.layout.height;
+
+            child.x = x + childMarginLeft - anchorX;
+            child.y = y + childMarginTop - anchorY;
 
             if (child.height + childMarginTop + childMarginBottom > maxChildHeight)
             {

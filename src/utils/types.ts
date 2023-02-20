@@ -3,7 +3,7 @@ import { Container } from '@pixi/display';
 import { CSS_COLOR_NAMES, POSITION, DISPLAY, OVERFLOW, VERTICAL_ALIGN } from './constants';
 import { Layout } from '../Layout';
 
-export type Opacity = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
+export type GradeToOne = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
 
 export type FlexNumber = number | string;
 export type FlexColor = FlexNumber | CSSColor;
@@ -38,7 +38,7 @@ export type Styles = Partial<TextStyle> & {
     marginRight?: number;
     marginBottom?: number;
     marginLeft?: number;
-    opacity?: Opacity;
+    opacity?: GradeToOne;
     overflow?: Overflow; // TODO: scroll pixi-ui scrollBox can be used here & 'scale' to fit children when overflow
     position?: Position;
     display?: Display;
@@ -51,6 +51,9 @@ export type Styles = Partial<TextStyle> & {
     maxWidth?: FlexNumber;
     maxHeight?: FlexNumber;
     zIndex?: number;
+    anchor?: GradeToOne;
+    anchorX?: GradeToOne;
+    anchorY?: GradeToOne;
 };
 
 export type LayoutStyles = {
