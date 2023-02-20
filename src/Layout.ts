@@ -1,6 +1,6 @@
 import { Graphics } from '@pixi/graphics';
 import { Container } from '@pixi/display';
-import { LayoutOptions } from './utils/types';
+import { Content, LayoutOptions } from './utils/types';
 import { AlignController } from './controllers/align/AlignController';
 import { StyleController } from './controllers/StyleController';
 import { SizeController } from './controllers/SizeController';
@@ -222,5 +222,10 @@ export class Layout extends Container
     override get height()
     {
         return this.size.height;
+    }
+
+    public addContent(content: Content)
+    {
+        this.content.createContent(content);
     }
 }

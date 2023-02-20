@@ -22,7 +22,7 @@ export class ContentController
         this.createContent(content, globalStyles);
     }
 
-    private createContent(content?: Content, parentGlobalStyles?: LayoutStyles)
+    public createContent(content?: Content, parentGlobalStyles?: LayoutStyles)
     {
         if (!content) return;
 
