@@ -1,15 +1,20 @@
 import { Layout } from '../Layout';
 import { argTypes, getDefaultArgs } from './utils/argTypes';
 import { Container } from '@pixi/display';
-import { ALIGN } from '../utils/constants';
 import { Sprite } from '@pixi/sprite';
 import { preloadAssets } from './utils/helpers';
+import type { GradeToOne } from '../utils/types';
+import { POSITION } from '../utils/constants';
 
 const assets = {
-    small: 'Window/Substrate.png'
+    avatar: 'avatar-01.png'
 };
 
-const args = {};
+const args = {
+    anchorX: 0.5,
+    anchorY: 0.5,
+    position: ['left', ...POSITION.filter((position) => position !== 'left')]
+};
 
 class LayoutStory
 {
@@ -24,26 +29,30 @@ class LayoutStory
         preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 
-    createLayout({}: any)
+    createLayout({ anchorX, anchorY, position }: any)
     {
+        const anchor = Math.min(anchorX, anchorY);
+        const opacity: GradeToOne = (1 - anchor > 0.5 ? 1 - anchor : 0.5) as GradeToOne;
+
         this.layout = new Layout({
             id: 'root',
             content: {
                 id: 'image',
-                content: Sprite.from(assets.small),
+                content: Sprite.from(assets.avatar),
                 styles: {
                     display: 'inline-block',
-                    position: 'left',
-                    anchor: 0.5
+                    position,
+                    anchorX,
+                    anchorY,
+                    opacity
                 }
             },
             styles: {
                 display: 'inline-block',
                 position: 'center',
-                maxWidth: '95%',
-                maxHeight: '95%',
-                padding: 50,
-                background: 'black'
+                width: '50%',
+                height: '50%',
+                background: 'white'
             }
         });
         this.layout.resize(this.w, this.h);
