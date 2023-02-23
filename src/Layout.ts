@@ -70,9 +70,6 @@ export class Layout extends Container
     /** {@link ContentController} controller is a class for controlling layouts children. */
     content: ContentController;
 
-    /** List of all layout children. */
-    elements: Array<Container> = [];
-
     /**
      * Creates layout
      * @param options - Layout options
@@ -150,9 +147,24 @@ export class Layout extends Container
                     this.addChildAt(this.bg, 0);
                 }
 
+                let x = 0;
+                let y = 0;
+
+                const { anchorX, anchorY } = this.style;
+
+                if (anchorX !== undefined)
+                {
+                    x -= width * anchorX;
+                }
+
+                if (anchorY !== undefined)
+                {
+                    y -= height * anchorY;
+                }
+
                 if (this.bg instanceof Graphics)
                 {
-                    this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(0, 0, width, height, borderRadius);
+                    this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(x, y, width, height, borderRadius);
                 }
             }
             else if (this.bg)
@@ -177,7 +189,22 @@ export class Layout extends Container
                 this.addChild(this.overflowMask);
             }
 
-            this.overflowMask.clear().beginFill(0xffffff).drawRoundedRect(0, 0, width, height, borderRadius).endFill();
+            let x = 0;
+            let y = 0;
+
+            const { anchorX, anchorY } = this.style;
+
+            if (anchorX !== undefined)
+            {
+                x -= width * anchorX;
+            }
+
+            if (anchorY !== undefined)
+            {
+                y -= height * anchorY;
+            }
+
+            this.overflowMask.clear().beginFill(0xffffff).drawRoundedRect(x, y, width, height, borderRadius).endFill();
 
             this.mask = this.overflowMask;
         }
@@ -227,5 +254,6 @@ export class Layout extends Container
     public addContent(content: Content)
     {
         this.content.createContent(content);
+        this.size.update();
     }
 }

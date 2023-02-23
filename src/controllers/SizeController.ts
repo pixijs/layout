@@ -29,13 +29,20 @@ export class SizeController
      * @param {number} parentWidth - Parent width
      * @param {number} parentHeight - Parent height
      */
-    update(parentWidth: number, parentHeight: number)
+    update(parentWidth?: number, parentHeight?: number)
     {
         let finalWidth = 0;
         let finalHeight = 0;
 
-        this.parentWidth = parentWidth;
-        this.parentHeight = parentHeight;
+        if (parentWidth !== undefined)
+        {
+            this.parentWidth = parentWidth;
+        }
+
+        if (parentHeight !== undefined)
+        {
+            this.parentHeight = parentHeight;
+        }
 
         const {
             width,
@@ -48,7 +55,7 @@ export class SizeController
             paddingLeft,
             paddingRight,
             paddingTop,
-            paddingBottom
+            paddingBottom,
         } = this.layout.style;
 
         if (width === 0 || height === 0)
@@ -65,14 +72,18 @@ export class SizeController
                 case 'innerText':
                     // width is auto, there is only 1 child and it is text
                     // resize basing on text width
-                    if (!this.innerText.style.wordWrap && this.innerText.width >= parentWidth - paddingLeft - paddingRight)
+                    if (
+                        !this.innerText.style.wordWrap
+                        && this.innerText.width >= this.parentWidth - paddingLeft - paddingRight
+                    )
                     {
                         this.innerText.style.wordWrap = true;
                     }
 
                     if (this.innerText.style.wordWrap)
                     {
-                        this.innerText.style.wordWrapWidth = parentWidth - paddingLeft - paddingRight;
+                        this.innerText.style.wordWrapWidth
+                            = this.parentWidth - paddingLeft - paddingRight;
                     }
 
                     finalWidth = this.innerText.width + paddingRight + paddingLeft;
@@ -91,9 +102,9 @@ export class SizeController
                     let childrenWidth = 0;
 
                     // we need to resize content, as it will update the sizes of the children first
-                    this.layout.content.resize(parentWidth, parentHeight);
+                    this.layout.content.resize(this.parentWidth, this.parentHeight);
 
-                    const firstChild = this.layout.content.children[0];
+                    const { firstChild } = this.layout.content;
 
                     // add first element as at lease one element to set width
                     if (firstChild instanceof Layout)
@@ -105,9 +116,9 @@ export class SizeController
                         childrenWidth += firstChild.width;
                     }
 
-                    this.layout.content.children.forEach((child, id) =>
+                    this.layout.content.children.forEach((child) =>
                     {
-                        if (id === 0)
+                        if (child === firstChild)
                         {
                             // skip first element as it was already added
                             return;
@@ -136,7 +147,7 @@ export class SizeController
                 case 'parentSize':
                 default:
                     // resize to parent width
-                    finalWidth = parentWidth;
+                    finalWidth = this.parentWidth;
 
                     if (this.isItJustAText)
                     {
@@ -149,7 +160,7 @@ export class SizeController
         }
         else
         {
-            finalWidth = getNumber(width, parentWidth);
+            finalWidth = getNumber(width, this.parentWidth);
         }
 
         this.fitInnerText(finalWidth);
@@ -179,9 +190,9 @@ export class SizeController
                     let childrenHeight = 0;
 
                     // we need to resize content, as it will update the sizes of the children first
-                    this.layout.content.resize(parentWidth, parentHeight);
+                    this.layout.content.resize(this.parentWidth, this.parentHeight);
 
-                    const firstChild = this.layout.content.children[0];
+                    const { firstChild } = this.layout.content;
 
                     // add first element as at lease one element to set width
                     if (firstChild instanceof Layout)
@@ -193,9 +204,9 @@ export class SizeController
                         childrenHeight += firstChild.height;
                     }
 
-                    this.layout.content.children.forEach((child, id) =>
+                    this.layout.content.children.forEach((child) =>
                     {
-                        if (id === 0)
+                        if (child === firstChild)
                         {
                             // skip first element as it was already added
                             return;
@@ -220,7 +231,7 @@ export class SizeController
         }
         else
         {
-            finalHeight = getNumber(height, parentHeight);
+            finalHeight = getNumber(height, this.parentHeight);
         }
 
         if (this.layout.parent instanceof Layout)
@@ -248,7 +259,7 @@ export class SizeController
 
         if (maxWidth || maxHeight)
         {
-            this.fitToSize(parentWidth, parentHeight);
+            this.fitToSize(this.parentWidth, this.parentHeight);
         }
 
         this.layout.updateBG();
@@ -296,9 +307,11 @@ export class SizeController
     /** Detect if layout is just a wrapper for a text element.  */
     private get isItJustAText(): boolean
     {
-        const hasOnly1Child = this.layout.content.children.length === 1;
+        const hasOnly1Child = this.layout.content.children.size === 1;
 
-        return hasOnly1Child && this.layout.content.children[0] instanceof Text;
+        const { firstChild } = this.layout.content;
+
+        return hasOnly1Child && firstChild instanceof Text;
     }
 
     /** Get first child of the layout */
@@ -309,7 +322,9 @@ export class SizeController
             return null;
         }
 
-        return this.layout.content.children[0] as Text;
+        const { firstChild } = this.layout.content;
+
+        return firstChild as Text;
     }
 
     /** Get width of the controlled layout. */
@@ -353,7 +368,8 @@ export class SizeController
      */
     private fitToSize(parentWidth: number, parentHeight: number)
     {
-        const { maxWidth, maxHeight, marginLeft, marginRight, marginBottom, marginTop } = this.layout.style;
+        const { maxWidth, maxHeight, marginLeft, marginRight, marginBottom, marginTop }
+            = this.layout.style;
 
         const currentScaleX = this.layout.scale.x;
         const currentScaleY = this.layout.scale.y;

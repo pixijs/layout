@@ -1,4 +1,13 @@
-import type { Display, FlexColor, FlexNumber, GradeToOne, Overflow, Position, Styles, VerticalAlign } from '../utils/types';
+import type {
+    Display,
+    FlexColor,
+    FlexNumber,
+    GradeToOne,
+    Overflow,
+    Position,
+    Styles,
+    VerticalAlign,
+} from '../utils/types';
 import type {
     TextStyleAlign,
     TextStyleFontStyle,
@@ -6,7 +15,7 @@ import type {
     TextStyleFontWeight,
     TextStyleLineJoin,
     TextStyleTextBaseline,
-    TextStyleWhiteSpace
+    TextStyleWhiteSpace,
 } from '@pixi/text';
 import { TEXT_GRADIENT, TextStyle } from '@pixi/text';
 import { getColor } from '../utils/helpers';
@@ -153,13 +162,13 @@ export class StyleController
     height: FlexNumber | 'auto' = 'auto';
 
     /** Defines {@link Layout} offset basing on it's own size. */
-    anchor = 0;
+    anchor: GradeToOne;
 
     /** Defines {@link Layout} offset X basing on it's own size. */
-    anchorX = 0;
+    anchorX: GradeToOne;
 
     /** Defines {@link Layout} offset Y basing on it's own size. */
-    anchorY = 0;
+    anchorY: GradeToOne;
 
     /**
      * Defines {@link Layout} background.
@@ -265,11 +274,11 @@ export class StyleController
         this.position = styles?.position;
         this.verticalAlign = styles?.verticalAlign ?? VERTICAL_ALIGN[0];
 
-        if (styles?.anchorX)
+        if (styles?.anchorX !== undefined)
         {
             this.anchorX = styles.anchorX;
         }
-        else if (styles?.anchor)
+        else if (styles?.anchor !== undefined)
         {
             if (typeof styles.anchor === 'number')
             {
@@ -281,11 +290,11 @@ export class StyleController
             }
         }
 
-        if (styles?.anchorY)
+        if (styles?.anchorY !== undefined)
         {
             this.anchorY = styles.anchorY;
         }
-        else if (styles?.anchor)
+        else if (styles?.anchor !== undefined)
         {
             if (typeof styles.anchor === 'number')
             {
@@ -329,7 +338,7 @@ export class StyleController
             whiteSpace: styles?.whiteSpace ?? 'pre',
             wordWrap: styles?.wordWrap ?? true,
             wordWrapWidth: styles?.wordWrapWidth ?? 100,
-            leading: styles?.leading ?? 0
+            leading: styles?.leading ?? 0,
         };
     }
 
