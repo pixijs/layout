@@ -201,8 +201,8 @@ export class AlignController
             case 'rightTop':
             case 'topRight':
             case 'right':
-                this.layout.x = parentWidth - width - marginRight + marginLeft;
-                this.layout.y = marginTop - marginBottom;
+                this.layout.x = parentWidth - width - marginRight;
+                this.layout.y = marginTop;
 
                 if (anchorX !== undefined)
                 {
@@ -218,8 +218,8 @@ export class AlignController
             case 'leftBottom':
             case 'bottomLeft':
             case 'bottom':
-                this.layout.x = marginLeft + marginRight;
-                this.layout.y = parentHeight - height - marginBottom + marginTop;
+                this.layout.x = marginLeft;
+                this.layout.y = parentHeight - height - marginBottom;
 
                 if (anchorX !== undefined)
                 {
@@ -234,8 +234,8 @@ export class AlignController
 
             case 'rightBottom':
             case 'bottomRight':
-                this.layout.x = parentWidth - width - marginRight + marginLeft;
-                this.layout.y = parentHeight - height - marginBottom + marginTop;
+                this.layout.x = parentWidth - width - marginRight;
+                this.layout.y = parentHeight - height - marginBottom;
 
                 if (anchorX !== undefined)
                 {
@@ -249,8 +249,8 @@ export class AlignController
                 break;
 
             case 'center':
-                this.layout.x = ((parentWidth - width) / 2) + marginLeft - marginRight;
-                this.layout.y = ((parentHeight - height) / 2) + marginTop - marginBottom;
+                this.layout.x = ((parentWidth - width) / 2) + marginLeft;
+                this.layout.y = ((parentHeight - height) / 2) + marginTop;
 
                 if (anchorX !== undefined)
                 {
@@ -265,8 +265,8 @@ export class AlignController
 
             case 'centerTop':
             case 'topCenter':
-                this.layout.x = ((parentWidth - width) / 2) + marginLeft - marginRight;
-                this.layout.y = 0 + marginTop - marginBottom;
+                this.layout.x = ((parentWidth - width) / 2) + marginLeft;
+                this.layout.y = 0 + marginTop;
 
                 if (anchorX !== undefined)
                 {
@@ -281,7 +281,7 @@ export class AlignController
 
             case 'centerBottom':
             case 'bottomCenter':
-                this.layout.x = ((parentWidth - width) / 2) + marginLeft - marginRight;
+                this.layout.x = ((parentWidth - width) / 2) + marginLeft;
                 this.layout.y = parentHeight - height - marginBottom;
 
                 if (anchorX !== undefined)
@@ -297,8 +297,8 @@ export class AlignController
 
             case 'centerLeft':
             case 'leftCenter':
-                this.layout.x = 0 - marginLeft + marginRight;
-                this.layout.y = ((parentHeight - height) / 2) + marginTop - marginBottom;
+                this.layout.x = 0 + marginLeft;
+                this.layout.y = ((parentHeight - height) / 2) + marginTop;
 
                 if (anchorX !== undefined)
                 {
@@ -314,7 +314,7 @@ export class AlignController
             case 'centerRight':
             case 'rightCenter':
                 this.layout.x = parentWidth - width - marginRight;
-                this.layout.y = ((parentHeight - height) / 2) + marginTop - marginBottom;
+                this.layout.y = ((parentHeight - height) / 2) + marginTop;
 
                 if (anchorX !== undefined)
                 {
@@ -332,8 +332,8 @@ export class AlignController
             case 'left':
             case 'top':
             default:
-                this.layout.x = 0 + marginLeft - marginRight;
-                this.layout.y = 0 + marginTop - marginBottom;
+                this.layout.x = 0 + marginLeft;
+                this.layout.y = 0 + marginTop;
 
                 if (anchorX !== undefined)
                 {
