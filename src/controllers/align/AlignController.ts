@@ -134,8 +134,8 @@ export class AlignController
                 }
             }
 
-            const anchorX = style.anchorX * this.layout.width;
-            const anchorY = style.anchorY * this.layout.height;
+            const anchorX = style.anchorX !== undefined ? style.anchorX * this.layout.width : 0;
+            const anchorY = style.anchorY !== undefined ? style.anchorY * this.layout.height : 0;
 
             child.x = x + childMarginLeft - anchorX;
             child.y = y + childMarginTop - anchorY;
@@ -198,27 +198,11 @@ export class AlignController
 
         switch (position)
         {
-            case 'leftTop':
-            case 'left':
-            case 'top':
-                this.layout.x = marginLeft;
-                this.layout.y = marginTop;
-
-                if (anchorX !== undefined)
-                {
-                    this.layout.x -= width * anchorX;
-                }
-
-                if (anchorY !== undefined)
-                {
-                    this.layout.y -= height * anchorY;
-                }
-                break;
-
             case 'rightTop':
+            case 'topRight':
             case 'right':
-                this.layout.x = parentWidth - width - marginRight;
-                this.layout.y = marginTop;
+                this.layout.x = parentWidth - width - marginRight + marginLeft;
+                this.layout.y = marginTop - marginBottom;
 
                 if (anchorX !== undefined)
                 {
@@ -232,9 +216,10 @@ export class AlignController
                 break;
 
             case 'leftBottom':
+            case 'bottomLeft':
             case 'bottom':
-                this.layout.x = marginLeft;
-                this.layout.y = parentHeight - height - marginBottom;
+                this.layout.x = marginLeft + marginRight;
+                this.layout.y = parentHeight - height - marginBottom + marginTop;
 
                 if (anchorX !== undefined)
                 {
@@ -248,8 +233,9 @@ export class AlignController
                 break;
 
             case 'rightBottom':
-                this.layout.x = parentWidth - width - marginRight;
-                this.layout.y = parentHeight - height - marginBottom;
+            case 'bottomRight':
+                this.layout.x = parentWidth - width - marginRight + marginLeft;
+                this.layout.y = parentHeight - height - marginBottom + marginTop;
 
                 if (anchorX !== undefined)
                 {
@@ -263,8 +249,8 @@ export class AlignController
                 break;
 
             case 'center':
-                this.layout.x = (parentWidth - width) / 2;
-                this.layout.y = (parentHeight - height) / 2;
+                this.layout.x = ((parentWidth - width) / 2) + marginLeft - marginRight;
+                this.layout.y = ((parentHeight - height) / 2) + marginTop - marginBottom;
 
                 if (anchorX !== undefined)
                 {
@@ -278,12 +264,13 @@ export class AlignController
                 break;
 
             case 'centerTop':
-                this.layout.x = (parentWidth - width) / 2;
-                this.layout.y = marginTop;
+            case 'topCenter':
+                this.layout.x = ((parentWidth - width) / 2) + marginLeft - marginRight;
+                this.layout.y = 0 + marginTop - marginBottom;
 
                 if (anchorX !== undefined)
                 {
-                    this.layout.x = (parentWidth / 2) - (width * anchorX);
+                    this.layout.x += width * anchorX;
                 }
 
                 if (anchorY !== undefined)
@@ -293,12 +280,13 @@ export class AlignController
                 break;
 
             case 'centerBottom':
-                this.layout.x = (parentWidth - width) / 2;
+            case 'bottomCenter':
+                this.layout.x = ((parentWidth - width) / 2) + marginLeft - marginRight;
                 this.layout.y = parentHeight - height - marginBottom;
 
                 if (anchorX !== undefined)
                 {
-                    this.layout.x = (parentWidth / 2) - (width * anchorX);
+                    this.layout.x += width * anchorX;
                 }
 
                 if (anchorY !== undefined)
@@ -308,8 +296,9 @@ export class AlignController
                 break;
 
             case 'centerLeft':
-                this.layout.x = marginLeft;
-                this.layout.y = (parentHeight - height) / 2;
+            case 'leftCenter':
+                this.layout.x = 0 - marginLeft + marginRight;
+                this.layout.y = ((parentHeight - height) / 2) + marginTop - marginBottom;
 
                 if (anchorX !== undefined)
                 {
@@ -318,13 +307,14 @@ export class AlignController
 
                 if (anchorY !== undefined)
                 {
-                    this.layout.y = (parentHeight / 2) - (height * anchorY);
+                    this.layout.y += height * anchorY;
                 }
                 break;
 
             case 'centerRight':
-                this.layout.y = (parentHeight - height) / 2;
+            case 'rightCenter':
                 this.layout.x = parentWidth - width - marginRight;
+                this.layout.y = ((parentHeight - height) / 2) + marginTop - marginBottom;
 
                 if (anchorX !== undefined)
                 {
@@ -333,9 +323,27 @@ export class AlignController
 
                 if (anchorY !== undefined)
                 {
-                    this.layout.y = (parentHeight / 2) - (height * anchorY);
+                    this.layout.y += height * anchorY;
                 }
                 break;
+
+            case 'leftTop':
+            case 'topLeft':
+            case 'left':
+            case 'top':
+            default:
+                this.layout.x = 0 + marginLeft - marginRight;
+                this.layout.y = 0 + marginTop - marginBottom;
+
+                if (anchorX !== undefined)
+                {
+                    this.layout.x -= width * anchorX;
+                }
+
+                if (anchorY !== undefined)
+                {
+                    this.layout.y -= height * anchorY;
+                }
         }
     }
 }

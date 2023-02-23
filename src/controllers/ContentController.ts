@@ -158,7 +158,7 @@ export class ContentController
      * Get element from the layout child tree by it's ID
      * @param id
      */
-    public getByID(id: string): Container
+    public getByID(id: string): Container | undefined
     {
         // 1st level search
         let result = this.children.get(id);
