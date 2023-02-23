@@ -110,11 +110,11 @@ export class ContentController
                 // if ID is key of object instead of separate property
                 for (const id in content)
                 {
-                    if (Object.prototype.hasOwnProperty.call(content, id))
-                    {
-                        const idKey = id as keyof typeof content;
-                        const cont = content[idKey] as any;
+                    const idKey = id as keyof typeof content;
+                    const cont = content[idKey] as any;
 
+                    if ('content' in cont)
+                    {
                         this.createContent(
                             {
                                 ...cont,
@@ -158,7 +158,7 @@ export class ContentController
      * Get element from the layout child tree by it's ID
      * @param id
      */
-    public getByID(id: string): Container | undefined
+    public getByID(id: string): Layout | Container | undefined
     {
         // 1st level search
         let result = this.children.get(id);
