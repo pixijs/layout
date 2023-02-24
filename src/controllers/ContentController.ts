@@ -1,9 +1,11 @@
 import { Layout } from '../Layout';
-import { Content, LayoutStyles } from '../utils/types';
+import { Content, ContentList, LayoutOptions, LayoutStyles } from '../utils/types';
 import { Container } from '@pixi/display';
 import { Text } from '@pixi/text';
 import { Sprite } from '@pixi/sprite';
 import { Graphics } from '@pixi/graphics';
+
+type ContentType = 'text' | 'string' | 'container' | 'array' | 'unknown' | 'content' | 'unknownObject';
 
 /** Controls all {@link Layout} children sizing. */
 export class ContentController
@@ -28,103 +30,88 @@ export class ContentController
     {
         if (!content) return;
 
-        if (typeof content === 'string')
-        {
-            const { textStyle } = this.layout.style;
-            const text = new Text(content, textStyle);
+        const contentType = this.getContentType(content);
+        const customID = this.newID;
+        
+        switch (contentType) {
+            case 'unknownObject':
+                try {
+                    const contentList =  content as ContentList[];
 
-            const id = `text-${this.newID}`;
+                    for (const id in contentList)
+                    {
+                        const idKey = id as keyof typeof content;
+                        const contentElement = content[idKey] as any;
 
-            this.children.set(id, text);
-            this.layout.addChild(text);
-        }
-        else if (content instanceof Sprite)
-        {
-            const id = `sprite-${this.newID}`;
+                        if (contentElement.hasOwnProperty('children')) {
+                            this.createContent(contentElement);
+                        } else if (contentElement.hasOwnProperty('content'))
+                        {
+                            this.createContent(
+                                {
+                                    ...contentElement,
+                                    id,
+                                },
+                                parentGlobalStyles,
+                            );
+                        }
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+                break;
+            case 'string':
+                const text = new Text(content as string, this.layout.style.textStyle);
 
-            this.children.set(id, content);
-            this.layout.addChild(content);
-        }
-        else if (content instanceof Text)
-        {
-            const id = `text-${this.newID}`;
+                this.children.set(`text-${customID}`, text);
+                this.layout.addChild(text);
+                break;
+            case 'text':
+                const textInstance = content as Text;
 
-            const { textStyle } = this.layout.style;
+                textInstance.style = this.layout.style.textStyle;
 
-            content.style = textStyle;
+                this.children.set(`text-${customID}`, textInstance);
+                this.layout.addChild(textInstance);
+                break;
+            case 'container':
+                this.children.set(`container-${customID}`, content as Container);
+                this.layout.addChild(content as Container);
+                break;
+            case 'array':
+                const contentArray = content as Array<Content>;
 
-            this.children.set(id, content);
-            this.layout.addChild(content);
-        }
-        else if (content instanceof Container)
-        {
-            const id = `container-${this.newID}`;
-
-            this.children.set(id, content);
-            this.layout.addChild(content);
-        }
-        else if (content instanceof Graphics)
-        {
-            const id = `graphics-${this.newID}`;
-
-            this.children.set(id, content);
-            this.layout.addChild(content);
-        }
-        else if (Array.isArray(content))
-        {
-            content.forEach((content) =>
-            {
-                this.createContent(content, parentGlobalStyles);
-            });
-        }
-        else if (typeof content === 'object')
-        {
-            if (content.id && content.content)
-            {
-                // we consider this as Layout
+                contentArray.forEach((content) =>{
+                    this.createContent(content, parentGlobalStyles);
+                });
+                break;
+            case 'content':
+                // we consider this as Layout config
+                const contentConfig = content as LayoutOptions;
 
                 if (parentGlobalStyles)
                 {
-                    if (content.globalStyles)
+                    if (contentConfig.globalStyles)
                     {
-                        content.globalStyles = {
+                        contentConfig.globalStyles = {
                             ...parentGlobalStyles,
-                            ...(content.globalStyles as any),
+                            ...(contentConfig.globalStyles as any),
                         };
                     }
                     else
                     {
-                        content.globalStyles = { ...parentGlobalStyles };
+                        contentConfig.globalStyles = { ...parentGlobalStyles };
                     }
                 }
 
-                const newLayout = new Layout(content);
+                const newLayout = new Layout(contentConfig);
 
-                const id = newLayout.id;
-
-                this.children.set(id, newLayout);
+                this.children.set(newLayout.id, newLayout);
                 this.layout.addChild(newLayout);
-            }
-            else
-            {
-                // if ID is key of object instead of separate property
-                for (const id in content)
-                {
-                    const idKey = id as keyof typeof content;
-                    const cont = content[idKey] as any;
-
-                    if ('content' in cont)
-                    {
-                        this.createContent(
-                            {
-                                ...cont,
-                                id,
-                            },
-                            parentGlobalStyles,
-                        );
-                    }
-                }
-            }
+                break;
+            default:
+                throw new Error('Unknown content type of the layout.');
+                break;
         }
     }
 
@@ -180,5 +167,32 @@ export class ContentController
         }
 
         return result;
+    }
+
+    private getContentType(content: Content): ContentType {
+        if (typeof content === 'string') return 'string';
+
+        if (content instanceof Text) return 'text';
+        
+        if (content instanceof Sprite) return 'container';
+                
+        if (content instanceof Graphics) return 'container';
+        
+        if (content instanceof Container) return 'container';
+
+        if (content instanceof Layout) return 'container';
+        
+        if (Array.isArray(content)) return 'array';
+        
+        if (typeof content === 'object') {
+            if (content.id && content.content)
+            {
+                return 'content';
+            }
+
+            return 'unknownObject';
+        }
+
+        return 'unknown';
     }
 }

@@ -17,7 +17,8 @@ export type CSSColor = keyof typeof CSS_COLOR_NAMES;
 export type Position = typeof POSITION[number];
 export type Display = typeof DISPLAY[number];
 
-export type Content = string | Container | Layout | LayoutOptions | Content[] | { [ID: string]: Content };
+export type ContentList = { [ID: string]: Content };
+export type Content = string | Container | Layout | LayoutOptions | Content[] | ContentList;
 
 export type Containers = Container[];
 export type Overflow = typeof OVERFLOW[number];
