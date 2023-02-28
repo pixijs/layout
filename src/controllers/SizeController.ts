@@ -109,7 +109,7 @@ export class SizeController
                     // add first element as at lease one element to set width
                     if (firstChild instanceof Layout)
                     {
-                        childrenWidth += firstChild.width;
+                        childrenWidth += firstChild.width + firstChild.style.marginLeft + firstChild.style.marginRight;
                     }
                     else if (firstChild instanceof Container && firstChild.width)
                     {
@@ -126,7 +126,7 @@ export class SizeController
 
                         if (child instanceof Layout && child.style.display !== 'block')
                         {
-                            childrenWidth += child.width;
+                            childrenWidth += child.width + child.style.marginLeft;
                         }
                         else if (child instanceof Container && child.width)
                         {
