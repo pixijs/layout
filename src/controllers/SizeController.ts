@@ -49,6 +49,8 @@ export class SizeController
             height,
             maxWidth,
             maxHeight,
+            minWidth,
+            minHeight,
             scaleX,
             scaleY,
             background,
@@ -257,7 +259,7 @@ export class SizeController
 
         this.layout.scale.set(scaleX, scaleY);
 
-        if (maxWidth || maxHeight)
+        if (maxWidth || maxHeight || minWidth || minHeight)
         {
             this.fitToSize(this.parentWidth, this.parentHeight);
         }
@@ -368,7 +370,7 @@ export class SizeController
      */
     private fitToSize(parentWidth: number, parentHeight: number)
     {
-        const { maxWidth, maxHeight, marginLeft, marginRight, marginBottom, marginTop }
+        const { maxWidth, maxHeight, minWidth, minHeight, marginLeft, marginRight, marginBottom, marginTop }
             = this.layout.style;
 
         const currentScaleX = this.layout.scale.x;
@@ -379,23 +381,48 @@ export class SizeController
 
         const maxWidthVal = getNumber(maxWidth, parentWidth);
         const maxHeightVal = getNumber(maxHeight, parentHeight);
+        
+        const minWidthVal = getNumber(minWidth, parentWidth);
+        const minHeightVal = getNumber(minHeight, parentHeight);
 
-        const fitScaleX = maxWidthVal / layoutWidth;
-        const fitScaleY = maxHeightVal / layoutHeight;
+        const minFitScaleX = minWidthVal / layoutWidth;
+        const minFitScaleY = minHeightVal / layoutHeight;
+        
+        const maxFitScaleX = maxWidthVal / layoutWidth;
+        const maxFitScaleY = maxHeightVal / layoutHeight;
 
         let finalScaleX = currentScaleX;
         let finalScaleY = currentScaleY;
 
         if (layoutWidth * currentScaleX > maxWidthVal)
         {
-            finalScaleX = fitScaleX;
+            finalScaleX = maxFitScaleX;
         }
 
         if (layoutHeight * currentScaleY > maxHeightVal)
         {
-            finalScaleY = fitScaleY;
+            finalScaleY = maxFitScaleY;
         }
 
-        this.layout.scale.set(Math.min(finalScaleX, finalScaleY));
+        let finalScaleToFit = Math.min(finalScaleX, finalScaleY);
+
+        if (minWidth || minHeight) {
+            let finalMinScaleToFit = finalScaleToFit;
+
+            if (layoutWidth * finalScaleToFit < minWidthVal)
+            {
+                finalMinScaleToFit = minFitScaleX;
+            }
+
+            if (layoutHeight * finalScaleToFit < minHeightVal)
+            {
+                finalMinScaleToFit = minFitScaleY;
+            }
+
+            finalScaleToFit = Math.max(finalMinScaleToFit, finalMinScaleToFit);
+        }
+        
+
+        this.layout.scale.set(finalScaleToFit);
     }
 }
