@@ -57,6 +57,12 @@ export class StyleController
     /** Defines {@link Layout} max height. */
     maxHeight: FlexNumber;
 
+    /** Defines {@link Layout} min width. */
+    minWidth: FlexNumber;
+
+    /** Defines {@link Layout} min height. */
+    minHeight: FlexNumber;
+
     /**
      * Defines {@link Layout} paddings. This will also impact inner elements size.
      * 100% of parent size is parentSize - padding * 2.
@@ -241,6 +247,10 @@ export class StyleController
 
         this.maxWidth = styles?.maxWidth;
         this.maxHeight = styles?.maxHeight;
+
+        this.minWidth = styles?.minWidth;
+        this.minHeight = styles?.minHeight;
+
         this.zIndex = styles?.zIndex;
 
         // this.border = styles?.border;

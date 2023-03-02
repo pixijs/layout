@@ -51,6 +51,8 @@ export type Styles = Partial<TextStyle> & {
     scaleY?: number;
     maxWidth?: FlexNumber;
     maxHeight?: FlexNumber;
+    minWidth?: FlexNumber;
+    minHeight?: FlexNumber;
     zIndex?: number;
     anchor?: GradeToOne;
     anchorX?: GradeToOne;
