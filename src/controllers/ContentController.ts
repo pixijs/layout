@@ -79,10 +79,10 @@ export class ContentController
                 this.layout.addChild(content as Container);
                 break;
             case 'array':
-                const contentArray = content as Array<Content>;
+                const contentArray = content as Array<LayoutOptions>;
 
-                contentArray.forEach((content) =>{
-                    this.createContent(content, parentGlobalStyles);
+                contentArray.forEach((content) => {
+                    this.createContent(new Layout(content), parentGlobalStyles);
                 });
                 break;
             case 'content':
