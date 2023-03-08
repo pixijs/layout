@@ -5,7 +5,7 @@ import { Text } from '@pixi/text';
 import { Sprite } from '@pixi/sprite';
 import { Graphics } from '@pixi/graphics';
 
-type ContentType = 'text' | 'string' | 'container' | 'array' | 'unknown' | 'content' | 'unknownObject';
+type ContentType = 'text' | 'string' | 'container' | 'array' | 'unknown' | 'content' | 'object';
 
 /** Controls all {@link Layout} children sizing. */
 export class ContentController
@@ -34,30 +34,26 @@ export class ContentController
         const customID = this.newID;
         
         switch (contentType) {
-            case 'unknownObject':
-                try {
-                    const contentList =  content as ContentList[];
+            case 'object':
+                const contentList =  content as ContentList[];
 
-                    for (const id in contentList)
+                for (const id in contentList)
+                {
+                    const idKey = id as keyof typeof content;
+                    const contentElement = content[idKey] as any;
+
+                    if (contentElement.hasOwnProperty('children')) {
+                        this.createContent(contentElement);
+                    } else if (contentElement.hasOwnProperty('content'))
                     {
-                        const idKey = id as keyof typeof content;
-                        const contentElement = content[idKey] as any;
-
-                        if (contentElement.hasOwnProperty('children')) {
-                            this.createContent(contentElement);
-                        } else if (contentElement.hasOwnProperty('content'))
-                        {
-                            this.createContent(
-                                {
-                                    ...contentElement,
-                                    id,
-                                },
-                                parentGlobalStyles,
-                            );
-                        }
+                        this.createContent(
+                            {
+                                ...contentElement,
+                                id,
+                            },
+                            parentGlobalStyles,
+                        );
                     }
-                } catch (error) {
-                    console.error(error);
                 }
                 break;
             case 'string':
@@ -185,12 +181,12 @@ export class ContentController
         if (Array.isArray(content)) return 'array';
         
         if (typeof content === 'object') {
-            if (content.id && content.content)
+            if (content.content)
             {
                 return 'content';
             }
 
-            return 'unknownObject';
+            return 'object';
         }
 
         return 'unknown';
