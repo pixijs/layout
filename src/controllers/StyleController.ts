@@ -37,7 +37,7 @@ export class StyleController
      * Defines main {@link Layout} behavior in terms of aligning and resizing.
      * @default 'inlineBlock'
      */
-    display: Display = 'block';
+    display: Display = 'inline-block';
 
     /**
      * Defines {@link Layout} corners radius.
@@ -241,7 +241,7 @@ export class StyleController
     private setStyles(styles?: Styles)
     {
         this.overflow = styles?.overflow ?? OVERFLOW[0];
-        this.display = styles?.display ?? 'block';
+        this.display = styles?.display ?? 'inline-block';
         this.borderRadius = styles?.borderRadius ?? 0;
         this.opacity = styles?.opacity ?? 1;
 

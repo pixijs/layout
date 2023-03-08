@@ -51,7 +51,6 @@ class LayoutStory
             id: 'root',
             content,
             styles: {
-                display: 'inline-block',
                 background: 'black',
                 position: 'center',
                 overflow: 'hidden',

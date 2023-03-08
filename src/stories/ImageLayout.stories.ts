@@ -40,7 +40,6 @@ class LayoutStory
                 id: 'image',
                 content: Sprite.from(assets.avatar),
                 styles: {
-                    display: 'inline-block',
                     position,
                     anchorX,
                     anchorY,
@@ -48,7 +47,6 @@ class LayoutStory
                 }
             },
             styles: {
-                display: 'inline-block',
                 position: 'center',
                 width: '50%',
                 height: '50%',

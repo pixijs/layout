@@ -35,7 +35,6 @@ class LayoutStory
             id: 'root',
             content: LOREM_TEXT,
             styles: {
-                display: 'inline-block',
                 background: Sprite.from(assets[background]),
                 position: 'center',
                 maxWidth: '95%',
