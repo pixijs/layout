@@ -46,6 +46,7 @@ class LayoutStory
         };
 
         const contentStyles = {
+            display: 'block',
             padding: 10,
             width: `${childWidth}%`,
             height: `${childHeight}%`,
@@ -63,32 +64,37 @@ class LayoutStory
                 position
             },
             header: {
+                display: 'block',
                 position: 'top',
                 background: 'red',
                 height: '10%',
                 borderRadius: 20,
                 ...fontStyle
             },
-            content: {
+            layoutContent: {
+                display: 'block',
                 position: 'center',
                 height: '80%',
                 overflow: 'hidden'
             },
             leftMenu: {
+                display: 'block',
                 width: '30%',
-                height: '100%',
+                height: '97%',
                 position: 'left',
                 padding
             },
             leftMenuContent: {
+                display: 'block',
                 height: '100%',
                 borderRadius: 20,
                 background: 'blue',
                 ...fontStyle
             },
             mainContent: {
+                display: 'block',
                 width: '70%',
-                height: '100%',
+                height: '96%',
                 position: 'right',
                 textAlign,
                 fontSize,
@@ -102,6 +108,7 @@ class LayoutStory
             mainContent5: { ...contentStyles, background: Object.keys(CSS_COLOR_NAMES)[50] },
             mainContent6: { ...contentStyles, background: Object.keys(CSS_COLOR_NAMES)[60] },
             footer: {
+                display: 'block',
                 position: 'bottom',
                 background: 'green',
                 height: '10%',
@@ -113,25 +120,20 @@ class LayoutStory
         // Component usage
         this.layout = new Layout({
             id: 'root',
-            content: [
-                // array of children
-                {
-                    id: 'header',
+            content: {
+                header: {
                     content: 'Header'
                 },
-                {
-                    id: 'content',
-                    content: [
+                layoutContent: {
+                    content: {
                         // array of children
-                        {
-                            id: 'leftMenu',
+                        leftMenu: {
                             content: {
                                 id: 'leftMenuContent',
                                 content: 'Left menu'
                             }
                         },
-                        {
-                            id: 'mainContent',
+                        mainContent: {
                             content: {
                                 mainContent1: {
                                     content: Object.keys(CSS_COLOR_NAMES)[10]
@@ -153,13 +155,12 @@ class LayoutStory
                                 }
                             }
                         }
-                    ]
+                    }
                 },
-                {
-                    id: 'footer',
+                footer: {
                     content: 'Footer'
                 }
-            ],
+            },
             globalStyles
         });
 
