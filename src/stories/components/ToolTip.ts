@@ -26,7 +26,8 @@ export async function toolTip(text: string): Promise<Layout>
                     padding: 20,
                     color: 'white',
                     fontSize: 16,
-                    paddingRight: 50
+                    paddingRight: 20,
+                    height: '100%'
                 }
             },
             {
@@ -45,6 +46,7 @@ export async function toolTip(text: string): Promise<Layout>
             borderRadius: 20,
             position: 'centerTop',
             marginTop: 10,
+            paddingBottom: 50,
             zIndex: 100000
         }
     });
