@@ -3,7 +3,7 @@ import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { preloadAssets } from '../utils/helpers';
 import { Sprite } from '@pixi/sprite';
-import { LOREM_TEXT } from '../../utils/constants';
+import { ALIGN } from '../../utils/constants';
 
 const assets = {
     horizontal: 'Window/SmallSubstrate.png',
@@ -12,8 +12,19 @@ const assets = {
 };
 
 const args = {
+    text:
+    'Background is set to sprite or other display object with width and height.\n'
+    + 'Width and height values are not set.\n'
+    + 'Display is not set, so it is "inline-block" by default.\n'
+    + 'Layout size will adapt to the background size.\n'
+    + 'Text will adapt to the layout width,\n'
+    + 'Height of text will adapt to the text height.',
     background: Object.keys(assets),
-    padding: 20
+    paddingLeft: 55,
+    paddingRight: 55,
+    paddingTop: 55,
+    paddingBottom: 55,
+    textAlign: ALIGN
 };
 
 class LayoutStory
@@ -29,17 +40,29 @@ class LayoutStory
         preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 
-    createLayout({ background, padding }: any)
+    createLayout({ background, paddingLeft, paddingRight, paddingTop, paddingBottom, text, textAlign }: any)
     {
         this.layout = new Layout({
             id: 'root',
-            content: LOREM_TEXT,
+            content: {
+                text: {
+                    content: text,
+                    styles: {
+                        display: 'block',
+                        textAlign
+                    }
+                }
+            },
             styles: {
                 background: Sprite.from(assets[background]),
                 position: 'center',
-                maxWidth: '95%',
-                maxHeight: '95%',
-                padding
+                maxWidth: '100%',
+                maxHeight: '100%',
+                overflow: 'hidden',
+                paddingLeft,
+                paddingRight,
+                paddingTop,
+                paddingBottom
             }
         });
         this.layout.resize(this.w, this.h);

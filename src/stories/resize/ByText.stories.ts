@@ -25,7 +25,7 @@ class LayoutStory
             id: 'root',
             content: text,
             styles: {
-                display: 'inline',
+                display: 'inline', // default value
                 background: 'black',
                 color: 'white',
                 position: 'center',

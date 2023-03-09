@@ -6,7 +6,7 @@ import { ALIGN } from '../../utils/constants';
 const args = {
     text:
     'Width and height values are not set,\n'
-    + 'display is not set, so it is "block" by default.\n'
+    + 'display is not set, so it is "inline-block" by default.\n'
     + 'Text will adapt to the layout width,\n'
     + 'layout width will adapt to the parent width.\n'
     + 'height will adapt to the text height.',
