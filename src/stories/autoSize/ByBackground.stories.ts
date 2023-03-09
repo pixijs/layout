@@ -3,6 +3,7 @@ import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { preloadAssets } from '../utils/helpers';
 import { Sprite } from '@pixi/sprite';
+import { ALIGN } from '../../utils/constants';
 
 const assets = {
     horizontal: 'Window/SmallSubstrate.png',
@@ -11,13 +12,19 @@ const assets = {
 };
 
 const args = {
-    background: Object.keys(assets),
     text:
-    `Width and height are not set (it is 'auto').\n`
-    + `Display is set to 'inline' or 'inline-Block'. \n`
-    + 'Content is not set as a simple string (it is not a text layout)\n'
-    + `Size of the layout will change basing on background image.`,
-    padding: 20
+    'Background is set to sprite or other display object with width and height.\n'
+    + 'Width and height values are not set.\n'
+    + 'Display is not set, so it is "inline-block" by default.\n'
+    + 'Layout size will adapt to the background size.\n'
+    + 'Text will adapt to the layout width,\n'
+    + 'Height of text will adapt to the text height.',
+    background: Object.keys(assets),
+    paddingLeft: 55,
+    paddingRight: 55,
+    paddingTop: 55,
+    paddingBottom: 55,
+    textAlign: ALIGN
 };
 
 class LayoutStory
@@ -33,35 +40,29 @@ class LayoutStory
         preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 
-    createLayout({ text, background, padding }: any)
+    createLayout({ background, paddingLeft, paddingRight, paddingTop, paddingBottom, text, textAlign }: any)
     {
         this.layout = new Layout({
             id: 'root',
             content: {
-                id: 'textWrapper',
-                content: {
-                    id: 'text',
+                text: {
                     content: text,
                     styles: {
-                        display: 'inline-block',
-                        overflow: 'hidden',
-                        fontSize: 24
+                        display: 'block',
+                        textAlign
                     }
-                },
-                styles: {
-                    height: '82%',
-                    width: '85%',
-                    position: 'center',
-                    overflow: 'hidden'
                 }
             },
             styles: {
-                display: 'inline-block',
                 background: Sprite.from(assets[background]),
                 position: 'center',
-                maxWidth: '95%',
-                maxHeight: '95%',
-                padding
+                maxWidth: '100%',
+                maxHeight: '100%',
+                overflow: 'hidden',
+                paddingLeft,
+                paddingRight,
+                paddingTop,
+                paddingBottom
             }
         });
         this.layout.resize(this.w, this.h);
@@ -81,7 +82,7 @@ class LayoutStory
 export const ByBackground = (params: any) => new LayoutStory(params);
 
 export default {
-    title: 'Resize',
+    title: 'AutoSize',
     argTypes: argTypes(args),
     args: getDefaultArgs(args)
 };
