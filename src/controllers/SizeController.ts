@@ -381,13 +381,13 @@ export class SizeController
 
         const maxWidthVal = getNumber(maxWidth, parentWidth);
         const maxHeightVal = getNumber(maxHeight, parentHeight);
-        
+
         const minWidthVal = getNumber(minWidth, parentWidth);
         const minHeightVal = getNumber(minHeight, parentHeight);
 
         const minFitScaleX = minWidthVal / layoutWidth;
         const minFitScaleY = minHeightVal / layoutHeight;
-        
+
         const maxFitScaleX = maxWidthVal / layoutWidth;
         const maxFitScaleY = maxHeightVal / layoutHeight;
 
@@ -406,7 +406,8 @@ export class SizeController
 
         let finalScaleToFit = Math.min(finalScaleX, finalScaleY);
 
-        if (minWidth || minHeight) {
+        if (minWidth || minHeight)
+        {
             let finalMinScaleToFit = finalScaleToFit;
 
             if (layoutWidth * finalScaleToFit < minWidthVal)
@@ -421,7 +422,6 @@ export class SizeController
 
             finalScaleToFit = Math.max(finalMinScaleToFit, finalMinScaleToFit);
         }
-        
 
         this.layout.scale.set(finalScaleToFit);
     }

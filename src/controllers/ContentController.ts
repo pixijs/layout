@@ -1,3 +1,5 @@
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable no-case-declarations */
 import { Layout } from '../Layout';
 import { Content, ContentList, LayoutOptions, LayoutStyles } from '../utils/types';
 import { Container } from '@pixi/display';
@@ -32,26 +34,29 @@ export class ContentController
 
         const contentType = this.getContentType(content);
         const customID = this.newID;
-        
-        switch (contentType) {
+
+        switch (contentType)
+        {
             case 'object':
-                const contentList =  content as ContentList[];
+                const contentList = content as ContentList[];
 
                 for (const id in contentList)
                 {
                     const idKey = id as keyof typeof content;
                     const contentElement = content[idKey] as any;
 
-                    if (contentElement.hasOwnProperty('children')) {
+                    if (contentElement.hasOwnProperty('children'))
+                    {
                         this.createContent(contentElement);
-                    } else if (contentElement.hasOwnProperty('content'))
+                    }
+                    else if (contentElement.hasOwnProperty('content'))
                     {
                         this.createContent(
                             {
                                 ...contentElement,
-                                id,
+                                id
                             },
-                            parentGlobalStyles,
+                            parentGlobalStyles
                         );
                     }
                 }
@@ -77,7 +82,8 @@ export class ContentController
             case 'array':
                 const contentArray = content as Array<LayoutOptions>;
 
-                contentArray.forEach((content) => {
+                contentArray.forEach((content) =>
+                {
                     this.createContent(new Layout(content), parentGlobalStyles);
                 });
                 break;
@@ -91,7 +97,7 @@ export class ContentController
                     {
                         contentConfig.globalStyles = {
                             ...parentGlobalStyles,
-                            ...(contentConfig.globalStyles as any),
+                            ...(contentConfig.globalStyles as any)
                         };
                     }
                     else
@@ -143,7 +149,7 @@ export class ContentController
      */
     public getByID(id: string): Layout | Container | undefined
     {
-        // 1st level search
+    // 1st level search
         let result = this.children.get(id);
 
         if (!result)
@@ -165,22 +171,24 @@ export class ContentController
         return result;
     }
 
-    private getContentType(content: Content): ContentType {
+    private getContentType(content: Content): ContentType
+    {
         if (typeof content === 'string') return 'string';
 
         if (content instanceof Text) return 'text';
-        
+
         if (content instanceof Sprite) return 'container';
-                
+
         if (content instanceof Graphics) return 'container';
-        
+
         if (content instanceof Container) return 'container';
 
         if (content instanceof Layout) return 'container';
-        
+
         if (Array.isArray(content)) return 'array';
-        
-        if (typeof content === 'object') {
+
+        if (typeof content === 'object')
+        {
             if (content.content)
             {
                 return 'content';

@@ -53,7 +53,7 @@ import { Sprite } from '@pixi/sprite';
 export class Layout extends Container
 {
     static isLayout = true;
-    
+
     private bg: Graphics | Container;
     private overflowMask: Graphics;
 

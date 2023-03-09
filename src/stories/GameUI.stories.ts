@@ -9,10 +9,11 @@ import { Graphics } from '@pixi/graphics';
 import { LOREM_TEXT } from '../utils/constants';
 import { Styles } from '../utils/types';
 
+const TEXT = [`This text is scrollable!!!`, `Window will scale on resize to fit the parent size.`, LOREM_TEXT.repeat(10)];
+
 const args = {
     title: 'Warning',
-    text:
-    `This text is scrollable!!!\n\n\n` + `Window will scale on resize to fit the parent size.\n\n\n${LOREM_TEXT.repeat(10)}`,
+    text: TEXT.join('\n\n\n'),
     health: 50,
     energy: 50
 };

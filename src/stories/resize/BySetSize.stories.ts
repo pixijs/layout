@@ -3,8 +3,10 @@ import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { ALIGN } from '../../utils/constants';
 
+const TEXTS = ['Width and height values are set in percentage of the parent size.', 'Text will adapt to the layout size.'];
+
 const args = {
-    text: 'Width and height values are set in percentage of the parent size.\n' + 'Text will adapt to the layout size.',
+    text: TEXTS.join('\n\n'),
     width: 50,
     height: 50,
     padding: 15,
