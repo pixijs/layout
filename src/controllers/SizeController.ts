@@ -235,9 +235,9 @@ export class SizeController
             finalHeight = getNumber(height, this.parentHeight);
         }
 
+        // apply parent paddings
         if (this.layout.parent instanceof Layout)
         {
-            // apply parent paddings
             const { paddingLeft, paddingRight } = this.layout.parent?.style;
 
             const parentPaddingLeft = paddingLeft ?? 0;
@@ -252,7 +252,7 @@ export class SizeController
 
             this.fitInnerText(finalWidth);
 
-            if (this.isItJustAText)
+            if (this.isItJustAText && height === 'auto')
             {
                 finalHeight = this.innerText?.height;
             }
