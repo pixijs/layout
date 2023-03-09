@@ -57,7 +57,7 @@ export class SizeController
             paddingLeft,
             paddingRight,
             paddingTop,
-            paddingBottom,
+            paddingBottom
         } = this.layout.style;
 
         if (width === 0 || height === 0)
@@ -74,21 +74,20 @@ export class SizeController
                 case 'innerText':
                     // width is auto, there is only 1 child and it is text
                     // resize basing on text width
-                    if (
-                        !this.innerText.style.wordWrap
-                        && this.innerText.width >= this.parentWidth - paddingLeft - paddingRight
-                    )
+
+                    const needToBeResized = this.innerText.width + paddingLeft + paddingRight > this.parentWidth;
+
+                    if (!this.innerText.style.wordWrap && needToBeResized)
                     {
                         this.innerText.style.wordWrap = true;
                     }
 
                     if (this.innerText.style.wordWrap)
                     {
-                        this.innerText.style.wordWrapWidth
-                            = this.parentWidth - paddingLeft - paddingRight;
+                        this.innerText.style.wordWrapWidth = this.parentWidth - paddingLeft - paddingRight;
                     }
 
-                    finalWidth = this.innerText.width + paddingRight + paddingLeft;
+                    finalWidth = this.innerText.width;
 
                     break;
 
@@ -154,7 +153,7 @@ export class SizeController
                     if (this.isItJustAText)
                     {
                         this.innerText.style.wordWrap = true;
-                        this.innerText.style.wordWrapWidth = parentWidth;
+                        this.innerText.style.wordWrapWidth = parentWidth - paddingLeft - paddingRight;
                     }
 
                     break;
@@ -238,10 +237,25 @@ export class SizeController
 
         if (this.layout.parent instanceof Layout)
         {
-            const parentPadding = this.layout.parent?.style.padding ?? 0;
+            // apply parent paddings
+            const { paddingLeft, paddingRight } = this.layout.parent?.style;
 
-            finalWidth -= parentPadding;
-            finalHeight -= parentPadding;
+            const parentPaddingLeft = paddingLeft ?? 0;
+            const parentPaddingRight = paddingRight ?? 0;
+
+            if (this.autoSizeModificator !== 'innerText')
+            {
+                finalWidth -= parentPaddingLeft;
+            }
+
+            finalWidth -= parentPaddingRight;
+
+            this.fitInnerText(finalWidth);
+
+            if (this.isItJustAText)
+            {
+                finalHeight = this.innerText?.height;
+            }
         }
 
         if (finalWidth < 0) finalWidth = 0;
@@ -370,8 +384,7 @@ export class SizeController
      */
     private fitToSize(parentWidth: number, parentHeight: number)
     {
-        const { maxWidth, maxHeight, minWidth, minHeight, marginLeft, marginRight, marginBottom, marginTop }
-            = this.layout.style;
+        const { maxWidth, maxHeight, minWidth, minHeight, marginLeft, marginRight, marginBottom, marginTop } = this.layout.style;
 
         const currentScaleX = this.layout.scale.x;
         const currentScaleY = this.layout.scale.y;

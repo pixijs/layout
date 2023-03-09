@@ -84,7 +84,14 @@ export class ContentController
 
                 contentArray.forEach((content) =>
                 {
-                    this.createContent(new Layout(content), parentGlobalStyles);
+                    if (content.content)
+                    {
+                        this.createContent(new Layout(content), parentGlobalStyles);
+                    }
+                    else
+                    {
+                        this.createContent(content, parentGlobalStyles);
+                    }
                 });
                 break;
             case 'content':
