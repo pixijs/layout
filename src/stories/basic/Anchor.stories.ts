@@ -1,10 +1,9 @@
-import { Layout } from '../Layout';
-import { argTypes, getDefaultArgs } from './utils/argTypes';
+import { Layout } from '../../Layout';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
-import { preloadAssets } from './utils/helpers';
-import type { GradeToOne } from '../utils/types';
-import { POSITION } from '../utils/constants';
+import { preloadAssets } from '../utils/helpers';
+import { POSITION } from '../../utils/constants';
 
 const assets = {
     avatar: 'avatar-01.png'
@@ -13,7 +12,7 @@ const assets = {
 const args = {
     anchorX: 0.5,
     anchorY: 0.5,
-    position: ['left', ...POSITION.filter((position) => position !== 'left')]
+    position: POSITION
 };
 
 class LayoutStory
@@ -31,9 +30,6 @@ class LayoutStory
 
     createLayout({ anchorX, anchorY, position }: any)
     {
-        const anchor = Math.min(anchorX, anchorY);
-        const opacity: GradeToOne = (1 - anchor > 0.5 ? 1 - anchor : 0.5) as GradeToOne;
-
         this.layout = new Layout({
             id: 'root',
             content: {
@@ -42,8 +38,7 @@ class LayoutStory
                 styles: {
                     position,
                     anchorX,
-                    anchorY,
-                    opacity
+                    anchorY
                 }
             },
             styles: {
@@ -67,10 +62,10 @@ class LayoutStory
     }
 }
 
-export const ImageLayout = (params: any) => new LayoutStory(params);
+export const AnchorSettings = (params: any) => new LayoutStory(params);
 
 export default {
-    title: 'Layout',
+    title: 'Basic',
     argTypes: argTypes(args),
     args: getDefaultArgs(args)
 };

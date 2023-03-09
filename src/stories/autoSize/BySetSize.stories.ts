@@ -56,7 +56,7 @@ class LayoutStory
 export const BySetSize = (params: any) => new LayoutStory(params);
 
 export default {
-    title: 'Resize',
+    title: 'AutoSize',
     argTypes: argTypes(args),
     args: getDefaultArgs(args)
 };

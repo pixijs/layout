@@ -82,7 +82,7 @@ class LayoutStory
 export const ByBackground = (params: any) => new LayoutStory(params);
 
 export default {
-    title: 'Resize',
+    title: 'AutoSize',
     argTypes: argTypes(args),
     args: getDefaultArgs(args)
 };

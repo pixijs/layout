@@ -1,8 +1,8 @@
-import { Layout } from '../Layout';
-import { argTypes, getDefaultArgs } from './utils/argTypes';
+import { Layout } from '../../Layout';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { VERTICAL_ALIGN, ALIGN, POSITION, CSS_COLOR_NAMES } from '../utils/constants';
-import { LayoutStyles } from '../utils/types';
+import { VERTICAL_ALIGN, ALIGN, POSITION, CSS_COLOR_NAMES } from '../../utils/constants';
+import { LayoutStyles } from '../../utils/types';
 
 const args = {
     color: '#000000',
@@ -176,7 +176,7 @@ class LayoutStory
 export const ApplicationLayout = (params: any) => new LayoutStory(params);
 
 export default {
-    title: 'Layout',
+    title: 'Complex',
     argTypes: argTypes(args),
     args: getDefaultArgs(args)
 };

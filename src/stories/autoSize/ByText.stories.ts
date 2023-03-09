@@ -1,6 +1,6 @@
+import { Container } from '@pixi/display';
 import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
-import { Container } from '@pixi/display';
 
 const args = {
     text:
@@ -51,7 +51,7 @@ class LayoutStory
 export const ByText = (params: any) => new LayoutStory(params);
 
 export default {
-    title: 'Resize',
+    title: 'AutoSize',
     argTypes: argTypes(args),
     args: getDefaultArgs(args)
 };
