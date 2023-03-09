@@ -26,8 +26,7 @@ export async function toolTip(text: string): Promise<Layout>
                     padding: 20,
                     color: 'white',
                     fontSize: 16,
-                    paddingRight: 20,
-                    height: '100%'
+                    paddingRight: 20
                 }
             },
             {
