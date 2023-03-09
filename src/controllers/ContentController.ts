@@ -117,6 +117,10 @@ export class ContentController
         }
     }
 
+    /**
+     * Get first child of the layout
+     * @returns {Container}
+     */
     public get firstChild(): Container
     {
         return this.children.get(this.children.keys().next().value);
