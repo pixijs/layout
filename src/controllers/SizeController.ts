@@ -330,7 +330,10 @@ export class SizeController
         return hasOnly1Child && firstChild instanceof Text;
     }
 
-    /** Get first child of the layout */
+    /**
+     * Get text element if layout is just a wrapper for a text element.
+     * @returns {Text} - Pixi Text element.
+     */
     get innerText(): Text
     {
         if (!this.isItJustAText)
@@ -384,7 +387,8 @@ export class SizeController
      */
     private fitToSize(parentWidth: number, parentHeight: number)
     {
-        const { maxWidth, maxHeight, minWidth, minHeight, marginLeft, marginRight, marginBottom, marginTop } = this.layout.style;
+        const { maxWidth, maxHeight, minWidth, minHeight } = this.layout.style;
+        const { marginLeft, marginRight, marginBottom, marginTop } = this.layout.style;
 
         const currentScaleX = this.layout.scale.x;
         const currentScaleY = this.layout.scale.y;

@@ -126,7 +126,7 @@ export class ContentController
 
     /**
      * Get first child of the layout
-     * @returns {Container}
+     * @returns {Container} - First child of the layout
      */
     public get firstChild(): Container
     {
