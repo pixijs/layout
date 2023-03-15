@@ -1,13 +1,19 @@
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable no-case-declarations */
 import { Layout } from '../Layout';
-import { Content, LayoutStyles } from '../utils/types';
+import { Content, ContentList, LayoutOptions, LayoutStyles } from '../utils/types';
 import { Container } from '@pixi/display';
 import { Text } from '@pixi/text';
+import { Sprite } from '@pixi/sprite';
+import { Graphics } from '@pixi/graphics';
+
+type ContentType = 'text' | 'string' | 'container' | 'array' | 'unknown' | 'content' | 'object';
 
 /** Controls all {@link Layout} children sizing. */
 export class ContentController
 {
     private layout: Layout;
-    public children: Array<Container>;
+    public children: Map<string, Container> = new Map();
 
     /**
      * Creates all instances and manages configs
@@ -18,81 +24,113 @@ export class ContentController
     constructor(layout: Layout, content?: Content, globalStyles?: LayoutStyles)
     {
         this.layout = layout;
-        this.children = layout.elements;
+        this.children = new Map();
         this.createContent(content, globalStyles);
     }
 
-    private createContent(content?: Content, parentGlobalStyles?: LayoutStyles)
+    public createContent(content?: Content, parentGlobalStyles?: LayoutStyles)
     {
         if (!content) return;
 
-        if (typeof content === 'string')
-        {
-            const { textStyle } = this.layout.style;
-            const text = new Text(content, textStyle);
+        const contentType = this.getContentType(content);
+        const customID = this.newID;
 
-            this.children.push(text);
-            this.layout.addChild(text);
-        }
-        else if (content instanceof Container)
+        switch (contentType)
         {
-            this.children.push(content);
-            this.layout.addChild(content);
-        }
-        else if (Array.isArray(content))
-        {
-            content.forEach((content) =>
-            {
-                this.createContent(content, parentGlobalStyles);
-            });
-        }
-        else if (typeof content === 'object')
-        {
-            if (content.id && content.content)
-            {
-                // we consider this as Layout
+            case 'object':
+                const contentList = content as ContentList[];
 
-                if (parentGlobalStyles)
+                for (const id in contentList)
                 {
-                    if (content.globalStyles)
+                    const idKey = id as keyof typeof content;
+                    const contentElement = content[idKey] as any;
+
+                    if (contentElement.hasOwnProperty('children'))
                     {
-                        content.globalStyles = {
-                            ...parentGlobalStyles,
-                            ...(content.globalStyles as any)
-                        };
+                        this.createContent(contentElement);
                     }
-                    else
+                    else if (contentElement.hasOwnProperty('content'))
                     {
-                        content.globalStyles = { ...parentGlobalStyles };
-                    }
-                }
-
-                const newLayout = new Layout(content);
-
-                this.children.push(newLayout);
-                this.layout.addChild(newLayout);
-            }
-            else
-            {
-                // if ID is key of object instead of separate property
-                for (const id in content)
-                {
-                    if (Object.prototype.hasOwnProperty.call(content, id))
-                    {
-                        const idKey = id as keyof typeof content;
-                        const cont = content[idKey] as any;
-
                         this.createContent(
                             {
-                                ...cont,
+                                ...contentElement,
                                 id
                             },
                             parentGlobalStyles
                         );
                     }
                 }
-            }
+                break;
+            case 'string':
+                const text = new Text(content as string, this.layout.style.textStyle);
+
+                this.children.set(`text-${customID}`, text);
+                this.layout.addChild(text);
+                break;
+            case 'text':
+                const textInstance = content as Text;
+
+                textInstance.style = this.layout.style.textStyle;
+
+                this.children.set(`text-${customID}`, textInstance);
+                this.layout.addChild(textInstance);
+                break;
+            case 'container':
+                this.children.set(`container-${customID}`, content as Container);
+                this.layout.addChild(content as Container);
+                break;
+            case 'array':
+                const contentArray = content as Array<LayoutOptions>;
+
+                contentArray.forEach((content) =>
+                {
+                    if (content.content)
+                    {
+                        this.createContent(new Layout(content), parentGlobalStyles);
+                    }
+                    else
+                    {
+                        this.createContent(content, parentGlobalStyles);
+                    }
+                });
+                break;
+            case 'content':
+                // we consider this as Layout config
+                const contentConfig = content as LayoutOptions;
+
+                if (parentGlobalStyles)
+                {
+                    if (contentConfig.globalStyles)
+                    {
+                        contentConfig.globalStyles = {
+                            ...parentGlobalStyles,
+                            ...(contentConfig.globalStyles as any)
+                        };
+                    }
+                    else
+                    {
+                        contentConfig.globalStyles = { ...parentGlobalStyles };
+                    }
+                }
+
+                const newLayout = new Layout(contentConfig);
+
+                this.children.set(newLayout.id, newLayout);
+                this.layout.addChild(newLayout);
+                break;
+            default:
+                throw new Error('Unknown content type of the layout.');
+                break;
         }
+    }
+
+    /**
+     * Get first child of the layout
+     * @returns {Container} - First child of the layout
+     */
+    public get firstChild(): Container
+    {
+        return this.children.get(this.children.keys().next().value);
     }
 
     /**
@@ -109,5 +147,67 @@ export class ContentController
                 child.resize(width, height);
             }
         });
+    }
+
+    private get newID(): string
+    {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+
+    /**
+     * Get element from the layout child tree by it's ID
+     * @param id
+     */
+    public getByID(id: string): Layout | Container | undefined
+    {
+    // 1st level search
+        let result = this.children.get(id);
+
+        if (!result)
+        {
+            this.children.forEach((child) =>
+            {
+                if (child instanceof Layout)
+                {
+                    const res = child.content.getByID(id);
+
+                    if (res)
+                    {
+                        result = res;
+                    }
+                }
+            });
+        }
+
+        return result;
+    }
+
+    private getContentType(content: Content): ContentType
+    {
+        if (typeof content === 'string') return 'string';
+
+        if (content instanceof Text) return 'text';
+
+        if (content instanceof Sprite) return 'container';
+
+        if (content instanceof Graphics) return 'container';
+
+        if (content instanceof Container) return 'container';
+
+        if (content instanceof Layout) return 'container';
+
+        if (Array.isArray(content)) return 'array';
+
+        if (typeof content === 'object')
+        {
+            if (content.content)
+            {
+                return 'content';
+            }
+
+            return 'object';
+        }
+
+        return 'unknown';
     }
 }

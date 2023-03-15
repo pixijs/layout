@@ -4,9 +4,12 @@ import { Container } from '@pixi/display';
 import { ALIGN } from '../../utils/constants';
 
 const args = {
-    text: 'Width and height values are set in percentage of the parent size.\n' + 'Text will adapt to the layout size.',
-    width: 50,
-    height: 50,
+    text:
+    'Width and height values are not set,\n'
+    + 'display is not set, so it is "inline-block" by default.\n'
+    + 'Text will adapt to the layout width,\n'
+    + 'layout width will adapt to the parent width.\n'
+    + 'height will adapt to the text height.',
     padding: 15,
     textAlign: ALIGN
 };
@@ -19,15 +22,13 @@ class LayoutStory
     w: number;
     h: number;
 
-    constructor({ textAlign, width, height, padding, text }: any)
+    constructor({ textAlign, padding, text }: any)
     {
         this.layout = new Layout({
             id: 'root',
             content: text,
             styles: {
                 background: 'black',
-                width: `${width}%`,
-                height: `${height}%`,
                 padding,
                 overflow: 'hidden',
                 // text options
@@ -51,10 +52,10 @@ class LayoutStory
     }
 }
 
-export const BySetSize = (params: any) => new LayoutStory(params);
+export const ByParentSize = (params: any) => new LayoutStory(params);
 
 export default {
-    title: 'Resize',
+    title: 'AutoSize',
     argTypes: argTypes(args),
     args: getDefaultArgs(args)
 };

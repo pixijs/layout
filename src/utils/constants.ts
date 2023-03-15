@@ -146,7 +146,7 @@ export const CSS_COLOR_NAMES = {
     wheat: 0xf5deb3,
     whitesmoke: 0xf5f5f5,
     yellowgreen: 0x9acd32,
-    black: 0x000000
+    black: 0x000000,
 };
 
 export const LOREM_TEXT = `Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
@@ -172,10 +172,20 @@ export const POSITION = [
     'leftBottom',
     'rightBottom',
 
+    'topLeft',
+    'topRight',
+    'bottomLeft',
+    'bottomRight',
+
     'centerTop',
     'centerBottom',
     'centerLeft',
-    'centerRight'
+    'centerRight',
+
+    'topCenter',
+    'bottomCenter',
+    'leftCenter',
+    'rightCenter',
 ];
 
 export const ALIGN: TextStyleAlign[] = ['center', 'left', 'right', 'justify'];

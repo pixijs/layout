@@ -12,13 +12,13 @@ Here are some useful resources:
 ## Install
 
 ```sh
-npm install @pixijs/layout
+npm i @pixi/layout
 ```
 
 There is no default export. The correct way to import pixi-layout is:
 
 ```js
-import { Layout } from '@pixijs/layout';
+import { Layout } from '@pixi/layout';
 ```
 
 ## Controllers influance schema

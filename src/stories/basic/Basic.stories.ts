@@ -1,7 +1,7 @@
-import { Layout } from '../Layout';
-import { argTypes, getDefaultArgs } from './utils/argTypes';
+import { Layout } from '../../Layout';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { CSS_COLOR_NAMES, LOREM_TEXT, POSITION, ALIGN } from '../utils/constants';
+import { CSS_COLOR_NAMES, LOREM_TEXT, POSITION, ALIGN } from '../../utils/constants';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 
@@ -66,10 +66,10 @@ class LayoutStory
     }
 }
 
-export const BasicBlock = (params: any) => new LayoutStory(params);
+export const BasicSettings = (params: any) => new LayoutStory(params);
 
 export default {
-    title: 'Layout',
+    title: 'Basic',
     argTypes: argTypes(args),
     args: getDefaultArgs(args)
 };

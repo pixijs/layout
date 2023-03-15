@@ -1,4 +1,13 @@
-import type { Display, FlexColor, FlexNumber, Opacity, Overflow, Position, Styles, VerticalAlign } from '../utils/types';
+import type {
+    Display,
+    FlexColor,
+    FlexNumber,
+    GradeToOne,
+    Overflow,
+    Position,
+    Styles,
+    VerticalAlign,
+} from '../utils/types';
 import type {
     TextStyleAlign,
     TextStyleFontStyle,
@@ -6,7 +15,7 @@ import type {
     TextStyleFontWeight,
     TextStyleLineJoin,
     TextStyleTextBaseline,
-    TextStyleWhiteSpace
+    TextStyleWhiteSpace,
 } from '@pixi/text';
 import { TEXT_GRADIENT, TextStyle } from '@pixi/text';
 import { getColor } from '../utils/helpers';
@@ -28,7 +37,7 @@ export class StyleController
      * Defines main {@link Layout} behavior in terms of aligning and resizing.
      * @default 'inlineBlock'
      */
-    display: Display = 'block';
+    display: Display = 'inline-block';
 
     /**
      * Defines {@link Layout} corners radius.
@@ -47,6 +56,12 @@ export class StyleController
 
     /** Defines {@link Layout} max height. */
     maxHeight: FlexNumber;
+
+    /** Defines {@link Layout} min width. */
+    minWidth: FlexNumber;
+
+    /** Defines {@link Layout} min height. */
+    minHeight: FlexNumber;
 
     /**
      * Defines {@link Layout} paddings. This will also impact inner elements size.
@@ -152,6 +167,15 @@ export class StyleController
      */
     height: FlexNumber | 'auto' = 'auto';
 
+    /** Defines {@link Layout} offset basing on it's own size. */
+    anchor: GradeToOne;
+
+    /** Defines {@link Layout} offset X basing on it's own size. */
+    anchorX: GradeToOne;
+
+    /** Defines {@link Layout} offset Y basing on it's own size. */
+    anchorY: GradeToOne;
+
     /**
      * Defines {@link Layout} background.
      *
@@ -217,12 +241,16 @@ export class StyleController
     private setStyles(styles?: Styles)
     {
         this.overflow = styles?.overflow ?? OVERFLOW[0];
-        this.display = styles?.display ?? 'block';
+        this.display = styles?.display ?? 'inline-block';
         this.borderRadius = styles?.borderRadius ?? 0;
         this.opacity = styles?.opacity ?? 1;
 
         this.maxWidth = styles?.maxWidth;
         this.maxHeight = styles?.maxHeight;
+
+        this.minWidth = styles?.minWidth;
+        this.minHeight = styles?.minHeight;
+
         this.zIndex = styles?.zIndex;
 
         // this.border = styles?.border;
@@ -255,6 +283,38 @@ export class StyleController
 
         this.position = styles?.position;
         this.verticalAlign = styles?.verticalAlign ?? VERTICAL_ALIGN[0];
+
+        if (styles?.anchorX !== undefined)
+        {
+            this.anchorX = styles.anchorX;
+        }
+        else if (styles?.anchor !== undefined)
+        {
+            if (typeof styles.anchor === 'number')
+            {
+                this.anchorX = styles.anchor;
+            }
+            else if (Array.isArray(styles.anchor))
+            {
+                this.anchorX = styles.anchor[0];
+            }
+        }
+
+        if (styles?.anchorY !== undefined)
+        {
+            this.anchorY = styles.anchorY;
+        }
+        else if (styles?.anchor !== undefined)
+        {
+            if (typeof styles.anchor === 'number')
+            {
+                this.anchorY = styles.anchor;
+            }
+            else if (Array.isArray(styles.anchor))
+            {
+                this.anchorY = styles.anchor[1];
+            }
+        }
     }
 
     private setTextStyle(styles: Styles)
@@ -288,20 +348,20 @@ export class StyleController
             whiteSpace: styles?.whiteSpace ?? 'pre',
             wordWrap: styles?.wordWrap ?? true,
             wordWrapWidth: styles?.wordWrapWidth ?? 100,
-            leading: styles?.leading ?? 0
+            leading: styles?.leading ?? 0,
         };
     }
 
     /** Set alpha. */
-    set opacity(value: Opacity)
+    set opacity(value: GradeToOne)
     {
         this.layout.alpha = value;
     }
 
     /** Get alpha. */
-    get opacity(): Opacity
+    get opacity(): GradeToOne
     {
-        return this.layout.alpha as Opacity;
+        return this.layout.alpha as GradeToOne;
     }
 
     /** Set text color. */
