@@ -9,8 +9,8 @@ import type {
     TextStyleWhiteSpace
 } from '@pixi/text';
 import { TEXT_GRADIENT, TextStyle } from '@pixi/text';
-import { getColor } from '../utils/helpers';
-import { OVERFLOW, ALIGN, VERTICAL_ALIGN } from '../utils/constants';
+import { getColor, stylesToPixiTextStyles } from '../utils/helpers';
+import { OVERFLOW, VERTICAL_ALIGN } from '../utils/constants';
 import { Layout } from '../Layout';
 import { Container } from '@pixi/display';
 /** Style controller manages {@link Layout} styles. Here you can find all available styles and their default values. */
@@ -225,10 +225,14 @@ export class StyleController
     {
         this.layout = layout;
         this.setStyles(styles);
-        this.setTextStyle(styles);
+        this.textStyle = stylesToPixiTextStyles(styles);
     }
 
-    private setStyles(styles?: Styles)
+    /**
+     * Applies a list of styles for tha layout.
+     * @param {Styles} styles - styles to be applied
+     */
+    public setStyles(styles?: Styles)
     {
         this.overflow = styles?.overflow ?? OVERFLOW[0];
         this.display = styles?.display ?? 'inline-block';
@@ -305,41 +309,6 @@ export class StyleController
                 this.anchorY = styles.anchor[1];
             }
         }
-    }
-
-    private setTextStyle(styles: Styles)
-    {
-        this.textStyle = {
-            align: styles?.textAlign ?? ALIGN[1],
-            breakWords: styles?.breakWords ?? true,
-            dropShadow: styles?.dropShadow ?? false,
-            dropShadowAlpha: styles?.dropShadowAlpha ?? 1,
-            dropShadowAngle: styles?.dropShadowAngle ?? Math.PI / 6,
-            dropShadowBlur: styles?.dropShadowBlur ?? 0,
-            dropShadowColor: styles?.dropShadowColor ?? 'black',
-            dropShadowDistance: styles?.dropShadowDistance ?? 5,
-            fill: styles?.fill ?? getColor(styles?.color)?.hex ?? 'black',
-            fillGradientType: styles?.fillGradientType ?? TEXT_GRADIENT.LINEAR_VERTICAL,
-            fillGradientStops: styles?.fillGradientStops ?? [],
-            fontFamily: styles?.fontFamily ?? 'Arial',
-            fontSize: styles?.fontSize ?? 26,
-            fontStyle: styles?.fontStyle ?? 'normal',
-            fontVariant: styles?.fontVariant ?? 'normal',
-            fontWeight: styles?.fontWeight ?? 'normal',
-            letterSpacing: styles?.letterSpacing ?? 0,
-            lineHeight: styles?.lineHeight ?? 0,
-            lineJoin: styles?.lineJoin ?? 'miter',
-            miterLimit: styles?.miterLimit ?? 10,
-            // padding: styles?.padding ?? 0,
-            stroke: styles?.stroke ?? 'black',
-            strokeThickness: styles?.strokeThickness ?? 0,
-            textBaseline: styles?.textBaseline ?? 'alphabetic',
-            trim: styles?.trim ?? false,
-            whiteSpace: styles?.whiteSpace ?? 'pre',
-            wordWrap: styles?.wordWrap ?? true,
-            wordWrapWidth: styles?.wordWrapWidth ?? 100,
-            leading: styles?.leading ?? 0
-        };
     }
 
     /** Set alpha. */
