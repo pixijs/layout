@@ -147,8 +147,6 @@ export function getNumber(value: FlexNumber, maxPercentValue?: number): number
 
 export function stylesToPixiTextStyles(styles: Styles): Partial<TextStyle>
 {
-    console.log(`!!!`, getColor(styles?.color)?.hex);
-
     return {
         align: styles?.textAlign ?? ALIGN[1],
         breakWords: styles?.breakWords ?? true,

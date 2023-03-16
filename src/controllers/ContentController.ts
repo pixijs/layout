@@ -6,8 +6,9 @@ import { Container } from '@pixi/display';
 import { Text } from '@pixi/text';
 import { Sprite } from '@pixi/sprite';
 import { Graphics } from '@pixi/graphics';
+import { stylesToPixiTextStyles } from '../utils/helpers';
 
-type ContentType = 'text' | 'string' | 'container' | 'array' | 'unknown' | 'content' | 'object';
+type ContentType = 'layout' | 'text' | 'string' | 'container' | 'array' | 'unknown' | 'layoutConfig' | 'object';
 
 /** Controls all {@link Layout} children sizing. */
 export class ContentController
@@ -49,56 +50,133 @@ export class ContentController
 
         switch (contentType)
         {
-            case 'object':
-                const contentList = content as ContentList[];
+            case 'layout':
+                const layout = content as Layout;
 
-                for (const id in contentList)
-                {
-                    const idKey = id as keyof typeof content;
-                    const contentElement = content[idKey] as any;
-
-                    if (contentElement.hasOwnProperty('children'))
-                    {
-                        this.createContent(contentElement);
-                    }
-                    else if (contentElement.hasOwnProperty('content'))
-                    {
-                        this.createContent(
-                            {
-                                ...contentElement,
-                                id
-                            },
-                            parentGlobalStyles
-                        );
-                    }
-                }
+                this.addContentElement(layout.id, layout);
+                break;
+            case 'container':
+                this.addContentElement(`container-${customID}`, content as Container);
                 break;
             case 'string':
                 const text = new Text(content as string, this.layout.style.textStyle);
 
-                this.children.set(`text-${customID}`, text);
-                this.layout.addChild(text);
+                this.addContentElement(`text-${customID}`, text);
                 break;
             case 'text':
                 const textInstance = content as Text;
 
                 textInstance.style = this.layout.style.textStyle;
-
-                this.children.set(`text-${customID}`, textInstance);
-                this.layout.addChild(textInstance);
+                this.addContentElement(`text-${customID}`, textInstance);
                 break;
-            case 'container':
-                this.children.set(`container-${customID}`, content as Container);
-                this.layout.addChild(content as Container);
+            case 'layoutConfig':
+                const layoutConfig = content as LayoutOptions;
+
+                if (parentGlobalStyles)
+                {
+                    if (layoutConfig.globalStyles)
+                    {
+                        layoutConfig.globalStyles = {
+                            ...parentGlobalStyles,
+                            ...(layoutConfig.globalStyles as any)
+                        };
+                    }
+                    else
+                    {
+                        layoutConfig.globalStyles = { ...parentGlobalStyles };
+                    }
+                }
+
+                if (!layoutConfig.id)
+                {
+                    layoutConfig.id = `layout-${customID}`;
+                }
+
+                this.addContentElement(layoutConfig.id, new Layout(layoutConfig));
+                break;
+            case 'object':
+                const contentList = content as ContentList[];
+
+                // this is where we are managing object keys, and assign them as ids of the added elements
+                for (const id in contentList)
+                {
+                    const idKey = id as keyof typeof content;
+                    const contentElement = content[idKey] as any;
+
+                    const contentType = this.getContentType(contentElement);
+                    let defaultStyles = this.layout.style.textStyle; // default text style of the layout
+
+                    switch (contentType)
+                    {
+                        case 'string':
+                            if (parentGlobalStyles[idKey])
+                            {
+                                // if there are predefined styles for this id
+                                defaultStyles = {
+                                    ...defaultStyles,
+                                    ...stylesToPixiTextStyles(parentGlobalStyles[idKey])
+                                };
+                            }
+
+                            const text = new Text(contentElement as string, defaultStyles);
+
+                            this.addContentElement(idKey, text);
+                            break;
+                        case 'text':
+                            const textInstance = contentElement as Text;
+
+                            if (parentGlobalStyles[idKey])
+                            {
+                                // if there are predefined styles for this id
+                                defaultStyles = {
+                                    ...defaultStyles,
+                                    ...stylesToPixiTextStyles(parentGlobalStyles[idKey])
+                                };
+                            }
+
+                            textInstance.style = defaultStyles;
+
+                            this.addContentElement(idKey, textInstance);
+                            break;
+                        case 'layout':
+                            const layoutInstance = contentElement as Layout;
+
+                            if (parentGlobalStyles[idKey])
+                            {
+                                layoutInstance.style.setStyles(parentGlobalStyles[idKey]);
+                                layoutInstance.update();
+                            }
+
+                            this.createContent(layoutInstance);
+                            break;
+                        case 'container':
+                            this.addContentElement(idKey, contentElement);
+                            break;
+                        case 'layoutConfig':
+                            this.createContent({
+                                ...contentElement,
+                                globalStyles: parentGlobalStyles,
+                                id: idKey // we are rewriting this id with the key of the object, even if it is set
+                            });
+                            break;
+                        case 'object':
+                            this.createContent(contentElement, parentGlobalStyles);
+                            break;
+                        case 'array':
+                            this.createContent(contentElement, parentGlobalStyles);
+                            break;
+                        default: // do nothing
+                    }
+                }
                 break;
             case 'array':
                 const contentArray = content as Array<LayoutOptions>;
 
                 contentArray.forEach((content) =>
                 {
-                    if (content.content)
+                    if (content.hasOwnProperty('content'))
                     {
-                        this.createContent(new Layout(content), parentGlobalStyles);
+                        this.createContent(content, parentGlobalStyles);
                     }
                     else
                     {
@@ -106,34 +184,25 @@ export class ContentController
                     }
                 });
                 break;
-            case 'content':
-                // we consider this as Layout config
-                const contentConfig = content as LayoutOptions;
-
-                if (parentGlobalStyles)
-                {
-                    if (contentConfig.globalStyles)
-                    {
-                        contentConfig.globalStyles = {
-                            ...parentGlobalStyles,
-                            ...(contentConfig.globalStyles as any)
-                        };
-                    }
-                    else
-                    {
-                        contentConfig.globalStyles = { ...parentGlobalStyles };
-                    }
-                }
-
-                const newLayout = new Layout(contentConfig);
-
-                this.children.set(newLayout.id, newLayout);
-                this.layout.addChild(newLayout);
-                break;
             default:
                 throw new Error('Unknown content type of the layout.');
-                break;
         }
+    }
+
+    /**
+     * Adds content element to the layout and register it in Content controller registry.
+     * @param {string} id - ID of the element
+     * @param {Container } content - pixi container instance to be added
+     */
+    public addContentElement(id: string, content: Container)
+    {
+        if (this.children.has(id))
+        {
+            throw new Error(`Content element with id '${id}' already exists in layout width id '${this.layout.id}'.`);
+        }
+
+        this.children.set(id, content);
+        this.layout.addChild(content);
     }
 
     /**
@@ -172,7 +241,6 @@ export class ContentController
      */
     public getByID(id: string): Layout | Container | undefined
     {
-    // 1st level search
         let result = this.children.get(id);
 
         if (!result)
@@ -198,6 +266,8 @@ export class ContentController
     {
         if (typeof content === 'string') return 'string';
 
+        if (content instanceof Layout) return 'layout';
+
         if (content instanceof Text) return 'text';
 
         if (content instanceof Sprite) return 'container';
@@ -206,15 +276,13 @@ export class ContentController
 
         if (content instanceof Container) return 'container';
 
-        if (content instanceof Layout) return 'container';
-
         if (Array.isArray(content)) return 'array';
 
         if (typeof content === 'object')
         {
             if (content.content)
             {
-                return 'content';
+                return 'layoutConfig';
             }
 
             return 'object';
