@@ -116,6 +116,17 @@ export class Layout extends Container
         this.size.update(parentWidth, parentHeight);
     }
 
+    /**
+     * Resize/reposition elements basing on last parent size.
+     * To be used when some of the children size has changed.
+     * To be called after all children have been resized.
+     */
+    update()
+    {
+        this.size.update();
+        this.updateParents();
+    }
+
     /** Render and update the background of layout basing ot it's current state. */
     updateBG()
     {

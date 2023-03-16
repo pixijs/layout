@@ -10,7 +10,7 @@ import { FancyButton } from '@pixi/ui';
 const assets = {
     energy: 'Icons/EnergyIcon.png',
     gem: 'Icons/gemIcon.png',
-    star: 'Icons/Star.png',
+    star: 'Icons/StarIcon.png',
     button: 'Buttons/SmallButton.png',
     buttonHover: 'Buttons/SmallButton-hover.png',
     buttonDown: 'Buttons/SmallButton-pressed.png',
@@ -19,7 +19,6 @@ const assets = {
 };
 
 const args = {
-    image: Object.keys(assets),
     padding: 30,
     maxWidth: 95
 };
@@ -37,17 +36,21 @@ class LayoutStory
         preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 
-    createLayout({ image, padding, maxWidth }: any)
+    createLayout({ padding, maxWidth }: any)
     {
         const content: Array<Content> = [];
 
         content.push();
 
+        const energy = Sprite.from(assets.energy);
+        const gem = Sprite.from(assets.gem);
+        const star = Sprite.from(assets.star);
+
         this.layout = new Layout({
             id: 'root',
             content: {
                 icons: {
-                    content: [Sprite.from(assets[image])],
+                    content: [energy, gem, star],
                     styles: {
                         padding
                     }
@@ -61,7 +64,7 @@ class LayoutStory
             }
         });
 
-        const addButton = new FancyButton({
+        const plusButton = new FancyButton({
             defaultView: assets.button,
             hoverView: assets.buttonHover,
             pressedView: assets.buttonDown,
@@ -69,7 +72,7 @@ class LayoutStory
             iconOffset: { y: -7 }
         });
 
-        const removeButton = new FancyButton({
+        const minusButton = new FancyButton({
             defaultView: assets.button,
             hoverView: assets.buttonHover,
             pressedView: assets.buttonDown,
@@ -80,32 +83,31 @@ class LayoutStory
         this.layout.addContent({
             id: 'button',
             content: {
-                content: [addButton, removeButton],
+                content: [plusButton, minusButton],
                 styles: {
                     scale: 0.5
                 }
             },
             styles: {
                 position: 'leftBottom',
-                marginBottom: -addButton.height - 5
+                marginBottom: -plusButton.height - 5
             }
         });
 
         const iconsLayout: Layout = this.layout.content.getByID('icons') as Layout;
 
-        addButton.onPress.connect(() =>
+        plusButton.onPress.connect(() =>
         {
-            iconsLayout.addContent(Sprite.from(assets[image]));
+            gem.width += 10;
+            gem.height += 10;
+            iconsLayout.update();
         });
 
-        removeButton.onPress.connect(() =>
+        minusButton.onPress.connect(() =>
         {
-            const icons = iconsLayout.content.children;
-
-            if (icons.size > 0)
-            {
-                iconsLayout.removeByID(icons.entries().next().value[0]);
-            }
+            gem.width -= 10;
+            gem.height -= 10;
+            iconsLayout.update();
         });
 
         this.layout.resize(this.w, this.h);
@@ -129,7 +131,7 @@ class LayoutStory
     }
 }
 
-export const AddRemoveContent = (params: any) => new LayoutStory(params);
+export const ResizeChild = (params: any) => new LayoutStory(params);
 
 export default {
     title: 'Dynamic',
