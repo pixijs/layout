@@ -116,17 +116,6 @@ export class Layout extends Container
         this.size.update(parentWidth, parentHeight);
     }
 
-    /**
-     * Resize/reposition elements basing on last parent size.
-     * To be used when some of the children size has changed.
-     * To be called after all children have been resized.
-     */
-    update()
-    {
-        this.size.update();
-        this.updateParents();
-    }
-
     /** Render and update the background of layout basing ot it's current state. */
     updateBG()
     {
@@ -270,7 +259,7 @@ export class Layout extends Container
     public addContent(content: Content)
     {
         this.content.createContent(content);
-        this.updateParents();
+        this.update();
     }
 
     /**
@@ -280,27 +269,33 @@ export class Layout extends Container
     public removeByID(id: string)
     {
         this.content.removeContent(id);
-        this.updateParents();
+        this.update();
     }
 
     /**
      * Get element from the layout child tree by it's ID
      * @param {string} id - id of the content to be foundS.
      */
-    public getChildByID(id: string)
+    public getChildByID(id: string): Layout | Container | undefined
     {
-        this.content.removeContent(id);
-        this.updateParents();
+        return this.content.getByID(id);
     }
 
-    /** This is used in case if some layout was changed and we need to resize all the upper layout tree. */
-    private updateParents()
+    /** This is used in case if some layout was changed and we need to update all layout structure. */
+    public update()
     {
-        this.size.update();
+        const rootLayout = this.getRootLayout();
 
+        rootLayout.size.update();
+    }
+
+    private getRootLayout(): Layout
+    {
         if (this.parent && this.parent instanceof Layout)
         {
-            this.parent.updateParents();
+            return this.parent.getRootLayout();
         }
+
+        return this;
     }
 }
