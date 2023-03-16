@@ -1,13 +1,4 @@
-import type {
-    Display,
-    FlexColor,
-    FlexNumber,
-    GradeToOne,
-    Overflow,
-    Position,
-    Styles,
-    VerticalAlign,
-} from '../utils/types';
+import type { Display, FlexColor, FlexNumber, GradeToOne, Overflow, Position, Styles, VerticalAlign } from '../utils/types';
 import type {
     TextStyleAlign,
     TextStyleFontStyle,
@@ -15,7 +6,7 @@ import type {
     TextStyleFontWeight,
     TextStyleLineJoin,
     TextStyleTextBaseline,
-    TextStyleWhiteSpace,
+    TextStyleWhiteSpace
 } from '@pixi/text';
 import { TEXT_GRADIENT, TextStyle } from '@pixi/text';
 import { getColor } from '../utils/helpers';
@@ -134,7 +125,6 @@ export class StyleController
      * Defines {@link Layout} scale x.
      * @default 1
      */
-
     scaleX = 1;
 
     /**
@@ -348,7 +338,7 @@ export class StyleController
             whiteSpace: styles?.whiteSpace ?? 'pre',
             wordWrap: styles?.wordWrap ?? true,
             wordWrapWidth: styles?.wordWrapWidth ?? 100,
-            leading: styles?.leading ?? 0,
+            leading: styles?.leading ?? 0
         };
     }
 

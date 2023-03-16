@@ -251,9 +251,45 @@ export class Layout extends Container
         return this.size.height;
     }
 
+    /**
+     * Adds content to the layout and reposition/resize other elements and the layout basing on styles.
+     * @param {Content} content - Content to be added. Can be string, Container, Layout, LayoutOptions or array of those.
+     * Also content can be an object with inner layout ids as a keys, and Content as values.
+     */
     public addContent(content: Content)
     {
         this.content.createContent(content);
+        this.updateParents();
+    }
+
+    /**
+     * Removes content of the layout by its id and reposition/resize other elements and the layout basing on styles.
+     * @param {string} id - id of the content to be removed.
+     */
+    public removeByID(id: string)
+    {
+        this.content.removeContent(id);
+        this.updateParents();
+    }
+
+    /**
+     * Get element from the layout child tree by it's ID
+     * @param {string} id - id of the content to be foundS.
+     */
+    public getChildByID(id: string)
+    {
+        this.content.removeContent(id);
+        this.updateParents();
+    }
+
+    /** This is used in case if some layout was changed and we need to resize all the upper layout tree. */
+    private updateParents()
+    {
         this.size.update();
+
+        if (this.parent && this.parent instanceof Layout)
+        {
+            this.parent.updateParents();
+        }
     }
 }
