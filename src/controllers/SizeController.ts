@@ -127,6 +127,11 @@ export class SizeController
 
                         if (child instanceof Layout && child.style.display !== 'block')
                         {
+                            if (child.style.position)
+                            {
+                                return;
+                            }
+
                             childrenWidth += child.width + child.style.marginLeft;
                         }
                         else if (child instanceof Container && child.width)
