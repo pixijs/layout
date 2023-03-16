@@ -13,6 +13,13 @@ type ContentType = 'text' | 'string' | 'container' | 'array' | 'unknown' | 'cont
 export class ContentController
 {
     private layout: Layout;
+
+    /**
+     * List of all children of the layout, controlled by this controller.
+     * As the layout is a container, you can use all container methods on it,
+     * including addChild, but only elements added by layout
+     * config or using `addContent` method will be managed by this controller.
+     */
     public children: Map<string, Container> = new Map();
 
     /**
@@ -28,6 +35,11 @@ export class ContentController
         this.createContent(content, globalStyles);
     }
 
+    /**
+     * Adds content to the layout and reposition/resize other elements and the layout basing on styles.
+     * @param {Content} content - Content of the layout
+     * @param {LayoutStyles} parentGlobalStyles - Global styles for layout and it's children
+     */
     public createContent(content?: Content, parentGlobalStyles?: LayoutStyles)
     {
         if (!content) return;
@@ -209,5 +221,20 @@ export class ContentController
         }
 
         return 'unknown';
+    }
+
+    /**
+     * Removes content by its id. And resize/repositions other elements basing on styles.
+     * @param id
+     */
+    public removeContent(id: string)
+    {
+        const content = this.getByID(id);
+
+        if (content)
+        {
+            this.layout.removeChild(content);
+            this.children.delete(id);
+        }
     }
 }
