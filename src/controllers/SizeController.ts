@@ -218,6 +218,12 @@ export class SizeController
                             return;
                         }
 
+                        if (child instanceof Layout && child.style.position)
+                        {
+                            // skip absolute positioned elements
+                            return;
+                        }
+
                         if (child instanceof Layout && child.style.display === 'block')
                         {
                             childrenHeight += child.height;

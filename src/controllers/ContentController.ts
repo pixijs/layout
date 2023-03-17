@@ -172,17 +172,7 @@ export class ContentController
             case 'array':
                 const contentArray = content as Array<LayoutOptions>;
 
-                contentArray.forEach((content) =>
-                {
-                    if (content.hasOwnProperty('content'))
-                    {
-                        this.createContent(content, parentGlobalStyles);
-                    }
-                    else
-                    {
-                        this.createContent(content, parentGlobalStyles);
-                    }
-                });
+                contentArray.forEach((content) => this.createContent(content, parentGlobalStyles));
                 break;
             default:
                 throw new Error('Unknown content type of the layout.');
