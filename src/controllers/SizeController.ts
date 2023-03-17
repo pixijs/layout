@@ -203,7 +203,10 @@ export class SizeController
                     // add first element as at lease one element to set width
                     if (firstChild instanceof Layout)
                     {
-                        childrenHeight += firstChild.height;
+                        if (!firstChild.style.position)
+                        {
+                            childrenHeight += firstChild.height;
+                        }
                     }
                     else if (firstChild instanceof Container && firstChild.height)
                     {
@@ -224,9 +227,13 @@ export class SizeController
                             return;
                         }
 
-                        if (child instanceof Layout && child.style.display === 'block')
+                        if (child instanceof Layout)
                         {
                             childrenHeight += child.height;
+                        }
+                        else if (child.height > childrenHeight)
+                        {
+                            childrenHeight = child.height;
                         }
                     });
 
