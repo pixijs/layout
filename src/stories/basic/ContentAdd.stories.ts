@@ -7,18 +7,41 @@ import { Graphics } from '@pixi/graphics';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 
-const args = {};
+const args = {
+    rootBGColor: '#FFFFFF',
+    layoutBGColor: ['red', ...color],
+    layoutTextColor: '#FFFFFF',
+    string1Color: ['red', ...color],
+    text2Color: ['blue', ...color],
+    string3COlor: ['green', ...color],
+    string5Color: ['orange', ...color],
+    string5BGColor: ['blue', ...color],
+    layoutConfigBG: ['green', ...color],
+    layoutConfigColor: ['white', ...color]
+};
 
 class LayoutStory
 {
     private layout: Layout;
     view = new Container();
 
-    constructor({}: any)
+    constructor({
+        rootBGColor,
+        layoutBGColor,
+        layoutTextColor,
+        string1Color,
+        text2Color,
+        string3COlor,
+        string5Color,
+        string5BGColor,
+        textColor,
+        layoutConfigBG,
+        layoutConfigColor
+    }: any)
     {
         const globalStyles = {
             root: {
-                background: 'white',
+                background: rootBGColor,
                 borderRadius: 40,
                 width: `90%`,
                 height: `90%`,
@@ -26,54 +49,54 @@ class LayoutStory
                 padding: 15
             },
             layoutID: {
-                background: 'red',
+                background: layoutBGColor,
                 marginRight: 20,
                 borderRadius: 20,
                 padding: 20,
                 color: 'green' // this will not work, as text is inside layout,
                 // in order it to work, we need to drop this global styles inside layout we are creating
             },
-            stringID: {
+            stringID1: {
                 // this styles will be applied to all elements with id 'stringID'
                 // it is not layout styles but text styles, as stringID is an instance of PIXI.Text
-                color: 'red', // this will work as it is a text style
+                color: string1Color, // this will work as it is a text style
                 display: 'block', // this will not work, as stringID is not a layout style
                 margin: 10 // this will not work, as stringID is not a layout style
             },
             stringID3: {
                 // this styles will be applied to all elements with id 'stringID'
                 // it is not layout styles but text styles, as stringID is an instance of PIXI.Text
-                color: 'green', // this will work as it is a text style
+                color: string3COlor, // this will work as it is a text style
                 display: 'block', // this will not work, as stringID is not a layout style
                 margin: 10 // this will not work, as stringID is not a layout style
             },
             stringID5: {
                 // this is fully functional layout style config as it is applying to the layout
-                color: 'orange',
+                color: string5Color,
                 margin: 20,
                 marginTop: 0,
-                background: 'blue',
+                background: string5BGColor,
                 padding: 15,
                 width: 100
             },
             textID: {
                 // this styles will be applied to all elements with id 'textID'
                 // it is not layout styles but text styles, as stringID is an instance of PIXI.Text
-                color: 'blue', // this will work as it is a text style
+                color: text2Color, // this will work as it is a text style
                 display: 'block', // this will not work, as textID is not a layout style
                 margin: 10 // this will not work, as textID is not a layout style
             },
             container1: {
                 margin: 10, // this will not work as container1 is not a layout but just a Pixi.Container
-                background: 'green' // this will not work as container1 is not a layout but just a Pixi.Container
+                background: 'red' // this will not work as container1 is not a layout but just a Pixi.Container
             },
             layoutConfig: {
                 // this is fully functional layout style config as it is applying to the layout
-                background: 'green',
+                background: layoutConfigBG,
                 margin: 20,
                 marginTop: 0,
                 textAlign: 'center',
-                color: 'white',
+                color: layoutConfigColor,
                 padding: 20,
                 borderRadius: 20
             }
@@ -86,11 +109,11 @@ class LayoutStory
                 layoutID: new Layout({
                     content: 'Layout instance',
                     styles: {
-                        color: 'white',
+                        color: layoutTextColor,
                         textAlign: 'center'
                     }
                 }),
-                stringID: 'Text 1', // string
+                stringID1: 'Text 1', // string
                 textID: new Text('Text 2'), // PIXI.Text
                 layoutConfig: {
                     content: 'Layout Config'
