@@ -4,6 +4,7 @@ import { Container } from '@pixi/display';
 import { CSS_COLOR_NAMES } from '../../utils/constants';
 import { Text } from '@pixi/text';
 import { Graphics } from '@pixi/graphics';
+import { LayoutStyles } from '../../utils/types';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 
@@ -34,12 +35,11 @@ class LayoutStory
         string3COlor,
         string5Color,
         string5BGColor,
-        textColor,
         layoutConfigBG,
         layoutConfigColor
     }: any)
     {
-        const globalStyles = {
+        const globalStyles: LayoutStyles = {
             root: {
                 background: rootBGColor,
                 borderRadius: 40,
