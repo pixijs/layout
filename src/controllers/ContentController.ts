@@ -19,7 +19,8 @@ export class ContentController
      * List of all children of the layout, controlled by this controller.
      * As the layout is a container, you can use all container methods on it,
      * including addChild, but only elements added by layout
-     * config or using `addContent` method will be managed by this controller.
+     * config thought constructor of {@link ContentController} or using
+     * `addContent` method will be managed by this controller.
      */
     public children: Map<string, Container> = new Map();
 
@@ -37,7 +38,7 @@ export class ContentController
     }
 
     /**
-     * Adds content to the layout and reposition/resize other elements and the layout basing on styles.
+     * Adds content to the layout.
      * @param {Content} content - Content of the layout
      * @param {LayoutStyles} parentGlobalStyles - Global styles for layout and it's children
      */
@@ -282,7 +283,7 @@ export class ContentController
     }
 
     /**
-     * Removes content by its id. And resize/repositions other elements basing on styles.
+     * Removes content by its id.
      * @param id
      */
     public removeContent(id: string)
