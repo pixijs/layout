@@ -229,7 +229,14 @@ export class SizeController
 
                         if (child instanceof Layout)
                         {
-                            childrenHeight += child.height;
+                            if (child.style.display === 'block')
+                            {
+                                childrenHeight += child.height;
+                            }
+                            else if (child.height > childrenHeight)
+                            {
+                                childrenHeight = child.height;
+                            }
                         }
                         else if (child.height > childrenHeight)
                         {

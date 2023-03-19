@@ -131,7 +131,7 @@ class LayoutStory
     }
 }
 
-export const ResizeChild = (params: any) => new LayoutStory(params);
+export const ResizePixiInstance = (params: any) => new LayoutStory(params);
 
 export default {
     title: 'Dynamic',

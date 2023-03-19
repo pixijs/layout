@@ -19,8 +19,9 @@ const assets = {
 };
 
 const args = {
-    padding: 30,
-    maxWidth: 95
+    padding: 10,
+    maxWidth: 95,
+    maxHeight: 40
 };
 
 class LayoutStory
@@ -36,7 +37,7 @@ class LayoutStory
         preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 
-    createLayout({ padding, maxWidth }: any)
+    createLayout({ padding, maxWidth, maxHeight }: any)
     {
         const content: Array<Content> = [];
 
@@ -49,18 +50,26 @@ class LayoutStory
         this.layout = new Layout({
             id: 'root',
             content: {
-                icons: {
-                    content: [energy, gem, star],
+                energy: {
+                    content: energy
+                },
+                gem: {
+                    content: gem,
                     styles: {
-                        padding
+                        padding,
+                        background: 'red'
                     }
+                },
+                star: {
+                    content: star
                 }
             },
             styles: {
                 background: 'black',
                 position: 'center',
                 borderRadius: 20,
-                maxWidth: `${maxWidth}%`
+                maxWidth: `${maxWidth}%`,
+                maxHeight: `${maxHeight}%`
             }
         });
 
@@ -94,21 +103,36 @@ class LayoutStory
             }
         });
 
-        const iconsLayout: Layout = this.layout.content.getByID('icons') as Layout;
+        const gemLayout: Layout = this.layout.content.getByID('gem') as Layout;
 
-        plusButton.onPress.connect(() =>
-        {
-            gem.width += 10;
-            gem.height += 10;
-            iconsLayout.update();
-        });
+        const gemLayoutStyle = gemLayout.style;
 
-        minusButton.onPress.connect(() =>
+        if (gemLayoutStyle)
         {
-            gem.width -= 10;
-            gem.height -= 10;
-            iconsLayout.update();
-        });
+            plusButton.onPress.connect(() =>
+            {
+                const padding = gemLayoutStyle.padding;
+
+                if (padding !== undefined)
+                {
+                    gemLayout.setStyles({
+                        padding: padding + 10
+                    });
+                }
+            });
+
+            minusButton.onPress.connect(() =>
+            {
+                const padding = gemLayoutStyle.padding;
+
+                if (padding !== undefined)
+                {
+                    gemLayout.setStyles({
+                        padding: padding - 10 < 0 ? 0 : padding - 10
+                    });
+                }
+            });
+        }
 
         this.layout.resize(this.w, this.h);
         this.view.addChild(this.layout);
