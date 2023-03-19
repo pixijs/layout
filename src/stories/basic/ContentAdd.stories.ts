@@ -13,8 +13,9 @@ const args = {
     layoutBGColor: ['red', ...color],
     layoutTextColor: '#FFFFFF',
     string1Color: ['red', ...color],
-    text2Color: ['blue', ...color],
+    string2Color: ['blue', ...color],
     string3COlor: ['green', ...color],
+    string4Color: ['orange', ...color],
     string5Color: ['orange', ...color],
     string5BGColor: ['blue', ...color],
     layoutConfigBG: ['green', ...color],
@@ -31,8 +32,9 @@ class LayoutStory
         layoutBGColor,
         layoutTextColor,
         string1Color,
-        text2Color,
+        string2Color,
         string3COlor,
+        string4Color,
         string5Color,
         string5BGColor,
         layoutConfigBG,
@@ -46,7 +48,8 @@ class LayoutStory
                 width: `90%`,
                 height: `90%`,
                 position: 'center',
-                padding: 15
+                padding: 15,
+                color: string4Color // this will work only for text 4 layout as it is a 1st level child of the roo layout
             },
             layoutID: {
                 background: layoutBGColor,
@@ -82,7 +85,7 @@ class LayoutStory
             textID: {
                 // this styles will be applied to all elements with id 'textID'
                 // it is not layout styles but text styles, as stringID is an instance of PIXI.Text
-                color: text2Color, // this will work as it is a text style
+                color: string2Color, // this will work as it is a text style
                 display: 'block', // this will not work, as textID is not a layout style
                 margin: 10 // this will not work, as textID is not a layout style
             },
