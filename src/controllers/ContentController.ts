@@ -59,14 +59,14 @@ export class ContentController
                 this.addContentElement(`container-${customID}`, content as Container);
                 break;
             case 'string':
-                const text = new Text(content as string, this.layout.style.textStyle);
+                const text = new Text(content as string, this.layout.textStyle);
 
                 this.addContentElement(`text-${customID}`, text);
                 break;
             case 'text':
                 const textInstance = content as Text;
 
-                textInstance.style = this.layout.style.textStyle;
+                textInstance.style = this.layout.textStyle;
                 this.addContentElement(`text-${customID}`, textInstance);
                 break;
             case 'layoutConfig':
@@ -104,7 +104,7 @@ export class ContentController
                     const contentElement = content[idKey] as any;
 
                     const contentType = this.getContentType(contentElement);
-                    let defaultStyles = this.layout.style.textStyle; // default text style of the layout
+                    let defaultStyles = this.layout.textStyle; // default text style of the layout
 
                     switch (contentType)
                     {
@@ -143,7 +143,7 @@ export class ContentController
 
                             if (parentGlobalStyles[idKey])
                             {
-                                layoutInstance.style.setStyles(parentGlobalStyles[idKey]);
+                                layoutInstance.setStyles(parentGlobalStyles[idKey]);
                                 layoutInstance.update();
                             }
 
@@ -209,7 +209,7 @@ export class ContentController
      * @param width
      * @param height
      */
-    resize(width: number, height: number)
+    public resize(width: number, height: number)
     {
         this.children.forEach((child) =>
         {

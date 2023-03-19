@@ -27,8 +27,8 @@ export type Styles = Partial<TextStyle> & {
     background?: FlexColor | Container | string;
     backgroundColor?: FlexColor;
     color?: FlexColor;
-    width?: FlexNumber;
-    height?: FlexNumber;
+    width?: FlexNumber | 'auto';
+    height?: FlexNumber | 'auto';
     padding?: number;
     paddingTop?: number;
     paddingRight?: number;
