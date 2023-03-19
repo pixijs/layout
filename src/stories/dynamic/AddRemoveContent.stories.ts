@@ -106,7 +106,7 @@ class LayoutStory
 
             if (icons.size > 0)
             {
-                iconsLayout.removeByID(icons.entries().next().value[0]);
+                iconsLayout.removeChildByID(icons.entries().next().value[0]);
             }
         });
 
