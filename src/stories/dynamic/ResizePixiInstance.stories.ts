@@ -33,6 +33,8 @@ class LayoutStory
 
     constructor(props)
     {
+        this.addTooltip(`'+' and '-' buttons will change the size of 'gem' sprite and update the layout.`);
+
         preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 

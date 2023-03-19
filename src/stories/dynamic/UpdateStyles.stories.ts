@@ -34,6 +34,8 @@ class LayoutStory
 
     constructor(props)
     {
+        this.addTooltip(`'+' and '-' buttons will change padding of the 'gem' layout.`);
+
         preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 

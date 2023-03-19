@@ -34,6 +34,8 @@ class LayoutStory
 
     constructor(props)
     {
+        this.addTooltip(`'+' and '-' buttons will add or remove sprites to the layout.`);
+
         preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 
