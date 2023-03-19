@@ -59,7 +59,6 @@ export class AlignController
 
                 if (child.width < availableWidth)
                 {
-                    console.log(child.width, availableWidth, style);
                     if (align === 'center')
                     {
                         child.anchor.x = 0.5;
