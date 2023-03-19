@@ -267,7 +267,7 @@ export class Layout extends Container
      * Removes content of the layout by its id and reposition/resize other elements and the layout basing on styles.
      * @param {string} id - id of the content to be removed.
      */
-    public removeByID(id: string)
+    public removeChildByID(id: string)
     {
         this.content.removeContent(id);
         this.update();
