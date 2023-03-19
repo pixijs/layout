@@ -99,6 +99,7 @@ export class StyleController
 
         this.styles.background = styles?.background ?? styles?.backgroundColor ?? this.styles.background;
 
+        this.styles.textAlign = styles?.textAlign ?? this.styles.textAlign;
         this.styles.position = styles?.position ?? this.styles.position;
         this.styles.verticalAlign = styles?.verticalAlign ?? this.styles.verticalAlign ?? VERTICAL_ALIGN[0];
 
