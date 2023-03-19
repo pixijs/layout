@@ -53,7 +53,10 @@ class LayoutStory
             id: 'root',
             content: {
                 energy: {
-                    content: energy
+                    content: energy,
+                    styles: {
+                        padding: 10
+                    }
                 },
                 gem: {
                     content: gem,
@@ -63,7 +66,10 @@ class LayoutStory
                     }
                 },
                 star: {
-                    content: star
+                    content: star,
+                    styles: {
+                        padding: 10
+                    }
                 }
             },
             styles: {
