@@ -110,7 +110,7 @@ export class ContentController
                     switch (contentType)
                     {
                         case 'string':
-                            if (parentGlobalStyles[idKey])
+                            if (parentGlobalStyles && parentGlobalStyles[idKey])
                             {
                                 // if there are predefined styles for this id
                                 defaultStyles = {
@@ -126,7 +126,7 @@ export class ContentController
                         case 'text':
                             const textInstance = contentElement as Text;
 
-                            if (parentGlobalStyles[idKey])
+                            if (parentGlobalStyles && parentGlobalStyles[idKey])
                             {
                                 // if there are predefined styles for this id
                                 defaultStyles = {
@@ -142,7 +142,7 @@ export class ContentController
                         case 'layout':
                             const layoutInstance = contentElement as Layout;
 
-                            if (parentGlobalStyles[idKey])
+                            if (parentGlobalStyles && parentGlobalStyles[idKey])
                             {
                                 layoutInstance.setStyles(parentGlobalStyles[idKey]);
                                 layoutInstance.update();
