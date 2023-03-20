@@ -187,7 +187,7 @@ export class ContentController
      */
     public addContentElement(id: string, content: Container)
     {
-        if (this.children.has(id))
+        if (id && this.children.has(id))
         {
             throw new Error(`Content element with id '${id}' already exists in layout width id '${this.layout.id}'.`);
         }
