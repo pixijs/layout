@@ -1,6 +1,8 @@
-import { CSS_COLOR_NAMES } from './constants';
-import { Color, CSSColor, FlexColor, FlexNumber } from './types';
+import { ALIGN, CSS_COLOR_NAMES } from './constants';
+import { Color, CSSColor, FlexColor, FlexNumber, Styles } from './types';
 import { utils } from '@pixi/core';
+import { TextStyle, TEXT_GRADIENT, Text } from '@pixi/text';
+import { Layout } from '../Layout';
 
 export function rgba2Hex([r, g, b]: number[]): number
 {
@@ -141,4 +143,57 @@ export function getNumber(value: FlexNumber, maxPercentValue?: number): number
     }
 
     return 0;
+}
+
+export function stylesToPixiTextStyles(styles: Styles): Partial<TextStyle>
+{
+    return {
+        align: styles?.textAlign ?? ALIGN[1],
+        breakWords: styles?.breakWords ?? true,
+        dropShadow: styles?.dropShadow ?? false,
+        dropShadowAlpha: styles?.dropShadowAlpha ?? 1,
+        dropShadowAngle: styles?.dropShadowAngle ?? Math.PI / 6,
+        dropShadowBlur: styles?.dropShadowBlur ?? 0,
+        dropShadowColor: styles?.dropShadowColor ?? 'black',
+        dropShadowDistance: styles?.dropShadowDistance ?? 5,
+        fill: styles?.fill ?? getColor(styles?.color)?.hex ?? 'black',
+        fillGradientType: styles?.fillGradientType ?? TEXT_GRADIENT.LINEAR_VERTICAL,
+        fillGradientStops: styles?.fillGradientStops ?? [],
+        fontFamily: styles?.fontFamily ?? 'Arial',
+        fontSize: styles?.fontSize ?? 26,
+        fontStyle: styles?.fontStyle ?? 'normal',
+        fontVariant: styles?.fontVariant ?? 'normal',
+        fontWeight: styles?.fontWeight ?? 'normal',
+        letterSpacing: styles?.letterSpacing ?? 0,
+        lineHeight: styles?.lineHeight ?? 0,
+        lineJoin: styles?.lineJoin ?? 'miter',
+        miterLimit: styles?.miterLimit ?? 10,
+        // padding: styles?.padding ?? 0,
+        stroke: styles?.stroke ?? 'black',
+        strokeThickness: styles?.strokeThickness ?? 0,
+        textBaseline: styles?.textBaseline ?? 'alphabetic',
+        trim: styles?.trim ?? false,
+        whiteSpace: styles?.whiteSpace ?? 'pre',
+        wordWrap: styles?.wordWrap ?? true,
+        wordWrapWidth: styles?.wordWrapWidth ?? 100,
+        leading: styles?.leading ?? 0
+    };
+}
+
+/**
+ * Detect if layout is just a wrapper for a text element.
+ * @param {Layout} layout - Layout to check.
+ */
+export function isItJustAText(layout: Layout): boolean
+{
+    const hasOnly1Child = layout.content.children.size === 1;
+
+    if (hasOnly1Child)
+    {
+        const firstChild = layout.content.children.entries().next().value[1];
+
+        return firstChild instanceof Text;
+    }
+
+    return false;
 }

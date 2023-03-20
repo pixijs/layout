@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { getNumber } from '../utils/helpers';
+import { getNumber, isItJustAText } from '../utils/helpers';
 import { Layout } from '../Layout';
 import { Text } from '@pixi/text';
 import { Container } from '@pixi/display';
@@ -127,6 +127,11 @@ export class SizeController
 
                         if (child instanceof Layout && child.style.display !== 'block')
                         {
+                            if (child.style.position)
+                            {
+                                return;
+                            }
+
                             childrenWidth += child.width + child.style.marginLeft;
                         }
                         else if (child instanceof Container && child.width)
@@ -138,7 +143,7 @@ export class SizeController
                     // height is basing on content height
                     finalWidth = childrenWidth + paddingLeft + paddingRight;
 
-                    if (this.isItJustAText)
+                    if (isItJustAText(this.layout))
                     {
                         finalWidth = this.innerText?.width + paddingLeft + paddingRight;
                     }
@@ -150,7 +155,7 @@ export class SizeController
                     // resize to parent width
                     finalWidth = this.parentWidth;
 
-                    if (this.isItJustAText)
+                    if (isItJustAText(this.layout))
                     {
                         this.innerText.style.wordWrap = true;
                         this.innerText.style.wordWrapWidth = parentWidth - paddingLeft - paddingRight;
@@ -198,7 +203,10 @@ export class SizeController
                     // add first element as at lease one element to set width
                     if (firstChild instanceof Layout)
                     {
-                        childrenHeight += firstChild.height;
+                        if (!firstChild.style.position)
+                        {
+                            childrenHeight += firstChild.height;
+                        }
                     }
                     else if (firstChild instanceof Container && firstChild.height)
                     {
@@ -213,13 +221,30 @@ export class SizeController
                             return;
                         }
 
-                        if (child instanceof Layout && child.style.display === 'block')
+                        if (child instanceof Layout && child.style.position)
                         {
-                            childrenHeight += child.height;
+                            // skip absolute positioned elements
+                            return;
+                        }
+
+                        if (child instanceof Layout)
+                        {
+                            if (child.style.display === 'block')
+                            {
+                                childrenHeight += child.height;
+                            }
+                            else if (child.height > childrenHeight)
+                            {
+                                childrenHeight = child.height;
+                            }
+                        }
+                        else if (child.height > childrenHeight)
+                        {
+                            childrenHeight = child.height;
                         }
                     });
 
-                    if (this.isItJustAText)
+                    if (isItJustAText(this.layout))
                     {
                         finalHeight = this.innerText?.height;
                     }
@@ -252,9 +277,9 @@ export class SizeController
 
             this.fitInnerText(finalWidth);
 
-            if (this.isItJustAText && height === 'auto')
+            if (isItJustAText(this.layout) && height === 'auto')
             {
-                finalHeight = this.innerText?.height;
+                finalHeight = this.innerText?.height + paddingBottom + paddingTop;
             }
         }
 
@@ -286,7 +311,7 @@ export class SizeController
 
     private fitInnerText(width: number)
     {
-        if (!this.isItJustAText)
+        if (!isItJustAText(this.layout))
         {
             return;
         }
@@ -307,7 +332,7 @@ export class SizeController
             return 'parentSize';
         }
 
-        if (this.isItJustAText)
+        if (isItJustAText(this.layout))
         {
             return 'innerText';
         }
@@ -320,23 +345,13 @@ export class SizeController
         return 'contentSize';
     }
 
-    /** Detect if layout is just a wrapper for a text element.  */
-    private get isItJustAText(): boolean
-    {
-        const hasOnly1Child = this.layout.content.children.size === 1;
-
-        const { firstChild } = this.layout.content;
-
-        return hasOnly1Child && firstChild instanceof Text;
-    }
-
     /**
      * Get text element if layout is just a wrapper for a text element.
      * @returns {Text} - Pixi Text element.
      */
     get innerText(): Text
     {
-        if (!this.isItJustAText)
+        if (!isItJustAText(this.layout))
         {
             return null;
         }

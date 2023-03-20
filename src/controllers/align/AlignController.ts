@@ -1,5 +1,6 @@
 import { Layout } from '../../Layout';
 import { Text } from '@pixi/text';
+import { isItJustAText } from '../../utils/helpers';
 
 /** Align controller manages {@link Layout} and it's content alignment. */
 export class AlignController
@@ -50,7 +51,7 @@ export class AlignController
         {
             if (!child.height && !child.width) return;
 
-            if (child instanceof Text)
+            if (child instanceof Text && isItJustAText(this.layout))
             {
                 const availableWidth = parentWidth - paddingLeft - paddingRight;
 

@@ -1,12 +1,13 @@
 import { Graphics } from '@pixi/graphics';
 import { Container } from '@pixi/display';
-import { Content, LayoutOptions } from './utils/types';
+import { Content, LayoutOptions, Styles } from './utils/types';
 import { AlignController } from './controllers/align/AlignController';
 import { StyleController } from './controllers/StyleController';
 import { SizeController } from './controllers/SizeController';
 import { ContentController } from './controllers/ContentController';
 import { getColor } from './utils/helpers';
 import { Sprite } from '@pixi/sprite';
+import { TextStyle } from '@pixi/text';
 
 /**
  * Universal layout class for Pixi.js.
@@ -65,7 +66,7 @@ export class Layout extends Container
     align: AlignController;
 
     /** {@link StyleController} is a class for controlling styles. */
-    style: StyleController;
+    private _style: StyleController;
 
     /** {@link ContentController} controller is a class for controlling layouts children. */
     content: ContentController;
@@ -100,7 +101,7 @@ export class Layout extends Container
         }
 
         // order here is important as controllers are dependent on each other
-        this.style = new StyleController(this, options.styles);
+        this._style = new StyleController(this, options.styles);
         this.size = new SizeController(this);
         this.align = new AlignController(this);
         this.content = new ContentController(this, options.content, options.globalStyles);
@@ -251,9 +252,73 @@ export class Layout extends Container
         return this.size.height;
     }
 
+    /**
+     * Adds content to the layout and reposition/resize other elements and the layout basing on styles.
+     * @param {Content} content - Content to be added. Can be string, Container, Layout, LayoutOptions or array of those.
+     * Also content can be an object with inner layout ids as a keys, and Content as values.
+     */
     public addContent(content: Content)
     {
         this.content.createContent(content);
-        this.size.update();
+        this.update();
+    }
+
+    /**
+     * Removes content of the layout by its id and reposition/resize other elements and the layout basing on styles.
+     * @param {string} id - id of the content to be removed.
+     */
+    public removeChildByID(id: string)
+    {
+        this.content.removeContent(id);
+        this.update();
+    }
+
+    /**
+     * Get element from the layout child tree by it's ID
+     * @param {string} id - id of the content to be foundS.
+     */
+    public getChildByID(id: string): Layout | Container | undefined
+    {
+        return this.content.getByID(id);
+    }
+
+    /** This is used in case if some layout was changed and we need to update all layout structure. */
+    public update()
+    {
+        const rootLayout = this.getRootLayout();
+
+        rootLayout.size.update();
+    }
+
+    private getRootLayout(): Layout
+    {
+        if (this.parent && this.parent instanceof Layout)
+        {
+            return this.parent.getRootLayout();
+        }
+
+        return this;
+    }
+
+    /**
+     * Updates the layout styles.
+     * @param styles
+     */
+    public setStyles(styles: Styles)
+    {
+        this._style.set(styles);
+        this.update();
+    }
+
+    /** Layout text styles. */
+    public get textStyle(): Partial<TextStyle>
+    {
+        return this._style.textStyle;
+    }
+
+    /** Layout styles. */
+    public get style(): Styles
+    {
+        return this._style.getAll();
     }
 }
