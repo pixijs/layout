@@ -28,7 +28,6 @@ export class StyleController
     /**
      * Applies a list of styles for the layout.
      * @param { Styles } styles - styles to be applied
-     * @param { boolean } noUpdate - skip updating layout structure, used for initial styles setup
      */
     set(styles?: Styles)
     {
@@ -106,27 +105,35 @@ export class StyleController
         this._textStyle = stylesToPixiTextStyles(styles);
     }
 
-    get(styles: keyof Styles): Styles[keyof Styles]
+    /**
+     * Returns a style value by name.
+     * @param style - name of the style
+     */
+    get(style: keyof Styles): Styles[keyof Styles]
     {
-        return this.styles[styles];
+        return this.styles[style];
     }
 
+    /** Returns all styles of the Layout */
     getAll(): Styles
     {
         return this.styles;
     }
 
+    /** Returns all pixi text related styles of the Layout */
     get textStyle(): Partial<TextStyle>
     {
         return this._textStyle;
     }
 
+    /** Sets the opacity of the layout */
     set opacity(value: GradeToOne)
     {
         this.styles.opacity = value;
         this.layout.alpha = value;
     }
 
+    /** Returns the opacity of the layout */
     get opacity(): GradeToOne
     {
         return this.styles.opacity;

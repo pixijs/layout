@@ -19,7 +19,8 @@ import { TextStyle } from '@pixi/text';
  * Also it brings a list of css-like properties for styling itself and it's children.
  *
  * Children will be resized and aligned to fit parent size, if they have width and height properties
- * (like Sprite of Graphics instances from Pixi.js.
+ *
+ * (like Sprite or Graphics instances from Pixi.js)
  * @example
  * const layout = new Layout({
  * 	id: 'myLayout',
@@ -117,7 +118,7 @@ export class Layout extends Container
         this.size.update(parentWidth, parentHeight);
     }
 
-    /** Render and update the background of layout basing ot it's current state. */
+    /** Render and update the background of layout basing on it's current state. */
     updateBG()
     {
         const { background } = this.style;
@@ -176,7 +177,7 @@ export class Layout extends Container
         }
     }
 
-    /** Render and update the mask of layout basing ot it's current state. Mask is used to hide overflowing content. */
+    /** Render and update the mask of layout basing on it's current state. Mask is used to hide overflowing content. */
     updateMask()
     {
         const { overflow, borderRadius } = this.style;
@@ -282,7 +283,7 @@ export class Layout extends Container
         return this.content.getByID(id);
     }
 
-    /** This is used in case if some layout was changed and we need to update all layout structure. */
+    /** This is used in case if layout or some of it's children was changed and we need to update sizes and positions. */
     public update()
     {
         const rootLayout = this.getRootLayout();
@@ -301,7 +302,7 @@ export class Layout extends Container
     }
 
     /**
-     * Updates the layout styles.
+     * Updates the layout styles and resize/reposition it ant its children basing on new styles.
      * @param styles
      */
     public setStyles(styles: Styles)

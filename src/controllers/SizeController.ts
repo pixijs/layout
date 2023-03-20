@@ -349,7 +349,7 @@ export class SizeController
      * Get text element if layout is just a wrapper for a text element.
      * @returns {Text} - Pixi Text element.
      */
-    get innerText(): Text
+    private get innerText(): Text
     {
         if (!isItJustAText(this.layout))
         {
