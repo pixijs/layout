@@ -100,15 +100,14 @@ class LayoutStory
 
         plusButton.onPress.connect(() =>
         {
-            gem.width += 10;
-            gem.height += 10;
+            gem.scale.set(gem.scale._x + 0.1);
             iconsLayout.update();
         });
 
         minusButton.onPress.connect(() =>
         {
-            gem.width -= 10;
-            gem.height -= 10;
+            gem.scale.set(gem.scale._x - 0.1 > 0 ? gem.scale._x - 0.1 : 0);
+
             iconsLayout.update();
         });
 
