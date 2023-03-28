@@ -182,14 +182,14 @@ export class ContentController
 
     /**
      * Adds content element to the layout and register it in Content controller registry.
-     * @param {string} id - ID of the element
-     * @param {Container } content - pixi container instance to be added
+     * @param {string} id - ID of the element.
+     * @param {Container } content - pixi container instance to be added.
      */
     public addContentElement(id: string, content: Container)
     {
         if (id && this.children.has(id))
         {
-            throw new Error(`Content element with id '${id}' already exists in layout width id '${this.layout.id}'.`);
+            console.error(`Element with '${id}' duplicates, be careful using id selectors with it.`);
         }
 
         this.children.set(id, content);
@@ -271,7 +271,7 @@ export class ContentController
 
         if (typeof content === 'object')
         {
-            if (content.content)
+            if (content?.content)
             {
                 return 'layoutConfig';
             }
