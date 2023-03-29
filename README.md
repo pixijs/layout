@@ -1,5 +1,6 @@
 <div align="center">
-    <h1>PIXI-LAYOUT</h1>
+    <h1><img src="https://user-images.githubusercontent.com/11766115/228631922-d1d932c0-e5c9-4213-a719-69efaf34d4e7.png" />
+</h1>
     <h3>It is a library for arranging/resizing pixi rendered elements basing on css like configs. It is made for simple and fast implementation of the responsive user interfaces in your games.</h3>
 </div>
 
