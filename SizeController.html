@@ -176,6 +176,8 @@
             
                 <li class="parent " data-name="Layout.width"><a href=Layout.html#width>width</a></li>
             
+                <li class="parent " data-name="Layout._style"><a href=Layout.html#_style>_style</a></li>
+            
             </ul>
 
             <ul class="enums itemMembers">
@@ -239,6 +241,10 @@
             
                 <li class="parent " data-name="SizeController.width"><a href=SizeController.html#width>width</a></li>
             
+                <li class="parent " data-name="SizeController.autoSizeModificator"><a href=SizeController.html#autoSizeModificator>autoSizeModificator</a></li>
+            
+                <li class="parent " data-name="SizeController.innerText"><a href=SizeController.html#innerText>innerText</a></li>
+            
             </ul>
 
             <ul class="enums itemMembers">
@@ -259,6 +265,8 @@
             <span class="subtitle">Methods</span>
             
                 <li class="parent  " data-name="SizeController.update"><a href=SizeController.html#update>update</a></li>
+            
+                <li class="parent  " data-name="SizeController.fitToSize"><a href=SizeController.html#fitToSize>fitToSize</a></li>
             
             </ul>
             
@@ -285,6 +293,8 @@
                 <li class="parent " data-name="StyleController.opacity"><a href=StyleController.html#opacity>opacity</a></li>
             
                 <li class="parent " data-name="StyleController.textStyle"><a href=StyleController.html#textStyle>textStyle</a></li>
+            
+                <li class="parent " data-name="StyleController._textStyle"><a href=StyleController.html#_textStyle>_textStyle</a></li>
             
             </ul>
 
@@ -723,6 +733,108 @@
 </dd>
 
         
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="autoSizeModificator">
+            <a class="share-icon" href="#autoSizeModificator"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">autoSizeModificator</span>
+            <span class="type-signature type">SizeControl</span>
+            
+            <span class="access-signature">protected</span>
+            
+            
+        </h4>
+    </div>
+</dt>
+<dd>
+    
+      <p class="description"><p>Get type of size control basing on styles and in case if width of the layout is set to <code>auto</code>.</p></p>
+    
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="innerText">
+            <a class="share-icon" href="#innerText"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">innerText</span>
+            <span class="type-signature type">Text</span>
+            
+            <span class="access-signature">protected</span>
+            
+            
+        </h4>
+    </div>
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get text element if layout is just a wrapper for a text element.</p>
+    </div>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+</dd>
+
+        
     
 
     
@@ -898,6 +1010,151 @@
 </dd>
 
         
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="fitToSize">
+            <a class="share-icon" href="#fitToSize"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+              
+                  fitToSize
+              
+            </span>
+            <span class="signature">(parentWidth, parentHeight)</span><span class="type-signature"></span>
+            
+            <span class="access-signature">protected</span>
+            
+            
+        </h4>
+
+        
+    </div>
+</dt>
+<dd>
+    
+      <p class="description"><p>Fits controlled layout into parent size, scales it down if does not fit.</p></p>
+    
+    
+    <div class="description">
+        <p>This method is called when maxWidth or maxHeight is set.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>parentWidth</code></td>
+            
+
+            <td class="type">
+            
+                number
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+    
+
+        <tr>
+            
+                <td class="name"><code>parentHeight</code></td>
+            
+
+            <td class="type">
+            
+                number
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
     
 
     
@@ -919,7 +1176,7 @@
 
         <footer class="content-size">
             <div class="footer">
-                Documentation generated by <a href="https://github.com/webdoc-js/webdoc">Webdoc 1</a> on Wed Mar 29 2023 18:22:26 GMT+0000 (Coordinated Universal Time)
+                Documentation generated by <a href="https://github.com/webdoc-js/webdoc">Webdoc 1</a> on Thu Mar 30 2023 16:45:41 GMT+0000 (Coordinated Universal Time)
             </div>
         </footer>
     </div>
