@@ -5,7 +5,7 @@ import { isItJustAText } from '../../utils/helpers';
 /** Align controller manages {@link Layout} and it's content alignment. */
 export class AlignController
 {
-    private layout: Layout;
+    protected layout: Layout;
 
     /**
      * Creates align controller.
@@ -31,7 +31,7 @@ export class AlignController
         this.alignChildren(this.layout.width, this.layout.height);
     }
 
-    private alignChildren(parentWidth: number, parentHeight: number)
+    protected alignChildren(parentWidth: number, parentHeight: number)
     {
         let maxChildHeight = 0;
 
@@ -188,7 +188,7 @@ export class AlignController
         });
     }
 
-    private setSelfPosition(parentWidth: number, parentHeight: number)
+    protected setSelfPosition(parentWidth: number, parentHeight: number)
     {
         const { position, marginRight, marginBottom, marginTop, marginLeft } = this.layout.style || {};
 

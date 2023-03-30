@@ -7,12 +7,12 @@ import { Layout } from '../Layout';
 /** Style controller manages {@link Layout} styles. */
 export class StyleController
 {
-    private layout: Layout;
+    protected layout: Layout;
 
-    private styles: Styles = {};
+    protected styles: Styles = {};
 
     /** Holds all text related styles. This is to be nested by children */
-    private _textStyle: Partial<TextStyle> = {}; // this is to be nested by children
+    protected _textStyle: Partial<TextStyle> = {}; // this is to be nested by children
 
     /**
      * Manages and sets all the styles of {@link Layout}

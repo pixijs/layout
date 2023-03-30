@@ -8,9 +8,9 @@ import { FlexNumber, SizeControl } from '../utils/types';
 /** Size controller manages {@link Layout} and it's content size. */
 export class SizeController
 {
-    private layout: Layout;
-    private _width: number;
-    private _height: number;
+    protected layout: Layout;
+    protected _width: number;
+    protected _height: number;
 
     parentWidth = 0;
     parentHeight = 0;
@@ -309,7 +309,7 @@ export class SizeController
         this.layout.align.update(this.parentWidth, this.parentHeight);
     }
 
-    private fitInnerText(width: number)
+    protected fitInnerText(width: number)
     {
         if (!isItJustAText(this.layout))
         {
@@ -323,7 +323,7 @@ export class SizeController
     }
 
     /** Get type of size control basing on styles and in case if width of the layout is set to `auto`. */
-    private get autoSizeModificator(): SizeControl
+    protected get autoSizeModificator(): SizeControl
     {
         const { background, display } = this.layout.style;
 
@@ -349,7 +349,7 @@ export class SizeController
      * Get text element if layout is just a wrapper for a text element.
      * @returns {Text} - Pixi Text element.
      */
-    private get innerText(): Text
+    protected get innerText(): Text
     {
         if (!isItJustAText(this.layout))
         {
@@ -400,7 +400,7 @@ export class SizeController
      * @param parentWidth
      * @param parentHeight
      */
-    private fitToSize(parentWidth: number, parentHeight: number)
+    protected fitToSize(parentWidth: number, parentHeight: number)
     {
         const { maxWidth, maxHeight, minWidth, minHeight } = this.layout.style;
         const { marginLeft, marginRight, marginBottom, marginTop } = this.layout.style;
