@@ -54,8 +54,8 @@ import { TextStyle } from '@pixi/text';
  */
 export class Layout extends Container
 {
-    private bg: Graphics | Container;
-    private overflowMask: Graphics;
+    protected bg: Graphics | Container;
+    protected overflowMask: Graphics;
 
     /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
     id: string;
@@ -67,7 +67,7 @@ export class Layout extends Container
     align: AlignController;
 
     /** {@link StyleController} is a class for controlling styles. */
-    private _style: StyleController;
+    protected _style: StyleController;
 
     /** {@link ContentController} controller is a class for controlling layouts children. */
     content: ContentController;
@@ -258,7 +258,7 @@ export class Layout extends Container
      * @param {Content} content - Content to be added. Can be string, Container, Layout, LayoutOptions or array of those.
      * Also content can be an object with inner layout ids as a keys, and Content as values.
      */
-    public addContent(content: Content)
+    addContent(content: Content)
     {
         this.content.createContent(content);
         this.update();
@@ -268,7 +268,7 @@ export class Layout extends Container
      * Removes content of the layout by its id and reposition/resize other elements and the layout basing on styles.
      * @param {string} id - id of the content to be removed.
      */
-    public removeChildByID(id: string)
+    removeChildByID(id: string)
     {
         this.content.removeContent(id);
         this.update();
@@ -278,20 +278,20 @@ export class Layout extends Container
      * Get element from the layout child tree by it's ID
      * @param {string} id - id of the content to be foundS.
      */
-    public getChildByID(id: string): Layout | Container | undefined
+    getChildByID(id: string): Layout | Container | undefined
     {
         return this.content.getByID(id);
     }
 
     /** This is used in case if layout or some of it's children was changed and we need to update sizes and positions. */
-    public update()
+    update()
     {
         const rootLayout = this.getRootLayout();
 
         rootLayout.size.update();
     }
 
-    private getRootLayout(): Layout
+    protected getRootLayout(): Layout
     {
         if (this.parent && this.parent instanceof Layout)
         {
@@ -305,20 +305,20 @@ export class Layout extends Container
      * Updates the layout styles and resize/reposition it ant its children basing on new styles.
      * @param styles
      */
-    public setStyles(styles: Styles)
+    setStyles(styles: Styles)
     {
         this._style.set(styles);
         this.update();
     }
 
     /** Layout text styles. */
-    public get textStyle(): Partial<TextStyle>
+    get textStyle(): Partial<TextStyle>
     {
         return this._style.textStyle;
     }
 
     /** Layout styles. */
-    public get style(): Styles
+    get style(): Styles
     {
         return this._style.getAll();
     }

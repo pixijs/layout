@@ -13,7 +13,7 @@ type ContentType = 'layout' | 'text' | 'string' | 'container' | 'array' | 'unkno
 /** Controls all {@link Layout} children sizing. */
 export class ContentController
 {
-    private layout: Layout;
+    protected layout: Layout;
 
     /**
      * List of all children of the layout, controlled by this controller.
@@ -22,7 +22,7 @@ export class ContentController
      * config thought constructor of {@link ContentController} or using
      * `addContent` method will be managed by this controller.
      */
-    public children: Map<string, Container> = new Map();
+    children: Map<string, Container> = new Map();
 
     /**
      * Creates all instances and manages configs
@@ -42,7 +42,7 @@ export class ContentController
      * @param {Content} content - Content of the layout
      * @param {LayoutStyles} parentGlobalStyles - Global styles for layout and it's children
      */
-    public createContent(content?: Content, parentGlobalStyles?: LayoutStyles)
+    createContent(content?: Content, parentGlobalStyles?: LayoutStyles)
     {
         if (!content) return;
 
@@ -185,7 +185,7 @@ export class ContentController
      * @param {string} id - ID of the element.
      * @param {Container } content - pixi container instance to be added.
      */
-    public addContentElement(id: string, content: Container)
+    addContentElement(id: string, content: Container)
     {
         if (id && this.children.has(id))
         {
@@ -200,7 +200,7 @@ export class ContentController
      * Get first child of the layout
      * @returns {Container} - First child of the layout
      */
-    public get firstChild(): Container
+    get firstChild(): Container
     {
         return this.children.get(this.children.keys().next().value);
     }
@@ -210,7 +210,7 @@ export class ContentController
      * @param width
      * @param height
      */
-    public resize(width: number, height: number)
+    resize(width: number, height: number)
     {
         this.children.forEach((child) =>
         {
@@ -221,7 +221,7 @@ export class ContentController
         });
     }
 
-    private get newID(): string
+    protected get newID(): string
     {
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
@@ -230,7 +230,7 @@ export class ContentController
      * Get element from the layout child tree by it's ID
      * @param id
      */
-    public getByID(id: string): Layout | Container | undefined
+    getByID(id: string): Layout | Container | undefined
     {
         let result = this.children.get(id);
 
@@ -253,7 +253,7 @@ export class ContentController
         return result;
     }
 
-    private getContentType(content: Content): ContentType
+    protected getContentType(content: Content): ContentType
     {
         if (typeof content === 'string') return 'string';
 
@@ -286,7 +286,7 @@ export class ContentController
      * Removes content by its id.
      * @param id
      */
-    public removeContent(id: string)
+    removeContent(id: string)
     {
         const content = this.getByID(id);
 
