@@ -93,7 +93,7 @@ class LayoutStory
             }
         });
 
-        const iconsLayout: Layout = this.layout.content.getByID('icons') as Layout;
+        const iconsLayout: any = this.layout.getChildByID('icons');
 
         addButton.onPress.connect(() =>
         {

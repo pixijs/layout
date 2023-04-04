@@ -229,33 +229,29 @@ export class ContentController
 
     /**
      * Get element from the layout child tree by it's ID
-     * @param _id
+     * @param id
      */
-    getByID(_id: string): LayoutSystem | Container | undefined
+    getByID(id: string): Container | undefined
     {
-        return undefined;
+        let result: Container = this.children.get(id);
 
-        // TODO: fix this
+        if (!result)
+        {
+            this.children.forEach((child: Container) =>
+            {
+                if (child.layout)
+                {
+                    const res = child.layout.getChildByID(id);
 
-        // let result = this.children.get(id);
+                    if (res)
+                    {
+                        result = res as Container;
+                    }
+                }
+            });
+        }
 
-        // if (!result)
-        // {
-        //     this.children.forEach((child) =>
-        //     {
-        //         if (child.layout)
-        //         {
-        //             const res = child.content.getByID(id);
-
-        //             if (res)
-        //             {
-        //                 result = res;
-        //             }
-        //         }
-        //     });
-        // }
-
-    // return result;
+        return result;
     }
 
     protected getContentType(content: Content): ContentType
@@ -289,16 +285,16 @@ export class ContentController
 
     /**
      * Removes content by its id.
-     * @param _id
+     * @param id
      */
-    removeContent(_id: string)
+    removeContent(id: string)
     {
-    // TODO: fix this
-    // const content = this.getByID(id);
-    // if (content)
-    // {
-    //     this.layout.container.removeChild(content.container);
-    //     this.children.delete(id);
-    // }
+        const content = this.getByID(id);
+
+        if (content)
+        {
+            this.layout.container.removeChild(content);
+            this.children.delete(id);
+        }
     }
 }

@@ -142,7 +142,7 @@ export class LayoutSystem
      * Get element from the layout child tree by it's ID
      * @param {string} id - id of the content to be foundS.
      */
-    getChildByID(id: string): LayoutSystem | Container | undefined
+    getChildByID(id: string): Container | undefined
     {
         return this.content.getByID(id);
     }
@@ -234,7 +234,7 @@ export class Layout extends Container
      * Get element from the layout child tree by it's ID
      * @param {string} id - id of the content to be foundS.
      */
-    getChildByID(id: string): LayoutSystem | Container | undefined
+    getChildByID(id: string): Container | undefined
     {
         return this.layout.getChildByID(id);
     }
