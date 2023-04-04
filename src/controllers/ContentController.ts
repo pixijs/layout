@@ -57,6 +57,7 @@ export class ContentController
                 this.addContentElement(layout.id, layout.container);
                 break;
             case 'container':
+                // TODO: review this, container can already have a layout
                 this.addContentElement(`container-${customID}`, content as Container);
                 break;
             case 'string':
@@ -261,7 +262,7 @@ export class ContentController
     {
         if (typeof content === 'string') return 'string';
 
-        if ((content as Container).layout) return 'layout';
+        if (content instanceof Layout) return 'layout';
 
         if (content instanceof Text) return 'text';
 
