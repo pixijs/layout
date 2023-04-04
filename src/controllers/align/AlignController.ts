@@ -118,15 +118,17 @@ export class AlignController
             let childMarginTop = 0;
             let childMarginBottom = 0;
 
-            if (child instanceof LayoutSystem)
+            if (child.layout)
             {
-                childDisplay = child.style.display;
-                const childPosition = child.style.position;
+                const { style } = child.layout;
 
-                childMarginLeft = child.style.marginLeft;
-                childMarginRight = child.style.marginRight;
-                childMarginTop = child.style.marginTop;
-                childMarginBottom = child.style.marginBottom;
+                childDisplay = style.display;
+                const childPosition = style.position;
+
+                childMarginLeft = style.marginLeft;
+                childMarginRight = style.marginRight;
+                childMarginTop = style.marginTop;
+                childMarginBottom = style.marginBottom;
 
                 if (childPosition !== undefined)
                 {

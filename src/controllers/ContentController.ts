@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-case-declarations */
-import { LayoutSystem } from '../Layout';
+import { Layout, LayoutSystem } from '../Layout';
 import { Content, ContentList, LayoutOptions, LayoutStyles } from '../utils/types';
 import { Container } from '@pixi/display';
 import { Text } from '@pixi/text';
@@ -93,7 +93,7 @@ export class ContentController
                     layoutConfig.id = `layout-${customID}`;
                 }
 
-                this.addContentElement(layoutConfig.id, new Container().initLayout(layoutConfig));
+                this.addContentElement(layoutConfig.id, new Layout(layoutConfig));
                 break;
             case 'object':
                 const contentList = content as ContentList[];
@@ -214,9 +214,9 @@ export class ContentController
     {
         this.children.forEach((child) =>
         {
-            if (child instanceof LayoutSystem)
+            if (child.layout)
             {
-                child.resize(width, height);
+                child.layout.resize(width, height);
             }
         });
     }
@@ -261,7 +261,7 @@ export class ContentController
     {
         if (typeof content === 'string') return 'string';
 
-        if (content instanceof LayoutSystem) return 'layout';
+        if ((content as Container).layout) return 'layout';
 
         if (content instanceof Text) return 'text';
 

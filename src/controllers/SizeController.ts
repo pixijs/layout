@@ -116,9 +116,12 @@ export class SizeController
                     const { firstChild } = this.layout.content;
 
                     // add first element as at lease one element to set width
-                    if (firstChild instanceof LayoutSystem)
+                    if (firstChild.layout)
                     {
-                        childrenWidth += firstChild.width + firstChild.style.marginLeft + firstChild.style.marginRight;
+                        const { width, layout } = firstChild;
+                        const { marginLeft, marginRight } = layout.style;
+
+                        childrenWidth += width + marginLeft + marginRight;
                     }
                     else if (firstChild instanceof Container && firstChild.width)
                     {
@@ -133,14 +136,14 @@ export class SizeController
                             return;
                         }
 
-                        if (child instanceof LayoutSystem && child.style.display !== 'block')
+                        if (child.layout && child.layout.style.display !== 'block')
                         {
-                            if (child.style.position)
+                            if (child.layout.style.position)
                             {
                                 return;
                             }
 
-                            childrenWidth += child.width + child.style.marginLeft;
+                            childrenWidth += child.width + child.layout.style.marginLeft;
                         }
                         else if (child instanceof Container && child.width)
                         {
@@ -209,9 +212,9 @@ export class SizeController
                     const { firstChild } = this.layout.content;
 
                     // add first element as at lease one element to set width
-                    if (firstChild instanceof LayoutSystem)
+                    if (firstChild.layout)
                     {
-                        if (!firstChild.style.position)
+                        if (!firstChild.layout.style.position)
                         {
                             childrenHeight += firstChild.height;
                         }
@@ -229,15 +232,15 @@ export class SizeController
                             return;
                         }
 
-                        if (child instanceof LayoutSystem && child.style.position)
+                        if (child.layout && child.layout.style.position)
                         {
                             // skip absolute positioned elements
                             return;
                         }
 
-                        if (child instanceof LayoutSystem)
+                        if (child.layout)
                         {
-                            if (child.style.display === 'block')
+                            if (child.layout.style.display === 'block')
                             {
                                 childrenHeight += child.height;
                             }
@@ -269,9 +272,9 @@ export class SizeController
         }
 
         // apply parent paddings
-        if (this.layout.parent instanceof LayoutSystem)
+        if (this.layout.parent?.layout)
         {
-            const { paddingLeft, paddingRight } = this.layout.parent?.style;
+            const { paddingLeft, paddingRight } = this.layout.parent.layout.style;
 
             const parentPaddingLeft = paddingLeft ?? 0;
             const parentPaddingRight = paddingRight ?? 0;
