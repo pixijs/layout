@@ -1,4 +1,3 @@
-import { Graphics } from '@pixi/graphics';
 import { Container } from '@pixi/display';
 import { Content, LayoutOptions, Styles } from './utils/types';
 import { AlignController } from './controllers/align/AlignController';
@@ -118,42 +117,6 @@ export class LayoutSystem
         this.size.update(parentWidth, parentHeight);
     }
 
-    /** Returns with of the container */
-    get contentWidth(): number
-    {
-        return this.container.width;
-    }
-
-    /** Returns height of the container */
-    get contentHeight(): number
-    {
-        return this.container.height;
-    }
-
-    /** Sets the width of layout.  */
-    set width(value: number)
-    {
-        this.size.width = value;
-    }
-
-    /** Gets the width of layout. */
-    get width()
-    {
-        return this.size.width;
-    }
-
-    /** Sets the height of layout. */
-    set height(value: number)
-    {
-        this.size.height = value;
-    }
-
-    /** Gets the height of layout. */
-    get height()
-    {
-        return this.size.height;
-    }
-
     /**
      * Adds content to the layout and reposition/resize other elements and the layout basing on styles.
      * @param {Content} content - Content to be added. Can be string, Container, Layout, LayoutOptions or array of those.
@@ -192,16 +155,6 @@ export class LayoutSystem
         rootLayout.size.update();
     }
 
-    protected getRootLayout(): LayoutSystem
-    {
-        if (this.parent && this.parent.layout)
-        {
-            return (this.parent.layout as any).getRootLayout();
-        }
-
-        return this;
-    }
-
     get parent(): Container
     {
         return this.container.parent;
@@ -228,6 +181,16 @@ export class LayoutSystem
     {
         return this._style.getAll();
     }
+
+    protected getRootLayout(): LayoutSystem
+    {
+        if (this.parent && this.parent.layout)
+        {
+            return (this.parent.layout as any).getRootLayout();
+        }
+
+        return this;
+    }
 }
 
 export class Layout extends Container
@@ -238,8 +201,68 @@ export class Layout extends Container
         this.initLayout(options);
     }
 
+    /**
+     * Resize method should be called on every parent size change.
+     * @param parentWidth
+     * @param parentHeight
+     */
     resize(parentWidth: number, parentHeight: number)
     {
         this.layout.resize(parentWidth, parentHeight);
+    }
+
+    /**
+     * Adds content to the layout and reposition/resize other elements and the layout basing on styles.
+     * @param {Content} content - Content to be added. Can be string, Container, Layout, LayoutOptions or array of those.
+     * Also content can be an object with inner layout ids as a keys, and Content as values.
+     */
+    addContent(content: Content)
+    {
+        this.layout.addContent(content);
+    }
+
+    /**
+     * Removes content of the layout by its id and reposition/resize other elements and the layout basing on styles.
+     * @param {string} id - id of the content to be removed.
+     */
+    removeChildByID(id: string)
+    {
+        this.layout.removeChildByID(id);
+    }
+
+    /**
+     * Get element from the layout child tree by it's ID
+     * @param {string} id - id of the content to be foundS.
+     */
+    getChildByID(id: string): LayoutSystem | Container | undefined
+    {
+        return this.layout.getChildByID(id);
+    }
+
+    /** This is used in case if layout or some of it's children was changed and we need to update sizes and positions. */
+    update()
+    {
+        this.layout.update();
+    }
+
+    /**
+     * Updates the layout styles and resize/reposition it ant its children basing on new styles.
+     * @param styles
+     */
+    setStyles(styles: Styles)
+    {
+        this.layout.setStyles(styles);
+    }
+
+    /** Layout text styles. */
+    get textStyle(): Partial<TextStyle>
+    {
+        return this.layout.textStyle;
+    }
+
+    /** Layout styles. */
+    get style(): Styles
+    {
+        return this.layout.style;
     }
 }

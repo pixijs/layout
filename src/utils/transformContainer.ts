@@ -2,8 +2,6 @@ import { Container } from '@pixi/display';
 import { LayoutOptions } from './types';
 import { LayoutSystem } from '../Layout';
 
-console.log('It works!');
-
 if (!Container.prototype.initLayout)
 {
     Object.defineProperty(Container.prototype, 'initLayout', {

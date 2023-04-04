@@ -44,7 +44,6 @@ export class ContentController
      */
     createContent(content?: Content, parentGlobalStyles?: LayoutStyles)
     {
-    // console.log('createContent', content, parentGlobalStyles);
         if (!content) return;
 
         const contentType = this.getContentType(content);

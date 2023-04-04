@@ -25,10 +25,10 @@ export class AlignController
     {
         this.setSelfPosition(parentWidth, parentHeight);
 
-        this.layout.content.resize(this.layout.width, this.layout.height);
+        this.layout.content.resize(this.layout.container.width, this.layout.container.height);
 
         // !!! important to align children AFTER content resize
-        this.alignChildren(this.layout.width, this.layout.height);
+        this.alignChildren(this.layout.container.width, this.layout.container.height);
     }
 
     protected alignChildren(parentWidth: number, parentHeight: number)
@@ -141,8 +141,8 @@ export class AlignController
             if (style.position === undefined)
             {
                 // if position is set, anchor will be handled in setSelfPosition method
-                anchorX = style.anchorX !== undefined ? style.anchorX * this.layout.width : 0;
-                anchorY = style.anchorY !== undefined ? style.anchorY * this.layout.height : 0;
+                anchorX = style.anchorX !== undefined ? style.anchorX * this.layout.container.width : 0;
+                anchorY = style.anchorY !== undefined ? style.anchorY * this.layout.container.height : 0;
             }
 
             child.x = x + childMarginLeft - anchorX;
@@ -198,8 +198,8 @@ export class AlignController
 
         const scaleX = this.layout.container.scale.x;
         const scaleY = this.layout.container.scale.y;
-        const width = this.layout.width * scaleX;
-        const height = this.layout.height * scaleY;
+        const width = this.layout.container.width * scaleX;
+        const height = this.layout.container.height * scaleY;
 
         const anchorX = style.anchorX;
         const anchorY = style.anchorY;

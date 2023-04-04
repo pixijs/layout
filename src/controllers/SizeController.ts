@@ -416,8 +416,8 @@ export class SizeController
         const currentScaleX = this.layout.container.scale.x;
         const currentScaleY = this.layout.container.scale.y;
 
-        const layoutWidth = this.layout.width + marginLeft + marginRight;
-        const layoutHeight = this.layout.height + marginTop + marginBottom;
+        const layoutWidth = this.layout.container.width + marginLeft + marginRight;
+        const layoutHeight = this.layout.container.height + marginTop + marginBottom;
 
         const maxWidthVal = getNumber(maxWidth, parentWidth);
         const maxHeightVal = getNumber(maxHeight, parentHeight);
