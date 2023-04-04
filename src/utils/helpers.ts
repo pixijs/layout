@@ -2,7 +2,7 @@ import { ALIGN, CSS_COLOR_NAMES } from './constants';
 import { Color, CSSColor, FlexColor, FlexNumber, Styles } from './types';
 import { utils } from '@pixi/core';
 import { TextStyle, TEXT_GRADIENT, Text } from '@pixi/text';
-import { Layout } from '../Layout';
+import { LayoutSystem } from '../Layout';
 
 export function rgba2Hex([r, g, b]: number[]): number
 {
@@ -182,9 +182,9 @@ export function stylesToPixiTextStyles(styles: Styles): Partial<TextStyle>
 
 /**
  * Detect if layout is just a wrapper for a text element.
- * @param {Layout} layout - Layout to check.
+ * @param {LayoutSystem} layout - Layout to check.
  */
-export function isItJustAText(layout: Layout): boolean
+export function isItJustAText(layout: LayoutSystem): boolean
 {
     const hasOnly1Child = layout.content.children.size === 1;
 

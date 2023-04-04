@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-case-declarations */
-import { Layout } from '../Layout';
+import { LayoutSystem } from '../Layout';
 import { Content, ContentList, LayoutOptions, LayoutStyles } from '../utils/types';
 import { Container } from '@pixi/display';
 import { Text } from '@pixi/text';
@@ -10,10 +10,10 @@ import { stylesToPixiTextStyles } from '../utils/helpers';
 
 type ContentType = 'layout' | 'text' | 'string' | 'container' | 'array' | 'unknown' | 'layoutConfig' | 'object';
 
-/** Controls all {@link Layout} children sizing. */
+/** Controls all {@link LayoutSystem} children sizing. */
 export class ContentController
 {
-    protected layout: Layout;
+    protected layout: LayoutSystem;
 
     /**
      * List of all children of the layout, controlled by this controller.
@@ -26,11 +26,11 @@ export class ContentController
 
     /**
      * Creates all instances and manages configs
-     * @param {Layout} layout - Layout instance
+     * @param {LayoutSystem} layout - Layout instance
      * @param content - Content of the layout
      * @param globalStyles - Global styles for layout and it's children
      */
-    constructor(layout: Layout, content?: Content, globalStyles?: LayoutStyles)
+    constructor(layout: LayoutSystem, content?: Content, globalStyles?: LayoutStyles)
     {
         this.layout = layout;
         this.children = new Map();
@@ -44,6 +44,7 @@ export class ContentController
      */
     createContent(content?: Content, parentGlobalStyles?: LayoutStyles)
     {
+    // console.log('createContent', content, parentGlobalStyles);
         if (!content) return;
 
         const contentType = this.getContentType(content);
@@ -52,9 +53,9 @@ export class ContentController
         switch (contentType)
         {
             case 'layout':
-                const layout = content as Layout;
+                const layout = content as LayoutSystem;
 
-                this.addContentElement(layout.id, layout);
+                this.addContentElement(layout.id, layout.container);
                 break;
             case 'container':
                 this.addContentElement(`container-${customID}`, content as Container);
@@ -93,7 +94,7 @@ export class ContentController
                     layoutConfig.id = `layout-${customID}`;
                 }
 
-                this.addContentElement(layoutConfig.id, new Layout(layoutConfig));
+                this.addContentElement(layoutConfig.id, new Container().initLayout(layoutConfig));
                 break;
             case 'object':
                 const contentList = content as ContentList[];
@@ -140,7 +141,7 @@ export class ContentController
                             this.addContentElement(idKey, textInstance);
                             break;
                         case 'layout':
-                            const layoutInstance = contentElement as Layout;
+                            const layoutInstance = contentElement as LayoutSystem;
 
                             if (parentGlobalStyles && parentGlobalStyles[idKey])
                             {
@@ -193,7 +194,7 @@ export class ContentController
         }
 
         this.children.set(id, content);
-        this.layout.addChild(content);
+        this.layout.container.addChild(content);
     }
 
     /**
@@ -214,7 +215,7 @@ export class ContentController
     {
         this.children.forEach((child) =>
         {
-            if (child instanceof Layout)
+            if (child instanceof LayoutSystem)
             {
                 child.resize(width, height);
             }
@@ -228,36 +229,40 @@ export class ContentController
 
     /**
      * Get element from the layout child tree by it's ID
-     * @param id
+     * @param _id
      */
-    getByID(id: string): Layout | Container | undefined
+    getByID(_id: string): LayoutSystem | Container | undefined
     {
-        let result = this.children.get(id);
+        return undefined;
 
-        if (!result)
-        {
-            this.children.forEach((child) =>
-            {
-                if (child instanceof Layout)
-                {
-                    const res = child.content.getByID(id);
+        // TODO: fix this
 
-                    if (res)
-                    {
-                        result = res;
-                    }
-                }
-            });
-        }
+        // let result = this.children.get(id);
 
-        return result;
+        // if (!result)
+        // {
+        //     this.children.forEach((child) =>
+        //     {
+        //         if (child.layout)
+        //         {
+        //             const res = child.content.getByID(id);
+
+        //             if (res)
+        //             {
+        //                 result = res;
+        //             }
+        //         }
+        //     });
+        // }
+
+    // return result;
     }
 
     protected getContentType(content: Content): ContentType
     {
         if (typeof content === 'string') return 'string';
 
-        if (content instanceof Layout) return 'layout';
+        if (content instanceof LayoutSystem) return 'layout';
 
         if (content instanceof Text) return 'text';
 
@@ -284,16 +289,16 @@ export class ContentController
 
     /**
      * Removes content by its id.
-     * @param id
+     * @param _id
      */
-    removeContent(id: string)
+    removeContent(_id: string)
     {
-        const content = this.getByID(id);
-
-        if (content)
-        {
-            this.layout.removeChild(content);
-            this.children.delete(id);
-        }
+    // TODO: fix this
+    // const content = this.getByID(id);
+    // if (content)
+    // {
+    //     this.layout.container.removeChild(content.container);
+    //     this.children.delete(id);
+    // }
     }
 }

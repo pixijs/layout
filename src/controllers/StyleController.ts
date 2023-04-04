@@ -2,12 +2,12 @@ import type { GradeToOne, Styles } from '../utils/types';
 import { TextStyle } from '@pixi/text';
 import { stylesToPixiTextStyles } from '../utils/helpers';
 import { OVERFLOW, VERTICAL_ALIGN } from '../utils/constants';
-import { Layout } from '../Layout';
+import { LayoutSystem } from '../Layout';
 
-/** Style controller manages {@link Layout} styles. */
+/** Style controller manages {@link LayoutSystem} styles. */
 export class StyleController
 {
-    protected layout: Layout;
+    protected layout: LayoutSystem;
 
     protected styles: Styles = {};
 
@@ -15,11 +15,11 @@ export class StyleController
     protected _textStyle: Partial<TextStyle> = {}; // this is to be nested by children
 
     /**
-     * Manages and sets all the styles of {@link Layout}
-     * @param layout - {@link Layout} to be styled
+     * Manages and sets all the styles of {@link LayoutSystem}
+     * @param layout - {@link LayoutSystem} to be styled
      * @param styles - styles to be applied
      */
-    constructor(layout: Layout, styles: Styles)
+    constructor(layout: LayoutSystem, styles: Styles)
     {
         this.layout = layout;
         this.set(styles);
@@ -130,7 +130,7 @@ export class StyleController
     set opacity(value: GradeToOne)
     {
         this.styles.opacity = value;
-        this.layout.alpha = value;
+        this.layout.container.alpha = value;
     }
 
     /** Returns the opacity of the layout */

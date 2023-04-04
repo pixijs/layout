@@ -1,7 +1,7 @@
 import { TextStyle, TextStyleAlign } from '@pixi/text';
 import { Container } from '@pixi/display';
 import { CSS_COLOR_NAMES, POSITION, DISPLAY, OVERFLOW, VERTICAL_ALIGN } from './constants';
-import { Layout } from '../Layout';
+import { LayoutSystem } from '../Layout';
 
 export type GradeToOne = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
 
@@ -18,7 +18,7 @@ export type Position = typeof POSITION[number];
 export type Display = typeof DISPLAY[number];
 
 export type ContentList = { [ID: string]: Content };
-export type Content = string | Container | Layout | LayoutOptions | Content[] | ContentList;
+export type Content = string | Container | LayoutSystem | LayoutOptions | Content[] | ContentList;
 
 export type Containers = Container[];
 export type Overflow = typeof OVERFLOW[number];

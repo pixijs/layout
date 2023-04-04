@@ -5,8 +5,6 @@ import { AlignController } from './controllers/align/AlignController';
 import { StyleController } from './controllers/StyleController';
 import { SizeController } from './controllers/SizeController';
 import { ContentController } from './controllers/ContentController';
-import { getColor } from './utils/helpers';
-import { Sprite } from '@pixi/sprite';
 import { TextStyle } from '@pixi/text';
 
 /**
@@ -52,11 +50,8 @@ import { TextStyle } from '@pixi/text';
  * 	},
  * });
  */
-export class Layout extends Container
+export class LayoutSystem
 {
-    protected bg: Graphics | Container;
-    protected overflowMask: Graphics;
-
     /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
     id: string;
 
@@ -72,17 +67,22 @@ export class Layout extends Container
     /** {@link ContentController} controller is a class for controlling layouts children. */
     content: ContentController;
 
+    /** Container instance. */
+    container: Container;
+
     /**
      * Creates layout
+     * @param container - Container to which layout will be added.
      * @param options - Layout options
      * @param options.id - ID of the layout.
      * @param options.styles - Styles of the layout. List of available styles can be found in {@link StyleController}.
      * @param options.content - Content of the layout.
      * @param options.globalStyles - Global styles for layout and it's children.
      */
-    constructor(options: LayoutOptions)
+    constructor(container: Container, options: LayoutOptions)
     {
-        super();
+        this.container = container;
+        (container as any).layout = this;
 
         this.id = options.id;
 
@@ -118,137 +118,38 @@ export class Layout extends Container
         this.size.update(parentWidth, parentHeight);
     }
 
-    /** Render and update the background of layout basing on it's current state. */
-    updateBG()
-    {
-        const { background } = this.style;
-
-        if (background instanceof Container)
-        {
-            if (background instanceof Sprite)
-            {
-                background.anchor.set(0);
-            }
-
-            this.bg = background;
-
-            this.addChildAt(this.bg, 0);
-        }
-        else
-        {
-            const color = background !== 'transparent' && getColor(background);
-
-            const { borderRadius } = this.style;
-            const { width, height } = this;
-
-            if (color && width && height)
-            {
-                if (!this.bg)
-                {
-                    this.bg = new Graphics();
-                    this.addChildAt(this.bg, 0);
-                }
-
-                let x = 0;
-                let y = 0;
-
-                const { anchorX, anchorY } = this.style;
-
-                if (anchorX !== undefined)
-                {
-                    x -= width * anchorX;
-                }
-
-                if (anchorY !== undefined)
-                {
-                    y -= height * anchorY;
-                }
-
-                if (this.bg instanceof Graphics)
-                {
-                    this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(x, y, width, height, borderRadius);
-                }
-            }
-            else if (this.bg)
-            {
-                this.removeChild(this.bg);
-                delete this.bg;
-            }
-        }
-    }
-
-    /** Render and update the mask of layout basing on it's current state. Mask is used to hide overflowing content. */
-    updateMask()
-    {
-        const { overflow, borderRadius } = this.style;
-        const { width, height } = this;
-
-        if (overflow === 'hidden' && width && height)
-        {
-            if (!this.overflowMask)
-            {
-                this.overflowMask = new Graphics();
-                this.addChild(this.overflowMask);
-            }
-
-            let x = 0;
-            let y = 0;
-
-            const { anchorX, anchorY } = this.style;
-
-            if (anchorX !== undefined)
-            {
-                x -= width * anchorX;
-            }
-
-            if (anchorY !== undefined)
-            {
-                y -= height * anchorY;
-            }
-
-            this.overflowMask.clear().beginFill(0xffffff).drawRoundedRect(x, y, width, height, borderRadius).endFill();
-
-            this.mask = this.overflowMask;
-        }
-        else
-        {
-            this.mask = null;
-            delete this.overflowMask;
-        }
-    }
-
     /** Returns with of the container */
     get contentWidth(): number
     {
-        return super.width;
+        return this.container.width;
     }
 
     /** Returns height of the container */
     get contentHeight(): number
     {
-        return super.height;
+        return this.container.height;
     }
 
     /** Sets the width of layout.  */
-    override set width(value: number)
+    set width(value: number)
     {
         this.size.width = value;
     }
 
     /** Gets the width of layout. */
-    override get width()
+    get width()
     {
         return this.size.width;
     }
 
     /** Sets the height of layout. */
-    override set height(value: number)
+    set height(value: number)
     {
         this.size.height = value;
     }
 
     /** Gets the height of layout. */
-    override get height()
+    get height()
     {
         return this.size.height;
     }
@@ -278,7 +179,7 @@ export class Layout extends Container
      * Get element from the layout child tree by it's ID
      * @param {string} id - id of the content to be foundS.
      */
-    getChildByID(id: string): Layout | Container | undefined
+    getChildByID(id: string): LayoutSystem | Container | undefined
     {
         return this.content.getByID(id);
     }
@@ -291,14 +192,19 @@ export class Layout extends Container
         rootLayout.size.update();
     }
 
-    protected getRootLayout(): Layout
+    protected getRootLayout(): LayoutSystem
     {
-        if (this.parent && this.parent instanceof Layout)
+        if (this.parent && this.parent.layout)
         {
-            return this.parent.getRootLayout();
+            return (this.parent.layout as any).getRootLayout();
         }
 
         return this;
+    }
+
+    get parent(): Container
+    {
+        return this.container.parent;
     }
 
     /**
@@ -321,5 +227,19 @@ export class Layout extends Container
     get style(): Styles
     {
         return this._style.getAll();
+    }
+}
+
+export class Layout extends Container
+{
+    constructor(options: LayoutOptions)
+    {
+        super();
+        this.initLayout(options);
+    }
+
+    resize(parentWidth: number, parentHeight: number)
+    {
+        this.layout.resize(parentWidth, parentHeight);
     }
 }

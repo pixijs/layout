@@ -1,5 +1,7 @@
+require("../src/utils/transformContainer");
+
 export const parameters = {
-    layout: 'fullscreen',
+    layout: "fullscreen",
     pixi: {
         applicationOptions: {
             backgroundAlpha: 0,
@@ -8,15 +10,15 @@ export const parameters = {
         },
     },
     backgrounds: {
-        default: 'Dark',
+        default: "Dark",
         values: [
             {
-                name: 'Dark',
-                value: '#1b1c1d',
+                name: "Dark",
+                value: "#1b1c1d",
             },
             {
-                name: 'Light',
-                value: '#dddddd',
+                name: "Light",
+                value: "#dddddd",
             },
         ],
     },

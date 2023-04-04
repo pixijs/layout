@@ -1,25 +1,33 @@
 /* eslint-disable no-case-declarations */
-import { getNumber, isItJustAText } from '../utils/helpers';
-import { Layout } from '../Layout';
+import { getColor, getNumber, isItJustAText } from '../utils/helpers';
+import { LayoutSystem } from '../Layout';
 import { Text } from '@pixi/text';
 import { Container } from '@pixi/display';
 import { FlexNumber, SizeControl } from '../utils/types';
+import { Sprite } from '@pixi/sprite';
+import { Graphics } from '@pixi/graphics';
 
-/** Size controller manages {@link Layout} and it's content size. */
+/** Size controller manages {@link LayoutSystem} and it's content size. */
 export class SizeController
 {
-    protected layout: Layout;
+    protected layout: LayoutSystem;
     protected _width: number;
     protected _height: number;
+
+    /** Container based element to render background. */
+    protected bg: Graphics | Container;
+
+    /** Graphics based element to render mask, applied to layout */
+    protected overflowMask: Graphics;
 
     parentWidth = 0;
     parentHeight = 0;
 
     /**
      * Creates size controller.
-     * @param {Layout} layout - Layout to control.
+     * @param {LayoutSystem} layout - Layout to control.
      */
-    constructor(layout: Layout)
+    constructor(layout: LayoutSystem)
     {
         this.layout = layout;
     }
@@ -62,7 +70,7 @@ export class SizeController
 
         if (width === 0 || height === 0)
         {
-            this.layout.visible = false;
+            this.layout.container.visible = false;
 
             return;
         }
@@ -108,7 +116,7 @@ export class SizeController
                     const { firstChild } = this.layout.content;
 
                     // add first element as at lease one element to set width
-                    if (firstChild instanceof Layout)
+                    if (firstChild instanceof LayoutSystem)
                     {
                         childrenWidth += firstChild.width + firstChild.style.marginLeft + firstChild.style.marginRight;
                     }
@@ -125,7 +133,7 @@ export class SizeController
                             return;
                         }
 
-                        if (child instanceof Layout && child.style.display !== 'block')
+                        if (child instanceof LayoutSystem && child.style.display !== 'block')
                         {
                             if (child.style.position)
                             {
@@ -201,7 +209,7 @@ export class SizeController
                     const { firstChild } = this.layout.content;
 
                     // add first element as at lease one element to set width
-                    if (firstChild instanceof Layout)
+                    if (firstChild instanceof LayoutSystem)
                     {
                         if (!firstChild.style.position)
                         {
@@ -221,13 +229,13 @@ export class SizeController
                             return;
                         }
 
-                        if (child instanceof Layout && child.style.position)
+                        if (child instanceof LayoutSystem && child.style.position)
                         {
                             // skip absolute positioned elements
                             return;
                         }
 
-                        if (child instanceof Layout)
+                        if (child instanceof LayoutSystem)
                         {
                             if (child.style.display === 'block')
                             {
@@ -261,7 +269,7 @@ export class SizeController
         }
 
         // apply parent paddings
-        if (this.layout.parent instanceof Layout)
+        if (this.layout.parent instanceof LayoutSystem)
         {
             const { paddingLeft, paddingRight } = this.layout.parent?.style;
 
@@ -288,7 +296,7 @@ export class SizeController
 
         if (finalWidth === 0 || finalHeight === 0)
         {
-            this.layout.visible = false;
+            this.layout.container.visible = false;
 
             return;
         }
@@ -296,15 +304,15 @@ export class SizeController
         this._width = getNumber(finalWidth, this.parentWidth);
         this._height = getNumber(finalHeight, this.parentHeight);
 
-        this.layout.scale.set(scaleX, scaleY);
+        this.layout.container.scale.set(scaleX, scaleY);
 
         if (maxWidth || maxHeight || minWidth || minHeight)
         {
             this.fitToSize(this.parentWidth, this.parentHeight);
         }
 
-        this.layout.updateBG();
-        this.layout.updateMask();
+        this.updateLayoutBG();
+        this.updateLayoutMask();
 
         this.layout.align.update(this.parentWidth, this.parentHeight);
     }
@@ -405,8 +413,8 @@ export class SizeController
         const { maxWidth, maxHeight, minWidth, minHeight } = this.layout.style;
         const { marginLeft, marginRight, marginBottom, marginTop } = this.layout.style;
 
-        const currentScaleX = this.layout.scale.x;
-        const currentScaleY = this.layout.scale.y;
+        const currentScaleX = this.layout.container.scale.x;
+        const currentScaleY = this.layout.container.scale.y;
 
         const layoutWidth = this.layout.width + marginLeft + marginRight;
         const layoutHeight = this.layout.height + marginTop + marginBottom;
@@ -455,6 +463,107 @@ export class SizeController
             finalScaleToFit = Math.max(finalMinScaleToFit, finalMinScaleToFit);
         }
 
-        this.layout.scale.set(finalScaleToFit);
+        this.layout.container.scale.set(finalScaleToFit);
+    }
+
+    /** Render and update the background of layout basing on it's current state. */
+    private updateLayoutBG()
+    {
+        const { background } = this.layout.style;
+
+        if (background instanceof Container)
+        {
+            if (background instanceof Sprite)
+            {
+                background.anchor.set(0);
+            }
+
+            this.bg = background;
+
+            this.layout.container.addChildAt(this.bg, 0);
+        }
+        else
+        {
+            const color = background !== 'transparent' && getColor(background);
+
+            const { borderRadius } = this.layout.style;
+            const { width, height } = this;
+
+            if (color && width && height)
+            {
+                if (!this.bg)
+                {
+                    this.bg = new Graphics();
+                    this.layout.container.addChildAt(this.bg, 0);
+                }
+
+                let x = 0;
+                let y = 0;
+
+                const { anchorX, anchorY } = this.layout.style;
+
+                if (anchorX !== undefined)
+                {
+                    x -= width * anchorX;
+                }
+
+                if (anchorY !== undefined)
+                {
+                    y -= height * anchorY;
+                }
+
+                if (this.bg instanceof Graphics)
+                {
+                    this.bg.clear();
+                    this.bg.beginFill(color.hex, color.opacity);
+                    this.bg.drawRoundedRect(x, y, width, height, borderRadius);
+                }
+            }
+            else if (this.bg)
+            {
+                this.layout.container.removeChild(this.bg);
+                delete this.bg;
+            }
+        }
+    }
+
+    /** Render and update the mask of layout basing on it's current state. Mask is used to hide overflowing content. */
+    private updateLayoutMask()
+    {
+        const { overflow, borderRadius } = this.layout.style;
+        const { width, height } = this;
+
+        if (overflow === 'hidden' && width && height)
+        {
+            if (!this.overflowMask)
+            {
+                this.overflowMask = new Graphics();
+                this.layout.container.addChild(this.overflowMask);
+            }
+
+            let x = 0;
+            let y = 0;
+
+            const { anchorX, anchorY } = this.layout.style;
+
+            if (anchorX !== undefined)
+            {
+                x -= width * anchorX;
+            }
+
+            if (anchorY !== undefined)
+            {
+                y -= height * anchorY;
+            }
+
+            this.overflowMask.clear().beginFill(0xffffff).drawRoundedRect(x, y, width, height, borderRadius).endFill();
+
+            this.layout.container.mask = this.overflowMask;
+        }
+        else
+        {
+            this.layout.container.mask = null;
+            delete this.overflowMask;
+        }
     }
 }
