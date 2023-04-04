@@ -52,6 +52,12 @@ class LayoutStory
                     // until it reaches 100% of its parent width or height
                     // then it will be scaled down to fit and proportionally adapt width or height accordingly
                     bg: Sprite.from(assets.bg),
+                    // this are smaller content layouts,
+                    // using the position property they will be positioned accordingly
+                    // ! as they are absolute positioned, they will not affect auto size of the parent
+                    // as "bg" layout dictates the size of the parent,
+                    // this smaller layouts will be "binded" to its size and scale
+                    // together with it when parent is scaled
                     topLeft: {
                         content: Sprite.from(assets.a1),
                         styles: {
