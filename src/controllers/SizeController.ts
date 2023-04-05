@@ -420,40 +420,48 @@ export class SizeController
 
         if (aspectRatio === 'flex')
         {
-            if (minWidthVal || maxWidthVal)
+            if (maxWidthVal && this.width > maxWidthVal)
             {
-                if (this.width > maxWidthVal)
-                {
-                    this.width = maxWidthVal;
-                }
-
-                if (this.width < minWidthVal)
-                {
-                    this.width = minWidthVal;
-                }
+                this.width = maxWidthVal;
             }
 
-            if (minHeightVal || maxHeightVal)
+            if (maxHeightVal && this.height > maxHeightVal)
             {
-                if (this.height > maxHeightVal)
-                {
-                    this.height = maxHeightVal;
-                }
+                this.height = maxHeightVal;
+            }
 
-                if (this.height < minHeightVal)
-                {
-                    this.height = minHeightVal;
-                }
+            let minWidthScale: number;
+            let minHeightScale: number;
+
+            if (minWidthVal && this.width < minWidthVal)
+            {
+                minWidthScale = this.width / minWidthVal;
+                this.width = minWidthVal;
+            }
+
+            if (minHeightVal && this.height < minHeightVal)
+            {
+                minHeightScale = this.height / minHeightVal;
+                this.height = minHeightVal;
+            }
+
+            if (minWidthScale || minHeightScale)
+            {
+                const scale = (minWidthScale && minHeightScale)
+                    ? Math.min(minWidthScale, minHeightScale)
+                    : minWidthScale ?? minHeightScale;
+
+                this.layout.scale.set(scale);
             }
 
             return;
         }
 
-        const minFitScaleX = minWidthVal / layoutWidth;
-        const minFitScaleY = minHeightVal / layoutHeight;
-
         const maxFitScaleX = maxWidthVal / layoutWidth;
         const maxFitScaleY = maxHeightVal / layoutHeight;
+
+        const minFitScaleX = minWidthVal / layoutWidth;
+        const minFitScaleY = minHeightVal / layoutHeight;
 
         let finalScaleX = currentScaleX;
         let finalScaleY = currentScaleY;

@@ -125,10 +125,13 @@ class LayoutStory
                         styles: {
                             position: 'center',
                             width: 300,
-                            maxWidth: '100%',
-                            minWidth: 240,
                             height: '100%',
-                            minHeight: 300,
+
+                            maxWidth: '100%',
+
+                            minWidth: 240,
+                            minHeight: 240,
+
                             aspectRatio: 'flex',
                         }
                     }
