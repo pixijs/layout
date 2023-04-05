@@ -62,74 +62,73 @@ class LayoutStory
                                 content: Sprite.from(assets.a1),
                                 styles: {
                                     position: 'topLeft',
-                                    maxWidth: '20%',
+                                    maxWidth: 80,
                                 }
                             },
                             topRight: {
                                 content: Sprite.from(assets.a2),
                                 styles: {
                                     position: 'topRight',
-                                    maxWidth: '20%',
+                                    maxWidth: 80,
                                 }
                             },
                             bottomLeft: {
                                 content: Sprite.from(assets.a3),
                                 styles: {
                                     position: 'bottomLeft',
-                                    maxWidth: '20%',
+                                    maxWidth: 80,
                                 }
                             },
                             bottomRight: {
                                 content: Sprite.from(assets.a4),
                                 styles: {
                                     position: 'bottomRight',
-                                    maxWidth: '20%',
+                                    maxWidth: 80,
                                 }
                             },
                             center: {
                                 content: Sprite.from(assets.a5),
                                 styles: {
                                     position: 'center',
-                                    maxWidth: '20%',
+                                    maxWidth: 80,
                                 }
                             },
                             centerTop: {
                                 content: Sprite.from(assets.a5),
                                 styles: {
                                     position: 'centerTop',
-                                    maxWidth: '20%',
+                                    maxWidth: 80,
                                 }
                             },
                             centerRight: {
                                 content: Sprite.from(assets.a1),
                                 styles: {
                                     position: 'centerRight',
-                                    maxWidth: '20%',
+                                    maxWidth: 80,
                                 }
                             },
                             centerLeft: {
                                 content: Sprite.from(assets.a2),
                                 styles: {
                                     position: 'centerLeft',
-                                    maxWidth: '20%',
+                                    maxWidth: 80,
                                 }
                             },
                             centerBottom: {
                                 content: Sprite.from(assets.a1),
                                 styles: {
                                     position: 'centerBottom',
-                                    maxWidth: '20%',
+                                    maxWidth: 80,
                                 }
                             }
                         },
                         styles: {
                             position: 'center',
-                            width: 400,
-                            height: 800,
+                            width: 300,
                             maxWidth: '100%',
-                            maxHeight: '100%',
-                            minHeight: 800,
-                            background: 'green',
+                            minWidth: 240,
+                            height: '100%',
+                            minHeight: 300,
                             aspectRatio: 'flex',
                         }
                     }
@@ -157,10 +156,10 @@ class LayoutStory
     }
 }
 
-export const GameLayout = (params: any) => new LayoutStory(params);
+export const ContainAndPosition = (params: any) => new LayoutStory(params);
 
 export default {
-    title: 'Complex',
+    title: 'Fit',
     argTypes: argTypes(args),
     args: getDefaultArgs(args)
 };

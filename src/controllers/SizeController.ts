@@ -57,7 +57,8 @@ export class SizeController
             paddingLeft,
             paddingRight,
             paddingTop,
-            paddingBottom
+            paddingBottom,
+            aspectRatio
         } = this.layout.style;
 
         if (width === 0 || height === 0)
@@ -298,7 +299,7 @@ export class SizeController
 
         this.layout.scale.set(scaleX, scaleY);
 
-        if (maxWidth || maxHeight || minWidth || minHeight)
+        if (aspectRatio === 'flex' || maxWidth || maxHeight || minWidth || minHeight)
         {
             this.fitToSize(this.parentWidth, this.parentHeight);
         }
@@ -402,7 +403,7 @@ export class SizeController
      */
     protected fitToSize(parentWidth: number, parentHeight: number)
     {
-        const { maxWidth, maxHeight, minWidth, minHeight } = this.layout.style;
+        const { maxWidth, maxHeight, minWidth, minHeight, aspectRatio } = this.layout.style;
         const { marginLeft, marginRight, marginBottom, marginTop } = this.layout.style;
 
         const currentScaleX = this.layout.scale.x;
@@ -416,6 +417,37 @@ export class SizeController
 
         const minWidthVal = getNumber(minWidth, parentWidth);
         const minHeightVal = getNumber(minHeight, parentHeight);
+
+        if (aspectRatio === 'flex')
+        {
+            if (minWidthVal || maxWidthVal)
+            {
+                if (this.width > maxWidthVal)
+                {
+                    this.width = maxWidthVal;
+                }
+
+                if (this.width < minWidthVal)
+                {
+                    this.width = minWidthVal;
+                }
+            }
+
+            if (minHeightVal || maxHeightVal)
+            {
+                if (this.height > maxHeightVal)
+                {
+                    this.height = maxHeightVal;
+                }
+
+                if (this.height < minHeightVal)
+                {
+                    this.height = minHeightVal;
+                }
+            }
+
+            return;
+        }
 
         const minFitScaleX = minWidthVal / layoutWidth;
         const minFitScaleY = minHeightVal / layoutHeight;
