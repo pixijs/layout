@@ -102,6 +102,8 @@ export class StyleController
         this.styles.position = styles?.position ?? this.styles.position;
         this.styles.verticalAlign = styles?.verticalAlign ?? this.styles.verticalAlign ?? VERTICAL_ALIGN[0];
 
+        this.styles.aspectRatio = styles?.aspectRatio ?? this.styles.aspectRatio ?? 'static';
+
         this._textStyle = stylesToPixiTextStyles(styles);
     }
 

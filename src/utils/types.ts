@@ -23,6 +23,8 @@ export type Content = string | Container | Layout | LayoutOptions | Content[] | 
 export type Containers = Container[];
 export type Overflow = typeof OVERFLOW[number];
 
+export type AspectRatio = 'static' | 'flex';
+
 export type Styles = Partial<TextStyle> & {
     background?: FlexColor | Container | string;
     backgroundColor?: FlexColor;
@@ -57,6 +59,7 @@ export type Styles = Partial<TextStyle> & {
     anchor?: GradeToOne;
     anchorX?: GradeToOne;
     anchorY?: GradeToOne;
+    aspectRatio?: AspectRatio;
 };
 
 export type LayoutStyles = {
