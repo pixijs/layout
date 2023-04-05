@@ -5,7 +5,7 @@ import { Layout } from '../Layout';
 if (!Container.prototype.initLayout)
 {
     Object.defineProperty(Container.prototype, 'initLayout', {
-        value(options: LayoutOptions): void
+        value(options?: LayoutOptions): void
         {
             if (!this.layout)
             {
