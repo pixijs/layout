@@ -80,13 +80,13 @@ export class Layout extends Container
      * @param options.content - Content of the layout.
      * @param options.globalStyles - Global styles for layout and it's children.
      */
-    constructor(options: LayoutOptions)
+    constructor(options?: LayoutOptions)
     {
         super();
 
-        this.id = options.id;
+        this.id = options?.id;
 
-        if (options.globalStyles)
+        if (options?.globalStyles)
         {
             // check if there is a global style for this layout
             const styles = options.globalStyles[this.id];
@@ -102,10 +102,10 @@ export class Layout extends Container
         }
 
         // order here is important as controllers are dependent on each other
-        this._style = new StyleController(this, options.styles);
+        this._style = new StyleController(this, options?.styles);
         this.size = new SizeController(this);
         this.align = new AlignController(this);
-        this.content = new ContentController(this, options.content, options.globalStyles);
+        this.content = new ContentController(this, options?.content, options?.globalStyles);
     }
 
     /**

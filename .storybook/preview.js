@@ -1,3 +1,5 @@
+require("../src/utils/transformContainer");
+
 export const parameters = {
     layout: 'fullscreen',
     pixi: {

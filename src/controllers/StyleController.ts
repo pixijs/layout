@@ -19,10 +19,13 @@ export class StyleController
      * @param layout - {@link Layout} to be styled
      * @param styles - styles to be applied
      */
-    constructor(layout: Layout, styles: Styles)
+    constructor(layout: Layout, styles?: Styles)
     {
         this.layout = layout;
-        this.set(styles);
+        if (styles)
+        {
+            this.set(styles);
+        }
     }
 
     /**
