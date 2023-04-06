@@ -323,3 +323,29 @@ export class Layout extends Container
         return this._style.getAll();
     }
 }
+
+declare module '@pixi/display/lib/Container'
+{
+    interface Container
+    {
+        initLayout(config?: LayoutOptions): void;
+        layout?: Layout;
+    }
+}
+
+if (!Container.prototype.initLayout)
+{
+    Object.defineProperty(Container.prototype, 'initLayout', {
+        value(options?: LayoutOptions): void
+        {
+            if (!this.layout)
+            {
+                this.layout = new Layout(options);
+
+                this.addChild(this.layout);
+            }
+
+            return this;
+        }
+    });
+}
