@@ -1,4 +1,4 @@
-import { LayoutContainer } from '../../Layout';
+import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { preloadAssets } from '../utils/helpers';
@@ -29,8 +29,8 @@ const args = {
 
 class LayoutStory
 {
-    private layout: LayoutContainer;
-    private toolTip: LayoutContainer;
+    private layout: Layout;
+    private toolTip: Layout;
     view = new Container();
     w: number;
     h: number;
@@ -50,7 +50,7 @@ class LayoutStory
         textAlign,
     }: any)
     {
-        this.layout = new LayoutContainer({
+        this.layout = new Layout({
             id: 'root',
             content: {
                 text: {

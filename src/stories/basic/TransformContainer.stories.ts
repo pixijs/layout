@@ -3,6 +3,7 @@ import { Container } from '@pixi/display';
 import { CSS_COLOR_NAMES, LOREM_TEXT, POSITION, ALIGN } from '../../utils/constants';
 import { toolTip } from '../components/ToolTip';
 import { Layout } from '../../Layout';
+import { preloadAssets } from '../utils/helpers';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 
@@ -23,6 +24,7 @@ const args = {
 class LayoutStory
 {
     private toolTip: Layout;
+    private layoutContainer: Container;
     view: Container;
     w: number;
     h: number;
@@ -41,14 +43,16 @@ class LayoutStory
         position
     }: any)
     {
+        this.view = new Container();
+
         this.addTooltip(`Shows you how to turn any Container into a Layout.\n`
             + `Same works for any other Container based element like Sprite or Graphics.\n`);
 
-        this.view = new Container();
+        this.layoutContainer = new Container().initLayout();
 
-        this.view.initLayout();
+        this.view.addChild(this.layoutContainer);
 
-        this.view.layout?.setStyles({
+        this.layoutContainer.layout?.setStyles({
             background: backgroundColor,
             width: `${width}%`,
             height: `${height}%`,
@@ -63,7 +67,7 @@ class LayoutStory
             borderRadius
         });
 
-        this.view.layout?.addContent(LOREM_TEXT);
+        this.layoutContainer.layout?.addContent(LOREM_TEXT);
 
         this.resize(window.innerWidth, window.innerHeight);
     }
@@ -80,7 +84,7 @@ class LayoutStory
         this.w = w;
         this.h = h;
 
-        this.view.layout?.resize(w, h);
+        this.layoutContainer?.layout?.resize(w, h);
         this.toolTip?.resize(w, h);
     }
 }

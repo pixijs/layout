@@ -1,8 +1,8 @@
-import { LayoutContainer } from '../../Layout';
+import { Layout } from '../../Layout';
 import { FancyButton } from '@pixi/ui';
 import { preloadAssets } from '../utils/helpers';
 
-export async function toolTip(text: string): Promise<LayoutContainer>
+export async function toolTip(text: string): Promise<Layout>
 {
     const assets = {
         closeIcon: 'Icons/CloseIcon.png'
@@ -15,7 +15,7 @@ export async function toolTip(text: string): Promise<LayoutContainer>
         scale: 0.3
     });
 
-    const layout = new LayoutContainer({
+    const layout = new Layout({
         content: [
             {
                 content: text,
