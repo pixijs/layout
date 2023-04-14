@@ -1,4 +1,4 @@
-import { LayoutContainer, LayoutSystem } from '../../Layout';
+import { Layout, LayoutSystem } from '../../Layout';
 import { Text } from '@pixi/text';
 import { isItJustAText } from '../../utils/helpers';
 
@@ -118,7 +118,7 @@ export class AlignController
             let childMarginTop = 0;
             let childMarginBottom = 0;
 
-            if (child instanceof LayoutContainer)
+            if (child instanceof Layout)
             {
                 childDisplay = child.style.display;
                 const childPosition = child.style.position;

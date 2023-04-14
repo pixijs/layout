@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-case-declarations */
-import { LayoutContainer, LayoutSystem } from '../Layout';
+import { Layout, LayoutSystem } from '../Layout';
 import { Content, ContentList, LayoutOptions, LayoutStyles } from '../utils/types';
 import { Container } from '@pixi/display';
 import { Text } from '@pixi/text';
@@ -60,7 +60,7 @@ export class ContentController
         switch (contentType)
         {
             case 'layout':
-                const layout = content as LayoutContainer;
+                const layout = content as Layout;
 
                 this.addContentElement(layout.id, layout);
                 break;
@@ -101,7 +101,7 @@ export class ContentController
                     layoutConfig.id = `layout-${customID}`;
                 }
 
-                this.addContentElement(layoutConfig.id, new LayoutContainer(layoutConfig));
+                this.addContentElement(layoutConfig.id, new Layout(layoutConfig));
                 break;
             case 'object':
                 const contentList = content as ContentList[];
@@ -148,7 +148,7 @@ export class ContentController
                             this.addContentElement(idKey, textInstance);
                             break;
                         case 'layout':
-                            const layoutInstance = contentElement as LayoutContainer;
+                            const layoutInstance = contentElement as Layout;
 
                             if (parentGlobalStyles && parentGlobalStyles[idKey])
                             {
@@ -224,7 +224,7 @@ export class ContentController
     {
         this.children.forEach((child) =>
         {
-            if (child instanceof LayoutContainer)
+            if (child instanceof Layout)
             {
                 child.resize(width, height);
             }
@@ -267,7 +267,7 @@ export class ContentController
     {
         if (typeof content === 'string') return 'string';
 
-        if (content instanceof LayoutContainer) return 'layout';
+        if (content instanceof Layout) return 'layout';
 
         if (content instanceof Text) return 'text';
 

@@ -292,7 +292,7 @@ export class LayoutSystem
      * Get element from the layout child tree by it's ID
      * @param {string} id - id of the content to be foundS.
      */
-    getChildByID(id: string): LayoutContainer | Container | undefined
+    getChildByID(id: string): Layout | Container | undefined
     {
         return this.content.getByID(id);
     }
@@ -339,7 +339,7 @@ export class LayoutSystem
 }
 
 /** Container with layout system initiated. */
-export class LayoutContainer extends Container
+export class Layout extends Container
 {
     override layout: LayoutSystem;
 
@@ -348,6 +348,24 @@ export class LayoutContainer extends Container
         super();
 
         this.layout = new LayoutSystem(options, this);
+    }
+
+    /** Get {@link SizeController} */
+    get size(): SizeController
+    {
+        return this.layout.size;
+    }
+
+    /** {@link AlignController} */
+    get align(): AlignController
+    {
+        return this.layout.align;
+    }
+
+    /** {@link ContentController} */
+    get content(): ContentController
+    {
+        return this.layout.content;
     }
 
     /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
@@ -360,6 +378,18 @@ export class LayoutContainer extends Container
     set id(value: string)
     {
         this.layout.id = value;
+    }
+
+    /** Returns with of the container */
+    get contentWidth(): number | undefined
+    {
+        return this.layout.contentWidth;
+    }
+
+    /** Returns height of the container */
+    get contentHeight(): number | undefined
+    {
+        return this.layout.contentHeight;
     }
 
     /** Set the width of layout.  */
@@ -409,7 +439,7 @@ export class LayoutContainer extends Container
      * Get element from the layout system children tree by it's ID
      * @param {string} id - id of the content to be foundS.
      */
-    getChildByID(id: string): LayoutContainer | Container | undefined
+    getChildByID(id: string): Layout | Container | undefined
     {
         return this.layout.getChildByID(id);
     }
@@ -445,8 +475,6 @@ export class LayoutContainer extends Container
         this.layout.resize(parentWidth, parentHeight);
     }
 }
-
-export class Layout extends LayoutContainer {}
 
 declare module '@pixi/display/lib/Container'
 {
