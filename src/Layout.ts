@@ -170,10 +170,7 @@ export class LayoutSystem
 
                 if (this.bg instanceof Graphics)
                 {
-                    this.bg
-                        .clear()
-                        .beginFill(color.hex, color.opacity)
-                        .drawRoundedRect(x, y, width, height, borderRadius);
+                    this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(x, y, width, height, borderRadius);
                 }
             }
             else if (this.bg)
@@ -213,11 +210,7 @@ export class LayoutSystem
                 y -= height * anchorY;
             }
 
-            this.overflowMask
-                .clear()
-                .beginFill(0xffffff)
-                .drawRoundedRect(x, y, width, height, borderRadius)
-                .endFill();
+            this.overflowMask.clear().beginFill(0xffffff).drawRoundedRect(x, y, width, height, borderRadius).endFill();
 
             this.container.mask = this.overflowMask;
         }
@@ -473,6 +466,6 @@ if (!Container.prototype.initLayout)
             }
 
             return this;
-        },
+        }
     });
 }

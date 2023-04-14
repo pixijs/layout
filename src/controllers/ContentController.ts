@@ -101,7 +101,7 @@ export class ContentController
                     layoutConfig.id = `layout-${customID}`;
                 }
 
-                this.addContentElement(layoutConfig.id, new Container().initLayout(layoutConfig));
+                this.addContentElement(layoutConfig.id, new LayoutContainer(layoutConfig));
                 break;
             case 'object':
                 const contentList = content as ContentList[];
@@ -224,7 +224,7 @@ export class ContentController
     {
         this.children.forEach((child) =>
         {
-            if (child instanceof LayoutSystem)
+            if (child instanceof LayoutContainer)
             {
                 child.resize(width, height);
             }
