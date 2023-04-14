@@ -59,6 +59,7 @@ export class SizeController
             paddingTop,
             paddingBottom,
             aspectRatio,
+            position,
         } = this.layout.style;
 
         if (width === 0 || height === 0)
@@ -111,12 +112,12 @@ export class SizeController
                     const { firstChild } = this.layout.content;
 
                     // add first element as at lease one element to set width
-                    if (firstChild instanceof LayoutSystem)
+                    if (firstChild && firstChild.layout)
                     {
                         childrenWidth
                             += firstChild.width
-                            + firstChild.style.marginLeft
-                            + firstChild.style.marginRight;
+                            + firstChild.layout.style.marginLeft
+                            + firstChild.layout.style.marginRight;
                     }
                     else if (firstChild instanceof Container && firstChild.width)
                     {
@@ -131,14 +132,14 @@ export class SizeController
                             return;
                         }
 
-                        if (child instanceof LayoutSystem && child.style.display !== 'block')
+                        if (child.layout && child.layout.style.display !== 'block')
                         {
-                            if (child.style.position)
+                            if (child.layout.style.position)
                             {
                                 return;
                             }
 
-                            childrenWidth += child.width + child.style.marginLeft;
+                            childrenWidth += child.width + child.layout.style.marginLeft;
                         }
                         else if (child instanceof Container && child.width)
                         {
@@ -208,9 +209,9 @@ export class SizeController
                     const { firstChild } = this.layout.content;
 
                     // add first element as at lease one element to set width
-                    if (firstChild instanceof LayoutSystem)
+                    if (firstChild && firstChild.layout)
                     {
-                        if (!firstChild.style.position)
+                        if (!firstChild.layout.style.position)
                         {
                             childrenHeight += firstChild.height;
                         }
@@ -228,15 +229,15 @@ export class SizeController
                             return;
                         }
 
-                        if (child instanceof LayoutSystem && child.style.position)
+                        if (child.layout && child.layout.style.position)
                         {
                             // skip absolute positioned elements
                             return;
                         }
 
-                        if (child instanceof LayoutSystem)
+                        if (child.layout)
                         {
-                            if (child.style.display === 'block')
+                            if (child.layout.style.display === 'block')
                             {
                                 childrenHeight += child.height;
                             }
@@ -268,7 +269,7 @@ export class SizeController
         }
 
         // apply parent paddings
-        if (this.layout.container.parent?.layout)
+        if (this.layout.container.parent?.layout && !position)
         {
             const { paddingLeft, paddingRight } = this.layout.container.parent?.layout.style;
 

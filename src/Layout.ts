@@ -292,7 +292,7 @@ export class LayoutSystem
      * Get element from the layout child tree by it's ID
      * @param {string} id - id of the content to be foundS.
      */
-    getChildByID(id: string): LayoutSystem | Container | undefined
+    getChildByID(id: string): LayoutContainer | Container | undefined
     {
         return this.content.getByID(id);
     }
@@ -302,17 +302,17 @@ export class LayoutSystem
     {
         const rootLayout = this.getRootLayout();
 
-        rootLayout.size.update();
+        rootLayout.layout.size.update();
     }
 
-    protected getRootLayout(): LayoutSystem
+    protected getRootLayout(): Container
     {
-        if (this.container.parent && this.container.parent.layout)
+        if (this.container.parent?.layout)
         {
             return this.container.parent.layout.getRootLayout();
         }
 
-        return this;
+        return this.container;
     }
 
     /**
@@ -409,7 +409,7 @@ export class LayoutContainer extends Container
      * Get element from the layout system children tree by it's ID
      * @param {string} id - id of the content to be foundS.
      */
-    getChildByID(id: string): LayoutSystem | Container | undefined
+    getChildByID(id: string): LayoutContainer | Container | undefined
     {
         return this.layout.getChildByID(id);
     }

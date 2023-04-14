@@ -248,9 +248,9 @@ export class ContentController
         {
             this.children.forEach((child) =>
             {
-                if (child instanceof LayoutSystem)
+                if (child.layout)
                 {
-                    const res = child.content.getByID(id);
+                    const res = child.layout.content.getByID(id);
 
                     if (res)
                     {

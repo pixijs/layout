@@ -1,4 +1,4 @@
-import { Layout } from '../../Layout';
+import { LayoutContainer } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { toolTip } from '../components/ToolTip';
@@ -21,8 +21,8 @@ const args = {
 
 class LayoutStory
 {
-    private layout: Layout;
-    private toolTip: Layout;
+    private layout: LayoutContainer;
+    private toolTip: LayoutContainer;
     view = new Container();
     w: number;
     h: number;
@@ -47,7 +47,7 @@ class LayoutStory
             content.push(Sprite.from(assets[image]));
         }
 
-        this.layout = new Layout({
+        this.layout = new LayoutContainer({
             id: 'root',
             content,
             styles: {
