@@ -52,10 +52,13 @@ import { TextStyle } from '@pixi/text';
  * 	},
  * });
  */
-export class Layout extends Container
+export class LayoutSystem
 {
     protected bg: Graphics | Container;
     protected overflowMask: Graphics;
+
+    /** Container for all layout children. */
+    container: Container;
 
     /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
     id: string;
@@ -79,10 +82,11 @@ export class Layout extends Container
      * @param options.styles - Styles of the layout. List of available styles can be found in {@link StyleController}.
      * @param options.content - Content of the layout.
      * @param options.globalStyles - Global styles for layout and it's children.
+     * @param container
      */
-    constructor(options?: LayoutOptions)
+    constructor(options?: LayoutOptions, container?: Container)
     {
-        super();
+        this.container = container || new Container();
 
         this.id = options?.id;
 
@@ -132,7 +136,7 @@ export class Layout extends Container
 
             this.bg = background;
 
-            this.addChildAt(this.bg, 0);
+            this.container.addChildAt(this.bg, 0);
         }
         else
         {
@@ -146,7 +150,7 @@ export class Layout extends Container
                 if (!this.bg)
                 {
                     this.bg = new Graphics();
-                    this.addChildAt(this.bg, 0);
+                    this.container.addChildAt(this.bg, 0);
                 }
 
                 let x = 0;
@@ -166,12 +170,15 @@ export class Layout extends Container
 
                 if (this.bg instanceof Graphics)
                 {
-                    this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(x, y, width, height, borderRadius);
+                    this.bg
+                        .clear()
+                        .beginFill(color.hex, color.opacity)
+                        .drawRoundedRect(x, y, width, height, borderRadius);
                 }
             }
             else if (this.bg)
             {
-                this.removeChild(this.bg);
+                this.container.removeChild(this.bg);
                 delete this.bg;
             }
         }
@@ -188,7 +195,7 @@ export class Layout extends Container
             if (!this.overflowMask)
             {
                 this.overflowMask = new Graphics();
-                this.addChild(this.overflowMask);
+                this.container.addChild(this.overflowMask);
             }
 
             let x = 0;
@@ -206,49 +213,63 @@ export class Layout extends Container
                 y -= height * anchorY;
             }
 
-            this.overflowMask.clear().beginFill(0xffffff).drawRoundedRect(x, y, width, height, borderRadius).endFill();
+            this.overflowMask
+                .clear()
+                .beginFill(0xffffff)
+                .drawRoundedRect(x, y, width, height, borderRadius)
+                .endFill();
 
-            this.mask = this.overflowMask;
+            this.container.mask = this.overflowMask;
         }
         else
         {
-            this.mask = null;
+            this.container.mask = null;
             delete this.overflowMask;
         }
     }
 
     /** Returns with of the container */
-    get contentWidth(): number
+    get contentWidth(): number | undefined
     {
-        return super.width;
+        if (!this.container?.parent)
+        {
+            return undefined;
+        }
+
+        return this.container.parent.width;
     }
 
     /** Returns height of the container */
-    get contentHeight(): number
+    get contentHeight(): number | undefined
     {
-        return super.height;
+        if (!this.container?.parent)
+        {
+            return undefined;
+        }
+
+        return this.container.parent.height;
     }
 
     /** Sets the width of layout.  */
-    override set width(value: number)
+    set width(value: number)
     {
         this.size.width = value;
     }
 
     /** Gets the width of layout. */
-    override get width()
+    get width()
     {
         return this.size.width;
     }
 
     /** Sets the height of layout. */
-    override set height(value: number)
+    set height(value: number)
     {
         this.size.height = value;
     }
 
     /** Gets the height of layout. */
-    override get height()
+    get height()
     {
         return this.size.height;
     }
@@ -278,7 +299,7 @@ export class Layout extends Container
      * Get element from the layout child tree by it's ID
      * @param {string} id - id of the content to be foundS.
      */
-    getChildByID(id: string): Layout | Container | undefined
+    getChildByID(id: string): LayoutSystem | Container | undefined
     {
         return this.content.getByID(id);
     }
@@ -291,18 +312,18 @@ export class Layout extends Container
         rootLayout.size.update();
     }
 
-    protected getRootLayout(): Layout
+    protected getRootLayout(): LayoutSystem
     {
-        if (this.parent && this.parent instanceof Layout)
+        if (this.container.parent && this.container.parent.layout)
         {
-            return this.parent.getRootLayout();
+            return this.container.parent.layout.getRootLayout();
         }
 
         return this;
     }
 
     /**
-     * Updates the layout styles and resize/reposition it ant its children basing on new styles.
+     * Updates the layout styles and resize/reposition it and its children basing on new styles.
      * @param styles
      */
     setStyles(styles: Styles)
@@ -324,12 +345,120 @@ export class Layout extends Container
     }
 }
 
+/** Container with layout system initiated. */
+export class LayoutContainer extends Container
+{
+    override layout: LayoutSystem;
+
+    constructor(options?: LayoutOptions)
+    {
+        super();
+
+        this.layout = new LayoutSystem(options, this);
+    }
+
+    /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
+    get id()
+    {
+        return this.layout.id;
+    }
+
+    /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
+    set id(value: string)
+    {
+        this.layout.id = value;
+    }
+
+    /** Set the width of layout.  */
+    override set width(value: number)
+    {
+        this.layout.width = value;
+    }
+
+    /** Get the width of layout. */
+    override get width()
+    {
+        return this.layout.width;
+    }
+
+    /** Set the height of layout. */
+    override set height(value: number)
+    {
+        this.layout.height = value;
+    }
+
+    /** Get the height of layout. */
+    override get height()
+    {
+        return this.layout.height;
+    }
+
+    /**
+     * Add content to the layout system and reposition/resize other elements and the layout basing on styles.
+     * @param {Content} content - Content to be added. Can be string, Container, Layout, LayoutOptions or array of those.
+     * Also content can be an object with inner layout ids as a keys, and Content as values.
+     */
+    addContent(content: Content)
+    {
+        this.layout.addContent(content);
+    }
+
+    /**
+     * Remove content from layout system by its id and reposition/resize other elements and the layout basing on styles.
+     * @param {string} id - id of the content to be removed.
+     */
+    removeChildByID(id: string)
+    {
+        this.layout.removeChildByID(id);
+    }
+
+    /**
+     * Get element from the layout system children tree by it's ID
+     * @param {string} id - id of the content to be foundS.
+     */
+    getChildByID(id: string): LayoutSystem | Container | undefined
+    {
+        return this.layout.getChildByID(id);
+    }
+
+    /**
+     * Updates the layout styles and resize/reposition it and its children basing on new styles.
+     * @param styles
+     */
+    setStyles(styles: Styles)
+    {
+        this.layout.setStyles(styles);
+    }
+
+    /** Layout text styles. */
+    get textStyle(): Partial<TextStyle>
+    {
+        return this.layout.textStyle;
+    }
+
+    /** Layout styles. */
+    get style(): Styles
+    {
+        return this.layout.style;
+    }
+
+    /**
+     * Resize method should be called on every parent size change.
+     * @param parentWidth
+     * @param parentHeight
+     */
+    resize(parentWidth: number, parentHeight: number)
+    {
+        this.layout.resize(parentWidth, parentHeight);
+    }
+}
+
 declare module '@pixi/display/lib/Container'
 {
     interface Container
     {
-        initLayout(config?: LayoutOptions): void;
-        layout?: Layout;
+        initLayout(config?: LayoutOptions): Container;
+        layout?: LayoutSystem;
     }
 }
 
@@ -340,12 +469,10 @@ if (!Container.prototype.initLayout)
         {
             if (!this.layout)
             {
-                this.layout = new Layout(options);
-
-                this.addChild(this.layout);
+                this.layout = new LayoutSystem(options, this);
             }
 
             return this;
-        }
+        },
     });
 }

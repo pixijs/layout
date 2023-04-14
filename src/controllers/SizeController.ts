@@ -1,14 +1,14 @@
 /* eslint-disable no-case-declarations */
 import { getNumber, isItJustAText } from '../utils/helpers';
-import { Layout } from '../Layout';
+import { LayoutSystem } from '../Layout';
 import { Text } from '@pixi/text';
 import { Container } from '@pixi/display';
 import { FlexNumber, SizeControl } from '../utils/types';
 
-/** Size controller manages {@link Layout} and it's content size. */
+/** Size controller manages {@link LayoutSystem} and it's content size. */
 export class SizeController
 {
-    protected layout: Layout;
+    protected layout: LayoutSystem;
     protected _width: number;
     protected _height: number;
 
@@ -17,9 +17,9 @@ export class SizeController
 
     /**
      * Creates size controller.
-     * @param {Layout} layout - Layout to control.
+     * @param {LayoutSystem} layout - Layout to control.
      */
-    constructor(layout: Layout)
+    constructor(layout: LayoutSystem)
     {
         this.layout = layout;
     }
@@ -58,12 +58,12 @@ export class SizeController
             paddingRight,
             paddingTop,
             paddingBottom,
-            aspectRatio
+            aspectRatio,
         } = this.layout.style;
 
         if (width === 0 || height === 0)
         {
-            this.layout.visible = false;
+            this.layout.container.visible = false;
 
             return;
         }
@@ -76,7 +76,8 @@ export class SizeController
                     // width is auto, there is only 1 child and it is text
                     // resize basing on text width
 
-                    const needToBeResized = this.innerText.width + paddingLeft + paddingRight > this.parentWidth;
+                    const needToBeResized
+                        = this.innerText.width + paddingLeft + paddingRight > this.parentWidth;
 
                     if (!this.innerText.style.wordWrap && needToBeResized)
                     {
@@ -85,7 +86,8 @@ export class SizeController
 
                     if (this.innerText.style.wordWrap)
                     {
-                        this.innerText.style.wordWrapWidth = this.parentWidth - paddingLeft - paddingRight;
+                        this.innerText.style.wordWrapWidth
+                            = this.parentWidth - paddingLeft - paddingRight;
                     }
 
                     finalWidth = this.innerText.width;
@@ -109,9 +111,12 @@ export class SizeController
                     const { firstChild } = this.layout.content;
 
                     // add first element as at lease one element to set width
-                    if (firstChild instanceof Layout)
+                    if (firstChild instanceof LayoutSystem)
                     {
-                        childrenWidth += firstChild.width + firstChild.style.marginLeft + firstChild.style.marginRight;
+                        childrenWidth
+                            += firstChild.width
+                            + firstChild.style.marginLeft
+                            + firstChild.style.marginRight;
                     }
                     else if (firstChild instanceof Container && firstChild.width)
                     {
@@ -126,7 +131,7 @@ export class SizeController
                             return;
                         }
 
-                        if (child instanceof Layout && child.style.display !== 'block')
+                        if (child instanceof LayoutSystem && child.style.display !== 'block')
                         {
                             if (child.style.position)
                             {
@@ -159,7 +164,8 @@ export class SizeController
                     if (isItJustAText(this.layout))
                     {
                         this.innerText.style.wordWrap = true;
-                        this.innerText.style.wordWrapWidth = parentWidth - paddingLeft - paddingRight;
+                        this.innerText.style.wordWrapWidth
+                            = parentWidth - paddingLeft - paddingRight;
                     }
 
                     break;
@@ -202,7 +208,7 @@ export class SizeController
                     const { firstChild } = this.layout.content;
 
                     // add first element as at lease one element to set width
-                    if (firstChild instanceof Layout)
+                    if (firstChild instanceof LayoutSystem)
                     {
                         if (!firstChild.style.position)
                         {
@@ -222,13 +228,13 @@ export class SizeController
                             return;
                         }
 
-                        if (child instanceof Layout && child.style.position)
+                        if (child instanceof LayoutSystem && child.style.position)
                         {
                             // skip absolute positioned elements
                             return;
                         }
 
-                        if (child instanceof Layout)
+                        if (child instanceof LayoutSystem)
                         {
                             if (child.style.display === 'block')
                             {
@@ -262,9 +268,9 @@ export class SizeController
         }
 
         // apply parent paddings
-        if (this.layout.parent instanceof Layout)
+        if (this.layout.container.parent?.layout)
         {
-            const { paddingLeft, paddingRight } = this.layout.parent?.style;
+            const { paddingLeft, paddingRight } = this.layout.container.parent?.layout.style;
 
             const parentPaddingLeft = paddingLeft ?? 0;
             const parentPaddingRight = paddingRight ?? 0;
@@ -289,7 +295,7 @@ export class SizeController
 
         if (finalWidth === 0 || finalHeight === 0)
         {
-            this.layout.visible = false;
+            this.layout.container.visible = false;
 
             return;
         }
@@ -297,7 +303,7 @@ export class SizeController
         this._width = getNumber(finalWidth, this.parentWidth);
         this._height = getNumber(finalHeight, this.parentHeight);
 
-        this.layout.scale.set(scaleX, scaleY);
+        this.layout.container.scale.set(scaleX, scaleY);
 
         if (aspectRatio === 'flex' || maxWidth || maxHeight || minWidth || minHeight)
         {
@@ -406,8 +412,8 @@ export class SizeController
         const { maxWidth, maxHeight, minWidth, minHeight, aspectRatio } = this.layout.style;
         const { marginLeft, marginRight, marginBottom, marginTop } = this.layout.style;
 
-        const currentScaleX = this.layout.scale.x;
-        const currentScaleY = this.layout.scale.y;
+        const currentScaleX = this.layout.container.scale.x;
+        const currentScaleY = this.layout.container.scale.y;
 
         const layoutWidth = this.layout.width + marginLeft + marginRight;
         const layoutHeight = this.layout.height + marginTop + marginBottom;
@@ -447,11 +453,12 @@ export class SizeController
 
             if (minWidthScale || minHeightScale)
             {
-                const scale = (minWidthScale && minHeightScale)
-                    ? Math.min(minWidthScale, minHeightScale)
-                    : minWidthScale ?? minHeightScale;
+                const scale
+                    = minWidthScale && minHeightScale
+                        ? Math.min(minWidthScale, minHeightScale)
+                        : minWidthScale ?? minHeightScale;
 
-                this.layout.scale.set(scale);
+                this.layout.container.scale.set(scale);
             }
 
             return;
@@ -495,6 +502,6 @@ export class SizeController
             finalScaleToFit = Math.max(finalMinScaleToFit, finalMinScaleToFit);
         }
 
-        this.layout.scale.set(finalScaleToFit);
+        this.layout.container.scale.set(finalScaleToFit);
     }
 }

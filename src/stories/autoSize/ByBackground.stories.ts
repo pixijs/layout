@@ -1,4 +1,4 @@
-import { Layout } from '../../Layout';
+import { LayoutContainer } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { preloadAssets } from '../utils/helpers';
@@ -8,29 +8,29 @@ import { ALIGN } from '../../utils/constants';
 const assets = {
     horizontal: 'Window/SmallSubstrate.png',
     vertical: 'Window/MenuWindow.png',
-    small: 'Window/Substrate.png'
+    small: 'Window/Substrate.png',
 };
 
 const args = {
     text:
-    'Background is set to sprite or other display object with width and height.\n'
-    + 'Width and height values are not set.\n'
-    + 'Display is not set, so it is "inline-block" by default.\n'
-    + 'Layout size will adapt to the background size.\n'
-    + 'Text will adapt to the layout width,\n'
-    + 'Height of text will adapt to the text height.',
+        'Background is set to sprite or other display object with width and height.\n'
+        + 'Width and height values are not set.\n'
+        + 'Display is not set, so it is "inline-block" by default.\n'
+        + 'Layout size will adapt to the background size.\n'
+        + 'Text will adapt to the layout width,\n'
+        + 'Height of text will adapt to the text height.',
     background: Object.keys(assets),
     paddingLeft: 55,
     paddingRight: 55,
     paddingTop: 55,
     paddingBottom: 55,
-    textAlign: ALIGN
+    textAlign: ALIGN,
 };
 
 class LayoutStory
 {
-    private layout: Layout;
-    private toolTip: Layout;
+    private layout: LayoutContainer;
+    private toolTip: LayoutContainer;
     view = new Container();
     w: number;
     h: number;
@@ -40,18 +40,26 @@ class LayoutStory
         preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 
-    createLayout({ background, paddingLeft, paddingRight, paddingTop, paddingBottom, text, textAlign }: any)
+    createLayout({
+        background,
+        paddingLeft,
+        paddingRight,
+        paddingTop,
+        paddingBottom,
+        text,
+        textAlign,
+    }: any)
     {
-        this.layout = new Layout({
+        this.layout = new LayoutContainer({
             id: 'root',
             content: {
                 text: {
                     content: text,
                     styles: {
                         display: 'block',
-                        textAlign
-                    }
-                }
+                        textAlign,
+                    },
+                },
             },
             styles: {
                 background: Sprite.from(assets[background]),
@@ -62,8 +70,8 @@ class LayoutStory
                 paddingLeft,
                 paddingRight,
                 paddingTop,
-                paddingBottom
-            }
+                paddingBottom,
+            },
         });
         this.layout.resize(this.w, this.h);
         this.view.addChild(this.layout);
@@ -84,5 +92,5 @@ export const ByBackground = (params: any) => new LayoutStory(params);
 export default {
     title: 'AutoSize',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };

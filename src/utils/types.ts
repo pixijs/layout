@@ -1,7 +1,7 @@
 import { TextStyle, TextStyleAlign } from '@pixi/text';
 import { Container } from '@pixi/display';
 import { CSS_COLOR_NAMES, POSITION, DISPLAY, OVERFLOW, VERTICAL_ALIGN } from './constants';
-import { Layout } from '../Layout';
+import { LayoutContainer } from '../Layout';
 
 export type GradeToOne = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
 
@@ -14,14 +14,20 @@ export type Color = {
 
 export type CSSColor = keyof typeof CSS_COLOR_NAMES;
 
-export type Position = typeof POSITION[number];
-export type Display = typeof DISPLAY[number];
+export type Position = (typeof POSITION)[number];
+export type Display = (typeof DISPLAY)[number];
 
 export type ContentList = { [ID: string]: Content };
-export type Content = string | Container | Layout | LayoutOptions | Content[] | ContentList;
+export type Content =
+    | string
+    | Container
+    | LayoutContainer
+    | LayoutOptions
+    | Content[]
+    | ContentList;
 
 export type Containers = Container[];
-export type Overflow = typeof OVERFLOW[number];
+export type Overflow = (typeof OVERFLOW)[number];
 
 export type AspectRatio = 'static' | 'flex';
 
@@ -73,6 +79,6 @@ export type LayoutOptions = {
     globalStyles?: LayoutStyles;
 };
 
-export type VerticalAlign = typeof VERTICAL_ALIGN[number];
+export type VerticalAlign = (typeof VERTICAL_ALIGN)[number];
 
 export type SizeControl = 'innerText' | 'background' | 'parentSize' | 'contentSize';

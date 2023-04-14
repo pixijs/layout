@@ -2,12 +2,12 @@ import type { GradeToOne, Styles } from '../utils/types';
 import { TextStyle } from '@pixi/text';
 import { stylesToPixiTextStyles } from '../utils/helpers';
 import { OVERFLOW, VERTICAL_ALIGN } from '../utils/constants';
-import { Layout } from '../Layout';
+import { LayoutSystem } from '../Layout';
 
-/** Style controller manages {@link Layout} styles. */
+/** Style controller manages {@link LayoutSystem} styles. */
 export class StyleController
 {
-    protected layout: Layout;
+    protected layout: LayoutSystem;
 
     protected styles: Styles = {};
 
@@ -15,11 +15,11 @@ export class StyleController
     protected _textStyle: Partial<TextStyle> = {}; // this is to be nested by children
 
     /**
-     * Manages and sets all the styles of {@link Layout}
-     * @param layout - {@link Layout} to be styled
+     * Manages and sets all the styles of {@link LayoutSystem}
+     * @param layout - {@link LayoutSystem} to be styled
      * @param styles - styles to be applied
      */
-    constructor(layout: Layout, styles?: Styles)
+    constructor(layout: LayoutSystem, styles?: Styles)
     {
         this.layout = layout;
         if (styles)
@@ -49,16 +49,23 @@ export class StyleController
         this.styles.minHeight = styles?.minHeight ?? this.styles.minHeight;
 
         this.styles.padding = styles?.padding ?? this.styles.padding ?? 0;
-        this.styles.paddingTop = styles?.paddingTop ?? styles?.padding ?? this.styles.paddingTop ?? 0;
-        this.styles.paddingRight = styles?.paddingRight ?? styles?.padding ?? this.styles.paddingRight ?? 0;
-        this.styles.paddingBottom = styles?.paddingBottom ?? styles?.padding ?? this.styles.paddingBottom ?? 0;
-        this.styles.paddingLeft = styles?.paddingLeft ?? styles?.padding ?? this.styles.paddingLeft ?? 0;
+        this.styles.paddingTop
+            = styles?.paddingTop ?? styles?.padding ?? this.styles.paddingTop ?? 0;
+        this.styles.paddingRight
+            = styles?.paddingRight ?? styles?.padding ?? this.styles.paddingRight ?? 0;
+        this.styles.paddingBottom
+            = styles?.paddingBottom ?? styles?.padding ?? this.styles.paddingBottom ?? 0;
+        this.styles.paddingLeft
+            = styles?.paddingLeft ?? styles?.padding ?? this.styles.paddingLeft ?? 0;
 
         this.styles.margin = styles?.margin ?? this.styles.margin ?? 0;
         this.styles.marginTop = styles?.marginTop ?? styles?.margin ?? this.styles.marginTop ?? 0;
-        this.styles.marginRight = styles?.marginRight ?? styles?.margin ?? this.styles.marginRight ?? 0;
-        this.styles.marginBottom = styles?.marginBottom ?? styles?.margin ?? this.styles.marginBottom ?? 0;
-        this.styles.marginLeft = styles?.marginLeft ?? styles?.margin ?? this.styles.marginLeft ?? 0;
+        this.styles.marginRight
+            = styles?.marginRight ?? styles?.margin ?? this.styles.marginRight ?? 0;
+        this.styles.marginBottom
+            = styles?.marginBottom ?? styles?.margin ?? this.styles.marginBottom ?? 0;
+        this.styles.marginLeft
+            = styles?.marginLeft ?? styles?.margin ?? this.styles.marginLeft ?? 0;
 
         this.styles.scale = styles?.scale ?? this.styles.scale ?? 1;
         this.styles.scaleX = styles?.scaleX ?? styles?.scale ?? this.styles.scaleX ?? 1;
@@ -99,11 +106,13 @@ export class StyleController
             }
         }
 
-        this.styles.background = styles?.background ?? styles?.backgroundColor ?? this.styles.background;
+        this.styles.background
+            = styles?.background ?? styles?.backgroundColor ?? this.styles.background;
 
         this.styles.textAlign = styles?.textAlign ?? this.styles.textAlign;
         this.styles.position = styles?.position ?? this.styles.position;
-        this.styles.verticalAlign = styles?.verticalAlign ?? this.styles.verticalAlign ?? VERTICAL_ALIGN[0];
+        this.styles.verticalAlign
+            = styles?.verticalAlign ?? this.styles.verticalAlign ?? VERTICAL_ALIGN[0];
 
         this.styles.aspectRatio = styles?.aspectRatio ?? this.styles.aspectRatio ?? 'static';
 
@@ -135,7 +144,7 @@ export class StyleController
     set opacity(value: GradeToOne)
     {
         this.styles.opacity = value;
-        this.layout.alpha = value;
+        this.layout.container.alpha = value;
     }
 
     /** Returns the opacity of the layout */
