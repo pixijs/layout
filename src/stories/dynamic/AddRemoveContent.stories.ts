@@ -4,13 +4,15 @@ import { Container } from '@pixi/display';
 import { toolTip } from '../components/ToolTip';
 import { preloadAssets } from '../utils/helpers';
 import { Sprite } from '@pixi/sprite';
-import { Content } from '../../utils/types';
 import { FancyButton } from '@pixi/ui';
 
-const assets = {
+const testAssets = {
     energy: 'Icons/EnergyIcon.png',
     gem: 'Icons/gemIcon.png',
     star: 'Icons/Star.png',
+};
+
+const assets = {
     button: 'Buttons/SmallButton.png',
     buttonHover: 'Buttons/SmallButton-hover.png',
     buttonDown: 'Buttons/SmallButton-pressed.png',
@@ -19,9 +21,10 @@ const assets = {
 };
 
 const args = {
-    image: Object.keys(assets),
+    image: Object.keys(testAssets),
     padding: 30,
-    maxWidth: 95
+    maxWidth: 95,
+    amount: 2
 };
 
 class LayoutStory
@@ -36,33 +39,13 @@ class LayoutStory
     {
         this.addTooltip(`'+' and '-' buttons will add or remove sprites to the layout.\n`);
 
-        preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
+        preloadAssets(Object.values(assets))
+            .then(() => preloadAssets(Object.values(testAssets)))
+            .then(() => this.createLayout(props));
     }
 
-    createLayout({ image, padding, maxWidth }: any)
+    createLayout({ image, padding, maxWidth, amount }: any)
     {
-        const content: Array<Content> = [];
-
-        content.push();
-
-        this.layout = new Layout({
-            id: 'root',
-            content: {
-                icons: {
-                    content: [Sprite.from(assets[image])],
-                    styles: {
-                        padding
-                    }
-                }
-            },
-            styles: {
-                background: 'black',
-                position: 'center',
-                borderRadius: 20,
-                maxWidth: `${maxWidth}%`
-            }
-        });
-
         const addButton = new FancyButton({
             defaultView: assets.button,
             hoverView: assets.buttonHover,
@@ -79,17 +62,34 @@ class LayoutStory
             iconOffset: { y: -7 }
         });
 
-        this.layout.addContent({
-            id: 'button',
+        const buttonsScale = 0.5;
+
+        this.layout = new Layout({
+            id: 'root',
             content: {
-                content: [addButton, removeButton],
-                styles: {
-                    scale: 0.5
+                icons: {
+                    content: new Array(amount).fill(null).map(() => Sprite.from(testAssets[image])),
+                    styles: {
+                        position: 'center',
+                        padding,
+                        maxWidth: `${maxWidth}%`,
+                        background: 'black',
+                        borderRadius: 20,
+                    }
+                },
+                controls: {
+                    content: [addButton, removeButton],
+                    styles: {
+                        position: 'bottomCenter',
+                        scale: buttonsScale,
+                        marginBottom: -20
+                    }
                 }
             },
             styles: {
-                position: 'leftBottom',
-                marginBottom: -addButton.height - 5
+                position: 'center',
+                width: '100%',
+                height: 250,
             }
         });
 
@@ -97,7 +97,7 @@ class LayoutStory
 
         addButton.onPress.connect(() =>
         {
-            iconsLayout.addContent(Sprite.from(assets[image]));
+            iconsLayout.addContent(Sprite.from(testAssets[image]));
         });
 
         removeButton.onPress.connect(() =>
