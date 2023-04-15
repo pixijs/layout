@@ -3,7 +3,6 @@ import { Container } from '@pixi/display';
 import { CSS_COLOR_NAMES, LOREM_TEXT, POSITION, ALIGN } from '../../utils/constants';
 import { toolTip } from '../components/ToolTip';
 import { Layout } from '../../Layout';
-import { preloadAssets } from '../utils/helpers';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 

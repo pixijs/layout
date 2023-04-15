@@ -4,7 +4,6 @@ import { Container } from '@pixi/display';
 import { toolTip } from '../components/ToolTip';
 import { preloadAssets } from '../utils/helpers';
 import { Sprite } from '@pixi/sprite';
-import { Content } from '../../utils/types';
 import { FancyButton } from '@pixi/ui';
 
 const assets = {
