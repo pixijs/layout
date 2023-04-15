@@ -20,9 +20,9 @@ import { TextStyle } from '@pixi/text';
  *
  * Any PixiJS Container based instance can be turned into a layout by calling {@link Layout#initLayout} method.
  * @example
- * const layout = new Container().initLayout();
+ * const container = new Container().initLayout();
  *
- * layout.layout?.setStyles({
+ * container.layout?.setStyles({
  *      background: 'black',
  *      width: '100%',
  *      height: '100%',
@@ -31,7 +31,7 @@ import { TextStyle } from '@pixi/text';
  *      color: 'white',
  * }); // set styles
  *
- * layout.layout?.setContent({
+ * container.layout?.setContent({
  *      text: 'Hello World',
  * }); // set content
  */
