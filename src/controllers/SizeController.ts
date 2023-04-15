@@ -1,9 +1,11 @@
 /* eslint-disable no-case-declarations */
-import { getNumber, isItJustAText } from '../utils/helpers';
+import { getColor, getNumber, isItJustAText } from '../utils/helpers';
 import { LayoutSystem } from '../Layout';
 import { Text } from '@pixi/text';
 import { Container } from '@pixi/display';
 import { FlexNumber, SizeControl } from '../utils/types';
+import { Sprite } from '@pixi/sprite';
+import { Graphics } from '@pixi/graphics';
 
 /** Size controller manages {@link LayoutSystem} and it's content size. */
 export class SizeController
@@ -11,6 +13,8 @@ export class SizeController
     protected layout: LayoutSystem;
     protected _width: number;
     protected _height: number;
+    protected bg: Graphics | Container;
+    protected overflowMask: Graphics;
 
     parentWidth = 0;
     parentHeight = 0;
@@ -311,10 +315,109 @@ export class SizeController
             this.fitToSize(this.parentWidth, this.parentHeight);
         }
 
-        this.layout.updateBG();
-        this.layout.updateMask();
+        this.updateBG();
+        this.updateMask();
 
         this.layout.align.update(this.parentWidth, this.parentHeight);
+    }
+
+    /** Render and update the background of layout basing on it's current state. */
+    protected updateBG()
+    {
+        const { background } = this.layout.style;
+
+        if (background instanceof Container)
+        {
+            if (background instanceof Sprite)
+            {
+                background.anchor.set(0);
+            }
+
+            this.bg = background;
+
+            this.layout.container.addChildAt(this.bg, 0);
+        }
+        else
+        {
+            const color = background !== 'transparent' && getColor(background);
+
+            const { borderRadius } = this.layout.style;
+            const { width, height } = this;
+
+            if (color && width && height)
+            {
+                if (!this.bg)
+                {
+                    this.bg = new Graphics();
+                    this.layout.container.addChildAt(this.bg, 0);
+                }
+
+                let x = 0;
+                let y = 0;
+
+                const { anchorX, anchorY } = this.layout.style;
+
+                if (anchorX !== undefined)
+                {
+                    x -= width * anchorX;
+                }
+
+                if (anchorY !== undefined)
+                {
+                    y -= height * anchorY;
+                }
+
+                if (this.bg instanceof Graphics)
+                {
+                    this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(x, y, width, height, borderRadius);
+                }
+            }
+            else if (this.bg)
+            {
+                this.layout.container.removeChild(this.bg);
+                delete this.bg;
+            }
+        }
+    }
+
+    /** Render and update the mask of layout basing on it's current state. Mask is used to hide overflowing content. */
+    protected updateMask()
+    {
+        const { overflow, borderRadius } = this.layout.style;
+        const { width, height } = this;
+
+        if (overflow === 'hidden' && width && height)
+        {
+            if (!this.overflowMask)
+            {
+                this.overflowMask = new Graphics();
+                this.layout.container.addChild(this.overflowMask);
+            }
+
+            let x = 0;
+            let y = 0;
+
+            const { anchorX, anchorY } = this.layout.style;
+
+            if (anchorX !== undefined)
+            {
+                x -= width * anchorX;
+            }
+
+            if (anchorY !== undefined)
+            {
+                y -= height * anchorY;
+            }
+
+            this.overflowMask.clear().beginFill(0xffffff).drawRoundedRect(x, y, width, height, borderRadius).endFill();
+
+            this.layout.container.mask = this.overflowMask;
+        }
+        else
+        {
+            this.layout.container.mask = null;
+            delete this.overflowMask;
+        }
     }
 
     protected fitInnerText(width: number)
