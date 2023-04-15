@@ -1,8 +1,7 @@
-/* eslint-disable no-prototype-builtins */
 /* eslint-disable no-case-declarations */
 import { Layout } from '../Layout';
 import { Content, ContentList, LayoutOptions, LayoutStyles } from '../utils/types';
-import { Container } from '@pixi/display';
+import { Container, DisplayObject } from '@pixi/display';
 import { Text } from '@pixi/text';
 import { Sprite } from '@pixi/sprite';
 import { Graphics } from '@pixi/graphics';
@@ -35,6 +34,8 @@ export class ContentController
         this.layout = layout;
         this.children = new Map();
         this.createContent(content, globalStyles);
+
+        this.layout.on('childRemoved', (child) => this.onChildRemoved(child));
     }
 
     /**
@@ -295,5 +296,29 @@ export class ContentController
             this.layout.removeChild(content);
             this.children.delete(id);
         }
+    }
+
+    protected onChildRemoved(child: DisplayObject)
+    {
+        const registeredChild = this.getChild(child);
+
+        if (registeredChild)
+        {
+            this.children.delete(registeredChild);
+            this.layout.update();
+        }
+    }
+
+    protected getChild(childInstance: DisplayObject): string | undefined
+    {
+        for (const [key, value] of this.children.entries())
+        {
+            if (value === childInstance)
+            {
+                return key;
+            }
+        }
+
+        return undefined;
     }
 }

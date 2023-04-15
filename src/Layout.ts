@@ -271,7 +271,6 @@ export class Layout extends Container
     removeChildByID(id: string)
     {
         this.content.removeContent(id);
-        this.update();
     }
 
     /**
