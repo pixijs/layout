@@ -10,47 +10,30 @@ import { Sprite } from '@pixi/sprite';
 import { TextStyle } from '@pixi/text';
 
 /**
- * Universal layout class for Pixi.js.
+ * Layout controller class for any PixiJS Container based instance.
  *
- * You can consider layout as div from CSS.
+ * To be be used for automatic align and resize children tree,
+ * where every child behavior can be configured using css like configurations.
  *
- * It will be rendered as PIXI.Container and can be used for automatic align and resize blocks and text.
+ * Also it adds a list of css-like properties for styling like background style or text style,
+ * check {@link SizeController} class.
  *
- * Also it brings a list of css-like properties for styling itself and it's children.
- *
- * Children will be resized and aligned to fit parent size, if they have width and height properties
- *
- * (like Sprite or Graphics instances from Pixi.js)
+ * Any PixiJS Container based instance can be turned into a layout by calling {@link Layout#initLayout} method.
  * @example
- * const layout = new Layout({
- * 	id: 'myLayout',
- * 	styles: {
- * 		width: 100,
- * 		height: 100,
- * 		background: 'red',
- * 	},
- * 	content: [
- * 		'Hello world',
- * 		{
- * 			id: 'innerLayout1',
- * 			text: 'Inner layout 1',
- * 		},
- * 		{
- * 			id: 'innerLayout2',
- * 			text: 'Inner layout 2',
- * 		},
- * 	],
- * 	globalStyles: {
- * 		innerLayout1: {
- * 			width: 200,
- * 			height: 200,
- * 		},
- * 		innerLayout1: {
- * 			width: 200,
- * 			height: 200,
- * 		},
- * 	},
- * });
+ * const layout = new Container().initLayout();
+ *
+ * layout.layout?.setStyles({
+ *      background: 'black',
+ *      width: '100%',
+ *      height: '100%',
+ *      padding: 10,
+ *      overflow: 'hidden',
+ *      color: 'white',
+ * }); // set styles
+ *
+ * layout.layout?.setContent({
+ *      text: 'Hello World',
+ * }); // set content
  */
 export class LayoutSystem
 {
@@ -76,13 +59,13 @@ export class LayoutSystem
     content: ContentController;
 
     /**
-     * Creates layout
+     * Creates layout system instance.
      * @param options - Layout options
      * @param options.id - ID of the layout.
      * @param options.styles - Styles of the layout. List of available styles can be found in {@link StyleController}.
      * @param options.content - Content of the layout.
      * @param options.globalStyles - Global styles for layout and it's children.
-     * @param container
+     * @param container - Container for all layout children, will be created if not provided.
      */
     constructor(options?: LayoutOptions, container?: Container)
     {
@@ -338,11 +321,47 @@ export class LayoutSystem
     }
 }
 
-/** Container with layout system initiated. */
+/**
+ * Container with layout system initiated.
+ * @example
+ *
+ * const layout = new Layout({
+ * 	styles: {
+ * 		width: 100,
+ * 		height: 100,
+ * 		background: 'red',
+ * 	},
+ * 	content: [
+ * 		'Hello world',
+ * 		{
+ * 			id: 'innerLayout1',
+ * 			text: 'Inner layout 1',
+ * 		},
+ * 		{
+ * 			id: 'innerLayout2',
+ * 			text: 'Inner layout 2',
+ * 		},
+ * 	],
+ * 	globalStyles: {
+ * 		innerLayout1: {
+ * 			width: 200,
+ * 			height: 200,
+ * 		},
+ * 		innerLayout1: {
+ * 			width: 200,
+ * 			height: 200,
+ * 		},
+ * 	},
+ * });
+ */
 export class Layout extends Container
 {
     override layout: LayoutSystem;
 
+    /**
+     * Creates layout container.
+     * @param options
+     */
     constructor(options?: LayoutOptions)
     {
         super();
@@ -368,25 +387,25 @@ export class Layout extends Container
         return this.layout.content;
     }
 
-    /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
+    /** ID of layout, can be used to set styles in the globalStyles. */
     get id()
     {
         return this.layout.id;
     }
 
-    /** ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree. */
+    /** ID of layout, can be used to set styles in the globalStyles. */
     set id(value: string)
     {
         this.layout.id = value;
     }
 
-    /** Returns with of the container */
+    /** Returns with of the layouts content. */
     get contentWidth(): number | undefined
     {
         return this.layout.contentWidth;
     }
 
-    /** Returns height of the container */
+    /** Returns height of the layouts content. */
     get contentHeight(): number | undefined
     {
         return this.layout.contentHeight;
@@ -417,9 +436,9 @@ export class Layout extends Container
     }
 
     /**
-     * Add content to the layout system and reposition/resize other elements and the layout basing on styles.
+     * Add content to the layout system and reposition/resize elements basing on styles.
      * @param {Content} content - Content to be added. Can be string, Container, Layout, LayoutOptions or array of those.
-     * Also content can be an object with inner layout ids as a keys, and Content as values.
+     * Also content can be an object where keys are ids of child layouts to create, and Content as values.
      */
     addContent(content: Content)
     {
@@ -427,7 +446,7 @@ export class Layout extends Container
     }
 
     /**
-     * Remove content from layout system by its id and reposition/resize other elements and the layout basing on styles.
+     * Remove content from layout system by its id and reposition/resize elements basing on styles.
      * @param {string} id - id of the content to be removed.
      */
     removeChildByID(id: string)
@@ -445,7 +464,7 @@ export class Layout extends Container
     }
 
     /**
-     * Updates the layout styles and resize/reposition it and its children basing on new styles.
+     * Updates the layout styles and resize/reposition elements basing on new styles.
      * @param styles
      */
     setStyles(styles: Styles)
