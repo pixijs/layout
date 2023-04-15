@@ -96,19 +96,19 @@ class LayoutStory
             }
         });
 
-        const iconsLayout: Layout = this.layout.content.getByID('icons') as Layout;
+        const iconsLayout = this.layout.content.getByID('icons')?.layout;
 
         plusButton.onPress.connect(() =>
         {
             gem.scale.set(gem.scale._x + 0.1);
-            iconsLayout.update();
+            iconsLayout?.update();
         });
 
         minusButton.onPress.connect(() =>
         {
             gem.scale.set(gem.scale._x - 0.1 > 0 ? gem.scale._x - 0.1 : 0);
 
-            iconsLayout.update();
+            iconsLayout?.update();
         });
 
         this.layout.resize(this.w, this.h);
