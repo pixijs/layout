@@ -312,11 +312,13 @@ export class SizeController
 
     protected fitInnerText(width: number)
     {
+        if (!isItJustAText(this.layout)) return;
+
         const { paddingLeft, paddingRight } = this.layout.style;
 
         const needToBeResized = this.innerText.width + paddingLeft + paddingRight > width;
 
-        if (!needToBeResized || !isItJustAText(this.layout))
+        if (!needToBeResized)
         {
             return;
         }
