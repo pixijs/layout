@@ -13,18 +13,19 @@ const assets = {
 
 const args = {
     text:
-    'Background is set to sprite or other display object with width and height.\n'
-    + 'Width and height values are not set.\n'
-    + 'Display is not set, so it is "inline-block" by default.\n'
-    + 'Layout size will adapt to the background size.\n'
-    + 'Text will adapt to the layout width,\n'
+    'Background is set to sprite or other display object with width and height.\n\n'
+    + 'Width and height values are not set.\n\n'
+    + 'Display is not set, so it is "inline-block" by default.\n\n'
+    + 'Layout size will adapt to the background size.\n\n'
+    + 'Text will adapt to the layout width.\n\n'
     + 'Height of text will adapt to the text height.',
     background: Object.keys(assets),
     paddingLeft: 55,
     paddingRight: 55,
     paddingTop: 55,
     paddingBottom: 55,
-    textAlign: ALIGN
+    textAlign: ALIGN,
+    wordWrap: true,
 };
 
 class LayoutStory
@@ -40,7 +41,7 @@ class LayoutStory
         preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
     }
 
-    createLayout({ background, paddingLeft, paddingRight, paddingTop, paddingBottom, text, textAlign }: any)
+    createLayout({ background, paddingLeft, paddingRight, paddingTop, paddingBottom, text, textAlign, wordWrap }: any)
     {
         this.layout = new Layout({
             id: 'root',
@@ -49,7 +50,9 @@ class LayoutStory
                     content: text,
                     styles: {
                         display: 'block',
-                        textAlign
+                        fontSize: 22,
+                        textAlign,
+                        wordWrap
                     }
                 }
             },

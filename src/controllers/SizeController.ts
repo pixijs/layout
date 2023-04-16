@@ -158,7 +158,7 @@ export class SizeController
 
                     if (isItJustAText(this.layout))
                     {
-                        this.innerText.style.wordWrap = true;
+                        // this.innerText.style.wordWrap = true;
                         this.innerText.style.wordWrapWidth = parentWidth - paddingLeft - paddingRight;
                     }
 
@@ -170,7 +170,7 @@ export class SizeController
             finalWidth = getNumber(width, this.parentWidth);
         }
 
-        this.fitInnerText(finalWidth);
+        // this.fitInnerText(finalWidth);
 
         if (height === 'auto')
         {
@@ -312,15 +312,23 @@ export class SizeController
 
     protected fitInnerText(width: number)
     {
-        if (!isItJustAText(this.layout))
+        const { paddingLeft, paddingRight } = this.layout.style;
+
+        const needToBeResized = this.innerText.width + paddingLeft + paddingRight > width;
+
+        if (!needToBeResized || !isItJustAText(this.layout))
         {
             return;
         }
 
-        const { paddingLeft, paddingRight } = this.layout.style;
-
-        this.innerText.style.wordWrap = true;
-        this.innerText.style.wordWrapWidth = width - paddingRight - paddingLeft;
+        if (this.innerText.style.wordWrap)
+        {
+            this.innerText.style.wordWrapWidth = width - paddingRight - paddingLeft;
+        }
+        else
+        {
+            this.innerText.scale.set((width - paddingRight - paddingLeft) / this.innerText.width);
+        }
     }
 
     /** Get type of size control basing on styles and in case if width of the layout is set to `auto`. */
