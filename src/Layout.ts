@@ -175,7 +175,6 @@ export class LayoutSystem
     removeChildByID(id: string)
     {
         this.content.removeContent(id);
-        this.update();
     }
 
     /**

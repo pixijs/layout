@@ -1,4 +1,3 @@
-/* eslint-disable no-prototype-builtins */
 /* eslint-disable no-case-declarations */
 import { Layout, LayoutSystem } from '../Layout';
 import { Content, ContentList, ContentType, LayoutOptions, LayoutStyles } from '../utils/types';
@@ -33,6 +32,8 @@ export class ContentController
         this.layout = layout;
         this.children = new Map();
         this.createContent(content, globalStyles);
+
+        this.layout.container.on('childRemoved', (child) => this.onChildRemoved(child));
     }
 
     /**
@@ -295,5 +296,29 @@ export class ContentController
             this.layout.container.removeChild(content);
             this.children.delete(id);
         }
+    }
+
+    protected onChildRemoved(child: DisplayObject)
+    {
+        const registeredChild = this.getChild(child);
+
+        if (registeredChild)
+        {
+            this.children.delete(registeredChild);
+            this.layout.update();
+        }
+    }
+
+    protected getChild(childInstance: DisplayObject): string | undefined
+    {
+        for (const [key, value] of this.children.entries())
+        {
+            if (value === childInstance)
+            {
+                return key;
+            }
+        }
+
+        return undefined;
     }
 }
