@@ -33,7 +33,7 @@ export class ContentController
         this.children = new Map();
         this.createContent(content, globalStyles);
 
-        this.layout.on('childRemoved', (child) => this.onChildRemoved(child));
+        this.layout.container.on('childRemoved', (child) => this.onChildRemoved(child));
     }
 
     /**
