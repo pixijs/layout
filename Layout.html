@@ -166,6 +166,8 @@
             
                 <li class="parent " data-name="Layout.id"><a href=Layout.html#id>id</a></li>
             
+                <li class="parent " data-name="Layout.id"><a href=Layout.html#id>id</a></li>
+            
                 <li class="parent " data-name="Layout.size"><a href=Layout.html#size>size</a></li>
             
                 <li class="parent " data-name="Layout.style"><a href=Layout.html#style>style</a></li>
@@ -175,8 +177,6 @@
                 <li class="parent " data-name="Layout.width"><a href=Layout.html#width>width</a></li>
             
                 <li class="parent " data-name="Layout.width"><a href=Layout.html#width>width</a></li>
-            
-                <li class="parent " data-name="Layout._style"><a href=Layout.html#_style>_style</a></li>
             
             </ul>
 
@@ -207,11 +207,84 @@
             
                 <li class="parent  " data-name="Layout.setStyles"><a href=Layout.html#setStyles>setStyles</a></li>
             
-                <li class="parent  " data-name="Layout.update"><a href=Layout.html#update>update</a></li>
+            </ul>
             
-                <li class="parent  " data-name="Layout.updateBG"><a href=Layout.html#updateBG>updateBG</a></li>
+            <ul class="events itemMembers">
             
-                <li class="parent  " data-name="Layout.updateMask"><a href=Layout.html#updateMask>updateMask</a></li>
+            </ul>
+            
+        </li>
+    
+        <li class="item" data-name="LayoutSystem">
+            <span class="title  ">
+                
+                
+                    <a href=LayoutSystem.html>LayoutSystem</a>
+                
+            </span>
+            
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li class="parent " data-name="LayoutSystem.align"><a href=LayoutSystem.html#align>align</a></li>
+            
+                <li class="parent " data-name="LayoutSystem.container"><a href=LayoutSystem.html#container>container</a></li>
+            
+                <li class="parent " data-name="LayoutSystem.content"><a href=LayoutSystem.html#content>content</a></li>
+            
+                <li class="parent " data-name="LayoutSystem.contentHeight"><a href=LayoutSystem.html#contentHeight>contentHeight</a></li>
+            
+                <li class="parent " data-name="LayoutSystem.contentWidth"><a href=LayoutSystem.html#contentWidth>contentWidth</a></li>
+            
+                <li class="parent " data-name="LayoutSystem.height"><a href=LayoutSystem.html#height>height</a></li>
+            
+                <li class="parent " data-name="LayoutSystem.height"><a href=LayoutSystem.html#height>height</a></li>
+            
+                <li class="parent " data-name="LayoutSystem.id"><a href=LayoutSystem.html#id>id</a></li>
+            
+                <li class="parent " data-name="LayoutSystem.size"><a href=LayoutSystem.html#size>size</a></li>
+            
+                <li class="parent " data-name="LayoutSystem.style"><a href=LayoutSystem.html#style>style</a></li>
+            
+                <li class="parent " data-name="LayoutSystem.textStyle"><a href=LayoutSystem.html#textStyle>textStyle</a></li>
+            
+                <li class="parent " data-name="LayoutSystem.width"><a href=LayoutSystem.html#width>width</a></li>
+            
+                <li class="parent " data-name="LayoutSystem.width"><a href=LayoutSystem.html#width>width</a></li>
+            
+                <li class="parent " data-name="LayoutSystem._style"><a href=LayoutSystem.html#_style>_style</a></li>
+            
+            </ul>
+
+            <ul class="enums itemMembers">
+                
+            </ul>
+
+            
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li class="parent  " data-name="LayoutSystem.addContent"><a href=LayoutSystem.html#addContent>addContent</a></li>
+            
+                <li class="parent  " data-name="LayoutSystem.getChildByID"><a href=LayoutSystem.html#getChildByID>getChildByID</a></li>
+            
+                <li class="parent  " data-name="LayoutSystem.removeChildByID"><a href=LayoutSystem.html#removeChildByID>removeChildByID</a></li>
+            
+                <li class="parent  " data-name="LayoutSystem.resize"><a href=LayoutSystem.html#resize>resize</a></li>
+            
+                <li class="parent  " data-name="LayoutSystem.setStyles"><a href=LayoutSystem.html#setStyles>setStyles</a></li>
+            
+                <li class="parent  " data-name="LayoutSystem.update"><a href=LayoutSystem.html#update>update</a></li>
             
             </ul>
             
@@ -267,6 +340,10 @@
                 <li class="parent  " data-name="SizeController.update"><a href=SizeController.html#update>update</a></li>
             
                 <li class="parent  " data-name="SizeController.fitToSize"><a href=SizeController.html#fitToSize>fitToSize</a></li>
+            
+                <li class="parent  " data-name="SizeController.updateBG"><a href=SizeController.html#updateBG>updateBG</a></li>
+            
+                <li class="parent  " data-name="SizeController.updateMask"><a href=SizeController.html#updateMask>updateMask</a></li>
             
             </ul>
             
@@ -348,14 +425,8 @@
       </h2>
 
       
-          <div class="class-description"><p>Universal layout class for Pixi.js.</p></div>
       
-      
-          <div class="class-description"><p>You can consider layout as div from CSS.</p>
-<p>It will be rendered as PIXI.Container and can be used for automatic align and resize blocks and text.</p>
-<p>Also it brings a list of css-like properties for styling itself and it's children.</p>
-<p>Children will be resized and aligned to fit parent size, if they have width and height properties</p>
-<p>(like Sprite or Graphics instances from Pixi.js)</p></div>
+          <div class="class-description"><p>Container with layout system initiated.</p></div>
       
   </div>
 </header>
@@ -387,7 +458,7 @@
     
     
     <div class="description">
-        <p>Creates layout</p>
+        <p>Creates layout container.</p>
     </div>
     
 
@@ -446,119 +517,7 @@
             
 
             <td class="description last">
-                <p>Layout options</p>
                 
-            </td>
-        </tr>
-    
-
-        <tr>
-            
-                <td class="name"><code>options.id</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">
-                <p>ID of the layout.</p>
-                
-            </td>
-        </tr>
-    
-
-        <tr>
-            
-                <td class="name"><code>options.styles</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">
-                <p>Styles of the layout. List of available styles can be found in <a href=StyleController.html>StyleController</a>.</p>
-                
-            </td>
-        </tr>
-    
-
-        <tr>
-            
-                <td class="name"><code>options.content</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">
-                <p>Content of the layout.</p>
-                
-            </td>
-        </tr>
-    
-
-        <tr>
-            
-                <td class="name"><code>options.globalStyles</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">
-                <p>Global styles for layout and it's children.</p>
                 
             </td>
         </tr>
@@ -640,7 +599,6 @@
             <h3>Example</h3>
             
     <pre class="prettyprint"><code>const layout = new Layout({
-	id: 'myLayout',
 	styles: {
 		width: 100,
 		height: 100,
@@ -717,7 +675,7 @@
 </dt>
 <dd>
     
-      <p class="description"><p><a href=AlignController.html>AlignController</a> is a class for controlling layout and all it's children alignment.</p></p>
+      <p class="description"><p><a href=AlignController.html>AlignController</a></p></p>
     
     
 
@@ -767,7 +725,7 @@
 </dt>
 <dd>
     
-      <p class="description"><p><a href=ContentController.html>ContentController</a> controller is a class for controlling layouts children.</p></p>
+      <p class="description"><p><a href=ContentController.html>ContentController</a></p></p>
     
     
 
@@ -807,7 +765,7 @@
         <h4 class="name" id="contentHeight">
             <a class="share-icon" href="#contentHeight"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">contentHeight</span>
-            <span class="type-signature type">number</span>
+            <span class="type-signature type">number | undefined</span>
             
             
             
@@ -817,7 +775,7 @@
 </dt>
 <dd>
     
-      <p class="description"><p>Returns height of the container</p></p>
+      <p class="description"><p>Returns height of the layouts content.</p></p>
     
     
 
@@ -857,7 +815,7 @@
         <h4 class="name" id="contentWidth">
             <a class="share-icon" href="#contentWidth"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">contentWidth</span>
-            <span class="type-signature type">number</span>
+            <span class="type-signature type">number | undefined</span>
             
             
             
@@ -867,7 +825,7 @@
 </dt>
 <dd>
     
-      <p class="description"><p>Returns with of the container</p></p>
+      <p class="description"><p>Returns with of the layouts content.</p></p>
     
     
 
@@ -917,7 +875,7 @@
 </dt>
 <dd>
     
-      <p class="description"><p>Sets the height of layout.</p></p>
+      <p class="description"><p>Set the height of layout.</p></p>
     
     
 
@@ -967,7 +925,7 @@
 </dt>
 <dd>
     
-      <p class="description"><p>Gets the height of layout.</p></p>
+      <p class="description"><p>Get the height of layout.</p></p>
     
     
 
@@ -1007,7 +965,7 @@
         <h4 class="name" id="id">
             <a class="share-icon" href="#id"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">id</span>
-            <span class="type-signature type">string</span>
+            <span class="type-signature"></span>
             
             
             
@@ -1017,7 +975,57 @@
 </dt>
 <dd>
     
-      <p class="description"><p>ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree.</p></p>
+      <p class="description"><p>ID of layout, can be used to set styles in the globalStyles.</p></p>
+    
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="id">
+            <a class="share-icon" href="#id"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">id</span>
+            <span class="type-signature"></span>
+            
+            
+            
+            
+        </h4>
+    </div>
+</dt>
+<dd>
+    
+      <p class="description"><p>ID of layout, can be used to set styles in the globalStyles.</p></p>
     
     
 
@@ -1067,7 +1075,7 @@
 </dt>
 <dd>
     
-      <p class="description"><p><a href=SizeController.html>SizeController</a> is a class for controlling layout and all it's children sizes.</p></p>
+      <p class="description"><p>Get <a href=SizeController.html>SizeController</a></p></p>
     
     
 
@@ -1217,7 +1225,7 @@
 </dt>
 <dd>
     
-      <p class="description"><p>Sets the width of layout.</p></p>
+      <p class="description"><p>Set the width of layout.</p></p>
     
     
 
@@ -1267,57 +1275,7 @@
 </dt>
 <dd>
     
-      <p class="description"><p>Gets the width of layout.</p></p>
-    
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
-        <h4 class="name" id="_style">
-            <a class="share-icon" href="#_style"><span class="glyphicon glyphicon-link"></span></a>
-            <span class="">_style</span>
-            <span class="type-signature type"><a href="StyleController.html">StyleController</a></span>
-            
-            <span class="access-signature">protected</span>
-            
-            
-        </h4>
-    </div>
-</dt>
-<dd>
-    
-      <p class="description"><p><a href=StyleController.html>StyleController</a> is a class for controlling styles.</p></p>
+      <p class="description"><p>Get the width of layout.</p></p>
     
     
 
@@ -1385,7 +1343,7 @@
     
     
     <div class="description">
-        <p>Adds content to the layout and reposition/resize other elements and the layout basing on styles.</p>
+        <p>Add content to the layout system and reposition/resize elements basing on styles.</p>
     </div>
     
 
@@ -1433,7 +1391,7 @@
 
             <td class="description last">
                 <p>Content to be added. Can be string, Container, Layout, LayoutOptions or array of those.
-Also content can be an object with inner layout ids as a keys, and Content as values.</p>
+Also content can be an object where keys are ids of child layouts to create, and Content as values.</p>
                 
             </td>
         </tr>
@@ -1507,7 +1465,7 @@ Also content can be an object with inner layout ids as a keys, and Content as va
     
     
     <div class="description">
-        <p>Get element from the layout child tree by it's ID</p>
+        <p>Get element from the layout system children tree by it's ID</p>
     </div>
     
 
@@ -1657,7 +1615,7 @@ Also content can be an object with inner layout ids as a keys, and Content as va
     
     
     <div class="description">
-        <p>Removes content of the layout by its id and reposition/resize other elements and the layout basing on styles.</p>
+        <p>Remove content from layout system by its id and reposition/resize elements basing on styles.</p>
     </div>
     
 
@@ -1921,7 +1879,7 @@ Also content can be an object with inner layout ids as a keys, and Content as va
     
     
     <div class="description">
-        <p>Updates the layout styles and resize/reposition it ant its children basing on new styles.</p>
+        <p>Updates the layout styles and resize/reposition elements basing on new styles.</p>
     </div>
     
 
@@ -2018,222 +1976,6 @@ Also content can be an object with inner layout ids as a keys, and Content as va
 </dd>
 
         
-            
-<dt>
-    <div class="nameContainer">
-        <h4 class="name" id="update">
-            <a class="share-icon" href="#update"><span class="glyphicon glyphicon-link"></span></a>
-            <span class="">
-              
-                  update
-              
-            </span>
-            <span class="signature">()</span><span class="type-signature"></span>
-            
-            
-            
-            
-        </h4>
-
-        
-    </div>
-</dt>
-<dd>
-    
-      <p class="description"><p>This is used in case if layout or some of it's children was changed and we need to update sizes and positions.</p></p>
-    
-    
-
-    
-
-    
-
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
-        <h4 class="name" id="updateBG">
-            <a class="share-icon" href="#updateBG"><span class="glyphicon glyphicon-link"></span></a>
-            <span class="">
-              
-                  updateBG
-              
-            </span>
-            <span class="signature">()</span><span class="type-signature"></span>
-            
-            
-            
-            
-        </h4>
-
-        
-    </div>
-</dt>
-<dd>
-    
-      <p class="description"><p>Render and update the background of layout basing on it's current state.</p></p>
-    
-    
-
-    
-
-    
-
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
-        <h4 class="name" id="updateMask">
-            <a class="share-icon" href="#updateMask"><span class="glyphicon glyphicon-link"></span></a>
-            <span class="">
-              
-                  updateMask
-              
-            </span>
-            <span class="signature">()</span><span class="type-signature"></span>
-            
-            
-            
-            
-        </h4>
-
-        
-    </div>
-</dt>
-<dd>
-    
-      <p class="description"><p>Render and update the mask of layout basing on it's current state. Mask is used to hide overflowing content.</p></p>
-    
-    
-
-    
-
-    
-
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
     
 
     
@@ -2255,7 +1997,7 @@ Also content can be an object with inner layout ids as a keys, and Content as va
 
         <footer class="content-size">
             <div class="footer">
-                Documentation generated by <a href="https://github.com/webdoc-js/webdoc">Webdoc 1</a> on Thu Apr 06 2023 09:39:51 GMT+0000 (Coordinated Universal Time)
+                Documentation generated by <a href="https://github.com/webdoc-js/webdoc">Webdoc 1</a> on Tue Apr 18 2023 07:36:44 GMT+0000 (Coordinated Universal Time)
             </div>
         </footer>
     </div>

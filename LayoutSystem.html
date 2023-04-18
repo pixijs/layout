@@ -410,7 +410,7 @@
 </div>
 
     <div class="main">
-        <h1 class="page-title" data-filename="SizeController.html">Class: SizeController</h1>
+        <h1 class="page-title" data-filename="LayoutSystem.html">Class: LayoutSystem</h1>
         
 
 
@@ -419,14 +419,20 @@
 <header>
   <div class="header content-size">
       <h2>
-        SizeController
+        LayoutSystem
 
         
       </h2>
 
       
-          <div class="class-description"><p>Size controller manages <a href=LayoutSystem.html>LayoutSystem</a> and it's content size.</p></div>
+          <div class="class-description"><p>Layout controller class for any PixiJS Container based instance.</p></div>
       
+      
+          <div class="class-description"><p>To be be used for automatic align and resize children tree,
+where every child behavior can be configured using css like configurations.</p>
+<p>Also it adds a list of css-like properties for styling like background style or text style,
+check <a href=SizeController.html>SizeController</a> class.</p>
+<p>Any PixiJS Container based instance can be turned into a layout by calling Layout#initLayout method.</p></div>
       
   </div>
 </header>
@@ -441,10 +447,10 @@
             <a class="share-icon" href="#constructor"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
               
-                  new SizeController
+                  new LayoutSystem
               
             </span>
-            <span class="signature">(layout)</span><span class="type-signature"></span>
+            <span class="signature">(options, container)</span><span class="type-signature"></span>
             
             
             
@@ -458,7 +464,7 @@
     
     
     <div class="description">
-        <p>Creates size controller.</p>
+        <p>Creates layout system instance.</p>
     </div>
     
 
@@ -479,6 +485,8 @@
         <th>Type</th>
 
         
+            <th>Attributes</th>
+        
 
         
 
@@ -491,21 +499,175 @@
 
         <tr>
             
-                <td class="name"><code>layout</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
             
-                <a href="LayoutSystem.html">LayoutSystem</a>
+                LayoutOptions
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
 
             <td class="description last">
-                <p>Layout to control.</p>
+                <p>Layout options</p>
+                
+            </td>
+        </tr>
+    
+
+        <tr>
+            
+                <td class="name"><code>options.id</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <p>ID of the layout.</p>
+                
+            </td>
+        </tr>
+    
+
+        <tr>
+            
+                <td class="name"><code>options.styles</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <p>Styles of the layout. List of available styles can be found in <a href=StyleController.html>StyleController</a>.</p>
+                
+            </td>
+        </tr>
+    
+
+        <tr>
+            
+                <td class="name"><code>options.content</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <p>Content of the layout.</p>
+                
+            </td>
+        </tr>
+    
+
+        <tr>
+            
+                <td class="name"><code>options.globalStyles</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <p>Global styles for layout and it's children.</p>
+                
+            </td>
+        </tr>
+    
+
+        <tr>
+            
+                <td class="name"><code>container</code></td>
+            
+
+            <td class="type">
+            
+                Container
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <p>Container for all layout children, will be created if not provided.</p>
                 
             </td>
         </tr>
@@ -584,6 +746,36 @@
 
 
         
+            <h3>Example</h3>
+            
+    <pre class="prettyprint"><code> const container = new Container().initLayout();
+
+ container.layout?.setStyles({
+      background: 'black',
+      width: '100%',
+      height: '100%',
+      padding: 10,
+      overflow: 'hidden',
+      color: 'white',
+ }); // set styles
+
+ container.layout?.setContent({
+      text: 'Hello World',
+ }); // set content
+
+ Or alternatively:
+
+ const layoutSystem = new LayoutSystem({
+      id: 'root',
+      content: 'Hello World',
+      styles: {
+          background: 'black',
+      }
+ }); // create layout system
+
+ app.stage.addChild(layoutSystem.container); // add layout system generated container to the stage</code></pre>
+
+        
     </div>
 
     
@@ -609,10 +801,10 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="height">
-            <a class="share-icon" href="#height"><span class="glyphicon glyphicon-link"></span></a>
-            <span class="">height</span>
-            <span class="type-signature type">number</span>
+        <h4 class="name" id="align">
+            <a class="share-icon" href="#align"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">align</span>
+            <span class="type-signature type"><a href="AlignController.html">AlignController</a></span>
             
             
             
@@ -622,7 +814,207 @@
 </dt>
 <dd>
     
-      <p class="description"><p>Get height of the controlled layout.</p></p>
+      <p class="description"><p><a href=AlignController.html>AlignController</a> is a class for controlling layout and all it's children alignment.</p></p>
+    
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="container">
+            <a class="share-icon" href="#container"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">container</span>
+            <span class="type-signature type">Container</span>
+            
+            
+            
+            
+        </h4>
+    </div>
+</dt>
+<dd>
+    
+      <p class="description"><p>Container for all layout children.</p></p>
+    
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="content">
+            <a class="share-icon" href="#content"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">content</span>
+            <span class="type-signature type"><a href="ContentController.html">ContentController</a></span>
+            
+            
+            
+            
+        </h4>
+    </div>
+</dt>
+<dd>
+    
+      <p class="description"><p><a href=ContentController.html>ContentController</a> controller is a class for controlling layouts children.</p></p>
+    
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="contentHeight">
+            <a class="share-icon" href="#contentHeight"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">contentHeight</span>
+            <span class="type-signature type">number | undefined</span>
+            
+            
+            
+            
+        </h4>
+    </div>
+</dt>
+<dd>
+    
+      <p class="description"><p>Returns height of the container</p></p>
+    
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="contentWidth">
+            <a class="share-icon" href="#contentWidth"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">contentWidth</span>
+            <span class="type-signature type">number | undefined</span>
+            
+            
+            
+            
+        </h4>
+    </div>
+</dt>
+<dd>
+    
+      <p class="description"><p>Returns with of the container</p></p>
     
     
 
@@ -672,10 +1064,8 @@
 </dt>
 <dd>
     
+      <p class="description"><p>Sets the height of layout.</p></p>
     
-    <div class="description">
-        <p>Set height of the controlled layout. And align children.</p>
-    </div>
     
 
     
@@ -711,10 +1101,10 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="width">
-            <a class="share-icon" href="#width"><span class="glyphicon glyphicon-link"></span></a>
-            <span class="">width</span>
-            <span class="type-signature type">number</span>
+        <h4 class="name" id="height">
+            <a class="share-icon" href="#height"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">height</span>
+            <span class="type-signature"></span>
             
             
             
@@ -724,7 +1114,207 @@
 </dt>
 <dd>
     
-      <p class="description"><p>Get width of the controlled layout.</p></p>
+      <p class="description"><p>Gets the height of layout.</p></p>
+    
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="id">
+            <a class="share-icon" href="#id"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">id</span>
+            <span class="type-signature type">string</span>
+            
+            
+            
+            
+        </h4>
+    </div>
+</dt>
+<dd>
+    
+      <p class="description"><p>ID of layout, can be used to set styles in the globalStyles object somewhere higher in hierarchal tree.</p></p>
+    
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="size">
+            <a class="share-icon" href="#size"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">size</span>
+            <span class="type-signature type"><a href="SizeController.html">SizeController</a></span>
+            
+            
+            
+            
+        </h4>
+    </div>
+</dt>
+<dd>
+    
+      <p class="description"><p><a href=SizeController.html>SizeController</a> is a class for controlling layout and all it's children sizes.</p></p>
+    
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="style">
+            <a class="share-icon" href="#style"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">style</span>
+            <span class="type-signature type">Styles</span>
+            
+            
+            
+            
+        </h4>
+    </div>
+</dt>
+<dd>
+    
+      <p class="description"><p>Layout styles.</p></p>
+    
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="textStyle">
+            <a class="share-icon" href="#textStyle"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">textStyle</span>
+            <span class="type-signature type">Partial&lt;TextStyle&gt;</span>
+            
+            
+            
+            
+        </h4>
+    </div>
+</dt>
+<dd>
+    
+      <p class="description"><p>Layout text styles.</p></p>
     
     
 
@@ -774,59 +1364,7 @@
 </dt>
 <dd>
     
-    
-    <div class="description">
-        <p>Set width of the controlled layout. And align children.</p>
-    </div>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
-        <h4 class="name" id="autoSizeModificator">
-            <a class="share-icon" href="#autoSizeModificator"><span class="glyphicon glyphicon-link"></span></a>
-            <span class="">autoSizeModificator</span>
-            <span class="type-signature type">SizeControl</span>
-            
-            <span class="access-signature">protected</span>
-            
-            
-        </h4>
-    </div>
-</dt>
-<dd>
-    
-      <p class="description"><p>Get type of size control basing on styles and in case if width of the layout is set to <code>auto</code>.</p></p>
+      <p class="description"><p>Sets the width of layout.</p></p>
     
     
 
@@ -863,10 +1401,60 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="innerText">
-            <a class="share-icon" href="#innerText"><span class="glyphicon glyphicon-link"></span></a>
-            <span class="">innerText</span>
-            <span class="type-signature type">Text</span>
+        <h4 class="name" id="width">
+            <a class="share-icon" href="#width"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">width</span>
+            <span class="type-signature"></span>
+            
+            
+            
+            
+        </h4>
+    </div>
+</dt>
+<dd>
+    
+      <p class="description"><p>Gets the width of layout.</p></p>
+    
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="_style">
+            <a class="share-icon" href="#_style"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">_style</span>
+            <span class="type-signature type"><a href="StyleController.html">StyleController</a></span>
             
             <span class="access-signature">protected</span>
             
@@ -876,10 +1464,8 @@
 </dt>
 <dd>
     
+      <p class="description"><p><a href=StyleController.html>StyleController</a> is a class for controlling styles.</p></p>
     
-    <div class="description">
-        <p>Get text element if layout is just a wrapper for a text element.</p>
-    </div>
     
 
     
@@ -925,6 +1511,663 @@
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id="addContent">
+            <a class="share-icon" href="#addContent"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+              
+                  addContent
+              
+            </span>
+            <span class="signature">(content)</span><span class="type-signature"></span>
+            
+            
+            
+            
+        </h4>
+
+        
+    </div>
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Adds content to the layout and reposition/resize other elements and the layout basing on styles.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                Content
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>Content to be added. Can be string, Container, Layout, LayoutOptions or array of those.
+Also content can be an object with inner layout ids as a keys, and Content as values.</p>
+                
+            </td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getChildByID">
+            <a class="share-icon" href="#getChildByID"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+              
+                  getChildByID
+              
+            </span>
+            <span class="signature">(id)</span><span class="type-signature"> <a href="Layout.html">Layout</a> | Container | undefined</span>
+            
+            
+            
+            
+        </h4>
+
+        
+    </div>
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get element from the layout child tree by it's ID</p>
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                string
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>id of the content to be foundS.</p>
+                
+            </td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+      <h5>Returns:</h5>
+      
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                    <a href="Layout.html">Layout</a> | Container | undefined
+            
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="removeChildByID">
+            <a class="share-icon" href="#removeChildByID"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+              
+                  removeChildByID
+              
+            </span>
+            <span class="signature">(id)</span><span class="type-signature"></span>
+            
+            
+            
+            
+        </h4>
+
+        
+    </div>
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Removes content of the layout by its id and reposition/resize other elements and the layout basing on styles.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                string
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>id of the content to be removed.</p>
+                
+            </td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="resize">
+            <a class="share-icon" href="#resize"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+              
+                  resize
+              
+            </span>
+            <span class="signature">(parentWidth, parentHeight)</span><span class="type-signature"></span>
+            
+            
+            
+            
+        </h4>
+
+        
+    </div>
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Resize method should be called on every parent size change.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>parentWidth</code></td>
+            
+
+            <td class="type">
+            
+                number
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+    
+
+        <tr>
+            
+                <td class="name"><code>parentHeight</code></td>
+            
+
+            <td class="type">
+            
+                number
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="setStyles">
+            <a class="share-icon" href="#setStyles"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+              
+                  setStyles
+              
+            </span>
+            <span class="signature">(styles)</span><span class="type-signature"></span>
+            
+            
+            
+            
+        </h4>
+
+        
+    </div>
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Updates the layout styles and resize/reposition it and its children basing on new styles.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>styles</code></td>
+            
+
+            <td class="type">
+            
+                Styles
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id="update">
             <a class="share-icon" href="#update"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
@@ -932,391 +2175,9 @@
                   update
               
             </span>
-            <span class="signature">(parentWidth, parentHeight)</span><span class="type-signature"></span>
-            
-            
-            
-            
-        </h4>
-
-        
-    </div>
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Updates layout size and all children sizes</p>
-    </div>
-    
-
-    
-
-    
-
-    
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-            <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-            <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>parentWidth</code></td>
-            
-
-            <td class="type">
-            
-                number
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">
-                <p>Parent width</p>
-                
-            </td>
-        </tr>
-    
-
-        <tr>
-            
-                <td class="name"><code>parentHeight</code></td>
-            
-
-            <td class="type">
-            
-                number
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">
-                <p>Parent height</p>
-                
-            </td>
-        </tr>
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
-        <h4 class="name" id="fitToSize">
-            <a class="share-icon" href="#fitToSize"><span class="glyphicon glyphicon-link"></span></a>
-            <span class="">
-              
-                  fitToSize
-              
-            </span>
-            <span class="signature">(parentWidth, parentHeight)</span><span class="type-signature"></span>
-            
-            <span class="access-signature">protected</span>
-            
-            
-        </h4>
-
-        
-    </div>
-</dt>
-<dd>
-    
-      <p class="description"><p>Fits controlled layout into parent size, scales it down if does not fit.</p></p>
-    
-    
-    <div class="description">
-        <p>This method is called when maxWidth or maxHeight is set.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-            <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>parentWidth</code></td>
-            
-
-            <td class="type">
-            
-                number
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-    
-
-        <tr>
-            
-                <td class="name"><code>parentHeight</code></td>
-            
-
-            <td class="type">
-            
-                number
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
-        <h4 class="name" id="updateBG">
-            <a class="share-icon" href="#updateBG"><span class="glyphicon glyphicon-link"></span></a>
-            <span class="">
-              
-                  updateBG
-              
-            </span>
             <span class="signature">()</span><span class="type-signature"></span>
             
-            <span class="access-signature">protected</span>
             
-            
-        </h4>
-
-        
-    </div>
-</dt>
-<dd>
-    
-      <p class="description"><p>Render and update the background of layout basing on it's current state.</p></p>
-    
-    
-
-    
-
-    
-
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
-        <h4 class="name" id="updateMask">
-            <a class="share-icon" href="#updateMask"><span class="glyphicon glyphicon-link"></span></a>
-            <span class="">
-              
-                  updateMask
-              
-            </span>
-            <span class="signature">()</span><span class="type-signature"></span>
-            
-            <span class="access-signature">protected</span>
             
             
         </h4>
@@ -1326,7 +2187,7 @@
 </dt>
 <dd>
     
-      <p class="description"><p>Render and update the mask of layout basing on it's current state. Mask is used to hide overflowing content.</p></p>
+      <p class="description"><p>This is used in case if layout or some of it's children was changed and we need to update sizes and positions.</p></p>
     
     
 
