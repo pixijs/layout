@@ -1,19 +1,17 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-case-declarations */
-import { Layout } from '../Layout';
-import { Content, ContentList, LayoutOptions, LayoutStyles } from '../utils/types';
+import { Layout, LayoutSystem } from '../Layout';
+import { Content, ContentList, ContentType, LayoutOptions, LayoutStyles } from '../utils/types';
 import { Container } from '@pixi/display';
 import { Text } from '@pixi/text';
 import { Sprite } from '@pixi/sprite';
 import { Graphics } from '@pixi/graphics';
 import { stylesToPixiTextStyles } from '../utils/helpers';
 
-type ContentType = 'layout' | 'text' | 'string' | 'container' | 'array' | 'unknown' | 'layoutConfig' | 'object';
-
-/** Controls all {@link Layout} children sizing. */
+/** Controls all {@link LayoutSystem} children sizing. */
 export class ContentController
 {
-    protected layout: Layout;
+    protected layout: LayoutSystem;
 
     /**
      * List of all children of the layout, controlled by this controller.
@@ -26,11 +24,11 @@ export class ContentController
 
     /**
      * Creates all instances and manages configs
-     * @param {Layout} layout - Layout instance
+     * @param {LayoutSystem} layout - Layout instance
      * @param content - Content of the layout
      * @param globalStyles - Global styles for layout and it's children
      */
-    constructor(layout: Layout, content?: Content, globalStyles?: LayoutStyles)
+    constructor(layout: LayoutSystem, content?: Content, globalStyles?: LayoutStyles)
     {
         this.layout = layout;
         this.children = new Map();
@@ -79,7 +77,7 @@ export class ContentController
                     {
                         layoutConfig.globalStyles = {
                             ...parentGlobalStyles,
-                            ...(layoutConfig.globalStyles as any)
+                            ...(layoutConfig.globalStyles as any),
                         };
                     }
                     else
@@ -115,7 +113,7 @@ export class ContentController
                                 // if there are predefined styles for this id
                                 defaultStyles = {
                                     ...defaultStyles,
-                                    ...stylesToPixiTextStyles(parentGlobalStyles[idKey])
+                                    ...stylesToPixiTextStyles(parentGlobalStyles[idKey]),
                                 };
                             }
 
@@ -131,7 +129,7 @@ export class ContentController
                                 // if there are predefined styles for this id
                                 defaultStyles = {
                                     ...defaultStyles,
-                                    ...stylesToPixiTextStyles(parentGlobalStyles[idKey])
+                                    ...stylesToPixiTextStyles(parentGlobalStyles[idKey]),
                                 };
                             }
 
@@ -145,7 +143,7 @@ export class ContentController
                             if (parentGlobalStyles && parentGlobalStyles[idKey])
                             {
                                 layoutInstance.setStyles(parentGlobalStyles[idKey]);
-                                layoutInstance.update();
+                                layoutInstance.layout.update();
                             }
 
                             this.createContent(layoutInstance);
@@ -157,7 +155,7 @@ export class ContentController
                             this.createContent({
                                 ...contentElement,
                                 globalStyles: parentGlobalStyles,
-                                id: idKey // we are rewriting this id with the key of the object, even if it is set
+                                id: idKey, // we are rewriting this id with the key of the object, even if it is set
                             });
                             break;
                         case 'object':
@@ -189,11 +187,13 @@ export class ContentController
     {
         if (id && this.children.has(id))
         {
-            console.error(`Element with '${id}' duplicates, be careful using id selectors with it.`);
+            console.error(
+                `Element with '${id}' duplicates, be careful using id selectors with it.`,
+            );
         }
 
         this.children.set(id, content);
-        this.layout.addChild(content);
+        this.layout.container.addChild(content);
     }
 
     /**
@@ -230,7 +230,7 @@ export class ContentController
      * Get element from the layout child tree by it's ID
      * @param id
      */
-    getByID(id: string): Layout | Container | undefined
+    getByID(id: string): Container | undefined
     {
         let result = this.children.get(id);
 
@@ -238,9 +238,9 @@ export class ContentController
         {
             this.children.forEach((child) =>
             {
-                if (child instanceof Layout)
+                if (child.layout)
                 {
-                    const res = child.content.getByID(id);
+                    const res = child.layout.content.getByID(id);
 
                     if (res)
                     {
@@ -292,7 +292,7 @@ export class ContentController
 
         if (content)
         {
-            this.layout.removeChild(content);
+            this.layout.container.removeChild(content);
             this.children.delete(id);
         }
     }

@@ -79,9 +79,9 @@ class LayoutStory
         {
             const image = this.layout.getChildByID('image');
 
-            if (image && image instanceof Layout)
+            if (image && image.layout)
             {
-                image.content.firstChild.rotation += 0.01 * delta;
+                image.layout.content.firstChild.rotation += 0.01 * delta;
             }
         }
     }

@@ -14,14 +14,20 @@ export type Color = {
 
 export type CSSColor = keyof typeof CSS_COLOR_NAMES;
 
-export type Position = typeof POSITION[number];
-export type Display = typeof DISPLAY[number];
+export type Position = (typeof POSITION)[number];
+export type Display = (typeof DISPLAY)[number];
 
 export type ContentList = { [ID: string]: Content };
-export type Content = string | Container | Layout | LayoutOptions | Content[] | ContentList;
+export type Content =
+    | string
+    | Container
+    | Layout
+    | LayoutOptions
+    | Content[]
+    | ContentList;
 
 export type Containers = Container[];
-export type Overflow = typeof OVERFLOW[number];
+export type Overflow = (typeof OVERFLOW)[number];
 
 export type AspectRatio = 'static' | 'flex';
 
@@ -73,6 +79,16 @@ export type LayoutOptions = {
     globalStyles?: LayoutStyles;
 };
 
-export type VerticalAlign = typeof VERTICAL_ALIGN[number];
+export type VerticalAlign = (typeof VERTICAL_ALIGN)[number];
 
 export type SizeControl = 'innerText' | 'background' | 'parentSize' | 'contentSize';
+
+export type ContentType =
+    | 'layout'
+    | 'text'
+    | 'string'
+    | 'container'
+    | 'array'
+    | 'unknown'
+    | 'layoutConfig'
+    | 'object';

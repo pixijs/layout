@@ -1,17 +1,17 @@
-import { Layout } from '../../Layout';
+import { Layout, LayoutSystem } from '../../Layout';
 import { Text } from '@pixi/text';
 import { isItJustAText } from '../../utils/helpers';
 
-/** Align controller manages {@link Layout} and it's content alignment. */
+/** Align controller manages {@link LayoutSystem} and it's content alignment. */
 export class AlignController
 {
-    protected layout: Layout;
+    protected layout: LayoutSystem;
 
     /**
      * Creates align controller.
-     * @param {Layout} layout - Layout to control.
+     * @param {LayoutSystem} layout - Layout to control.
      */
-    constructor(layout: Layout)
+    constructor(layout: LayoutSystem)
     {
         this.layout = layout;
     }
@@ -190,69 +190,75 @@ export class AlignController
 
     protected setSelfPosition(parentWidth: number, parentHeight: number)
     {
-        const { position, marginRight, marginBottom, marginTop, marginLeft } = this.layout.style || {};
+        const { position, marginRight, marginBottom, marginTop, marginLeft }
+            = this.layout.style || {};
 
         const { style } = this.layout;
 
         if (!position) return;
 
-        const scaleX = this.layout.scale.x;
-        const scaleY = this.layout.scale.y;
+        const scaleX = this.layout.container.scale.x;
+        const scaleY = this.layout.container.scale.y;
         const width = this.layout.width * scaleX;
         const height = this.layout.height * scaleY;
 
         const anchorX = style.anchorX;
         const anchorY = style.anchorY;
 
+        const finalPosition = {
+            x: 0,
+            y: 0,
+        };
+
         switch (position)
         {
             case 'rightTop':
             case 'topRight':
             case 'right':
-                this.layout.x = parentWidth - marginRight - (width * (anchorX ?? 1));
-                this.layout.y = marginTop - (height * (anchorY ?? 0));
+                finalPosition.x = parentWidth - marginRight - (width * (anchorX ?? 1));
+                finalPosition.y = marginTop - (height * (anchorY ?? 0));
                 break;
 
             case 'leftBottom':
             case 'bottomLeft':
             case 'bottom':
-                this.layout.x = marginLeft - (width * (anchorX ?? 0));
-                this.layout.y = parentHeight - marginBottom - (height * (anchorY ?? 1));
+                finalPosition.x = marginLeft - (width * (anchorX ?? 0));
+                finalPosition.y = parentHeight - marginBottom - (height * (anchorY ?? 1));
                 break;
 
             case 'rightBottom':
             case 'bottomRight':
-                this.layout.x = parentWidth - marginRight - (width * (anchorX ?? 1));
-                this.layout.y = parentHeight - marginBottom - (height * (anchorY ?? 1));
+                finalPosition.x = parentWidth - marginRight - (width * (anchorX ?? 1));
+                finalPosition.y = parentHeight - marginBottom - (height * (anchorY ?? 1));
                 break;
 
             case 'center':
-                this.layout.x = (parentWidth / 2) - (width * (anchorX ?? 0.5)) + marginLeft;
-                this.layout.y = (parentHeight / 2) - (height * (anchorY ?? 0.5)) + marginTop;
+                finalPosition.x = (parentWidth / 2) - (width * (anchorX ?? 0.5)) + marginLeft;
+                finalPosition.y = (parentHeight / 2) - (height * (anchorY ?? 0.5)) + marginTop;
                 break;
 
             case 'centerTop':
             case 'topCenter':
-                this.layout.x = (parentWidth / 2) - (width * (anchorX ?? 0.5)) + marginLeft;
-                this.layout.y = marginTop - (height * (anchorY ?? 0));
+                finalPosition.x = (parentWidth / 2) - (width * (anchorX ?? 0.5)) + marginLeft;
+                finalPosition.y = marginTop - (height * (anchorY ?? 0));
                 break;
 
             case 'centerBottom':
             case 'bottomCenter':
-                this.layout.x = (parentWidth / 2) - (width * (anchorX ?? 0.5)) + marginLeft;
-                this.layout.y = parentHeight - marginBottom - (height * (anchorY ?? 1));
+                finalPosition.x = (parentWidth / 2) - (width * (anchorX ?? 0.5)) + marginLeft;
+                finalPosition.y = parentHeight - marginBottom - (height * (anchorY ?? 1));
                 break;
 
             case 'centerLeft':
             case 'leftCenter':
-                this.layout.x = marginLeft - (width * (anchorX ?? 0));
-                this.layout.y = (parentHeight / 2) - (height * (anchorY ?? 0.5)) + marginTop;
+                finalPosition.x = marginLeft - (width * (anchorX ?? 0));
+                finalPosition.y = (parentHeight / 2) - (height * (anchorY ?? 0.5)) + marginTop;
                 break;
 
             case 'centerRight':
             case 'rightCenter':
-                this.layout.x = parentWidth - marginRight - (width * (anchorX ?? 1));
-                this.layout.y = (parentHeight / 2) - (height * (anchorY ?? 0.5)) + marginTop;
+                finalPosition.x = parentWidth - marginRight - (width * (anchorX ?? 1));
+                finalPosition.y = (parentHeight / 2) - (height * (anchorY ?? 0.5)) + marginTop;
                 break;
 
             case 'leftTop':
@@ -260,8 +266,10 @@ export class AlignController
             case 'left':
             case 'top':
             default:
-                this.layout.x = marginLeft - (width * (anchorX ?? 0));
-                this.layout.y = marginTop - (height * (anchorY ?? 0));
+                finalPosition.x = marginLeft - (width * (anchorX ?? 0));
+                finalPosition.y = marginTop - (height * (anchorY ?? 0));
         }
+
+        this.layout.container.position.set(finalPosition.x, finalPosition.y);
     }
 }

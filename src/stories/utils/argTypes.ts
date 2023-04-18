@@ -48,14 +48,16 @@ export const argTypes = (args: Types) =>
         {
             let min = 0;
 
-            if (key.includes('font'))
+            const number = args[key] as number;
+
+            if (key.includes('font') || key.includes('amount'))
             {
                 min = 1;
             }
 
-            if (args[key] >= 0)
+            if (number >= 0)
             {
-                if (args[key] >= 100)
+                if (number >= 100)
                 {
                     exportArgTypes[key] = {
                         control: {
@@ -66,7 +68,7 @@ export const argTypes = (args: Types) =>
                         },
                     };
                 }
-                else if (args[key] > 10)
+                else if (number > 10)
                 {
                     exportArgTypes[key] = {
                         control: {
@@ -77,7 +79,7 @@ export const argTypes = (args: Types) =>
                         },
                     };
                 }
-                else if (args[key] <= 1)
+                else if (number <= 1)
                 {
                     exportArgTypes[key] = {
                         control: {
@@ -101,7 +103,7 @@ export const argTypes = (args: Types) =>
                 }
             }
             else
-            if (args[key] <= -100)
+            if (number <= -100)
             {
                 exportArgTypes[key] = {
                     control: {
@@ -112,7 +114,7 @@ export const argTypes = (args: Types) =>
                     },
                 };
             }
-            else if (args[key] < -10)
+            else if (number < -10)
             {
                 exportArgTypes[key] = {
                     control: {
@@ -123,7 +125,7 @@ export const argTypes = (args: Types) =>
                     },
                 };
             }
-            else if (args[key] >= -1)
+            else if (number >= -1)
             {
                 exportArgTypes[key] = {
                     control: {
