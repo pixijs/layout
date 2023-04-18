@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 import { Layout, LayoutSystem } from '../Layout';
 import { Content, ContentList, ContentType, LayoutOptions, LayoutStyles } from '../utils/types';
-import { Container } from '@pixi/display';
+import { Container, DisplayObject } from '@pixi/display';
 import { Text } from '@pixi/text';
 import { Sprite } from '@pixi/sprite';
 import { Graphics } from '@pixi/graphics';
