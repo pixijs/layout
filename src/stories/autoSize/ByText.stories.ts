@@ -4,11 +4,12 @@ import { argTypes, getDefaultArgs } from '../utils/argTypes';
 
 const args = {
     text:
-    `Width and height are not set (it is 'auto').\n`
-    + `Display is set to 'inline' or 'inline-Block'.\n`
+    `Width and height are not set (it is 'auto').\n\n`
+    + `Display is set to 'inline' or 'inline-Block'.\n\n`
     + `Size of the layout will change basing on the inner text size.`,
     padding: 20,
-    fontSize: 24
+    fontSize: 24,
+    wordWrap: true,
 };
 
 class LayoutStory
@@ -19,7 +20,7 @@ class LayoutStory
     w: number;
     h: number;
 
-    constructor({ text, padding, fontSize }: any)
+    constructor({ text, padding, fontSize, wordWrap }: any)
     {
         this.layout = new Layout({
             id: 'root',
@@ -31,7 +32,8 @@ class LayoutStory
                 position: 'center',
                 borderRadius: 20,
                 padding,
-                fontSize
+                fontSize,
+                wordWrap
             }
         });
 

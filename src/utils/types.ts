@@ -75,4 +75,4 @@ export type LayoutOptions = {
 
 export type VerticalAlign = typeof VERTICAL_ALIGN[number];
 
-export type SizeControl = 'innerText' | 'background' | 'parentSize' | 'contentSize';
+export type SizeControl = 'background' | 'parentSize' | 'contentSize';

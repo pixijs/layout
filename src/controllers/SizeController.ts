@@ -54,10 +54,6 @@ export class SizeController
             scaleX,
             scaleY,
             background,
-            paddingLeft,
-            paddingRight,
-            paddingTop,
-            paddingBottom,
             aspectRatio
         } = this.layout.style;
 
@@ -72,26 +68,6 @@ export class SizeController
         {
             switch (this.autoSizeModificator)
             {
-                case 'innerText':
-                    // width is auto, there is only 1 child and it is text
-                    // resize basing on text width
-
-                    const needToBeResized = this.innerText.width + paddingLeft + paddingRight > this.parentWidth;
-
-                    if (!this.innerText.style.wordWrap && needToBeResized)
-                    {
-                        this.innerText.style.wordWrap = true;
-                    }
-
-                    if (this.innerText.style.wordWrap)
-                    {
-                        this.innerText.style.wordWrapWidth = this.parentWidth - paddingLeft - paddingRight;
-                    }
-
-                    finalWidth = this.innerText.width;
-
-                    break;
-
                 case 'background':
                     // width is auto, there is more than 1 child or it is not text
                     // resize basing on background width
@@ -141,12 +117,12 @@ export class SizeController
                         }
                     });
 
-                    // height is basing on content height
-                    finalWidth = childrenWidth + paddingLeft + paddingRight;
+                    // width is basing on content width
+                    finalWidth = childrenWidth;
 
                     if (isItJustAText(this.layout))
                     {
-                        finalWidth = this.innerText?.width + paddingLeft + paddingRight;
+                        finalWidth = this.innerText?.width;
                     }
 
                     break;
@@ -156,12 +132,6 @@ export class SizeController
                     // resize to parent width
                     finalWidth = this.parentWidth;
 
-                    if (isItJustAText(this.layout))
-                    {
-                        // this.innerText.style.wordWrap = true;
-                        this.innerText.style.wordWrapWidth = parentWidth - paddingLeft - paddingRight;
-                    }
-
                     break;
             }
         }
@@ -170,19 +140,10 @@ export class SizeController
             finalWidth = getNumber(width, this.parentWidth);
         }
 
-        // this.fitInnerText(finalWidth);
-
         if (height === 'auto')
         {
             switch (this.autoSizeModificator)
             {
-                case 'innerText':
-                    // height is auto, there is only 1 child and it is text
-                    // resize basing on text height
-                    finalHeight = this.innerText?.height + paddingBottom + paddingTop;
-
-                    break;
-
                 case 'background':
                     // height is auto, there is more than 1 child or it is not text
                     // resize basing on background height
@@ -245,13 +206,8 @@ export class SizeController
                         }
                     });
 
-                    if (isItJustAText(this.layout))
-                    {
-                        finalHeight = this.innerText?.height;
-                    }
-
                     // height is basing on content height
-                    finalHeight = childrenHeight + paddingTop + paddingBottom;
+                    finalHeight = childrenHeight;
 
                     break;
             }
@@ -264,25 +220,18 @@ export class SizeController
         // apply parent paddings
         if (this.layout.parent instanceof Layout)
         {
-            const { paddingLeft, paddingRight } = this.layout.parent?.style;
+            const { paddingLeft, paddingRight, paddingTop, paddingBottom } = this.layout.parent?.style;
 
             const parentPaddingLeft = paddingLeft ?? 0;
             const parentPaddingRight = paddingRight ?? 0;
+            const parentPaddingTop = paddingTop ?? 0;
+            const parentPaddingBottom = paddingBottom ?? 0;
 
-            if (this.autoSizeModificator !== 'innerText')
-            {
-                finalWidth -= parentPaddingLeft;
-            }
-
-            finalWidth -= parentPaddingRight;
-
-            this.fitInnerText(finalWidth);
-
-            if (isItJustAText(this.layout) && height === 'auto')
-            {
-                finalHeight = this.innerText?.height + paddingBottom + paddingTop;
-            }
+            finalWidth -= parentPaddingLeft - parentPaddingRight;
+            finalHeight -= parentPaddingTop - parentPaddingBottom;
         }
+
+        this.fitInnerText(finalWidth, finalHeight);
 
         if (finalWidth < 0) finalWidth = 0;
         if (finalHeight < 0) finalHeight = 0;
@@ -310,26 +259,29 @@ export class SizeController
         this.layout.align.update(this.parentWidth, this.parentHeight);
     }
 
-    protected fitInnerText(width: number)
+    protected fitInnerText(width: number, height: number)
     {
         if (!isItJustAText(this.layout)) return;
 
-        const { paddingLeft, paddingRight } = this.layout.style;
-
-        const needToBeResized = this.innerText.width + paddingLeft + paddingRight > width;
-
-        if (!needToBeResized)
-        {
-            return;
-        }
+        const { paddingLeft, paddingRight, paddingTop, paddingBottom } = this.layout.style;
+        const availableSpaceHor = width - paddingRight - paddingLeft;
+        const availableSpaceVert = height - paddingTop - paddingBottom;
 
         if (this.innerText.style.wordWrap)
         {
-            this.innerText.style.wordWrapWidth = width - paddingRight - paddingLeft;
+            this.innerText.style.wordWrapWidth = availableSpaceHor;
         }
         else
         {
-            this.innerText.scale.set((width - paddingRight - paddingLeft) / this.innerText.width);
+            const horOffset = this.innerText.width - availableSpaceHor;
+            const vertOffset = this.innerText.height - availableSpaceVert;
+
+            if (horOffset > 0 || vertOffset > 0)
+            {
+                horOffset > vertOffset
+                    ? this.innerText.scale.set(availableSpaceHor / this.innerText.width)
+                    : this.innerText.scale.set(availableSpaceVert / this.innerText.height);
+            }
         }
     }
 
@@ -341,11 +293,6 @@ export class SizeController
         if (display === 'block')
         {
             return 'parentSize';
-        }
-
-        if (isItJustAText(this.layout))
-        {
-            return 'innerText';
         }
 
         if (background instanceof Container)

@@ -11,7 +11,8 @@ const args = {
     + 'layout width will adapt to the parent width.\n'
     + 'height will adapt to the text height.',
     padding: 15,
-    textAlign: ALIGN
+    textAlign: ALIGN,
+    wordWrap: true,
 };
 
 class LayoutStory
@@ -22,7 +23,7 @@ class LayoutStory
     w: number;
     h: number;
 
-    constructor({ textAlign, padding, text }: any)
+    constructor({ textAlign, padding, text, wordWrap }: any)
     {
         this.layout = new Layout({
             id: 'root',
@@ -31,12 +32,15 @@ class LayoutStory
                 background: 'black',
                 padding,
                 overflow: 'hidden',
+                maxWidth: '100%',
+                maxHeight: '100%',
                 // text options
                 color: 'white',
                 textAlign,
                 fontSize: 24,
                 position: 'center',
-                borderRadius: 20
+                borderRadius: 20,
+                wordWrap
             }
         });
 

@@ -3,14 +3,19 @@ import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { ALIGN } from '../../utils/constants';
 
-const TEXTS = ['Width and height values are set in percentage of the parent size.', 'Text will adapt to the layout size.'];
+const TEXTS = [
+    'Width and height values are set\n\n',
+    'in the percentage of the parent size.\n\n',
+    'Text will adapt to the layout size.',
+];
 
 const args = {
     text: TEXTS.join('\n\n'),
     width: 50,
     height: 50,
     padding: 15,
-    textAlign: ALIGN
+    textAlign: ALIGN,
+    wordWrap: true,
 };
 
 class LayoutStory
@@ -21,7 +26,7 @@ class LayoutStory
     w: number;
     h: number;
 
-    constructor({ textAlign, width, height, padding, text }: any)
+    constructor({ textAlign, width, height, padding, text, wordWrap }: any)
     {
         this.layout = new Layout({
             id: 'root',
@@ -37,7 +42,8 @@ class LayoutStory
                 textAlign,
                 fontSize: 24,
                 position: 'center',
-                borderRadius: 20
+                borderRadius: 20,
+                wordWrap
             }
         });
 
