@@ -6,14 +6,14 @@ import { preloadAssets } from '../utils/helpers';
 import { Sprite } from '@pixi/sprite';
 import { Content } from '../../utils/types';
 
-const assets = {
+const testAssets = {
     energy: 'Icons/EnergyIcon.png',
     gem: 'Icons/gemIcon.png',
     star: 'Icons/Star.png'
 };
 
 const args = {
-    image: Object.keys(assets),
+    image: Object.keys(testAssets),
     amount: 3,
     padding: 20,
     maxWidth: 95
@@ -35,7 +35,7 @@ class LayoutStory
         + `Size of the layout will change basing on content.`
         );
 
-        preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
+        preloadAssets(Object.values(testAssets)).then(() => this.createLayout(props));
     }
 
     createLayout({ image, padding, amount, maxWidth }: any)
@@ -44,7 +44,7 @@ class LayoutStory
 
         for (let i = 0; i < amount; i++)
         {
-            content.push(Sprite.from(assets[image]));
+            content.push(Sprite.from(testAssets[image]));
         }
 
         this.layout = new Layout({

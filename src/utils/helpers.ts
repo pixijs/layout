@@ -2,7 +2,7 @@ import { ALIGN, CSS_COLOR_NAMES } from './constants';
 import { Color, CSSColor, FlexColor, FlexNumber, Styles } from './types';
 import { utils } from '@pixi/core';
 import { TextStyle, TEXT_GRADIENT, Text } from '@pixi/text';
-import { Layout } from '../Layout';
+import { LayoutSystem } from '../Layout';
 
 export function rgba2Hex([r, g, b]: number[]): number
 {
@@ -58,7 +58,7 @@ export function getColor(color: FlexColor): Color
             {
                 return {
                     hex: utils.string2hex(color),
-                    opacity: 1
+                    opacity: 1,
                 };
             }
             else if (color.startsWith('rgba('))
@@ -68,7 +68,7 @@ export function getColor(color: FlexColor): Color
 
                 return {
                     hex: rgba2Hex(rgbData),
-                    opacity: parseFloat(colorData[3])
+                    opacity: parseFloat(colorData[3]),
                 };
             }
             else if (color.startsWith('rgb('))
@@ -78,7 +78,7 @@ export function getColor(color: FlexColor): Color
 
                 return {
                     hex: utils.rgb2hex(rgbData),
-                    opacity: 1
+                    opacity: 1,
                 };
             }
             else if (color.startsWith('hsla('))
@@ -88,14 +88,14 @@ export function getColor(color: FlexColor): Color
 
                 return {
                     hex: hsl2Hex(r, g, b),
-                    opacity: parseFloat(colorData[3])
+                    opacity: parseFloat(colorData[3]),
                 };
             }
             else if (Object.keys(CSS_COLOR_NAMES).includes(color as CSSColor))
             {
                 return {
                     hex: CSS_COLOR_NAMES[color as CSSColor],
-                    opacity: 1
+                    opacity: 1,
                 };
             }
             throw new Error(`Unknown color format: ${color}`);
@@ -103,13 +103,13 @@ export function getColor(color: FlexColor): Color
         case 'number':
             return {
                 hex: color,
-                opacity: 1
+                opacity: 1,
             };
 
         default:
             return {
                 hex: parseInt(color, 16),
-                opacity: 1
+                opacity: 1,
             };
     }
 }
@@ -176,15 +176,15 @@ export function stylesToPixiTextStyles(styles: Styles): Partial<TextStyle>
         whiteSpace: styles?.whiteSpace ?? 'pre',
         wordWrap: styles?.wordWrap ?? true,
         wordWrapWidth: styles?.wordWrapWidth ?? 100,
-        leading: styles?.leading ?? 0
+        leading: styles?.leading ?? 0,
     };
 }
 
 /**
  * Detect if layout is just a wrapper for a text element.
- * @param {Layout} layout - Layout to check.
+ * @param {LayoutSystem} layout - Layout to check.
  */
-export function isItJustAText(layout: Layout): boolean
+export function isItJustAText(layout: LayoutSystem): boolean
 {
     const hasOnly1Child = layout.content.children.size === 1;
 

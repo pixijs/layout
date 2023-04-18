@@ -4,7 +4,6 @@ import { Container } from '@pixi/display';
 import { toolTip } from '../components/ToolTip';
 import { preloadAssets } from '../utils/helpers';
 import { Sprite } from '@pixi/sprite';
-import { Content } from '../../utils/types';
 import { FancyButton } from '@pixi/ui';
 
 const assets = {
@@ -35,14 +34,30 @@ class LayoutStory
     {
         this.addTooltip(`'+' and '-' buttons will change the size of 'gem' sprite and update the layout.`);
 
-        preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
+        preloadAssets(Object.values(assets))
+            .then(() => preloadAssets(Object.values(assets)))
+            .then(() => this.createLayout(props));
     }
 
     createLayout({ padding, maxWidth }: any)
     {
-        const content: Array<Content> = [];
+        const addButton = new FancyButton({
+            defaultView: assets.button,
+            hoverView: assets.buttonHover,
+            pressedView: assets.buttonDown,
+            icon: assets.plus,
+            iconOffset: { y: -7 }
+        });
 
-        content.push();
+        const removeButton = new FancyButton({
+            defaultView: assets.button,
+            hoverView: assets.buttonHover,
+            pressedView: assets.buttonDown,
+            icon: assets.minus,
+            iconOffset: { y: -7 }
+        });
+
+        const buttonsScale = 0.5;
 
         const energy = Sprite.from(assets.energy);
         const gem = Sprite.from(assets.gem);
@@ -54,61 +69,42 @@ class LayoutStory
                 icons: {
                     content: [energy, gem, star],
                     styles: {
-                        padding
+                        position: 'center',
+                        padding,
+                        maxWidth: `${maxWidth}%`,
+                        background: 'black',
+                        borderRadius: 20,
                     }
-                }
+                },
+                controls: {
+                    content: [addButton, removeButton],
+                    styles: {
+                        position: 'bottomCenter',
+                        scale: buttonsScale,
+                        marginBottom: -20
+                    }
+                },
             },
             styles: {
-                background: 'black',
                 position: 'center',
-                borderRadius: 20,
-                maxWidth: `${maxWidth}%`
+                width: '100%',
+                height: 250,
             }
         });
 
-        const plusButton = new FancyButton({
-            defaultView: assets.button,
-            hoverView: assets.buttonHover,
-            pressedView: assets.buttonDown,
-            icon: assets.plus,
-            iconOffset: { y: -7 }
-        });
+        const iconsLayout = this.layout.content.getByID('icons')?.layout;
 
-        const minusButton = new FancyButton({
-            defaultView: assets.button,
-            hoverView: assets.buttonHover,
-            pressedView: assets.buttonDown,
-            icon: assets.minus,
-            iconOffset: { y: -7 }
-        });
-
-        this.layout.addContent({
-            id: 'button',
-            content: {
-                content: [plusButton, minusButton],
-                styles: {
-                    scale: 0.5
-                }
-            },
-            styles: {
-                position: 'leftBottom',
-                marginBottom: -plusButton.height - 5
-            }
-        });
-
-        const iconsLayout: Layout = this.layout.content.getByID('icons') as Layout;
-
-        plusButton.onPress.connect(() =>
+        addButton.onPress.connect(() =>
         {
             gem.scale.set(gem.scale._x + 0.1);
-            iconsLayout.update();
+            iconsLayout?.update();
         });
 
-        minusButton.onPress.connect(() =>
+        removeButton.onPress.connect(() =>
         {
             gem.scale.set(gem.scale._x - 0.1 > 0 ? gem.scale._x - 0.1 : 0);
 
-            iconsLayout.update();
+            iconsLayout?.update();
         });
 
         this.layout.resize(this.w, this.h);

@@ -4,7 +4,6 @@ import { Container } from '@pixi/display';
 import { toolTip } from '../components/ToolTip';
 import { preloadAssets } from '../utils/helpers';
 import { Sprite } from '@pixi/sprite';
-import { Content } from '../../utils/types';
 import { FancyButton } from '@pixi/ui';
 
 const assets = {
@@ -41,9 +40,23 @@ class LayoutStory
 
     createLayout({ padding, maxWidth, maxHeight }: any)
     {
-        const content: Array<Content> = [];
+        const addButton = new FancyButton({
+            defaultView: assets.button,
+            hoverView: assets.buttonHover,
+            pressedView: assets.buttonDown,
+            icon: assets.plus,
+            iconOffset: { y: -7 }
+        });
 
-        content.push();
+        const removeButton = new FancyButton({
+            defaultView: assets.button,
+            hoverView: assets.buttonHover,
+            pressedView: assets.buttonDown,
+            icon: assets.minus,
+            iconOffset: { y: -7 }
+        });
+
+        const buttonsScale = 0.5;
 
         const energy = Sprite.from(assets.energy);
         const gem = Sprite.from(assets.gem);
@@ -52,62 +65,49 @@ class LayoutStory
         this.layout = new Layout({
             id: 'root',
             content: {
-                energy: {
-                    content: energy,
+                items: {
+                    content: {
+                        energy: {
+                            content: energy,
+                            styles: {
+                                padding: 10
+                            }
+                        },
+                        gem: {
+                            content: gem,
+                            styles: {
+                                padding,
+                                background: 'red'
+                            }
+                        },
+                        star: {
+                            content: star,
+                            styles: {
+                                padding: 10
+                            }
+                        }
+                    },
                     styles: {
-                        padding: 10
+                        background: 'black',
+                        position: 'center',
+                        borderRadius: 20,
+                        maxWidth: `${maxWidth}%`,
+                        maxHeight: `${maxHeight}%`
                     }
                 },
-                gem: {
-                    content: gem,
+                controls: {
+                    content: [addButton, removeButton],
                     styles: {
-                        padding,
-                        background: 'red'
-                    }
-                },
-                star: {
-                    content: star,
-                    styles: {
-                        padding: 10
+                        position: 'bottomCenter',
+                        scale: buttonsScale,
+                        marginBottom: 100
                     }
                 }
             },
             styles: {
-                background: 'black',
                 position: 'center',
-                borderRadius: 20,
-                maxWidth: `${maxWidth}%`,
-                maxHeight: `${maxHeight}%`
-            }
-        });
-
-        const plusButton = new FancyButton({
-            defaultView: assets.button,
-            hoverView: assets.buttonHover,
-            pressedView: assets.buttonDown,
-            icon: assets.plus,
-            iconOffset: { y: -7 }
-        });
-
-        const minusButton = new FancyButton({
-            defaultView: assets.button,
-            hoverView: assets.buttonHover,
-            pressedView: assets.buttonDown,
-            icon: assets.minus,
-            iconOffset: { y: -7 }
-        });
-
-        this.layout.addContent({
-            id: 'button',
-            content: {
-                content: [plusButton, minusButton],
-                styles: {
-                    scale: 0.5
-                }
-            },
-            styles: {
-                position: 'leftBottom',
-                marginBottom: -plusButton.height - 5
+                width: '100%',
+                height: '100%',
             }
         });
 
@@ -117,7 +117,7 @@ class LayoutStory
 
         if (gemLayoutStyle)
         {
-            plusButton.onPress.connect(() =>
+            addButton.onPress.connect(() =>
             {
                 const padding = gemLayoutStyle.padding;
 
@@ -129,7 +129,7 @@ class LayoutStory
                 }
             });
 
-            minusButton.onPress.connect(() =>
+            removeButton.onPress.connect(() =>
             {
                 const padding = gemLayoutStyle.padding;
 

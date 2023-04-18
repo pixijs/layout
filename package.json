@@ -36,6 +36,7 @@
     "prepare": "husky install",
     "release": "xs bump,build,docs,publish,git-push",
     "serve": "xs serve",
+    "start": "npm run storybook",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build --output-dir docs/storybook",
     "types": "xs types",

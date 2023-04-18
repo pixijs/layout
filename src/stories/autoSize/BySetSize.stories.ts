@@ -7,8 +7,8 @@ const TEXTS = ['Width and height values are set in percentage of the parent size
 
 const args = {
     text: TEXTS.join('\n\n'),
-    width: 50,
-    height: 50,
+    width: 350,
+    height: 350,
     padding: 15,
     textAlign: ALIGN
 };
@@ -28,8 +28,8 @@ class LayoutStory
             content: text,
             styles: {
                 background: 'black',
-                width: `${width}%`,
-                height: `${height}%`,
+                width,
+                height,
                 padding,
                 overflow: 'hidden',
                 // text options

@@ -16,30 +16,26 @@ export async function toolTip(text: string): Promise<Layout>
     });
 
     const layout = new Layout({
-        id: 'toolTip',
         content: [
             {
-                id: 'toolTipText',
                 content: text,
                 styles: {
-                    display: 'inline',
-                    padding: 20,
                     color: 'white',
                     fontSize: 16,
                     width: '80%'
                 }
             },
             {
-                id: 'toolTipCloseButton',
                 content: closeButton,
                 styles: {
-                    display: 'inline',
                     position: 'right',
-                    margin: 10
+                    marginTop: 15,
+                    marginRight: 15,
                 }
             }
         ],
         styles: {
+            padding: 20,
             background: '#292c2e',
             width: '96%',
             borderRadius: 20,
