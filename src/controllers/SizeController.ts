@@ -81,21 +81,47 @@ export class SizeController
                     // width is auto, there is only 1 child and it is text
                     // resize basing on text width
 
-                    const needToBeResized
-                        = this.innerText.width + paddingLeft + paddingRight > this.parentWidth;
+                    const initialWordWrap = this.layout.style.wordWrap;
+                    const availableSpaceHor = this.parentWidth - paddingLeft - paddingRight;
+                    const availableSpaceVert = this.parentHeight - paddingTop - paddingBottom;
 
-                    if (!this.innerText.style.wordWrap && needToBeResized)
+                    let textWidthPaddings = this.innerText.width + paddingLeft + paddingRight;
+
+                    // try to fit text in one line
+                    this.innerText.style.wordWrap = false;
+
+                    const needToBeResized = this.innerText.width > availableSpaceHor - paddingLeft - paddingRight;
+
+                    if (needToBeResized)
                     {
-                        this.innerText.style.wordWrap = true;
+                        if (initialWordWrap)
+                        {
+                            this.innerText.style.wordWrap = initialWordWrap;
+
+                            this.innerText.style.wordWrapWidth = availableSpaceHor;
+                        }
+                        else
+                        {
+                            const horOffset = this.innerText.width - availableSpaceHor;
+                            const vertOffset = this.innerText.height - availableSpaceVert;
+
+                            console.log({
+                                horOffset,
+                                vertOffset,
+                            });
+
+                            if (horOffset > 0 || vertOffset > 0)
+                            {
+                                horOffset > vertOffset
+                                    ? this.innerText.scale.set(availableSpaceHor / textWidthPaddings4)
+                                    : this.innerText.scale.set(availableSpaceVert / this.innerText.height);
+                            }
+                        }
                     }
 
-                    if (this.innerText.style.wordWrap)
-                    {
-                        this.innerText.style.wordWrapWidth
-                            = this.parentWidth - paddingLeft - paddingRight;
-                    }
+                    textWidthPaddings = this.innerText.width + paddingLeft + paddingRight;
 
-                    finalWidth = this.innerText.width;
+                    finalWidth = Math.min(availableSpaceHor, textWidthPaddings);
 
                     break;
 
@@ -165,13 +191,6 @@ export class SizeController
                 default:
                     // resize to parent width
                     finalWidth = this.parentWidth;
-
-                    if (isItJustAText(this.layout))
-                    {
-                        this.innerText.style.wordWrap = true;
-                        this.innerText.style.wordWrapWidth
-                            = parentWidth - paddingLeft - paddingRight;
-                    }
 
                     break;
             }
@@ -422,15 +441,17 @@ export class SizeController
 
     protected fitInnerText(width: number)
     {
-        if (!isItJustAText(this.layout))
+        if (!isItJustAText(this.layout) || !this.innerText)
         {
             return;
         }
 
         const { paddingLeft, paddingRight } = this.layout.style;
 
-        this.innerText.style.wordWrap = true;
-        this.innerText.style.wordWrapWidth = width - paddingRight - paddingLeft;
+        if (this.innerText.style.wordWrap)
+        {
+            this.innerText.style.wordWrapWidth = width - paddingRight - paddingLeft;
+        }
     }
 
     /** Get type of size control basing on styles and in case if width of the layout is set to `auto`. */

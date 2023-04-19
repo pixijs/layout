@@ -8,7 +8,8 @@ const args = {
     + `Display is set to 'inline' or 'inline-Block'.\n`
     + `Size of the layout will change basing on the inner text size.`,
     padding: 20,
-    fontSize: 24
+    fontSize: 24,
+    wordWrap: true,
 };
 
 class LayoutStory
@@ -16,10 +17,8 @@ class LayoutStory
     private layout: Layout;
     private toolTip: Layout;
     view = new Container();
-    w: number;
-    h: number;
 
-    constructor({ text, padding, fontSize }: any)
+    constructor({ text, padding, fontSize, wordWrap }: any)
     {
         this.layout = new Layout({
             id: 'root',
@@ -31,7 +30,8 @@ class LayoutStory
                 position: 'center',
                 borderRadius: 20,
                 padding,
-                fontSize
+                fontSize,
+                wordWrap
             }
         });
 
@@ -40,9 +40,6 @@ class LayoutStory
 
     resize(w: number, h: number)
     {
-        this.w = w;
-        this.h = h;
-
         this.layout.resize(w, h);
         this.toolTip?.resize(w, h);
     }
