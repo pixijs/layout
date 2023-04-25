@@ -31,7 +31,9 @@ class LayoutStory
                 borderRadius: 20,
                 padding,
                 fontSize,
-                wordWrap
+                wordWrap,
+                maxWidth: '100%',
+                maxHeight: '100%',
             }
         });
 

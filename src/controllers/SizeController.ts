@@ -63,7 +63,6 @@ export class SizeController
             paddingTop,
             paddingBottom,
             aspectRatio,
-            position,
         } = this.layout.style;
 
         if (width === 0 || height === 0)
@@ -79,50 +78,25 @@ export class SizeController
             {
                 case 'innerText':
                     // width is auto, there is only 1 child and it is text
+                    // wordWrap style is true
                     // resize basing on text width
-
-                    const initialWordWrap = this.layout.style.wordWrap;
-                    const availableSpaceHor = this.parentWidth - paddingLeft - paddingRight;
-                    const availableSpaceVert = this.parentHeight - paddingTop - paddingBottom;
-
-                    let textWidthPaddings = this.innerText.width + paddingLeft + paddingRight;
 
                     // try to fit text in one line
                     this.innerText.style.wordWrap = false;
 
-                    const needToBeResized = this.innerText.width > availableSpaceHor - paddingLeft - paddingRight;
+                    const availableSpaceHor = this.parentWidth - paddingLeft - paddingRight;
+                    const needToBeResized = this.innerText.width + paddingLeft + paddingRight > this.parentWidth;
 
                     if (needToBeResized)
                     {
-                        if (initialWordWrap)
-                        {
-                            this.innerText.style.wordWrap = initialWordWrap;
+                        this.innerText.style.wordWrap = true;
 
-                            this.innerText.style.wordWrapWidth = availableSpaceHor;
-                        }
-                        else
-                        {
-                            const horOffset = this.innerText.width - availableSpaceHor;
-                            const vertOffset = this.innerText.height - availableSpaceVert;
-
-                            console.log({
-                                horOffset,
-                                vertOffset,
-                            });
-
-                            if (horOffset > 0 || vertOffset > 0)
-                            {
-                                horOffset > vertOffset
-                                    ? this.innerText.scale.set(availableSpaceHor / textWidthPaddings4)
-                                    : this.innerText.scale.set(availableSpaceVert / this.innerText.height);
-                            }
-                        }
+                        this.innerText.style.wordWrapWidth = availableSpaceHor;
                     }
 
-                    textWidthPaddings = this.innerText.width + paddingLeft + paddingRight;
+                    const textWidthPaddings = this.innerText.width + paddingLeft + paddingRight;
 
-                    finalWidth = Math.min(availableSpaceHor, textWidthPaddings);
-
+                    finalWidth = textWidthPaddings;
                     break;
 
                 case 'background':
@@ -179,12 +153,6 @@ export class SizeController
 
                     // height is basing on content height
                     finalWidth = childrenWidth + paddingLeft + paddingRight;
-
-                    if (isItJustAText(this.layout))
-                    {
-                        finalWidth = this.innerText?.width + paddingLeft + paddingRight;
-                    }
-
                     break;
 
                 case 'parentSize':
@@ -199,8 +167,6 @@ export class SizeController
         {
             finalWidth = getNumber(width, this.parentWidth);
         }
-
-        this.fitInnerText(finalWidth);
 
         if (height === 'auto')
         {
@@ -292,27 +258,27 @@ export class SizeController
         }
 
         // apply parent paddings
-        if (this.layout.container.parent?.layout && !position)
-        {
-            const { paddingLeft, paddingRight } = this.layout.container.parent?.layout.style;
+        // if (this.layout.container.parent?.layout && !position)
+        // {
+        //     const { paddingLeft, paddingRight } = this.layout.container.parent?.layout.style;
 
-            const parentPaddingLeft = paddingLeft ?? 0;
-            const parentPaddingRight = paddingRight ?? 0;
+        //     const parentPaddingLeft = paddingLeft ?? 0;
+        //     const parentPaddingRight = paddingRight ?? 0;
 
-            if (this.autoSizeModificator !== 'innerText')
-            {
-                finalWidth -= parentPaddingLeft;
-            }
+        //     if (this.autoSizeModificator !== 'innerText')
+        //     {
+        //         finalWidth -= parentPaddingLeft;
+        //     }
 
-            finalWidth -= parentPaddingRight;
+        //     finalWidth -= parentPaddingRight;
 
-            this.fitInnerText(finalWidth);
+        //     // this.fitInnerText(finalWidth);
 
-            if (isItJustAText(this.layout) && height === 'auto')
-            {
-                finalHeight = this.innerText?.height + paddingBottom + paddingTop;
-            }
-        }
+        //     if (isItJustAText(this.layout) && height === 'auto')
+        //     {
+        //         finalHeight = this.innerText?.height + paddingBottom + paddingTop;
+        //     }
+        // }
 
         if (finalWidth < 0) finalWidth = 0;
         if (finalHeight < 0) finalHeight = 0;
@@ -439,21 +405,6 @@ export class SizeController
         }
     }
 
-    protected fitInnerText(width: number)
-    {
-        if (!isItJustAText(this.layout) || !this.innerText)
-        {
-            return;
-        }
-
-        const { paddingLeft, paddingRight } = this.layout.style;
-
-        if (this.innerText.style.wordWrap)
-        {
-            this.innerText.style.wordWrapWidth = width - paddingRight - paddingLeft;
-        }
-    }
-
     /** Get type of size control basing on styles and in case if width of the layout is set to `auto`. */
     protected get autoSizeModificator(): SizeControl
     {
@@ -464,7 +415,7 @@ export class SizeController
             return 'parentSize';
         }
 
-        if (isItJustAText(this.layout))
+        if (isItJustAText(this.layout) && this.layout.style.wordWrap)
         {
             return 'innerText';
         }
