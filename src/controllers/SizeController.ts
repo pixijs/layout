@@ -257,6 +257,8 @@ export class SizeController
             finalHeight = getNumber(height, this.parentHeight);
         }
 
+        this.fitInnerText(finalWidth, finalHeight);
+
         // apply parent paddings
         // if (this.layout.container.parent?.layout && !position)
         // {
@@ -402,6 +404,34 @@ export class SizeController
         {
             this.layout.container.mask = null;
             delete this.overflowMask;
+        }
+    }
+
+    protected fitInnerText(width: number, height: number)
+    {
+        if (!isItJustAText(this.layout)) { return; }
+
+        const { paddingLeft, paddingRight, paddingTop, paddingBottom } = this.layout.style;
+
+        if (this.innerText.style.wordWrap)
+        {
+            this.innerText.style.wordWrapWidth = width - paddingLeft - paddingRight;
+        }
+        else
+        {
+            const textWidth = this.innerText.width + paddingLeft + paddingRight;
+            const textHeight = this.innerText.height + paddingTop + paddingBottom;
+
+            const horOverflow = textWidth > width;
+            const verOverflow = textHeight > height;
+
+            const horScale = width / (textWidth + paddingLeft + paddingRight);
+            const vertScale = height / (textHeight + paddingBottom + paddingTop);
+
+            if (horOverflow || verOverflow)
+            {
+                this.innerText.scale.set(Math.min(horScale, vertScale));
+            }
         }
     }
 
