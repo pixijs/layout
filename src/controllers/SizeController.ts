@@ -292,12 +292,20 @@ export class SizeController
 
         if (aspectRatio === 'flex' || maxWidth || maxHeight || minWidth || minHeight)
         {
-            const horPaddings = paddingLeft + paddingRight;
-            const vertPaddings = paddingTop + paddingBottom;
-
-            if (isItJustAText(this.layout))
+            if (isItJustAText(this.layout) && this.autoSizeModificator !== 'innerText')
             {
-                this.fitToSize(this.parentWidth - horPaddings, this.parentHeight - vertPaddings);
+                const parentPaddingLeft = this.layout.container.parent?.layout.style.paddingLeft;
+                const parentPaddingRight = this.layout.container.parent?.layout.style.paddingRight;
+                const parentPaddingTop = this.layout.container.parent?.layout.style.paddingTop;
+                const parentPaddingBottom = this.layout.container.parent?.layout.style.paddingBottom;
+
+                const horPaddings = parentPaddingLeft + parentPaddingRight + paddingLeft + paddingRight;
+                const vertPaddings = parentPaddingTop + parentPaddingBottom + paddingTop + paddingBottom;
+
+                this.fitToSize(
+                    this.parentWidth - (horPaddings * 2),
+                    this.parentHeight - (vertPaddings * 2)
+                );
             }
             else
             {
