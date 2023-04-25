@@ -84,8 +84,13 @@ export class SizeController
                     // try to fit text in one line
                     this.innerText.style.wordWrap = false;
 
-                    const availableSpaceHor = this.parentWidth - paddingLeft - paddingRight;
-                    const needToBeResized = this.innerText.width + paddingLeft + paddingRight > this.parentWidth;
+                    const parentPaddingLeft = this.layout.container.parent?.layout?.style.paddingLeft ?? 0;
+                    const parentPaddingRight = this.layout.container.parent?.layout?.style.paddingRight ?? 0;
+
+                    const paddings = paddingLeft + paddingRight + parentPaddingLeft + parentPaddingRight;
+
+                    const availableSpaceHor = this.parentWidth - paddings;
+                    const needToBeResized = this.innerText.width + paddings > this.parentWidth;
 
                     if (needToBeResized)
                     {
@@ -260,27 +265,15 @@ export class SizeController
         this.fitInnerText(finalWidth, finalHeight);
 
         // apply parent paddings
-        // if (this.layout.container.parent?.layout && !position)
-        // {
-        //     const { paddingLeft, paddingRight } = this.layout.container.parent?.layout.style;
+        if (this.layout.container.parent?.layout)
+        {
+            const { paddingLeft, paddingRight, paddingTop, paddingBottom } = this.layout.container.parent?.layout.style;
 
-        //     const parentPaddingLeft = paddingLeft ?? 0;
-        //     const parentPaddingRight = paddingRight ?? 0;
-
-        //     if (this.autoSizeModificator !== 'innerText')
-        //     {
-        //         finalWidth -= parentPaddingLeft;
-        //     }
-
-        //     finalWidth -= parentPaddingRight;
-
-        //     // this.fitInnerText(finalWidth);
-
-        //     if (isItJustAText(this.layout) && height === 'auto')
-        //     {
-        //         finalHeight = this.innerText?.height + paddingBottom + paddingTop;
-        //     }
-        // }
+            finalWidth -= paddingLeft ?? 0;
+            finalWidth -= paddingRight ?? 0;
+            finalHeight -= paddingTop ?? 0;
+            finalHeight -= paddingBottom ?? 0;
+        }
 
         if (finalWidth < 0) finalWidth = 0;
         if (finalHeight < 0) finalHeight = 0;
@@ -299,7 +292,17 @@ export class SizeController
 
         if (aspectRatio === 'flex' || maxWidth || maxHeight || minWidth || minHeight)
         {
-            this.fitToSize(this.parentWidth, this.parentHeight);
+            const horPaddings = paddingLeft + paddingRight;
+            const vertPaddings = paddingTop + paddingBottom;
+
+            if (isItJustAText(this.layout))
+            {
+                this.fitToSize(this.parentWidth - horPaddings, this.parentHeight - vertPaddings);
+            }
+            else
+            {
+                this.fitToSize(this.parentWidth, this.parentHeight);
+            }
         }
 
         this.updateBG();
