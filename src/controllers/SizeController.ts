@@ -84,8 +84,8 @@ export class SizeController
                     // try to fit text in one line
                     this.innerText.style.wordWrap = false;
 
-                    const parentPaddingLeft = this.layout.container.parent?.layout?.style.paddingLeft ?? 0;
-                    const parentPaddingRight = this.layout.container.parent?.layout?.style.paddingRight ?? 0;
+                    const parentPaddingLeft = this.layout.container.parent?.layout?.style?.paddingLeft ?? 0;
+                    const parentPaddingRight = this.layout.container.parent?.layout?.style?.paddingRight ?? 0;
 
                     const paddings = paddingLeft + paddingRight + parentPaddingLeft + parentPaddingRight;
 
@@ -294,10 +294,10 @@ export class SizeController
         {
             if (isItJustAText(this.layout) && this.autoSizeModificator !== 'innerText')
             {
-                const parentPaddingLeft = this.layout.container.parent?.layout.style.paddingLeft;
-                const parentPaddingRight = this.layout.container.parent?.layout.style.paddingRight;
-                const parentPaddingTop = this.layout.container.parent?.layout.style.paddingTop;
-                const parentPaddingBottom = this.layout.container.parent?.layout.style.paddingBottom;
+                const parentPaddingLeft = this.layout.container.parent?.layout?.style.paddingLeft;
+                const parentPaddingRight = this.layout.container.parent?.layout?.style.paddingRight;
+                const parentPaddingTop = this.layout.container.parent?.layout?.style.paddingTop;
+                const parentPaddingBottom = this.layout.container.parent?.layout?.style.paddingBottom;
 
                 const horPaddings = parentPaddingLeft + parentPaddingRight + paddingLeft + paddingRight;
                 const vertPaddings = parentPaddingTop + parentPaddingBottom + paddingTop + paddingBottom;
