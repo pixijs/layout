@@ -262,8 +262,6 @@ export class SizeController
             finalHeight = getNumber(height, this.parentHeight);
         }
 
-        this.fitInnerText(finalWidth, finalHeight);
-
         // apply parent paddings
         if (this.layout.container.parent?.layout)
         {
@@ -292,26 +290,10 @@ export class SizeController
 
         if (aspectRatio === 'flex' || maxWidth || maxHeight || minWidth || minHeight)
         {
-            if (isItJustAText(this.layout) && this.autoSizeModificator !== 'innerText')
-            {
-                const parentPaddingLeft = this.layout.container.parent?.layout?.style.paddingLeft;
-                const parentPaddingRight = this.layout.container.parent?.layout?.style.paddingRight;
-                const parentPaddingTop = this.layout.container.parent?.layout?.style.paddingTop;
-                const parentPaddingBottom = this.layout.container.parent?.layout?.style.paddingBottom;
-
-                const horPaddings = parentPaddingLeft + parentPaddingRight + paddingLeft + paddingRight;
-                const vertPaddings = parentPaddingTop + parentPaddingBottom + paddingTop + paddingBottom;
-
-                this.fitToSize(
-                    this.parentWidth - (horPaddings * 2),
-                    this.parentHeight - (vertPaddings * 2)
-                );
-            }
-            else
-            {
-                this.fitToSize(this.parentWidth, this.parentHeight);
-            }
+            this.fitToSize(this.parentWidth, this.parentHeight);
         }
+
+        this.fitInnerText(finalWidth, finalHeight);
 
         this.updateBG();
         this.updateMask();
@@ -426,7 +408,9 @@ export class SizeController
 
         if (this.innerText.style.wordWrap)
         {
-            this.innerText.style.wordWrapWidth = width - paddingLeft - paddingRight;
+            const scale = this.layout.container?.scale.x ?? 1;
+
+            this.innerText.style.wordWrapWidth = (width - paddingLeft - paddingRight) * scale;
         }
         else
         {
@@ -461,7 +445,7 @@ export class SizeController
             return 'innerText';
         }
 
-        if (background instanceof Container)
+        if (background instanceof Container && background.width && background.height)
         {
             return 'background';
         }

@@ -5,9 +5,9 @@ import { ALIGN } from '../../utils/constants';
 
 const args = {
     text:
-    `Width and height are not set (it is 'auto').`
-    + `Display is set to 'inline' or 'inline-Block'.`
-    + `Size of the layout will change basing on the inner text size.`,
+    `Width and height properties are not set (it is 'auto').\n\n`
+    + `The 'display' property is set to 'inline' or 'inline-Block'.\n\n`
+    + `The size of the layout will change based on the internal text size.`,
     padding: 20,
     fontSize: 24,
     textAlign: ALIGN,
