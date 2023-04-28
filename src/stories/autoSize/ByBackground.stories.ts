@@ -53,18 +53,7 @@ class LayoutStory
     {
         this.layout = new Layout({
             id: 'root',
-            content: {
-                text: {
-                    content: text,
-                    styles: {
-                        textAlign,
-                        width: '100%',
-                        height: '100%',
-                        fontSize: 18,
-                        wordWrap,
-                    },
-                },
-            },
+            content: text,
             styles: {
                 background: Sprite.from(assets[background]),
                 position: 'center',
@@ -74,7 +63,10 @@ class LayoutStory
                 paddingLeft,
                 paddingRight,
                 paddingTop,
-                paddingBottom
+                paddingBottom,
+                textAlign,
+                fontSize: 18,
+                wordWrap,
             },
         });
         this.layout.resize(this.w, this.h);

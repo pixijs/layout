@@ -65,201 +65,196 @@ export class SizeController
             aspectRatio,
         } = this.layout.style;
 
-        if (width === 0 || height === 0)
+        const widthModificator = this.getAutoSizeModificator(width);
+        const heightModificator = this.getAutoSizeModificator(height);
+
+        switch (widthModificator)
         {
-            this.layout.container.visible = false;
+            case 'innerText':
+                // width is auto, there is only 1 child and it is text
+                // wordWrap style is true
+                // resize basing on text width
 
-            return;
-        }
+                // try to fit text in one line
+                this.innerText.style.wordWrap = false;
 
-        if (width === 'auto')
-        {
-            switch (this.autoSizeModificator)
-            {
-                case 'innerText':
-                    // width is auto, there is only 1 child and it is text
-                    // wordWrap style is true
-                    // resize basing on text width
+                const parentPaddingLeft = this.layout.container.parent?.layout?.style?.paddingLeft ?? 0;
+                const parentPaddingRight = this.layout.container.parent?.layout?.style?.paddingRight ?? 0;
 
-                    // try to fit text in one line
-                    this.innerText.style.wordWrap = false;
+                const paddings = paddingLeft + paddingRight + parentPaddingLeft + parentPaddingRight;
 
-                    const parentPaddingLeft = this.layout.container.parent?.layout?.style?.paddingLeft ?? 0;
-                    const parentPaddingRight = this.layout.container.parent?.layout?.style?.paddingRight ?? 0;
+                const availableSpaceHor = this.parentWidth - paddings;
+                const needToBeResized = this.innerText.width + paddings > this.parentWidth;
 
-                    const paddings = paddingLeft + paddingRight + parentPaddingLeft + parentPaddingRight;
+                if (needToBeResized)
+                {
+                    this.innerText.style.wordWrap = true;
 
-                    const availableSpaceHor = this.parentWidth - paddings;
-                    const needToBeResized = this.innerText.width + paddings > this.parentWidth;
+                    this.innerText.style.wordWrapWidth = availableSpaceHor;
+                }
 
-                    if (needToBeResized)
-                    {
-                        this.innerText.style.wordWrap = true;
+                const textWidthPaddings = this.innerText.width + paddingLeft + paddingRight;
 
-                        this.innerText.style.wordWrapWidth = availableSpaceHor;
-                    }
+                finalWidth = textWidthPaddings;
+                break;
 
-                    const textWidthPaddings = this.innerText.width + paddingLeft + paddingRight;
+            case 'background':
+                // width is auto, there is more than 1 child or it is not text
+                // resize basing on background width
+                finalWidth = (background as Container).width;
 
-                    finalWidth = textWidthPaddings;
-                    break;
+                break;
 
-                case 'background':
-                    // width is auto, there is more than 1 child or it is not text
-                    // resize basing on background width
-                    finalWidth = (background as Container).width;
+            case 'contentSize':
+                // width is basing on content
+                let childrenWidth = 0;
 
-                    break;
+                // we need to resize content, as it will update the sizes of the children first
+                this.layout.content.resize(this.parentWidth, this.parentHeight);
 
-                case 'contentSize':
-                    // width is basing on content
-                    let childrenWidth = 0;
+                const { firstChild } = this.layout.content;
 
-                    // we need to resize content, as it will update the sizes of the children first
-                    this.layout.content.resize(this.parentWidth, this.parentHeight);
-
-                    const { firstChild } = this.layout.content;
-
-                    // add first element as at lease one element to set width
-                    if (firstChild && firstChild.layout)
-                    {
-                        childrenWidth
+                // add first element as at lease one element to set width
+                if (firstChild && firstChild.layout)
+                {
+                    childrenWidth
                             += firstChild.width
                             + firstChild.layout.style.marginLeft
                             + firstChild.layout.style.marginRight;
-                    }
-                    else if (firstChild instanceof Container && firstChild.width)
+                }
+                else if (firstChild instanceof Container && firstChild.width)
+                {
+                    childrenWidth += firstChild.width;
+                }
+
+                this.layout.content.children.forEach((child) =>
+                {
+                    if (child === firstChild)
                     {
-                        childrenWidth += firstChild.width;
+                        // skip first element as it was already added
+                        return;
                     }
 
-                    this.layout.content.children.forEach((child) =>
+                    if (child.layout && child.layout.style.display !== 'block')
                     {
-                        if (child === firstChild)
+                        if (child.layout.style.position)
                         {
-                            // skip first element as it was already added
                             return;
                         }
 
-                        if (child.layout && child.layout.style.display !== 'block')
-                        {
-                            if (child.layout.style.position)
-                            {
-                                return;
-                            }
-
-                            childrenWidth += child.width + child.layout.style.marginLeft;
-                        }
-                        else if (child instanceof Container && child.width)
-                        {
-                            childrenWidth += child.width;
-                        }
-                    });
-
-                    // height is basing on content height
-                    finalWidth = childrenWidth + paddingLeft + paddingRight;
-                    break;
-
-                case 'parentSize':
-                default:
-                    // resize to parent width
-                    finalWidth = this.parentWidth;
-
-                    break;
-            }
-        }
-        else
-        {
-            finalWidth = getNumber(width, this.parentWidth);
-        }
-
-        if (height === 'auto')
-        {
-            switch (this.autoSizeModificator)
-            {
-                case 'innerText':
-                    // height is auto, there is only 1 child and it is text
-                    // resize basing on text height
-                    finalHeight = this.innerText?.height + paddingBottom + paddingTop;
-
-                    break;
-
-                case 'background':
-                    // height is auto, there is more than 1 child or it is not text
-                    // resize basing on background height
-                    finalHeight = (background as Container).height;
-
-                    break;
-
-                case 'parentSize':
-                case 'contentSize':
-                default:
-                    // height is basing on content
-                    let childrenHeight = 0;
-
-                    // we need to resize content, as it will update the sizes of the children first
-                    this.layout.content.resize(this.parentWidth, this.parentHeight);
-
-                    const { firstChild } = this.layout.content;
-
-                    // add first element as at lease one element to set width
-                    if (firstChild && firstChild.layout)
-                    {
-                        if (!firstChild.layout.style.position)
-                        {
-                            childrenHeight += firstChild.height;
-                        }
+                        childrenWidth += child.width + child.layout.style.marginLeft;
                     }
-                    else if (firstChild instanceof Container && firstChild.height)
+                    else if (child instanceof Container && child.width)
+                    {
+                        childrenWidth += child.width;
+                    }
+                });
+
+                // height is basing on content height
+                finalWidth = childrenWidth + paddingLeft + paddingRight;
+                break;
+
+            case 'parentSize':
+                // resize to parent width
+                finalWidth = this.parentWidth;
+
+                break;
+
+            case 'static':
+            default:
+                finalWidth = getNumber(width, this.parentWidth);
+                break;
+        }
+
+        switch (heightModificator)
+        {
+            case 'innerText':
+                // height is auto, there is only 1 child and it is text
+                // resize basing on text height
+                finalHeight = this.innerText?.height + paddingBottom + paddingTop;
+
+                break;
+
+            case 'background':
+                // height is auto, there is more than 1 child or it is not text
+                // resize basing on background height
+                finalHeight = (background as Container).height;
+
+                break;
+
+            case 'parentSize':
+                // resize to parent width
+                finalHeight = this.parentHeight;
+
+                break;
+
+            case 'contentSize':
+                // height is basing on content
+                let childrenHeight = 0;
+
+                // we need to resize content, as it will update the sizes of the children first
+                this.layout.content.resize(this.parentWidth, this.parentHeight);
+
+                const { firstChild } = this.layout.content;
+
+                // add first element as at lease one element to set width
+                if (firstChild && firstChild.layout)
+                {
+                    if (!firstChild.layout.style.position)
                     {
                         childrenHeight += firstChild.height;
                     }
+                }
+                else if (firstChild instanceof Container && firstChild.height)
+                {
+                    childrenHeight += firstChild.height;
+                }
 
-                    this.layout.content.children.forEach((child) =>
+                this.layout.content.children.forEach((child) =>
+                {
+                    if (child === firstChild)
                     {
-                        if (child === firstChild)
-                        {
-                            // skip first element as it was already added
-                            return;
-                        }
+                        // skip first element as it was already added
+                        return;
+                    }
 
-                        if (child.layout && child.layout.style.position)
-                        {
-                            // skip absolute positioned elements
-                            return;
-                        }
+                    if (child.layout && child.layout.style.position)
+                    {
+                        // skip absolute positioned elements
+                        return;
+                    }
 
-                        if (child.layout)
+                    if (child.layout)
+                    {
+                        if (child.layout.style.display === 'block')
                         {
-                            if (child.layout.style.display === 'block')
-                            {
-                                childrenHeight += child.height;
-                            }
-                            else if (child.height > childrenHeight)
-                            {
-                                childrenHeight = child.height;
-                            }
+                            childrenHeight += child.height;
                         }
                         else if (child.height > childrenHeight)
                         {
                             childrenHeight = child.height;
                         }
-                    });
-
-                    if (isItJustAText(this.layout))
-                    {
-                        finalHeight = this.innerText?.height;
                     }
+                    else if (child.height > childrenHeight)
+                    {
+                        childrenHeight = child.height;
+                    }
+                });
 
-                    // height is basing on content height
-                    finalHeight = childrenHeight + paddingTop + paddingBottom;
+                if (isItJustAText(this.layout))
+                {
+                    finalHeight = this.innerText?.height;
+                }
 
-                    break;
-            }
-        }
-        else
-        {
-            finalHeight = getNumber(height, this.parentHeight);
+                // height is basing on content height
+                finalHeight = childrenHeight + paddingTop + paddingBottom;
+
+                break;
+
+            case 'static':
+            default:
+                finalHeight = getNumber(height, this.parentHeight);
+                break;
         }
 
         // apply parent paddings
@@ -267,24 +262,15 @@ export class SizeController
         {
             const { paddingLeft, paddingRight, paddingTop, paddingBottom } = this.layout.container.parent?.layout.style;
 
-            finalWidth -= paddingLeft ?? 0;
-            finalWidth -= paddingRight ?? 0;
-            finalHeight -= paddingTop ?? 0;
-            finalHeight -= paddingBottom ?? 0;
+            finalWidth += (paddingLeft ?? 0) + (paddingRight ?? 0);
+            finalHeight += (paddingTop ?? 0) + (paddingBottom ?? 0);
         }
 
         if (finalWidth < 0) finalWidth = 0;
         if (finalHeight < 0) finalHeight = 0;
 
-        if (finalWidth === 0 || finalHeight === 0)
-        {
-            this.layout.container.visible = false;
-
-            return;
-        }
-
-        this._width = getNumber(finalWidth, this.parentWidth);
-        this._height = getNumber(finalHeight, this.parentHeight);
+        this._width = finalWidth;
+        this._height = finalHeight;
 
         this.layout.container.scale.set(scaleX, scaleY);
 
@@ -294,6 +280,13 @@ export class SizeController
         }
 
         this.fitInnerText(finalWidth, finalHeight);
+
+        if (this._width === 0 || this._height === 0)
+        {
+            this.layout.container.visible = false;
+
+            return;
+        }
 
         this.updateBG();
         this.updateMask();
@@ -430,19 +423,22 @@ export class SizeController
         }
     }
 
-    /** Get type of size control basing on styles and in case if width of the layout is set to `auto`. */
-    protected get autoSizeModificator(): SizeControl
+    /**
+     * Get type of size control basing on styles and in case if width of the layout is set to `auto`.
+     * @param size - Width or height of the layout.
+     */
+    protected getAutoSizeModificator(size: FlexNumber | 'auto'): SizeControl
     {
         const { background, display } = this.layout.style;
+
+        if (size !== 'auto')
+        {
+            return 'static';
+        }
 
         if (display === 'block')
         {
             return 'parentSize';
-        }
-
-        if (isItJustAText(this.layout) && this.layout.style.wordWrap)
-        {
-            return 'innerText';
         }
 
         if (background instanceof Container && background.width && background.height)
@@ -450,7 +446,17 @@ export class SizeController
             return 'background';
         }
 
-        return 'contentSize';
+        if (isItJustAText(this.layout) && this.layout.style.wordWrap)
+        {
+            return 'innerText';
+        }
+
+        if (size === 'auto')
+        {
+            return 'contentSize';
+        }
+
+        return 'static';
     }
 
     /**
