@@ -53,9 +53,9 @@ class LayoutStory
             },
             layoutID: {
                 background: layoutBGColor,
-                // marginRight: 20,
+                marginRight: 10,
                 borderRadius: 20,
-                // padding: 20,
+                padding: 5,
                 color: 'green' // this will not work, as text is inside layout,
                 // in order it to work, we need to drop this global styles inside layout we are creating
             },
@@ -63,8 +63,29 @@ class LayoutStory
                 // this styles will be applied to all elements with id 'stringID'
                 // it is not layout styles but text styles, as stringID is an instance of PIXI.Text
                 color: string1Color, // this will work as it is a text style
-                display: 'block', // this will not work, as stringID is not a layout style
-                margin: 10 // this will not work, as stringID is not a layout style
+                margin: 10, // this will not work, as stringID is not a layout style
+            },
+            textID: {
+                // this styles will be applied to all elements with id 'textID'
+                // it is not layout styles but text styles, as stringID is an instance of PIXI.Text
+                color: string2Color, // this will work as it is a text style
+                display: 'block', // this will not work, as textID is not a layout style
+                margin: 10 // this will not work, as textID is not a layout style
+            },
+            layoutConfig: {
+                // this is fully functional layout style config as it is applying to the layout
+                background: layoutConfigBG,
+                margin: 20,
+                marginTop: 0,
+                textAlign: 'center',
+                color: layoutConfigColor,
+                padding: 5,
+                borderRadius: 20,
+                marginRight: 40,
+            },
+            container1: {
+                margin: 10, // this will not work as container1 is not a layout but just a Pixi.Container
+                background: 'red' // this will not work as container1 is not a layout but just a Pixi.Container
             },
             stringID3: {
                 // this styles will be applied to all elements with id 'stringID'
@@ -76,32 +97,14 @@ class LayoutStory
             stringID5: {
                 // this is fully functional layout style config as it is applying to the layout
                 color: string5Color,
-                margin: 20,
+                marginLeft: 20,
+                marginRight: 40,
+                borderRadius: 20,
+                textAlign: 'center',
                 marginTop: 0,
                 background: string5BGColor,
-                padding: 15,
+                padding: 5,
                 width: 100
-            },
-            textID: {
-                // this styles will be applied to all elements with id 'textID'
-                // it is not layout styles but text styles, as stringID is an instance of PIXI.Text
-                color: string2Color, // this will work as it is a text style
-                display: 'block', // this will not work, as textID is not a layout style
-                margin: 10 // this will not work, as textID is not a layout style
-            },
-            container1: {
-                margin: 10, // this will not work as container1 is not a layout but just a Pixi.Container
-                background: 'red' // this will not work as container1 is not a layout but just a Pixi.Container
-            },
-            layoutConfig: {
-                // this is fully functional layout style config as it is applying to the layout
-                background: layoutConfigBG,
-                margin: 20,
-                marginTop: 0,
-                textAlign: 'center',
-                color: layoutConfigColor,
-                padding: 20,
-                borderRadius: 20
             }
         };
 
@@ -110,43 +113,38 @@ class LayoutStory
             content: {
                 // Layout instance
                 layoutID: new Layout({
-                    id: 'LayoutInstance',
                     content: 'Layout instance',
-                    styles: {
-                        color: layoutTextColor,
-                        textAlign: 'center'
-                    }
                 }),
-                // stringID1: 'Text 1', // string
-                // textID: new Text('Text 2'), // PIXI.Text
-                // layoutConfig: {
-                //     content: 'Layout Config'
-                // },
-                // container1: new Graphics() // Pixi.Container
-                //     .beginFill(0xff0000)
-                //     .drawCircle(20, 20, 20),
-                // object: {
-                //     // object
-                //     stringID3: 'Text 3'
-                // },
-                // array: [
-                //     // array
-                //     'Text 4', // this element will not have any styles applied, in order to apply styles to this element,
-                //     // we need to wrap it in layout config, like next element
-                //     {
-                //         content: 'Text 5',
-                //         id: 'stringID5'
-                //     },
-                //     {
-                //         // this has to be layout config, can not just be string
-                //         // id: 'string4',
-                //         content: new Graphics() // Pixi.Container
-                //             .beginFill(0x007eff)
-                //             .drawRoundedRect(0, 0, 100, 100, 20)
-                //             .beginFill(0xfff200)
-                //             .drawCircle(50, 50, 40)
-                //     }
-                // ]
+                stringID1: 'Text 1', // string
+                container1: new Graphics() // Pixi.Container
+                    .beginFill(0xff0000)
+                    .drawCircle(20, 20, 20),
+                textID: new Text('Text 2'), // PIXI.Text
+                layoutConfig: {
+                    content: 'Layout Config'
+                },
+                object: {
+                    // object
+                    stringID3: 'Text 3'
+                },
+                array: [
+                    // array
+                    // we need to wrap it in layout config, like next element
+                    {
+                        content: 'Text 5',
+                        id: 'stringID5'
+                    },
+                    'Text 4', // this element will not have any styles applied, in order to apply styles to this element,
+                    {
+                        // this has to be layout config, can not just be string
+                        id: 'string4',
+                        content: new Graphics() // Pixi.Container
+                            .beginFill(0x007eff)
+                            .drawRoundedRect(0, 0, 100, 100, 20)
+                            .beginFill(0xfff200)
+                            .drawCircle(20, 20, 10)
+                    }
+                ]
             },
             globalStyles
         });
