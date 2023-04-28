@@ -42,7 +42,19 @@ class LayoutStory
     {
         this.layout = new Layout({
             id: 'root',
-            content: LOREM_TEXT,
+            content: {
+                text: {
+                    content: LOREM_TEXT,
+                    styles: {
+                        color,
+                        textAlign,
+                        fontSize,
+                        wordWrap,
+                        width: '100%',
+                        height: '100%',
+                    }
+                }
+            },
             styles: {
                 background: backgroundColor,
                 width: `${width}%`,
@@ -50,13 +62,8 @@ class LayoutStory
                 padding,
                 opacity,
                 overflow,
-                // text options
-                color,
-                textAlign,
-                fontSize,
                 position,
                 borderRadius,
-                wordWrap
             }
         });
 
