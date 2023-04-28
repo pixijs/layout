@@ -23,8 +23,8 @@ export async function toolTip(text: string): Promise<Layout>
                     color: 'white',
                     fontSize: 16,
                     position: 'leftCenter',
-                    width: '95%',
-                    height: '100%',
+                    maxWidth: '85%',
+                    maxHeight: '100%',
                     marginLeft: 20,
                 }
             },
@@ -32,14 +32,13 @@ export async function toolTip(text: string): Promise<Layout>
                 content: closeButton,
                 styles: {
                     position: 'right',
-                    marginTop: 15,
-                    marginRight: 35,
+                    paddingTop: 20,
+                    paddingRight: 20,
                     scale: 0.5
                 }
             }
         ],
         styles: {
-            padding: 20,
             background: '#292c2e',
             width: '96%',
             height: 100,
