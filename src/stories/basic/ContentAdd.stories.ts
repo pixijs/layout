@@ -30,7 +30,6 @@ class LayoutStory
     constructor({
         rootBGColor,
         layoutBGColor,
-        layoutTextColor,
         string1Color,
         string2Color,
         string3COlor,

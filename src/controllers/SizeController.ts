@@ -257,15 +257,6 @@ export class SizeController
                 break;
         }
 
-        // apply parent paddings
-        // if (this.layout.container.parent?.layout)
-        // {
-        //     const { paddingLeft, paddingRight, paddingTop, paddingBottom } = this.layout.container.parent?.layout.style;
-
-        //     finalWidth += (paddingLeft ?? 0) + (paddingRight ?? 0);
-        //     finalHeight += (paddingTop ?? 0) + (paddingBottom ?? 0);
-        // }
-
         if (finalWidth < 0) finalWidth = 0;
         if (finalHeight < 0) finalHeight = 0;
 
