@@ -74,6 +74,8 @@ export class StyleController
         this.styles.width = styles?.width ?? this.styles.width ?? 'auto';
         this.styles.height = styles?.height ?? this.styles.height ?? 'auto';
 
+        this.styles.wordWrap = styles?.wordWrap ?? false;
+
         if (styles?.anchorX !== undefined)
         {
             this.styles.anchorX = styles.anchorX;

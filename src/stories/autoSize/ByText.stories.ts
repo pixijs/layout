@@ -1,14 +1,17 @@
 import { Container } from '@pixi/display';
 import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { ALIGN } from '../../utils/constants';
 
 const args = {
     text:
-    `Width and height are not set (it is 'auto').\n`
-    + `Display is set to 'inline' or 'inline-Block'.\n`
-    + `Size of the layout will change basing on the inner text size.`,
+    `Width and height properties are not set (it is 'auto').\n\n`
+    + `The 'display' property is set to 'inline' or 'inline-Block'.\n\n`
+    + `The size of the layout will change based on the internal text size.`,
     padding: 20,
-    fontSize: 24
+    fontSize: 24,
+    textAlign: ALIGN,
+    wordWrap: true,
 };
 
 class LayoutStory
@@ -16,22 +19,23 @@ class LayoutStory
     private layout: Layout;
     private toolTip: Layout;
     view = new Container();
-    w: number;
-    h: number;
 
-    constructor({ text, padding, fontSize }: any)
+    constructor({ text, padding, fontSize, wordWrap, textAlign }: any)
     {
         this.layout = new Layout({
             id: 'root',
             content: text,
             styles: {
-                display: 'inline', // default value
                 background: 'black',
                 color: 'white',
                 position: 'center',
                 borderRadius: 20,
                 padding,
-                fontSize
+                fontSize,
+                wordWrap,
+                textAlign,
+                maxWidth: '100%',
+                maxHeight: '100%',
             }
         });
 
@@ -40,9 +44,6 @@ class LayoutStory
 
     resize(w: number, h: number)
     {
-        this.w = w;
-        this.h = h;
-
         this.layout.resize(w, h);
         this.toolTip?.resize(w, h);
     }

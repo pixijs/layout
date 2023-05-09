@@ -12,7 +12,7 @@ export async function toolTip(text: string): Promise<Layout>
 
     const closeButton = new FancyButton({
         defaultView: assets.closeIcon,
-        scale: 0.3
+        scale: 0.5
     });
 
     const layout = new Layout({
@@ -22,22 +22,26 @@ export async function toolTip(text: string): Promise<Layout>
                 styles: {
                     color: 'white',
                     fontSize: 16,
-                    width: '80%'
+                    position: 'leftCenter',
+                    maxWidth: '85%',
+                    maxHeight: '100%',
+                    marginLeft: 20,
                 }
             },
             {
                 content: closeButton,
                 styles: {
                     position: 'right',
-                    marginTop: 15,
-                    marginRight: 15,
+                    paddingTop: 20,
+                    paddingRight: 20,
+                    scale: 0.5
                 }
             }
         ],
         styles: {
-            padding: 20,
             background: '#292c2e',
             width: '96%',
+            height: 100,
             borderRadius: 20,
             position: 'centerTop',
             marginTop: 10,

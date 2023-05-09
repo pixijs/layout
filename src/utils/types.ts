@@ -66,6 +66,7 @@ export type Styles = Partial<TextStyle> & {
     anchorX?: GradeToOne;
     anchorY?: GradeToOne;
     aspectRatio?: AspectRatio;
+    wordWrap?: boolean;
 };
 
 export type LayoutStyles = {
@@ -81,7 +82,7 @@ export type LayoutOptions = {
 
 export type VerticalAlign = (typeof VERTICAL_ALIGN)[number];
 
-export type SizeControl = 'innerText' | 'background' | 'parentSize' | 'contentSize';
+export type SizeControl = 'innerText' | 'background' | 'parentSize' | 'contentSize' | 'static';
 
 export type ContentType =
     | 'layout'

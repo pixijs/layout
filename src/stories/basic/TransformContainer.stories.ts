@@ -17,7 +17,8 @@ const args = {
     borderRadius: 20,
     textAlign: ALIGN,
     overflow: ['hidden', 'visible'],
-    position: POSITION
+    position: POSITION,
+    wordWrap: true
 };
 
 class LayoutStory
@@ -39,7 +40,8 @@ class LayoutStory
         fontSize,
         borderRadius,
         textAlign,
-        position
+        position,
+        wordWrap
     }: any)
     {
         this.view = new Container();
@@ -63,7 +65,8 @@ class LayoutStory
             textAlign,
             fontSize,
             position,
-            borderRadius
+            borderRadius,
+            wordWrap
         });
 
         this.layoutContainer.layout?.addContent(LOREM_TEXT);

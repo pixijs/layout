@@ -16,7 +16,8 @@ const args = {
     borderRadius: 20,
     textAlign: ALIGN,
     overflow: ['hidden', 'visible'],
-    position: POSITION
+    position: POSITION,
+    wordWrap: true
 };
 
 class LayoutStory
@@ -35,12 +36,25 @@ class LayoutStory
         fontSize,
         borderRadius,
         textAlign,
-        position
+        position,
+        wordWrap
     }: any)
     {
         this.layout = new Layout({
             id: 'root',
-            content: LOREM_TEXT,
+            content: {
+                text: {
+                    content: LOREM_TEXT,
+                    styles: {
+                        color,
+                        textAlign,
+                        fontSize,
+                        wordWrap,
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                    }
+                }
+            },
             styles: {
                 background: backgroundColor,
                 width: `${width}%`,
@@ -48,12 +62,8 @@ class LayoutStory
                 padding,
                 opacity,
                 overflow,
-                // text options
-                color,
-                textAlign,
-                fontSize,
                 position,
-                borderRadius
+                borderRadius,
             }
         });
 

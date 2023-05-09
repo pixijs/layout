@@ -174,7 +174,7 @@ export function stylesToPixiTextStyles(styles: Styles): Partial<TextStyle>
         textBaseline: styles?.textBaseline ?? 'alphabetic',
         trim: styles?.trim ?? false,
         whiteSpace: styles?.whiteSpace ?? 'pre',
-        wordWrap: styles?.wordWrap ?? true,
+        wordWrap: styles?.wordWrap ?? false,
         wordWrapWidth: styles?.wordWrapWidth ?? 100,
         leading: styles?.leading ?? 0,
     };

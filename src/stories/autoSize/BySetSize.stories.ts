@@ -10,7 +10,8 @@ const args = {
     width: 350,
     height: 350,
     padding: 15,
-    textAlign: ALIGN
+    textAlign: ALIGN,
+    wordWrap: true
 };
 
 class LayoutStory
@@ -21,7 +22,7 @@ class LayoutStory
     w: number;
     h: number;
 
-    constructor({ textAlign, width, height, padding, text }: any)
+    constructor({ textAlign, width, height, padding, text, wordWrap }: any)
     {
         this.layout = new Layout({
             id: 'root',
@@ -37,7 +38,8 @@ class LayoutStory
                 textAlign,
                 fontSize: 24,
                 position: 'center',
-                borderRadius: 20
+                borderRadius: 20,
+                wordWrap
             }
         });
 

@@ -13,18 +13,18 @@ const assets = {
 
 const args = {
     text:
-        'Background is set to sprite or other display object with width and height.\n'
-        + 'Width and height values are not set.\n'
-        + 'Display is not set, so it is "inline-block" by default.\n'
-        + 'Layout size will adapt to the background size.\n'
-        + 'Text will adapt to the layout width,\n'
-        + 'Height of text will adapt to the text height.',
+        'Layout background is set to sprite or another display object with width and height.\n\n'
+        + 'Layout width and height values are not set, so are "auto".\n\n'
+        + 'Layout display style is not set, so it is "inline-block" by default.\n\n'
+        + 'Layout size will adapt to the background size.\n\n'
+        + 'Text or other content will adapt to the layout size.',
     background: Object.keys(assets),
     paddingLeft: 55,
     paddingRight: 55,
     paddingTop: 55,
     paddingBottom: 55,
     textAlign: ALIGN,
+    wordWrap: true,
 };
 
 class LayoutStory
@@ -48,19 +48,12 @@ class LayoutStory
         paddingBottom,
         text,
         textAlign,
+        wordWrap
     }: any)
     {
         this.layout = new Layout({
             id: 'root',
-            content: {
-                text: {
-                    content: text,
-                    styles: {
-                        display: 'block',
-                        textAlign,
-                    },
-                },
-            },
+            content: text,
             styles: {
                 background: Sprite.from(assets[background]),
                 position: 'center',
@@ -71,6 +64,9 @@ class LayoutStory
                 paddingRight,
                 paddingTop,
                 paddingBottom,
+                textAlign,
+                fontSize: 18,
+                wordWrap,
             },
         });
         this.layout.resize(this.w, this.h);
