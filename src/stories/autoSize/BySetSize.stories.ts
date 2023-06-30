@@ -1,16 +1,19 @@
 import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { ALIGN } from '../../utils/constants';
+import { ALIGN, OVERFLOW } from '../../utils/constants';
 
-const TEXTS = ['Width and height values are set in percentage of the parent size.', 'Text will adapt to the layout size.'];
+const TEXTS = [
+    'Width and height values are set in percentage of the parent size.',
+    'Text will adapt to the layout size.\n\n'];
 
 const args = {
-    text: TEXTS.join('\n\n'),
+    text: TEXTS.join('\n\n').repeat(22),
     width: 350,
     height: 350,
     padding: 15,
     textAlign: ALIGN,
+    overflow: OVERFLOW,
     wordWrap: true
 };
 
@@ -22,7 +25,7 @@ class LayoutStory
     w: number;
     h: number;
 
-    constructor({ textAlign, width, height, padding, text, wordWrap }: any)
+    constructor({ textAlign, width, height, padding, text, wordWrap, overflow }: any)
     {
         this.layout = new Layout({
             id: 'root',
@@ -32,7 +35,7 @@ class LayoutStory
                 width,
                 height,
                 padding,
-                overflow: 'hidden',
+                overflow,
                 // text options
                 color: 'white',
                 textAlign,

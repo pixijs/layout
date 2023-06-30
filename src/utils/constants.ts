@@ -149,15 +149,15 @@ export const CSS_COLOR_NAMES = {
     black: 0x000000,
 };
 
-export const LOREM_TEXT = `Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+export const LOREM_TEXT = `Lorem ipsum dolor, sit amet consectetur adipisicing elit.
 
-Ab praesentium velit minima unde beatae. Illo earum, rem iure unde nemo, 
+Ab praesentium velit minima unde beatae. Illo earum, rem iure unde nemo,
 
 exercitationem nesciunt et voluptas nisi adipisci, provident cupiditate veritatis magnam?`;
 
 export const DISPLAY = ['block', 'inline-block', 'inline'];
 
-export const OVERFLOW = ['visible', 'hidden'];
+export const OVERFLOW = ['hidden', 'visible', 'scroll'];
 
 export const POSITION = [
     'center',
