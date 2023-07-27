@@ -4,6 +4,8 @@
     <h3>It is a library for arranging/resizing pixi rendered elements basing on css like configs. It is made for simple and fast implementation of the responsive user interfaces in your games.</h3>
 </div>
 
+**We are now a part of the [Open Collective](https://opencollective.com/pixijs) and with your support you can help us make PixiJS even better. To make a donation, simply click the button below and we'll love you forever!**
+
 Here are some useful resources:
 
 -   [Full docs](https://pixijs.io/layout/)
@@ -18,18 +20,40 @@ npm i @pixi/layout
 
 There is no default export. The correct way to import pixi-layout is:
 
+## Usage
+
 ```js
-import { Layout } from '@pixi/layout';
+import { Layout } from "@pixi/layout";
+
+new Layout({
+    content: {
+        content: Sprite.from("bunny.png"),
+        styles: {
+            position: "center",
+            maxWidth: "100%",
+            minHeight: "100%",
+        },
+    },
+    styles: {
+        background: "red",
+        position: "center",
+        width: `100%`,
+        height: `100%`,
+    },
+});
 ```
 
-## Controllers influance schema
+### Contribute
 
-<img width="827" alt="Screenshot 2023-02-03 at 11 28 29" src="https://user-images.githubusercontent.com/11766115/216563791-c4363601-00cd-47ec-a338-95b06baf9e2d.png">
+Want to be part of the PixiUI project? Great! All are welcome! We will get there quicker
+together :) Whether you find a bug, have a great feature request, or you fancy owning a task
+from the road map above, feel free to get in touch.
 
-## Update / controll flow
+Make sure to read the [Contributing Guide](.github/CONTRIBUTING.md)
+before submitting changes.
 
-<img width="902" alt="Screenshot 2023-02-03 at 16 50 53" src="https://user-images.githubusercontent.com/11766115/216633721-3cf572ab-0113-4b48-b593-4fb3777a0688.png">
+Also you can check the (Controllers influence schemas)[.github/SCHEMAS.md]
 
-## Auto layout sizing schema
+### License
 
-<img width="1025" alt="layout-size-schema" src="https://user-images.githubusercontent.com/11766115/219637702-31d89636-373d-4ad8-8dc8-73f5c79e854b.png">
+This content is released under the (http://opensource.org/licenses/MIT) MIT License.
