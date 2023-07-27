@@ -52,7 +52,7 @@ from the road map above, feel free to get in touch.
 Make sure to read the [Contributing Guide](.github/CONTRIBUTING.md)
 before submitting changes.
 
-Also you can check the (Controllers influence schemas)[.github/SCHEMAS.md]
+Also you can check the [Controllers influence schemas](.github/SCHEMAS.md)
 
 ### License
 
