@@ -1,17 +1,7 @@
 import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { preloadAssets } from '../utils/helpers';
 import { toolTip } from '../components/ToolTip';
-
-const assets = {
-    bg: 'verticalBG.png',
-    a1: 'avatar-01.png',
-    a2: 'avatar-02.png',
-    a3: 'avatar-03.png',
-    a4: 'avatar-04.png',
-    a5: 'avatar-05.png',
-};
 
 const args = {
     portraitColor: 'white',
@@ -26,14 +16,7 @@ class LayoutStory
     w: number;
     h: number;
 
-    constructor(props)
-    {
-        preloadAssets(Object.values(assets)).then(() =>
-            this.createLayout(props)
-        );
-    }
-
-    createLayout({ portraitColor, landscapeColor }: any)
+    constructor({ portraitColor, landscapeColor }: any)
     {
         this.addTooltip(`Resize view area from portrait to landscape and back to see the styles change`);
 

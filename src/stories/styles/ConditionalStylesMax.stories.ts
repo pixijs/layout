@@ -1,17 +1,7 @@
 import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { preloadAssets } from '../utils/helpers';
 import { Text } from '@pixi/text';
-
-const assets = {
-    bg: 'verticalBG.png',
-    a1: 'avatar-01.png',
-    a2: 'avatar-02.png',
-    a3: 'avatar-03.png',
-    a4: 'avatar-04.png',
-    a5: 'avatar-05.png',
-};
 
 const args = {
     maxWidth: 500,
@@ -36,14 +26,7 @@ class LayoutStory
     h: number;
     content: Text;
 
-    constructor(props)
-    {
-        preloadAssets(Object.values(assets)).then(() =>
-            this.createLayout(props)
-        );
-    }
-
-    createLayout(props: Props)
+    constructor(props: Props)
     {
         this.props = props;
 
