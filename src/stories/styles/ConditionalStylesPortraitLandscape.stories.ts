@@ -80,6 +80,13 @@ class LayoutStory
                 },
                 landscape: {
                     background: landscapeColor,
+                },
+                max: {
+                    width: {
+                        300: {
+                            width: '100%',
+                        },
+                    }
                 }
             },
         });
@@ -106,7 +113,7 @@ class LayoutStory
     }
 }
 
-export const ConditionalStyles = (params: any) => new LayoutStory(params);
+export const PortraitLandscape = (params: any) => new LayoutStory(params);
 
 export default {
     title: 'Styles',

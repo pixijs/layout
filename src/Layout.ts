@@ -120,26 +120,76 @@ export class LayoutSystem
      */
     resize(parentWidth: number, parentHeight: number)
     {
+        let finalStyles = { ...this.options?.styles };
+
         if (this.dpr !== 'portrait' && this.options?.styles?.portrait && parentHeight >= parentWidth)
         {
             this.dpr = 'portrait';
+            finalStyles = { ...finalStyles, ...this.options.styles.portrait };
 
-            const defaultStyles = { ...this.options.styles };
-
-            defaultStyles.portrait = undefined;
-
-            this.setStyles({ ...defaultStyles, ...this.options.styles.portrait });
+            this.setStyles(finalStyles);
         }
 
         if (this.dpr !== 'landscape' && this.options?.styles?.landscape && parentHeight < parentWidth)
         {
             this.dpr = 'landscape';
+            finalStyles = { ...finalStyles, ...this.options.styles.landscape };
 
-            const defaultStyles = { ...this.options.styles };
+            this.setStyles(finalStyles);
+        }
 
-            defaultStyles.landscape = undefined;
+        if (this.options?.styles?.max)
+        {
+            if (this.options.styles.max.height)
+            {
+                for (const [key, value] of Object.entries(this.options.styles.max.height))
+                {
+                    if (parentHeight <= parseInt(key, 10))
+                    {
+                        finalStyles = { ...finalStyles, ...value };
+                    }
+                }
+            }
 
-            this.setStyles({ ...defaultStyles, ...this.options.styles.landscape });
+            if (this.options.styles.max.width)
+            {
+                for (const [key, value] of Object.entries(this.options.styles.max.width))
+                {
+                    if (parentWidth <= parseInt(key, 10))
+                    {
+                        finalStyles = { ...finalStyles, ...value };
+                    }
+                }
+            }
+
+            this.setStyles(finalStyles);
+        }
+
+        if (this.options?.styles?.min)
+        {
+            if (this.options.styles.min.height)
+            {
+                for (const [key, value] of Object.entries(this.options.styles.min.height))
+                {
+                    if (parentHeight >= parseInt(key, 10))
+                    {
+                        finalStyles = { ...finalStyles, ...value };
+                    }
+                }
+            }
+
+            if (this.options.styles.min.width)
+            {
+                for (const [key, value] of Object.entries(this.options.styles.min.width))
+                {
+                    if (parentWidth >= parseInt(key, 10))
+                    {
+                        finalStyles = { ...finalStyles, ...value };
+                    }
+                }
+            }
+
+            this.setStyles(finalStyles);
         }
 
         this.size.update(parentWidth, parentHeight);

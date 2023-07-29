@@ -67,9 +67,20 @@ export type Styles = Partial<TextStyle> & {
     anchorY?: GradeToOne;
     aspectRatio?: AspectRatio;
     wordWrap?: boolean;
+    visible?: boolean;
     portrait?: Styles;
     landscape?: Styles;
-    visible?: boolean;
+    max?: StylesCondition,
+    min?: StylesCondition,
+};
+
+type StylesCondition = {
+    width?: {
+        [K: number]: Styles;
+    },
+    height?: {
+        [K: number]: Styles;
+    }
 };
 
 export type LayoutStyles = {
