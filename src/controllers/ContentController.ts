@@ -144,7 +144,7 @@ export class ContentController
                             if (parentGlobalStyles && parentGlobalStyles[idKey])
                             {
                                 layoutInstance.setStyles(parentGlobalStyles[idKey]);
-                                layoutInstance.layout.update();
+                                layoutInstance.layout.updateParents();
                             }
 
                             this.createContent(layoutInstance);
@@ -220,6 +220,27 @@ export class ContentController
                 child.resize(width, height);
             }
         });
+
+        this.updateTextStyles();
+        this.updateVisibility();
+    }
+
+    /** Updates text styles of all children */
+    protected updateTextStyles()
+    {
+        this.children.forEach((child) =>
+        {
+            if (child instanceof Text)
+            {
+                child.style = this.layout.textStyle;
+            }
+        });
+    }
+
+    /** Updates visibility of the layout */
+    protected updateVisibility()
+    {
+        this.layout.container.visible = this.layout.style?.visible !== false;
     }
 
     protected get newID(): string
@@ -305,7 +326,7 @@ export class ContentController
         if (registeredChild)
         {
             this.children.delete(registeredChild);
-            this.layout.update();
+            this.layout.updateParents();
         }
     }
 

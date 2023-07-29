@@ -1,6 +1,6 @@
 import { Container } from '@pixi/display';
 import { Content, LayoutOptions, Styles } from './utils/types';
-import { AlignController } from './controllers/align/AlignController';
+import { AlignController } from './controllers/AlignController';
 import { StyleController } from './controllers/StyleController';
 import { SizeController } from './controllers/SizeController';
 import { ContentController } from './controllers/ContentController';
@@ -64,6 +64,12 @@ export class LayoutSystem
     /** {@link ContentController} controller is a class for controlling layouts children. */
     content: ContentController;
 
+    /** Stores all the options of the layout. */
+    private options?: LayoutOptions;
+
+    /** Stores current applied device pixel ratio. */
+    private dpr: 'portrait' | 'landscape';
+
     /**
      * Creates layout system instance.
      * @param options - Layout options
@@ -75,6 +81,8 @@ export class LayoutSystem
      */
     constructor(options?: LayoutOptions, container?: Container)
     {
+        this.options = options;
+
         this.container = container || new Container();
 
         this.id = options?.id;
@@ -98,7 +106,11 @@ export class LayoutSystem
         this._style = new StyleController(this, options?.styles);
         this.size = new SizeController(this);
         this.align = new AlignController(this);
-        this.content = new ContentController(this, options?.content, options?.globalStyles);
+        this.content = new ContentController(
+            this,
+            options?.content,
+            options?.globalStyles
+        );
     }
 
     /**
@@ -108,6 +120,19 @@ export class LayoutSystem
      */
     resize(parentWidth: number, parentHeight: number)
     {
+        if (this.dpr !== 'portrait' && this.options?.styles?.portrait && parentHeight >= parentWidth)
+        {
+            this.dpr = 'portrait';
+
+            this.setStyles(this.options.styles.portrait);
+        }
+
+        if (this.dpr !== 'landscape' && this.options?.styles?.landscape && parentHeight < parentWidth)
+        {
+            this.dpr = 'landscape';
+            this.setStyles(this.options.styles.landscape);
+        }
+
         this.size.update(parentWidth, parentHeight);
     }
 
@@ -165,7 +190,7 @@ export class LayoutSystem
     addContent(content: Content)
     {
         this.content.createContent(content);
-        this.update();
+        this.updateParents();
     }
 
     /**
@@ -186,8 +211,11 @@ export class LayoutSystem
         return this.content.getByID(id);
     }
 
-    /** This is used in case if layout or some of it's children was changed and we need to update sizes and positions. */
-    update()
+    /**
+     * This is used in case if layout or some of it's children was changed
+     * and we need to update sizes and positions for all the parents tree.
+     */
+    updateParents()
     {
         const rootLayout = this.getRootLayout();
 
@@ -211,7 +239,7 @@ export class LayoutSystem
     setStyles(styles: Styles)
     {
         this._style.set(styles);
-        this.update();
+        this.updateParents();
     }
 
     /** Layout text styles. */
@@ -421,6 +449,6 @@ if (!Container.prototype.initLayout)
             }
 
             return this;
-        }
+        },
     });
 }

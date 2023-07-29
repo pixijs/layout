@@ -118,6 +118,8 @@ export class StyleController
 
         this.styles.aspectRatio = styles?.aspectRatio ?? this.styles.aspectRatio ?? 'static';
 
+        this.styles.visible = styles?.visible ?? this.styles.visible ?? true;
+
         this._textStyle = stylesToPixiTextStyles(styles);
     }
 
