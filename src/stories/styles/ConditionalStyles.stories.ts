@@ -45,11 +45,11 @@ class LayoutStory
                         fontSize: 40,
                         position: 'center',
                         color: landscapeColor,
-                        portrait: {
-                            visible: true,
-                        },
                         landscape: {
                             visible: false,
+                        },
+                        portrait: {
+                            visible: true,
                         }
                     }
                 },
@@ -59,12 +59,13 @@ class LayoutStory
                         fontSize: 40,
                         position: 'center',
                         color: portraitColor,
+                        visible: false,
                         portrait: {
                             visible: false,
                         },
                         landscape: {
                             visible: true,
-                        }
+                        },
                     }
                 }
             },
