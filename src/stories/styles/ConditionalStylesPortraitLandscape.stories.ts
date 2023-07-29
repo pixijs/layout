@@ -81,13 +81,6 @@ class LayoutStory
                 landscape: {
                     background: landscapeColor,
                 },
-                max: {
-                    width: {
-                        300: {
-                            width: '100%',
-                        },
-                    }
-                }
             },
         });
 
