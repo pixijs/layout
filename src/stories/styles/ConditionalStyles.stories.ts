@@ -69,10 +69,11 @@ class LayoutStory
                 }
             },
             styles: {
-                width: `80%`,
-                height: `80%`,
+                width: `60%`,
+                height: `60%`,
                 position: 'center',
                 overflow: 'hidden',
+                borderRadius: 20,
                 portrait: {
                     background: portraitColor,
                 },

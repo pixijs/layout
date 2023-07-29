@@ -124,13 +124,22 @@ export class LayoutSystem
         {
             this.dpr = 'portrait';
 
-            this.setStyles(this.options.styles.portrait);
+            const defaultStyles = { ...this.options.styles };
+
+            defaultStyles.portrait = undefined;
+
+            this.setStyles({ ...defaultStyles, ...this.options.styles.portrait });
         }
 
         if (this.dpr !== 'landscape' && this.options?.styles?.landscape && parentHeight < parentWidth)
         {
             this.dpr = 'landscape';
-            this.setStyles(this.options.styles.landscape);
+
+            const defaultStyles = { ...this.options.styles };
+
+            defaultStyles.landscape = undefined;
+
+            this.setStyles({ ...defaultStyles, ...this.options.styles.landscape });
         }
 
         this.size.update(parentWidth, parentHeight);
