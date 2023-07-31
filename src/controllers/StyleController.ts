@@ -24,7 +24,7 @@ export class StyleController
     protected defaultStyles: Styles;
 
     /** Conditional styles */
-    protected conditionalStyles?: ConditionalStyles;
+    protected conditionalStyles: ConditionalStyles = {};
 
     /**
      * Manages and sets all the styles of {@link LayoutSystem}
@@ -190,17 +190,17 @@ export class StyleController
 
         let finalStyles = { ...this.defaultStyles };
 
-        if (this.conditionalStyles?.portrait && this.parentHeight >= this.parentWidth)
+        if (this.conditionalStyles.portrait && this.parentHeight >= this.parentWidth)
         {
             finalStyles = { ...finalStyles, ...this.conditionalStyles.portrait };
         }
 
-        if (this.conditionalStyles?.landscape && this.parentHeight < this.parentWidth)
+        if (this.conditionalStyles.landscape && this.parentHeight < this.parentWidth)
         {
             finalStyles = { ...finalStyles, ...this.conditionalStyles.landscape };
         }
 
-        if (this.conditionalStyles?.max?.height)
+        if (this.conditionalStyles.max?.height)
         {
             for (const [key, value] of Object.entries(this.conditionalStyles.max.height))
             {
@@ -211,7 +211,7 @@ export class StyleController
             }
         }
 
-        if (this.conditionalStyles?.max?.width)
+        if (this.conditionalStyles.max?.width)
         {
             for (const [key, value] of Object.entries(this.conditionalStyles.max.width))
             {
@@ -222,7 +222,7 @@ export class StyleController
             }
         }
 
-        if (this.conditionalStyles?.min?.height)
+        if (this.conditionalStyles.min?.height)
         {
             for (const [key, value] of Object.entries(this.conditionalStyles.min.height))
             {
@@ -233,7 +233,7 @@ export class StyleController
             }
         }
 
-        if (this.conditionalStyles?.min?.width)
+        if (this.conditionalStyles.min?.width)
         {
             for (const [key, value] of Object.entries(this.conditionalStyles.min.width))
             {
