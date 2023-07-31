@@ -193,15 +193,11 @@ export class StyleController
         if (this.conditionalStyles?.portrait && this.parentHeight >= this.parentWidth)
         {
             finalStyles = { ...finalStyles, ...this.conditionalStyles.portrait };
-
-            this.set(finalStyles);
         }
 
         if (this.conditionalStyles?.landscape && this.parentHeight < this.parentWidth)
         {
             finalStyles = { ...finalStyles, ...this.conditionalStyles.landscape };
-
-            this.set(finalStyles);
         }
 
         if (this.conditionalStyles?.max)
@@ -227,8 +223,6 @@ export class StyleController
                     }
                 }
             }
-
-            this.set(finalStyles);
         }
 
         if (this.conditionalStyles?.min)
@@ -254,9 +248,9 @@ export class StyleController
                     }
                 }
             }
-
-            this.set(finalStyles);
         }
+
+        this.set(finalStyles);
     }
 
     /**
