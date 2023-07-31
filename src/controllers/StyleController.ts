@@ -14,17 +14,14 @@ export class StyleController
     /** Holds all text related styles. This is to be nested by children */
     protected _textStyle: Partial<TextStyle> = {}; // this is to be nested by children
 
-    /** Stores current applied device pixel ratio. */
-    protected dpr: 'portrait' | 'landscape';
-
-    /** Stores default styles. */
-    protected defaultStyles: Styles;
-
     /** Stores last parent width */
     protected parentWidth = 0;
 
     /** Stores last parent height */
     protected parentHeight = 0;
+
+    /** Stores default styles. */
+    protected defaultStyles: Styles;
 
     /** Conditional styles */
     protected conditionalStyles: ConditionalStyles = {};
@@ -195,7 +192,6 @@ export class StyleController
 
         if (this.conditionalStyles?.portrait && this.parentHeight >= this.parentWidth)
         {
-            this.dpr = 'portrait';
             finalStyles = { ...finalStyles, ...this.conditionalStyles.portrait };
 
             this.set(finalStyles);
@@ -203,7 +199,6 @@ export class StyleController
 
         if (this.conditionalStyles?.landscape && this.parentHeight < this.parentWidth)
         {
-            this.dpr = 'landscape';
             finalStyles = { ...finalStyles, ...this.conditionalStyles.landscape };
 
             this.set(finalStyles);
