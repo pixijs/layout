@@ -1,4 +1,4 @@
-import type { GradeToOne, Styles } from '../utils/types';
+import type { ConditionalStyles, GradeToOne, Styles } from '../utils/types';
 import { TextStyle } from '@pixi/text';
 import { stylesToPixiTextStyles } from '../utils/helpers';
 import { OVERFLOW, VERTICAL_ALIGN } from '../utils/constants';
@@ -13,6 +13,21 @@ export class StyleController
 
     /** Holds all text related styles. This is to be nested by children */
     protected _textStyle: Partial<TextStyle> = {}; // this is to be nested by children
+
+    /** Stores current applied device pixel ratio. */
+    protected dpr: 'portrait' | 'landscape';
+
+    /** Stores default styles. */
+    protected defaultStyles: Styles;
+
+    /** Stores last parent width */
+    protected parentWidth = 0;
+
+    /** Stores last parent height */
+    protected parentHeight = 0;
+
+    /** Conditional styles */
+    protected conditionalStyles: ConditionalStyles = {};
 
     /**
      * Manages and sets all the styles of {@link LayoutSystem}
@@ -32,7 +47,7 @@ export class StyleController
      * Applies a list of styles for the layout.
      * @param { Styles } styles - styles to be applied
      */
-    set(styles?: Styles)
+    set(styles?: Styles & ConditionalStyles)
     {
         this.styles.overflow = styles?.overflow ?? this.styles.overflow ?? OVERFLOW[0];
         this.styles.display = styles?.display ?? this.styles.display ?? 'inline-block';
@@ -121,6 +136,8 @@ export class StyleController
         this.styles.visible = styles?.visible ?? this.styles.visible ?? true;
 
         this._textStyle = stylesToPixiTextStyles(styles);
+
+        this.separateConditionalStyles(styles);
     }
 
     /**
@@ -155,5 +172,135 @@ export class StyleController
     get opacity(): GradeToOne
     {
         return this.styles.opacity;
+    }
+
+    /**
+     * Checks and applies conditional styles basing on parent size
+     * @param {number} parentWidth
+     * @param {number} parentHeight
+     */
+    applyConditionalStyles(parentWidth?: number, parentHeight?: number)
+    {
+        if (parentWidth !== undefined)
+        {
+            this.parentWidth = parentWidth;
+        }
+
+        if (parentHeight !== undefined)
+        {
+            this.parentHeight = parentHeight;
+        }
+
+        let finalStyles = { ...this.defaultStyles };
+
+        if (this.conditionalStyles?.portrait && this.parentHeight >= this.parentWidth)
+        {
+            this.dpr = 'portrait';
+            finalStyles = { ...finalStyles, ...this.conditionalStyles.portrait };
+
+            this.set(finalStyles);
+        }
+
+        if (this.conditionalStyles?.landscape && this.parentHeight < this.parentWidth)
+        {
+            this.dpr = 'landscape';
+            finalStyles = { ...finalStyles, ...this.conditionalStyles.landscape };
+
+            this.set(finalStyles);
+        }
+
+        if (this.conditionalStyles?.max)
+        {
+            if (this.conditionalStyles.max.height)
+            {
+                for (const [key, value] of Object.entries(this.conditionalStyles.max.height))
+                {
+                    if (this.parentHeight <= parseInt(key, 10))
+                    {
+                        finalStyles = { ...finalStyles, ...value };
+                    }
+                }
+            }
+
+            if (this.conditionalStyles.max.width)
+            {
+                for (const [key, value] of Object.entries(this.conditionalStyles.max.width))
+                {
+                    if (this.parentWidth <= parseInt(key, 10))
+                    {
+                        finalStyles = { ...finalStyles, ...value };
+                    }
+                }
+            }
+
+            this.set(finalStyles);
+        }
+
+        if (this.conditionalStyles?.min)
+        {
+            if (this.conditionalStyles.min.height)
+            {
+                for (const [key, value] of Object.entries(this.conditionalStyles.min.height))
+                {
+                    if (this.parentHeight >= parseInt(key, 10))
+                    {
+                        finalStyles = { ...finalStyles, ...value };
+                    }
+                }
+            }
+
+            if (this.conditionalStyles.min.width)
+            {
+                for (const [key, value] of Object.entries(this.conditionalStyles.min.width))
+                {
+                    if (this.parentWidth >= parseInt(key, 10))
+                    {
+                        finalStyles = { ...finalStyles, ...value };
+                    }
+                }
+            }
+
+            this.set(finalStyles);
+        }
+    }
+
+    /**
+     * Separates conditional styles from default styles
+     * @param styles - mixed styles
+     */
+    protected separateConditionalStyles(styles?: Styles & ConditionalStyles)
+    {
+        if (!styles.portrait && !styles.landscape && !styles.max && !styles.min)
+        {
+            return;
+        }
+
+        if (styles.portrait)
+        {
+            this.conditionalStyles.portrait = styles.portrait;
+            delete styles.portrait;
+        }
+
+        if (styles.landscape)
+        {
+            this.conditionalStyles.landscape = styles.landscape;
+            delete styles.landscape;
+        }
+
+        if (styles.max)
+        {
+            this.conditionalStyles.max = styles.max;
+            delete styles.max;
+        }
+
+        if (styles.min)
+        {
+            this.conditionalStyles.min = styles.min;
+            delete styles.min;
+        }
+
+        this.defaultStyles = {
+            ...styles,
+        };
     }
 }
