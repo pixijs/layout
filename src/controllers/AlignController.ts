@@ -21,7 +21,7 @@ export class AlignController
      * @param {number} parentWidth
      * @param {number} parentHeight
      */
-    update(parentWidth: number, parentHeight: number)
+    resize(parentWidth: number, parentHeight: number)
     {
         this.setSelfPosition(parentWidth, parentHeight);
 
