@@ -97,13 +97,16 @@ class LayoutStory
         addButton.onPress.connect(() =>
         {
             gem.scale.set(gem.scale._x + 0.1);
+            // after resize we need to update the layout tree manually,
+            // as layout will automatically update on parent resize, but no on child resize
             iconsLayout?.updateParents();
         });
 
         removeButton.onPress.connect(() =>
         {
             gem.scale.set(gem.scale._x - 0.1 > 0 ? gem.scale._x - 0.1 : 0);
-
+            // after resize we need to update the layout tree manually,
+            // as layout will automatically update on parent resize, but no on child resize
             iconsLayout?.updateParents();
         });
 
