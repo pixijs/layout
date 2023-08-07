@@ -9,9 +9,8 @@ const args = {
     width: 95,
     height: 95,
     opacity: 1,
-    fontSize: 24,
     padding: 10,
-    childWidth: 50,
+    childWidth: 48,
     childHeight: 34,
     textAlign: ALIGN,
     verticalAlign: VERTICAL_ALIGN,
@@ -29,7 +28,6 @@ class LayoutStory
         height,
         opacity,
         textAlign,
-        fontSize,
         position,
         padding,
         childWidth,
@@ -40,7 +38,6 @@ class LayoutStory
         const fontStyle = {
             textAlign,
             verticalAlign,
-            fontSize,
             color,
             overflow: 'hidden'
         };
@@ -97,7 +94,6 @@ class LayoutStory
                 height: '96%',
                 position: 'right',
                 textAlign,
-                fontSize,
                 color,
                 padding
             },
