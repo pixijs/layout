@@ -9,7 +9,7 @@ import { LayoutStyles } from '../../utils/types';
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 
 const args = {
-    rootBGColor: '#FFFFFF',
+    rootBGColor: '#000000',
     layoutBGColor: ['red', ...color],
     layoutTextColor: '#FFFFFF',
     string1Color: ['red', ...color],
