@@ -37,6 +37,7 @@ export class StyleController
         if (styles)
         {
             this.set(styles);
+            this.applyConditionalStyles();
         }
     }
 
@@ -255,6 +256,10 @@ export class StyleController
     {
         if (!styles.portrait && !styles.landscape && !styles.max && !styles.min)
         {
+            this.defaultStyles = {
+                ...styles,
+            };
+
             return;
         }
 
