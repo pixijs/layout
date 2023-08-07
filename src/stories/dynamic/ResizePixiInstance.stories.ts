@@ -97,14 +97,14 @@ class LayoutStory
         addButton.onPress.connect(() =>
         {
             gem.scale.set(gem.scale._x + 0.1);
-            iconsLayout?.update();
+            iconsLayout?.updateParents();
         });
 
         removeButton.onPress.connect(() =>
         {
             gem.scale.set(gem.scale._x - 0.1 > 0 ? gem.scale._x - 0.1 : 0);
 
-            iconsLayout?.update();
+            iconsLayout?.updateParents();
         });
 
         this.layout.resize(this.w, this.h);
