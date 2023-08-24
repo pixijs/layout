@@ -1,6 +1,6 @@
 import { Container } from '@pixi/display';
 import { Content, LayoutOptions, Styles } from './utils/types';
-import { AlignController } from './controllers/align/AlignController';
+import { AlignController } from './controllers/AlignController';
 import { StyleController } from './controllers/StyleController';
 import { SizeController } from './controllers/SizeController';
 import { ContentController } from './controllers/ContentController';
@@ -98,7 +98,11 @@ export class LayoutSystem
         this._style = new StyleController(this, options?.styles);
         this.size = new SizeController(this);
         this.align = new AlignController(this);
-        this.content = new ContentController(this, options?.content, options?.globalStyles);
+        this.content = new ContentController(
+            this,
+            options?.content,
+            options?.globalStyles
+        );
     }
 
     /**
@@ -108,7 +112,8 @@ export class LayoutSystem
      */
     resize(parentWidth: number, parentHeight: number)
     {
-        this.size.update(parentWidth, parentHeight);
+        this._style.applyConditionalStyles(parentWidth, parentHeight);
+        this.size.resize(parentWidth, parentHeight);
     }
 
     /** Returns with of the container */
@@ -165,7 +170,7 @@ export class LayoutSystem
     addContent(content: Content)
     {
         this.content.createContent(content);
-        this.update();
+        this.updateParents();
     }
 
     /**
@@ -186,12 +191,15 @@ export class LayoutSystem
         return this.content.getByID(id);
     }
 
-    /** This is used in case if layout or some of it's children was changed and we need to update sizes and positions. */
-    update()
+    /**
+     * This is used in case if layout or some of it's children was changed
+     * and we need to update sizes and positions for all the parents tree.
+     */
+    updateParents()
     {
         const rootLayout = this.getRootLayout();
 
-        rootLayout.layout.size.update();
+        rootLayout.layout.size.resize();
     }
 
     protected getRootLayout(): Container
@@ -211,7 +219,8 @@ export class LayoutSystem
     setStyles(styles: Styles)
     {
         this._style.set(styles);
-        this.update();
+        this._style.applyConditionalStyles();
+        this.updateParents();
     }
 
     /** Layout text styles. */
@@ -421,6 +430,6 @@ if (!Container.prototype.initLayout)
             }
 
             return this;
-        }
+        },
     });
 }

@@ -33,7 +33,7 @@ export class SizeController
      * @param {number} parentWidth - Parent width
      * @param {number} parentHeight - Parent height
      */
-    update(parentWidth?: number, parentHeight?: number)
+    resize(parentWidth?: number, parentHeight?: number)
     {
         let finalWidth = 0;
         let finalHeight = 0;
@@ -282,7 +282,7 @@ export class SizeController
         this.updateBG();
         this.updateMask();
 
-        this.layout.align.update(this.parentWidth, this.parentHeight);
+        this.layout.align.resize(this.parentWidth, this.parentHeight);
     }
 
     /** Render and update the background of layout basing on it's current state. */
@@ -479,7 +479,7 @@ export class SizeController
     set width(width: FlexNumber)
     {
         this._width = getNumber(width, this.parentWidth);
-        this.layout.align.update(this.parentWidth, this.parentHeight);
+        this.layout.align.resize(this.parentWidth, this.parentHeight);
     }
 
     /** Get height of the controlled layout. */
@@ -495,7 +495,7 @@ export class SizeController
     set height(height: FlexNumber)
     {
         this._height = getNumber(height, this.parentHeight);
-        this.layout.align.update(this.parentWidth, this.parentHeight);
+        this.layout.align.resize(this.parentWidth, this.parentHeight);
     }
 
     /**

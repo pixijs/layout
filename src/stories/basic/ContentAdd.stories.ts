@@ -9,7 +9,7 @@ import { LayoutStyles } from '../../utils/types';
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 
 const args = {
-    rootBGColor: '#FFFFFF',
+    rootBGColor: '#000000',
     layoutBGColor: ['red', ...color],
     layoutTextColor: '#FFFFFF',
     string1Color: ['red', ...color],
@@ -104,12 +104,20 @@ class LayoutStory
                 background: string5BGColor,
                 padding: 5,
                 width: 100
+            },
+            description: {
+                color: 'white',
+                maxWidth: '95%',
+                margin: 20,
             }
         };
 
         this.layout = new Layout({
             id: 'root',
             content: {
+                description: {
+                    content: 'This example shows how different way of adding layout content will be handled',
+                },
                 // Layout instance
                 layoutID: new Layout({
                     content: 'Layout instance',

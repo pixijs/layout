@@ -31,6 +31,13 @@ export type Overflow = (typeof OVERFLOW)[number];
 
 export type AspectRatio = 'static' | 'flex';
 
+export type ConditionalStyles = {
+    portrait?: Styles;
+    landscape?: Styles;
+    max?: StylesCondition,
+    min?: StylesCondition,
+};
+
 export type Styles = Partial<TextStyle> & {
     background?: FlexColor | Container | string;
     backgroundColor?: FlexColor;
@@ -67,16 +74,26 @@ export type Styles = Partial<TextStyle> & {
     anchorY?: GradeToOne;
     aspectRatio?: AspectRatio;
     wordWrap?: boolean;
+    visible?: boolean;
+};
+
+type StylesCondition = {
+    width?: {
+        [K: number]: Styles;
+    },
+    height?: {
+        [K: number]: Styles;
+    }
 };
 
 export type LayoutStyles = {
-    [K: string]: Styles;
+    [K: string]: Styles & ConditionalStyles;
 };
 
 export type LayoutOptions = {
     id?: string;
     content?: Content;
-    styles?: Styles;
+    styles?: Styles & ConditionalStyles;
     globalStyles?: LayoutStyles;
 };
 

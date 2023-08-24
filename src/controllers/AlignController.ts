@@ -1,6 +1,6 @@
-import { Layout, LayoutSystem } from '../../Layout';
+import { Layout, LayoutSystem } from '../Layout';
 import { Text } from '@pixi/text';
-import { isItJustAText } from '../../utils/helpers';
+import { isItJustAText } from '../utils/helpers';
 
 /** Align controller manages {@link LayoutSystem} and it's content alignment. */
 export class AlignController
@@ -21,7 +21,7 @@ export class AlignController
      * @param {number} parentWidth
      * @param {number} parentHeight
      */
-    update(parentWidth: number, parentHeight: number)
+    resize(parentWidth: number, parentHeight: number)
     {
         this.setSelfPosition(parentWidth, parentHeight);
 
@@ -83,7 +83,8 @@ export class AlignController
 
                 const verticalAlign = style.verticalAlign;
 
-                const availableHeight = parentHeight - paddingTop - paddingBottom;
+                const availableHeight
+                    = parentHeight - paddingTop - paddingBottom;
 
                 if (child.height < availableHeight)
                 {
@@ -141,16 +142,26 @@ export class AlignController
             if (style.position === undefined)
             {
                 // if position is set, anchor will be handled in setSelfPosition method
-                anchorX = style.anchorX !== undefined ? style.anchorX * this.layout.width : 0;
-                anchorY = style.anchorY !== undefined ? style.anchorY * this.layout.height : 0;
+                anchorX
+                    = style.anchorX !== undefined
+                        ? style.anchorX * this.layout.width
+                        : 0;
+                anchorY
+                    = style.anchorY !== undefined
+                        ? style.anchorY * this.layout.height
+                        : 0;
             }
 
             child.x = x + childMarginLeft - anchorX;
             child.y = y + childMarginTop - anchorY;
 
-            if (child.height + childMarginTop + childMarginBottom > maxChildHeight)
+            if (
+                child.height + childMarginTop + childMarginBottom
+                > maxChildHeight
+            )
             {
-                maxChildHeight = child.height + childMarginTop + childMarginBottom;
+                maxChildHeight
+                    = child.height + childMarginTop + childMarginBottom;
             }
 
             const availableWidth = parentWidth - paddingRight;
@@ -160,7 +171,8 @@ export class AlignController
                 childDisplay = 'inline-block';
             }
 
-            const isFeetParentWidth = x + child.width + childMarginRight <= availableWidth;
+            const isFeetParentWidth
+                = x + child.width + childMarginRight <= availableWidth;
             const isFirstChild = child === this.layout.content.firstChild;
 
             switch (childDisplay)
@@ -215,7 +227,8 @@ export class AlignController
             case 'rightTop':
             case 'topRight':
             case 'right':
-                finalPosition.x = parentWidth - marginRight - (width * (anchorX ?? 1));
+                finalPosition.x
+                    = parentWidth - marginRight - (width * (anchorX ?? 1));
                 finalPosition.y = marginTop - (height * (anchorY ?? 0));
                 break;
 
@@ -223,42 +236,53 @@ export class AlignController
             case 'bottomLeft':
             case 'bottom':
                 finalPosition.x = marginLeft - (width * (anchorX ?? 0));
-                finalPosition.y = parentHeight - marginBottom - (height * (anchorY ?? 1));
+                finalPosition.y
+                    = parentHeight - marginBottom - (height * (anchorY ?? 1));
                 break;
 
             case 'rightBottom':
             case 'bottomRight':
-                finalPosition.x = parentWidth - marginRight - (width * (anchorX ?? 1));
-                finalPosition.y = parentHeight - marginBottom - (height * (anchorY ?? 1));
+                finalPosition.x
+                    = parentWidth - marginRight - (width * (anchorX ?? 1));
+                finalPosition.y
+                    = parentHeight - marginBottom - (height * (anchorY ?? 1));
                 break;
 
             case 'center':
-                finalPosition.x = (parentWidth / 2) - (width * (anchorX ?? 0.5)) + marginLeft;
-                finalPosition.y = (parentHeight / 2) - (height * (anchorY ?? 0.5)) + marginTop;
+                finalPosition.x
+                    = (parentWidth / 2) - (width * (anchorX ?? 0.5)) + marginLeft;
+                finalPosition.y
+                    = (parentHeight / 2) - (height * (anchorY ?? 0.5)) + marginTop;
                 break;
 
             case 'centerTop':
             case 'topCenter':
-                finalPosition.x = (parentWidth / 2) - (width * (anchorX ?? 0.5)) + marginLeft;
+                finalPosition.x
+                    = (parentWidth / 2) - (width * (anchorX ?? 0.5)) + marginLeft;
                 finalPosition.y = marginTop - (height * (anchorY ?? 0));
                 break;
 
             case 'centerBottom':
             case 'bottomCenter':
-                finalPosition.x = (parentWidth / 2) - (width * (anchorX ?? 0.5)) + marginLeft;
-                finalPosition.y = parentHeight - marginBottom - (height * (anchorY ?? 1));
+                finalPosition.x
+                    = (parentWidth / 2) - (width * (anchorX ?? 0.5)) + marginLeft;
+                finalPosition.y
+                    = parentHeight - marginBottom - (height * (anchorY ?? 1));
                 break;
 
             case 'centerLeft':
             case 'leftCenter':
                 finalPosition.x = marginLeft - (width * (anchorX ?? 0));
-                finalPosition.y = (parentHeight / 2) - (height * (anchorY ?? 0.5)) + marginTop;
+                finalPosition.y
+                    = (parentHeight / 2) - (height * (anchorY ?? 0.5)) + marginTop;
                 break;
 
             case 'centerRight':
             case 'rightCenter':
-                finalPosition.x = parentWidth - marginRight - (width * (anchorX ?? 1));
-                finalPosition.y = (parentHeight / 2) - (height * (anchorY ?? 0.5)) + marginTop;
+                finalPosition.x
+                    = parentWidth - marginRight - (width * (anchorX ?? 1));
+                finalPosition.y
+                    = (parentHeight / 2) - (height * (anchorY ?? 0.5)) + marginTop;
                 break;
 
             case 'leftTop':
