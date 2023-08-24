@@ -77,7 +77,7 @@
             
             <span class="subtitle">Methods</span>
             
-                <li class="parent  " data-name="AlignController.update"><a href=AlignController.html#update>update</a></li>
+                <li class="parent  " data-name="AlignController.resize"><a href=AlignController.html#resize>resize</a></li>
             
             </ul>
             
@@ -131,6 +131,10 @@
                 <li class="parent  " data-name="ContentController.removeContent"><a href=ContentController.html#removeContent>removeContent</a></li>
             
                 <li class="parent  " data-name="ContentController.resize"><a href=ContentController.html#resize>resize</a></li>
+            
+                <li class="parent  " data-name="ContentController.updateTextStyles"><a href=ContentController.html#updateTextStyles>updateTextStyles</a></li>
+            
+                <li class="parent  " data-name="ContentController.updateVisibility"><a href=ContentController.html#updateVisibility>updateVisibility</a></li>
             
             </ul>
             
@@ -284,7 +288,7 @@
             
                 <li class="parent  " data-name="LayoutSystem.setStyles"><a href=LayoutSystem.html#setStyles>setStyles</a></li>
             
-                <li class="parent  " data-name="LayoutSystem.update"><a href=LayoutSystem.html#update>update</a></li>
+                <li class="parent  " data-name="LayoutSystem.updateParents"><a href=LayoutSystem.html#updateParents>updateParents</a></li>
             
             </ul>
             
@@ -335,7 +339,7 @@
             
             <span class="subtitle">Methods</span>
             
-                <li class="parent  " data-name="SizeController.update"><a href=SizeController.html#update>update</a></li>
+                <li class="parent  " data-name="SizeController.resize"><a href=SizeController.html#resize>resize</a></li>
             
                 <li class="parent  " data-name="SizeController.fitToSize"><a href=SizeController.html#fitToSize>fitToSize</a></li>
             
@@ -373,6 +377,14 @@
             
                 <li class="parent " data-name="StyleController._textStyle"><a href=StyleController.html#_textStyle>_textStyle</a></li>
             
+                <li class="parent " data-name="StyleController.conditionalStyles"><a href=StyleController.html#conditionalStyles>conditionalStyles</a></li>
+            
+                <li class="parent " data-name="StyleController.defaultStyles"><a href=StyleController.html#defaultStyles>defaultStyles</a></li>
+            
+                <li class="parent " data-name="StyleController.parentHeight"><a href=StyleController.html#parentHeight>parentHeight</a></li>
+            
+                <li class="parent " data-name="StyleController.parentWidth"><a href=StyleController.html#parentWidth>parentWidth</a></li>
+            
             </ul>
 
             <ul class="enums itemMembers">
@@ -392,11 +404,15 @@
             
             <span class="subtitle">Methods</span>
             
+                <li class="parent  " data-name="StyleController.applyConditionalStyles"><a href=StyleController.html#applyConditionalStyles>applyConditionalStyles</a></li>
+            
                 <li class="parent  " data-name="StyleController.get"><a href=StyleController.html#get>get</a></li>
             
                 <li class="parent  " data-name="StyleController.getAll"><a href=StyleController.html#getAll>getAll</a></li>
             
                 <li class="parent  " data-name="StyleController.set"><a href=StyleController.html#set>set</a></li>
+            
+                <li class="parent  " data-name="StyleController.separateConditionalStyles"><a href=StyleController.html#separateConditionalStyles>separateConditionalStyles</a></li>
             
             </ul>
             
@@ -2168,11 +2184,11 @@ Also content can be an object with inner layout ids as a keys, and Content as va
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="update">
-            <a class="share-icon" href="#update"><span class="glyphicon glyphicon-link"></span></a>
+        <h4 class="name" id="updateParents">
+            <a class="share-icon" href="#updateParents"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
               
-                  update
+                  updateParents
               
             </span>
             <span class="signature">()</span><span class="type-signature"></span>
@@ -2187,8 +2203,11 @@ Also content can be an object with inner layout ids as a keys, and Content as va
 </dt>
 <dd>
     
-      <p class="description"><p>This is used in case if layout or some of it's children was changed and we need to update sizes and positions.</p></p>
     
+    <div class="description">
+        <p>This is used in case if layout or some of it's children was changed
+and we need to update sizes and positions for all the parents tree.</p>
+    </div>
     
 
     
@@ -2258,7 +2277,7 @@ Also content can be an object with inner layout ids as a keys, and Content as va
 
         <footer class="content-size">
             <div class="footer">
-                Documentation generated by <a href="https://github.com/webdoc-js/webdoc">Webdoc 1</a> on Mon Aug 07 2023 07:15:22 GMT+0000 (Coordinated Universal Time)
+                Documentation generated by <a href="https://github.com/webdoc-js/webdoc">Webdoc 1</a> on Thu Aug 24 2023 11:28:44 GMT+0000 (Coordinated Universal Time)
             </div>
         </footer>
     </div>
