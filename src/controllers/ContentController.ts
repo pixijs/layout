@@ -220,27 +220,6 @@ export class ContentController
                 child.resize(width, height);
             }
         });
-
-        this.updateTextStyles();
-        this.updateVisibility();
-    }
-
-    /** Updates text styles of all children */
-    protected updateTextStyles()
-    {
-        this.children.forEach((child) =>
-        {
-            if (child instanceof Text)
-            {
-                child.style = this.layout.textStyle;
-            }
-        });
-    }
-
-    /** Updates visibility of the layout */
-    protected updateVisibility()
-    {
-        this.layout.container.visible = this.layout.style?.visible !== false;
     }
 
     protected get newID(): string
