@@ -4,6 +4,7 @@ import { Container } from '@pixi/display';
 import { toolTip } from '../components/ToolTip';
 import { preloadAssets } from '../utils/helpers';
 import { FancyButton } from '@pixi/ui';
+import { Text } from '@pixi/text';
 
 const testAssets = {
     defaultView: `buttons/Button.png`,
@@ -32,11 +33,20 @@ class LayoutStory
 
     private getButton(): FancyButton
     {
+        const text = new Text(`Click me!!!`, {
+            fill: 0xffffff,
+            fontSize: 36,
+            dropShadow: true,
+            dropShadowBlur: 4,
+            dropShadowAngle: 1,
+            dropShadowDistance: 2,
+        });
+
         const button = new FancyButton({
             defaultView: testAssets.defaultView,
             hoverView: testAssets.hoverView,
             pressedView: testAssets.pressedView,
-            text: `Click me!!!`,
+            text,
             animations: {
                 hover: {
                     props: {
