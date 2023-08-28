@@ -40,6 +40,7 @@ class LayoutStory
             dropShadowBlur: 4,
             dropShadowAngle: 1,
             dropShadowDistance: 2,
+            dropShadowAlpha: 0.7
         });
 
         const button = new FancyButton({
@@ -47,6 +48,7 @@ class LayoutStory
             hoverView: testAssets.hoverView,
             pressedView: testAssets.pressedView,
             text,
+            textOffset: { x: 0, y: -7 },
             animations: {
                 hover: {
                     props: {
@@ -78,7 +80,6 @@ class LayoutStory
             styles: {
                 background: 'black',
                 position: 'center',
-                overflow: 'hidden',
                 borderRadius: 20,
                 maxWidth: `${maxWidth}%`
             }
