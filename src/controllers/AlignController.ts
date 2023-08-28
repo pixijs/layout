@@ -1,6 +1,8 @@
 import { Layout, LayoutSystem } from '../Layout';
 import { Text } from '@pixi/text';
 import { isItJustAText } from '../utils/helpers';
+import { FancyButton } from '@pixi/ui';
+import { Container } from '@pixi/display';
 
 /** Align controller manages {@link LayoutSystem} and it's content alignment. */
 export class AlignController
@@ -138,6 +140,12 @@ export class AlignController
 
             let anchorX = 0;
             let anchorY = 0;
+
+            if ((child as any).anchor && (child as any).anchor.x && (child as any).anchor.y)
+            {
+                anchorX = -(child as any).anchor.x * child.width;
+                anchorY = -(child as any).anchor.y * child.height;
+            }
 
             if (style.position === undefined)
             {

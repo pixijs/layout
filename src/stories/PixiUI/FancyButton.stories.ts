@@ -75,7 +75,6 @@ class LayoutStory
     private createLayout({ maxWidth }: any)
     {
         this.layout = new Layout({
-            id: 'root',
             content: this.getButton(),
             styles: {
                 background: 'black',
