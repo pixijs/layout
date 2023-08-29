@@ -248,13 +248,6 @@ export class StyleController
         }
 
         this.set(finalStyles);
-
-        console.log(`applyConditionalStyles`, this.layout.id, {
-            isPortrait: this.layout.isRootLayoutPortrait,
-            conditionalStyles: this.conditionalStyles,
-            defaultStyles: this.defaultStyles,
-            finalStyles,
-        });
     }
 
     /**
