@@ -179,6 +179,8 @@ export class StyleController
      */
     applyConditionalStyles(parentWidth?: number, parentHeight?: number)
     {
+        if (!this.hasConditionalStyles) return;
+
         if (parentWidth !== undefined)
         {
             this.parentWidth = parentWidth;
@@ -191,12 +193,12 @@ export class StyleController
 
         let finalStyles = { ...this.defaultStyles };
 
-        if (this.conditionalStyles.portrait && this.parentHeight >= this.parentWidth)
+        if (this.conditionalStyles.portrait && this.layout.isRootLayoutPortrait)
         {
             finalStyles = { ...finalStyles, ...this.conditionalStyles.portrait };
         }
 
-        if (this.conditionalStyles.landscape && this.parentHeight < this.parentWidth)
+        if (this.conditionalStyles.landscape && !this.layout.isRootLayoutPortrait)
         {
             finalStyles = { ...finalStyles, ...this.conditionalStyles.landscape };
         }
@@ -246,6 +248,13 @@ export class StyleController
         }
 
         this.set(finalStyles);
+
+        console.log(`applyConditionalStyles`, this.layout.id, {
+            isPortrait: this.layout.isRootLayoutPortrait,
+            conditionalStyles: this.conditionalStyles,
+            defaultStyles: this.defaultStyles,
+            finalStyles,
+        });
     }
 
     /**
@@ -265,30 +274,41 @@ export class StyleController
 
         if (styles.portrait)
         {
-            this.conditionalStyles.portrait = styles.portrait;
-            delete styles.portrait;
+            this.conditionalStyles.portrait = {
+                ...this.conditionalStyles.portrait,
+                ...styles.portrait
+            };
         }
 
         if (styles.landscape)
         {
-            this.conditionalStyles.landscape = styles.landscape;
-            delete styles.landscape;
+            this.conditionalStyles.landscape = {
+                ...this.conditionalStyles.landscape,
+                ...styles.landscape
+            };
         }
 
         if (styles.max)
         {
             this.conditionalStyles.max = styles.max;
-            delete styles.max;
         }
 
         if (styles.min)
         {
             this.conditionalStyles.min = styles.min;
-            delete styles.min;
         }
 
-        this.defaultStyles = {
-            ...styles,
-        };
+        delete styles.portrait;
+        delete styles.landscape;
+        delete styles.max;
+        delete styles.min;
+
+        this.defaultStyles = styles;
+    }
+
+    /** Returns true if there are conditional styles */
+    get hasConditionalStyles(): boolean
+    {
+        return Object.keys(this.conditionalStyles).length > 0;
     }
 }

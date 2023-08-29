@@ -64,6 +64,9 @@ export class LayoutSystem
     /** {@link ContentController} controller is a class for controlling layouts children. */
     content: ContentController;
 
+    /** Stores isPortrait state */
+    isPortrait = false;
+
     /**
      * Creates layout system instance.
      * @param options - Layout options
@@ -75,6 +78,11 @@ export class LayoutSystem
      */
     constructor(options?: LayoutOptions, container?: Container)
     {
+        if (container.parent)
+        {
+            this.isPortrait = container.parent.height >= container.parent.width;
+        }
+
         this.container = container || new Container();
 
         this.id = options?.id;
@@ -112,6 +120,8 @@ export class LayoutSystem
      */
     resize(parentWidth: number, parentHeight: number)
     {
+        this.isPortrait = this.size.height >= this.size.width;
+
         this._style.applyConditionalStyles(parentWidth, parentHeight);
         this.size.resize(parentWidth, parentHeight);
     }
@@ -199,17 +209,21 @@ export class LayoutSystem
     {
         const rootLayout = this.getRootLayout();
 
-        rootLayout.layout.size.resize();
+        rootLayout.size.resize();
     }
 
-    protected getRootLayout(): Container
+    /**
+     * Returns root layout of the layout tree.
+     * @protected
+     */
+    protected getRootLayout(): LayoutSystem
     {
         if (this.container.parent?.layout)
         {
             return this.container.parent.layout.getRootLayout();
         }
 
-        return this.container;
+        return this;
     }
 
     /**
@@ -218,8 +232,8 @@ export class LayoutSystem
      */
     setStyles(styles: Styles)
     {
-        this._style.set(styles);
         this._style.applyConditionalStyles();
+        this._style.set(styles);
         this.updateParents();
     }
 
@@ -233,6 +247,12 @@ export class LayoutSystem
     get style(): Styles
     {
         return this._style.getAll();
+    }
+
+    /** Returns true if root layout is in landscape mode. */
+    get isRootLayoutPortrait(): boolean
+    {
+        return this.getRootLayout().isPortrait;
     }
 }
 
