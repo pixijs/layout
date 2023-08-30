@@ -65,7 +65,7 @@ export class LayoutSystem
     content: ContentController;
 
     /** Stores isPortrait state */
-    isPortrait = false;
+    isPortrait: boolean;
 
     /**
      * Creates layout system instance.
@@ -78,11 +78,6 @@ export class LayoutSystem
      */
     constructor(options?: LayoutOptions, container?: Container)
     {
-        if (container.parent)
-        {
-            this.isPortrait = container.parent.height >= container.parent.width;
-        }
-
         this.container = container || new Container();
 
         this.id = options?.id;
@@ -120,9 +115,9 @@ export class LayoutSystem
      */
     resize(parentWidth: number, parentHeight: number)
     {
-        this.isPortrait = this.size.height >= this.size.width;
+        this.isPortrait = parentWidth < parentHeight;
 
-        this._style.applyConditionalStyles(parentWidth, parentHeight);
+        this._style.applyConditionalStyles();
         this.size.resize(parentWidth, parentHeight);
     }
 
@@ -232,7 +227,6 @@ export class LayoutSystem
      */
     setStyles(styles: Styles)
     {
-        this._style.applyConditionalStyles();
         this._style.set(styles);
         this.updateParents();
     }
@@ -252,7 +246,7 @@ export class LayoutSystem
     /** Returns true if root layout is in landscape mode. */
     get isRootLayoutPortrait(): boolean
     {
-        return this.getRootLayout().isPortrait;
+        return this.getRootLayout().isPortrait === true;
     }
 }
 
