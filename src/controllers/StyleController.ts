@@ -192,7 +192,7 @@ export class StyleController
      */
     protected separateConditionalStyles(styles?: Styles & ConditionalStyles)
     {
-        if (!styles.portrait && !styles.landscape && !styles.max && !styles.min)
+        if (!styles.portrait && !styles.landscape)
         {
             this.defaultStyles = {
                 ...styles,
@@ -217,20 +217,8 @@ export class StyleController
             };
         }
 
-        if (styles.max)
-        {
-            this.conditionalStyles.max = styles.max;
-        }
-
-        if (styles.min)
-        {
-            this.conditionalStyles.min = styles.min;
-        }
-
         delete styles.portrait;
         delete styles.landscape;
-        delete styles.max;
-        delete styles.min;
 
         this.defaultStyles = styles;
     }
