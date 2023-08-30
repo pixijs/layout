@@ -98,8 +98,8 @@ export class LayoutSystem
         }
 
         // order here is important as controllers are dependent on each other
-        this._style = new StyleController(this, options?.styles);
         this.size = new SizeController(this);
+        this._style = new StyleController(this, options?.styles);
         this.align = new AlignController(this);
         this.content = new ContentController(
             this,
@@ -207,11 +207,8 @@ export class LayoutSystem
         rootLayout.size.resize();
     }
 
-    /**
-     * Returns root layout of the layout tree.
-     * @protected
-     */
-    protected getRootLayout(): LayoutSystem
+    /** Returns root layout of the layout tree. */
+    getRootLayout(): LayoutSystem
     {
         if (this.container.parent?.layout)
         {

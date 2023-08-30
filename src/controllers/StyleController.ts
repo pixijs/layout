@@ -14,12 +14,6 @@ export class StyleController
     /** Holds all text related styles. This is to be nested by children */
     protected _textStyle: Partial<TextStyle> = {}; // this is to be nested by children
 
-    /** Stores last parent width */
-    protected parentWidth = 0;
-
-    /** Stores last parent height */
-    protected parentHeight = 0;
-
     /** Stores default styles. */
     protected defaultStyles: Styles;
 
@@ -172,24 +166,10 @@ export class StyleController
         return this.styles.opacity;
     }
 
-    /**
-     * Checks and applies conditional styles basing on parent size
-     * @param {number} parentWidth
-     * @param {number} parentHeight
-     */
-    applyConditionalStyles(parentWidth?: number, parentHeight?: number)
+    /** Checks and applies conditional styles basing on parent size */
+    applyConditionalStyles()
     {
         if (!this.hasConditionalStyles) return;
-
-        if (parentWidth !== undefined)
-        {
-            this.parentWidth = parentWidth;
-        }
-
-        if (parentHeight !== undefined)
-        {
-            this.parentHeight = parentHeight;
-        }
 
         let finalStyles = { ...this.defaultStyles };
 
@@ -201,50 +181,6 @@ export class StyleController
         if (this.conditionalStyles.landscape && !this.layout.isRootLayoutPortrait)
         {
             finalStyles = { ...finalStyles, ...this.conditionalStyles.landscape };
-        }
-
-        if (this.conditionalStyles.max?.height)
-        {
-            for (const [key, value] of Object.entries(this.conditionalStyles.max.height))
-            {
-                if (this.parentHeight <= parseInt(key, 10))
-                {
-                    finalStyles = { ...finalStyles, ...value };
-                }
-            }
-        }
-
-        if (this.conditionalStyles.max?.width)
-        {
-            for (const [key, value] of Object.entries(this.conditionalStyles.max.width))
-            {
-                if (this.parentWidth <= parseInt(key, 10))
-                {
-                    finalStyles = { ...finalStyles, ...value };
-                }
-            }
-        }
-
-        if (this.conditionalStyles.min?.height)
-        {
-            for (const [key, value] of Object.entries(this.conditionalStyles.min.height))
-            {
-                if (this.parentHeight >= parseInt(key, 10))
-                {
-                    finalStyles = { ...finalStyles, ...value };
-                }
-            }
-        }
-
-        if (this.conditionalStyles.min?.width)
-        {
-            for (const [key, value] of Object.entries(this.conditionalStyles.min.width))
-            {
-                if (this.parentWidth >= parseInt(key, 10))
-                {
-                    finalStyles = { ...finalStyles, ...value };
-                }
-            }
         }
 
         this.set(finalStyles);
