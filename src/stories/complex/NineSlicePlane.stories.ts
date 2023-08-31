@@ -31,7 +31,7 @@ class LayoutStory
     {
         const texture = Texture.from(testAssets.ribbon);
 
-        const nineSlicePlane = new NineSlicePlane(texture, 302, 97, 112, 42);
+        const nineSlicePlane = new NineSlicePlane(texture, 315, 64, 112, 73);
 
         // Component usage
         this.layout = new Layout({
@@ -39,7 +39,12 @@ class LayoutStory
             content: 'Title',
             styles: {
                 color: 0xffffff,
-                fontSize: 24,
+                fontSize: 44,
+                dropShadow: true,
+                dropShadowColor: 0x000000,
+                dropShadowBlur: 4,
+                dropShadowDistance: 0,
+                dropShadowAlpha: 0.5,
                 textAlign: 'center',
                 maxWidth: '100%',
                 maxHeight: '100%',

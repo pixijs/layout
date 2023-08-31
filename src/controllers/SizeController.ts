@@ -6,6 +6,7 @@ import { Container } from '@pixi/display';
 import { FlexNumber, SizeControl } from '../utils/types';
 import { Sprite } from '@pixi/sprite';
 import { Graphics } from '@pixi/graphics';
+import { NineSlicePlane } from '@pixi/mesh-extras';
 
 /** Size controller manages {@link LayoutSystem} and it's content size. */
 export class SizeController
@@ -67,6 +68,11 @@ export class SizeController
 
         const widthModificator = this.getAutoSizeModificator(width);
         const heightModificator = this.getAutoSizeModificator(height);
+
+        console.log({
+            widthModificator,
+            heightModificator
+        });
 
         switch (widthModificator)
         {
@@ -160,6 +166,16 @@ export class SizeController
 
                 break;
 
+            case 'NineSlicePlane':
+                // resize to parent width
+                finalWidth = getNumber(width, this.parentWidth);
+
+                const background = this.layout.style.background as NineSlicePlane;
+
+                background.width = finalWidth;
+
+                break;
+
             case 'static':
             default:
                 finalWidth = getNumber(width, this.parentWidth);
@@ -248,6 +264,23 @@ export class SizeController
 
                 // height is basing on content height
                 finalHeight = childrenHeight + paddingTop + paddingBottom;
+
+                break;
+
+            case 'NineSlicePlane':
+                // resize to parent width
+                const background = this.layout.style.background as NineSlicePlane;
+
+                finalHeight = getNumber(height, this.parentHeight);
+
+                if (finalHeight < background.height)
+                {
+                    finalHeight = background.height;
+                }
+                else
+                {
+                    background.height = finalHeight;
+                }
 
                 break;
 
@@ -421,6 +454,11 @@ export class SizeController
     protected getAutoSizeModificator(size: FlexNumber | 'auto'): SizeControl
     {
         const { background, display } = this.layout.style;
+
+        if (background instanceof NineSlicePlane)
+        {
+            return 'NineSlicePlane';
+        }
 
         if (size !== 'auto')
         {
