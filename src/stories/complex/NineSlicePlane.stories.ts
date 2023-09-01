@@ -7,12 +7,13 @@ import { Texture } from '@pixi/core';
 import { NineSlicePlane } from '@pixi/mesh-extras';
 
 const args = {
-    width: 350,
-    height: 350,
+    width: 60,
+    height: 50,
 };
 
 const testAssets = {
     ribbon: 'Window/Ribbon.png',
+    window: 'Window/SmallWindow.png',
 };
 
 class LayoutStory
@@ -29,31 +30,56 @@ class LayoutStory
 
     createLayout(props: typeof args)
     {
-        const texture = Texture.from(testAssets.ribbon);
+        const titleTexture = Texture.from(testAssets.ribbon);
+        const titleBG = new NineSlicePlane(titleTexture, 315, 64, 112, 73);
 
-        const nineSlicePlane = new NineSlicePlane(texture, 315, 64, 112, 73);
+        const windowTexture = Texture.from(testAssets.window);
+        const windowBG = new NineSlicePlane(windowTexture, 315, 64, 112, 73);
 
         // Component usage
         this.layout = new Layout({
             id: 'root',
-            content: 'Title',
+            content: {
+                window: {
+                    content: {
+                        title: {
+                            content: 'Title',
+                            styles: {
+                                color: 0xffffff,
+                                fontSize: 44,
+                                dropShadow: true,
+                                dropShadowColor: 0x000000,
+                                dropShadowBlur: 4,
+                                dropShadowDistance: 0,
+                                dropShadowAlpha: 0.5,
+                                textAlign: 'center',
+                                maxWidth: '100%',
+                                maxHeight: '100%',
+                                width: '70%',
+                                height: titleBG.height,
+                                background: titleBG,
+                                position: 'topCenter',
+                                marginTop: -49,
+                            }
+                        },
+                    },
+                    styles: {
+                        width: '100%',
+                        height: '100%',
+                        background: windowBG,
+                        position: 'bottomCenter',
+                        paddingTop: 80,
+                        paddingLeft: 40,
+                        paddingRight: 40,
+                        paddingBottom: 80,
+                        verticalAlign: 'top',
+                    }
+                },
+            },
             styles: {
-                color: 0xffffff,
-                fontSize: 44,
-                dropShadow: true,
-                dropShadowColor: 0x000000,
-                dropShadowBlur: 4,
-                dropShadowDistance: 0,
-                dropShadowAlpha: 0.5,
-                textAlign: 'center',
-                maxWidth: '100%',
-                maxHeight: '100%',
-                width: props.width,
-                height: props.height,
-                background: nineSlicePlane,
+                width: `${props.width}%`,
+                height: `${props.height}%`,
                 position: 'center',
-                overflow: 'hidden',
-                borderRadius: 20,
             }
         });
 

@@ -166,16 +166,6 @@ export class SizeController
 
                 break;
 
-            case 'NineSlicePlane':
-                // resize to parent width
-                finalWidth = getNumber(width, this.parentWidth);
-
-                const background = this.layout.style.background as NineSlicePlane;
-
-                background.width = finalWidth;
-
-                break;
-
             case 'static':
             default:
                 finalWidth = getNumber(width, this.parentWidth);
@@ -267,27 +257,28 @@ export class SizeController
 
                 break;
 
-            case 'NineSlicePlane':
-                // resize to parent width
-                const background = this.layout.style.background as NineSlicePlane;
-
-                finalHeight = getNumber(height, this.parentHeight);
-
-                if (finalHeight < background.height)
-                {
-                    finalHeight = background.height;
-                }
-                else
-                {
-                    background.height = finalHeight;
-                }
-
-                break;
-
             case 'static':
             default:
                 finalHeight = getNumber(height, this.parentHeight);
                 break;
+        }
+
+        if (background instanceof NineSlicePlane)
+        {
+            const bg = this.layout.style.background as NineSlicePlane;
+
+            if (finalHeight < bg.height)
+            {
+                finalHeight = bg.height;
+            }
+
+            if (finalWidth < bg.width)
+            {
+                finalWidth = bg.width;
+            }
+
+            bg.height = finalHeight;
+            bg.width = finalWidth;
         }
 
         if (finalWidth < 0) finalWidth = 0;
@@ -454,11 +445,6 @@ export class SizeController
     protected getAutoSizeModificator(size: FlexNumber | 'auto'): SizeControl
     {
         const { background, display } = this.layout.style;
-
-        if (background instanceof NineSlicePlane)
-        {
-            return 'NineSlicePlane';
-        }
 
         if (size !== 'auto')
         {
