@@ -5,6 +5,7 @@ import { preloadAssets } from '../utils/helpers';
 import { Texture } from '@pixi/core';
 
 import { NineSlicePlane } from '@pixi/mesh-extras';
+import { LOREM_TEXT } from '../../utils/constants';
 
 const args = {
     width: 60,
@@ -14,6 +15,7 @@ const args = {
 const testAssets = {
     ribbon: 'Window/Ribbon.png',
     window: 'Window/SmallWindow.png',
+    substrate: 'Window/SmallSubstrate.png',
 };
 
 class LayoutStory
@@ -36,6 +38,9 @@ class LayoutStory
         const windowTexture = Texture.from(testAssets.window);
         const windowBG = new NineSlicePlane(windowTexture, 315, 64, 112, 73);
 
+        const substrateTexture = Texture.from(testAssets.substrate);
+        const substrateBG = new NineSlicePlane(substrateTexture, 315, 64, 112, 73);
+
         // Component usage
         this.layout = new Layout({
             id: 'root',
@@ -53,8 +58,6 @@ class LayoutStory
                                 dropShadowDistance: 0,
                                 dropShadowAlpha: 0.5,
                                 textAlign: 'center',
-                                maxWidth: '100%',
-                                maxHeight: '100%',
                                 width: '70%',
                                 height: titleBG.height,
                                 background: titleBG,
@@ -62,17 +65,37 @@ class LayoutStory
                                 marginTop: -49,
                             }
                         },
+                        substrate: {
+                            content: {
+                                text: {
+                                    content: `${LOREM_TEXT} ${LOREM_TEXT} ${LOREM_TEXT} ${LOREM_TEXT} ${LOREM_TEXT}`,
+                                    styles: {
+                                        width: '95%',
+                                        height: '90%',
+                                        color: 0x000000,
+                                        fontSize: 22,
+                                        textAlign: 'left',
+                                        verticalAlign: 'top',
+                                        wordWrap: true,
+                                        overflow: 'hidden',
+                                        paddingTop: 50,
+                                        paddingLeft: 40,
+                                    }
+                                }
+                            },
+                            styles: {
+                                width: '90%',
+                                height: '70%',
+                                background: substrateBG,
+                                position: 'center',
+                            }
+                        }
                     },
                     styles: {
                         width: '100%',
                         height: '100%',
                         background: windowBG,
                         position: 'bottomCenter',
-                        paddingTop: 80,
-                        paddingLeft: 40,
-                        paddingRight: 40,
-                        paddingBottom: 80,
-                        verticalAlign: 'top',
                     }
                 },
             },
