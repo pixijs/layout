@@ -69,11 +69,6 @@ export class SizeController
         const widthModificator = this.getAutoSizeModificator(width);
         const heightModificator = this.getAutoSizeModificator(height);
 
-        console.log({
-            widthModificator,
-            heightModificator
-        });
-
         switch (widthModificator)
         {
             case 'innerText':
