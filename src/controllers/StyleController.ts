@@ -124,7 +124,8 @@ export class StyleController
 
         this.styles.aspectRatio = styles?.aspectRatio ?? this.styles.aspectRatio ?? 'static';
 
-        this.visible = styles?.visible ?? this.styles.visible ?? true;
+        this.styles.visible = styles?.visible ?? this.styles.visible ?? true;
+        this.visible = this.styles.visible;
 
         this._textStyle = stylesToPixiTextStyles(styles);
 

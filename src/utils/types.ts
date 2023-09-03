@@ -72,6 +72,7 @@ export type Styles = Partial<TextStyle> & {
     anchorY?: GradeToOne;
     aspectRatio?: AspectRatio;
     wordWrap?: boolean;
+    visible?: boolean;
 };
 
 export type LayoutStyles = {
