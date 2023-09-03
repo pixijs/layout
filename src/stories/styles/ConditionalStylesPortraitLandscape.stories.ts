@@ -42,7 +42,6 @@ class LayoutStory
                         fontSize: 40,
                         position: 'center',
                         color: portraitColor,
-                        visible: false,
                         portrait: {
                             visible: false,
                         },
