@@ -34,8 +34,6 @@ export type AspectRatio = 'static' | 'flex';
 export type ConditionalStyles = {
     portrait?: Styles;
     landscape?: Styles;
-    max?: StylesCondition,
-    min?: StylesCondition,
 };
 
 export type Styles = Partial<TextStyle> & {
@@ -75,15 +73,6 @@ export type Styles = Partial<TextStyle> & {
     aspectRatio?: AspectRatio;
     wordWrap?: boolean;
     visible?: boolean;
-};
-
-type StylesCondition = {
-    width?: {
-        [K: number]: Styles;
-    },
-    height?: {
-        [K: number]: Styles;
-    }
 };
 
 export type LayoutStyles = {
