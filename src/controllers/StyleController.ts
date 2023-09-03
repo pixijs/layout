@@ -31,7 +31,6 @@ export class StyleController
         if (styles)
         {
             this.set(styles);
-            this.applyConditionalStyles();
         }
     }
 
@@ -126,6 +125,7 @@ export class StyleController
         this.styles.aspectRatio = styles?.aspectRatio ?? this.styles.aspectRatio ?? 'static';
 
         this.styles.visible = styles?.visible ?? this.styles.visible ?? true;
+        this.visible = this.styles.visible;
 
         this._textStyle = stylesToPixiTextStyles(styles);
 
@@ -166,24 +166,29 @@ export class StyleController
         return this.styles.opacity;
     }
 
+    /** Set visibility of the layout */
+    set visible(value: boolean)
+    {
+        this.layout.container.visible = value;
+    }
+
+    /** Returns visibility of the layout */
+    get visible(): boolean
+    {
+        return this.layout.container.visible;
+    }
+
     /** Checks and applies conditional styles basing on parent size */
     applyConditionalStyles()
     {
         if (!this.hasConditionalStyles) return;
 
-        let finalStyles = { ...this.defaultStyles };
-
-        if (this.conditionalStyles.portrait && this.layout.isRootLayoutPortrait)
-        {
-            finalStyles = { ...finalStyles, ...this.conditionalStyles.portrait };
-        }
-
-        if (this.conditionalStyles.landscape && !this.layout.isRootLayoutPortrait)
-        {
-            finalStyles = { ...finalStyles, ...this.conditionalStyles.landscape };
-        }
-
-        this.set(finalStyles);
+        this.set({
+            ...this.defaultStyles,
+            ...this.layout.isRootLayoutPortrait
+                ? this.conditionalStyles.portrait
+                : this.conditionalStyles.landscape
+        });
     }
 
     /**
