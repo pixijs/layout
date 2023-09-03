@@ -66,8 +66,6 @@ class LayoutStory
             },
         });
 
-        this.resize(this.w, this.h);
-
         this.view.addChild(this.layout);
     }
 
