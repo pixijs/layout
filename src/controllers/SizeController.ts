@@ -262,16 +262,6 @@ export class SizeController
         {
             const bg = this.layout.style.background as NineSlicePlane;
 
-            if (finalHeight < bg.height)
-            {
-                finalHeight = bg.height;
-            }
-
-            if (finalWidth < bg.width)
-            {
-                finalWidth = bg.width;
-            }
-
             bg.height = finalHeight;
             bg.width = finalWidth;
         }
