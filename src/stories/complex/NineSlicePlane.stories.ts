@@ -8,8 +8,8 @@ import { NineSlicePlane } from '@pixi/mesh-extras';
 import { LOREM_TEXT } from '../../utils/constants';
 
 const args = {
-    width: 60,
-    height: 50,
+    width: 97,
+    height: 76,
 };
 
 const testAssets = {
@@ -39,7 +39,7 @@ class LayoutStory
         const windowBG = new NineSlicePlane(windowTexture, 315, 64, 112, 73);
 
         const substrateTexture = Texture.from(testAssets.substrate);
-        const substrateBG = new NineSlicePlane(substrateTexture, 315, 64, 112, 73);
+        const substrateBG = new NineSlicePlane(substrateTexture, 400, 64, 400, 73);
 
         // Component usage
         this.layout = new Layout({
@@ -47,24 +47,6 @@ class LayoutStory
             content: {
                 window: {
                     content: {
-                        title: {
-                            content: 'Title',
-                            styles: {
-                                color: 0xffffff,
-                                fontSize: 44,
-                                dropShadow: true,
-                                dropShadowColor: 0x000000,
-                                dropShadowBlur: 4,
-                                dropShadowDistance: 0,
-                                dropShadowAlpha: 0.5,
-                                textAlign: 'center',
-                                width: '70%',
-                                height: titleBG.height,
-                                background: titleBG,
-                                position: 'topCenter',
-                                marginTop: -49,
-                            }
-                        },
                         substrate: {
                             content: {
                                 text: {
@@ -89,7 +71,25 @@ class LayoutStory
                                 background: substrateBG,
                                 position: 'center',
                             }
-                        }
+                        },
+                        title: {
+                            content: 'Title',
+                            styles: {
+                                color: 0xffffff,
+                                fontSize: 44,
+                                dropShadow: true,
+                                dropShadowColor: 0x000000,
+                                dropShadowBlur: 4,
+                                dropShadowDistance: 0,
+                                dropShadowAlpha: 0.5,
+                                textAlign: 'center',
+                                width: '70%',
+                                height: titleBG.height,
+                                background: titleBG,
+                                position: 'topCenter',
+                                marginTop: -49,
+                            }
+                        },
                     },
                     styles: {
                         width: '100%',
