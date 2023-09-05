@@ -1,0 +1,85 @@
+import { Layout } from '@pixi/layout';
+import { BetInput } from './BetInput';
+import { NineSlicePlane } from '@pixi/mesh-extras';
+import { Graphics } from '@pixi/graphics';
+import { pixi } from '../../../../plugins/Pixi';
+
+export class BlockWithBorder extends Layout {
+    constructor(title: string) {
+        const radius = 8;
+
+        const background = new NineSlicePlane(
+            pixi.renderer.generateTexture(
+                new Graphics()
+                    .lineStyle(2, 0xa8ffef)
+                    .beginFill(0x0a0c11)
+                    .drawRoundedRect(0, 0, radius * 2, radius * 2, radius),
+            ),
+            radius,
+            radius,
+            radius,
+            radius,
+        );
+
+        super({
+            content: {
+                bet: {
+                    content: title,
+                    styles: {
+                        fontFamily: 'BlenderPro',
+                        fontSize: 12,
+                        color: 0xa8ffef,
+                        landscape: {
+                            display: 'block',
+                            marginTop: 0,
+                            marginLeft: 0,
+                        },
+                        portrait: {
+                            display: 'inline',
+                            marginTop: 17,
+                            marginLeft: 20,
+                        },
+                    },
+                },
+                betInput: {
+                    content: {
+                        betInput: {
+                            content: new BetInput(),
+                            styles: {
+                                width: '100%',
+                                height: '100%',
+                                marginLeft: 10,
+                                marginTop: 2,
+                            },
+                        },
+                    },
+                    styles: {
+                        background,
+                        width: '100%',
+                        height: '100%',
+                        landscape: {
+                            marginLeft: 0,
+                        },
+                        portrait: {
+                            marginLeft: 20,
+                        },
+                    },
+                },
+            },
+            styles: {
+                height: 50,
+                marginTop: 70,
+                landscape: {
+                    position: 'centerTop',
+                    width: '90%',
+                    maxWidth: '90%',
+                },
+                portrait: {
+                    position: 'leftTop',
+                    width: '52%',
+                    maxWidth: '52%',
+                },
+            },
+        });
+    }
+}
