@@ -95,7 +95,6 @@ class LayoutStory
                                                 background,
                                                 textAlign: 'center',
                                                 color: 0xffffff,
-                                                height2: 10,
                                                 padding: 5,
                                                 display: 'block',
 
