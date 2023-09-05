@@ -71,49 +71,59 @@ class LayoutStory
                             content: {
                                 modeSwitcher,
                                 blockWithBorder: {
-                                    content: {
+                                    content:
+                                    {
                                         title: {
                                             content: 'Title',
                                             styles: {
-                                                fontFamily: 'BlenderPro',
-                                                fontSize: 12,
-                                                color: 0xa8ffef,
+                                                fontSize: 18,
+                                                color: 0xFFFFFF,
+                                                position: 'topLeft',
+                                                display: 'block',
+
                                                 landscape: {
-                                                    display: 'block',
-                                                    marginTop: 0,
-                                                    marginLeft: 0,
+                                                    width: '100%',
                                                 },
                                                 portrait: {
-                                                    display: 'inline',
-                                                    marginTop: 17,
-                                                    marginLeft: 20,
+                                                    width: '10%',
                                                 },
                                             },
                                         },
                                         innerContent: {
-                                            content: ' ',
+                                            content: '100%',
                                             styles: {
                                                 background,
-                                                width: '100%',
-                                                height: '100%',
+                                                textAlign: 'center',
+                                                color: 0xffffff,
+                                                height2: 10,
+                                                padding: 5,
+                                                display: 'block',
+
                                                 landscape: {
                                                     marginLeft: 0,
+                                                    width: '100%',
+                                                    display: 'block',
+                                                    marginTop: 40,
                                                 },
                                                 portrait: {
-                                                    marginLeft: 20,
+                                                    marginLeft: 50,
+                                                    marginTop: 0,
+                                                    width: '85%',
+                                                    display: 'inline',
                                                 },
                                             },
                                         },
                                     },
                                     styles: {
-                                        width: '100%',
-                                        height: '100%',
+                                        width: '90%',
+                                        position: 'topCenter',
+                                        marginTop: modeSwitcher.height,
                                     },
                                 },
                             },
                             styles: {
                                 width: '100%',
-                                height: '100%',
+                                height: 40,
                             },
                         }
                     },
