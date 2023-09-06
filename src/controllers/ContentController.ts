@@ -53,6 +53,11 @@ export class ContentController
             case 'layout':
                 const layout = content as Layout;
 
+                if (!layout.id)
+                {
+                    layout.id = `layout-${customID}`;
+                }
+
                 this.addContentElement(layout.id, layout);
                 break;
             case 'container':
