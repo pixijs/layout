@@ -3,17 +3,19 @@ import { Layout } from '../../../Layout';
 
 export class ModeSwitcher extends Layout
 {
+    private autoButton!: Button;
+    private manualButton!: Button;
+
     constructor()
     {
         super({
             content: {
-                leftButton: {
+                manual: {
                     content: {
                         text: {
-                            content: 'Left',
+                            content: 'manual',
                             styles: {
                                 position: 'center',
-                                color: 'red'
                             },
                         },
                         bottomBorderRight: {
@@ -32,13 +34,12 @@ export class ModeSwitcher extends Layout
                         background: 0x12081c,
                     },
                 },
-                rightButton: {
+                auto: {
                     content: {
                         text: {
-                            content: 'Right',
+                            content: 'auto',
                             styles: {
                                 position: 'center',
-                                color: 'blue',
                             },
                         },
                         bottomBorderLeft: {
@@ -70,28 +71,20 @@ export class ModeSwitcher extends Layout
             },
         });
 
-        const leftButtonView = this.getChildByID('leftButton') as Layout;
-        const rightButtonView = this.getChildByID('rightButton') as Layout;
+        const manualButton = this.getChildByID('manual') as Layout;
+        const autoButton = this.getChildByID('auto') as Layout;
 
-        const leftButton = new Button(leftButtonView);
-        const rightButton = new Button(rightButtonView);
+        this.manualButton = new Button(manualButton);
+        this.autoButton = new Button(autoButton);
 
-        const leftButtonBottomBorder = this.getChildByID('bottomBorderLeft') as Layout;
-        const rightButtonBottomBorder = this.getChildByID('bottomBorderRight') as Layout;
-
-        leftButtonBottomBorder.setStyles({ visible: false });
-        rightButtonBottomBorder.setStyles({ visible: true });
-
-        leftButton.onPress.connect(() =>
+        this.manualButton.onPress.connect(() =>
         {
-            leftButtonBottomBorder.setStyles({ visible: false });
-            rightButtonBottomBorder.setStyles({ visible: true });
+            console.log('manual');
         });
 
-        rightButton.onPress.connect(() =>
+        this.autoButton.onPress.connect(() =>
         {
-            leftButtonBottomBorder.setStyles({ visible: true });
-            rightButtonBottomBorder.setStyles({ visible: false });
+            console.log('auto');
         });
     }
 }

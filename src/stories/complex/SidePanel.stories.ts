@@ -3,9 +3,7 @@ import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { toolTip } from '../components/ToolTip';
 import { preloadAssets } from '../utils/helpers';
-import { ModeSwitcher } from './components/ModeSwitcher';
-import { NineSlicePlane } from '@pixi/mesh-extras';
-import { Texture } from '@pixi/core';
+import { ControlBlock } from './components/ControlBlock';
 
 const args = {
 
@@ -13,6 +11,7 @@ const args = {
 
 const testAssets = {
     SliderBG: 'Progress/SliderBG.png',
+    button: 'Buttons/Button.png'
 };
 
 class LayoutStory
@@ -30,102 +29,29 @@ class LayoutStory
 
     createLayout(props: typeof args)
     {
-        const modeSwitcher = new ModeSwitcher();
-
-        const background = new NineSlicePlane(
-            Texture.from(testAssets.SliderBG),
-            27,
-            17,
-            19,
-            27,
-        );
+        const controlBlock = new ControlBlock();
 
         this.layout = new Layout({
             content: {
-                leftBlock: {
-                    content: {
-                        content: 'Content',
-                        styles: {
-                            position: 'center',
-                            color: 'white',
-                        },
-                    },
+                game: {
+                    content: 'Content',
                     styles: {
-                        background: 'black',
+                        textAlign: 'center',
 
                         landscape: {
                             position: 'left',
-                            width: '73%',
+                            width: '72%',
                             height: '100%',
                         },
                         portrait: {
                             position: 'top',
                             width: '100%',
-                            height: '56%',
+                            height: '55%',
                         },
                     },
                 },
-                rightBlock: {
-                    content: {
-                        innerContent: {
-                            content: {
-                                modeSwitcher,
-                                blockWithBorder: {
-                                    content:
-                                    {
-                                        title: {
-                                            content: 'Title',
-                                            styles: {
-                                                fontSize: 18,
-                                                color: 0xFFFFFF,
-                                                position: 'topLeft',
-                                                display: 'block',
-
-                                                landscape: {
-                                                    width: '100%',
-                                                },
-                                                portrait: {
-                                                    width: '10%',
-                                                },
-                                            },
-                                        },
-                                        innerContent: {
-                                            content: '100%',
-                                            styles: {
-                                                background,
-                                                textAlign: 'center',
-                                                color: 0xffffff,
-                                                padding: 5,
-                                                display: 'block',
-
-                                                landscape: {
-                                                    marginLeft: 0,
-                                                    width: '100%',
-                                                    display: 'block',
-                                                    marginTop: 40,
-                                                },
-                                                portrait: {
-                                                    marginLeft: 50,
-                                                    marginTop: 0,
-                                                    width: '85%',
-                                                    display: 'inline',
-                                                },
-                                            },
-                                        },
-                                    },
-                                    styles: {
-                                        width: '90%',
-                                        position: 'topCenter',
-                                        marginTop: modeSwitcher.height,
-                                    },
-                                },
-                            },
-                            styles: {
-                                width: '100%',
-                                height: 40,
-                            },
-                        }
-                    },
+                controlBlock: {
+                    content: controlBlock,
                     styles: {
                         background: 0x12081c,
                         landscape: {
@@ -142,9 +68,6 @@ class LayoutStory
                 },
             },
             styles: {
-                position: 'center',
-                maxWidth: '100%',
-                maxHeight: '100%',
                 width: '100%',
                 height: '100%',
             },
