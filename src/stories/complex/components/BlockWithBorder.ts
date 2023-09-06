@@ -54,6 +54,9 @@ export class BlockWithBorder extends Layout
                 width: '100%',
                 marginTop: 70,
                 position: 'centerTop',
+
+                background: 'green',
+
                 landscape: {
                     position: 'centerTop',
                     width: '90%',

@@ -43,7 +43,7 @@ export class PlayButton extends Layout
                     marginTop: 0,
                     marginRight: 0,
                     maxWidth: '95%',
-                    maxHeight: 150,
+                    maxHeight: 100,
                 },
                 portrait: {
                     position: 'topRight',

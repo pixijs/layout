@@ -32,6 +32,7 @@ class LayoutStory
         const controlBlock = new ControlBlock();
 
         this.layout = new Layout({
+            id: 'root',
             content: {
                 game: {
                     content: 'Content',

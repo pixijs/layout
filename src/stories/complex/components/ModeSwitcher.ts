@@ -16,6 +16,7 @@ export class ModeSwitcher extends Layout
                             content: 'manual',
                             styles: {
                                 position: 'center',
+                                color: 'red',
                             },
                         },
                         bottomBorderRight: {
@@ -40,6 +41,7 @@ export class ModeSwitcher extends Layout
                             content: 'auto',
                             styles: {
                                 position: 'center',
+                                color: 'blue',
                             },
                         },
                         bottomBorderLeft: {
