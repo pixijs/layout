@@ -199,16 +199,16 @@ export class SizeController
                 const { firstChild } = this.layout.content;
 
                 // add first element as at lease one element to set width
-                if (firstChild && firstChild.layout)
+                if (firstChild instanceof Container && firstChild.height)
+                {
+                    childrenHeight += firstChild.height;
+                }
+                else if (firstChild && firstChild.layout)
                 {
                     if (!firstChild.layout.style.position)
                     {
                         childrenHeight += firstChild.height;
                     }
-                }
-                else if (firstChild instanceof Container && firstChild.height)
-                {
-                    childrenHeight += firstChild.height;
                 }
 
                 this.layout.content.children.forEach((child) =>
