@@ -34,8 +34,6 @@ export type AspectRatio = 'static' | 'flex';
 export type ConditionalStyles = {
     portrait?: Styles;
     landscape?: Styles;
-    max?: StylesCondition,
-    min?: StylesCondition,
 };
 
 export type Styles = Partial<TextStyle> & {
@@ -77,15 +75,6 @@ export type Styles = Partial<TextStyle> & {
     visible?: boolean;
 };
 
-type StylesCondition = {
-    width?: {
-        [K: number]: Styles;
-    },
-    height?: {
-        [K: number]: Styles;
-    }
-};
-
 export type LayoutStyles = {
     [K: string]: Styles & ConditionalStyles;
 };
@@ -99,7 +88,7 @@ export type LayoutOptions = {
 
 export type VerticalAlign = (typeof VERTICAL_ALIGN)[number];
 
-export type SizeControl = 'innerText' | 'background' | 'parentSize' | 'contentSize' | 'static';
+export type SizeControl = 'innerText' | 'background' | 'parentSize' | 'contentSize' | 'static' | 'NineSlicePlane';
 
 export type ContentType =
     | 'layout'

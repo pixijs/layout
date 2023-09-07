@@ -14,12 +14,6 @@ export class StyleController
     /** Holds all text related styles. This is to be nested by children */
     protected _textStyle: Partial<TextStyle> = {}; // this is to be nested by children
 
-    /** Stores last parent width */
-    protected parentWidth = 0;
-
-    /** Stores last parent height */
-    protected parentHeight = 0;
-
     /** Stores default styles. */
     protected defaultStyles: Styles;
 
@@ -37,7 +31,6 @@ export class StyleController
         if (styles)
         {
             this.set(styles);
-            this.applyConditionalStyles();
         }
     }
 
@@ -132,6 +125,7 @@ export class StyleController
         this.styles.aspectRatio = styles?.aspectRatio ?? this.styles.aspectRatio ?? 'static';
 
         this.styles.visible = styles?.visible ?? this.styles.visible ?? true;
+        this.visible = this.styles.visible;
 
         this._textStyle = stylesToPixiTextStyles(styles);
 
@@ -172,80 +166,29 @@ export class StyleController
         return this.styles.opacity;
     }
 
-    /**
-     * Checks and applies conditional styles basing on parent size
-     * @param {number} parentWidth
-     * @param {number} parentHeight
-     */
-    applyConditionalStyles(parentWidth?: number, parentHeight?: number)
+    /** Set visibility of the layout */
+    set visible(value: boolean)
     {
-        if (parentWidth !== undefined)
-        {
-            this.parentWidth = parentWidth;
-        }
+        this.layout.container.visible = value;
+    }
 
-        if (parentHeight !== undefined)
-        {
-            this.parentHeight = parentHeight;
-        }
+    /** Returns visibility of the layout */
+    get visible(): boolean
+    {
+        return this.layout.container.visible;
+    }
 
-        let finalStyles = { ...this.defaultStyles };
+    /** Checks and applies conditional styles basing on parent size */
+    applyConditionalStyles()
+    {
+        if (!this.hasConditionalStyles) return;
 
-        if (this.conditionalStyles.portrait && this.parentHeight >= this.parentWidth)
-        {
-            finalStyles = { ...finalStyles, ...this.conditionalStyles.portrait };
-        }
-
-        if (this.conditionalStyles.landscape && this.parentHeight < this.parentWidth)
-        {
-            finalStyles = { ...finalStyles, ...this.conditionalStyles.landscape };
-        }
-
-        if (this.conditionalStyles.max?.height)
-        {
-            for (const [key, value] of Object.entries(this.conditionalStyles.max.height))
-            {
-                if (this.parentHeight <= parseInt(key, 10))
-                {
-                    finalStyles = { ...finalStyles, ...value };
-                }
-            }
-        }
-
-        if (this.conditionalStyles.max?.width)
-        {
-            for (const [key, value] of Object.entries(this.conditionalStyles.max.width))
-            {
-                if (this.parentWidth <= parseInt(key, 10))
-                {
-                    finalStyles = { ...finalStyles, ...value };
-                }
-            }
-        }
-
-        if (this.conditionalStyles.min?.height)
-        {
-            for (const [key, value] of Object.entries(this.conditionalStyles.min.height))
-            {
-                if (this.parentHeight >= parseInt(key, 10))
-                {
-                    finalStyles = { ...finalStyles, ...value };
-                }
-            }
-        }
-
-        if (this.conditionalStyles.min?.width)
-        {
-            for (const [key, value] of Object.entries(this.conditionalStyles.min.width))
-            {
-                if (this.parentWidth >= parseInt(key, 10))
-                {
-                    finalStyles = { ...finalStyles, ...value };
-                }
-            }
-        }
-
-        this.set(finalStyles);
+        this.set({
+            ...this.defaultStyles,
+            ...this.layout.isRootLayoutPortrait
+                ? this.conditionalStyles.portrait
+                : this.conditionalStyles.landscape
+        });
     }
 
     /**
@@ -254,7 +197,7 @@ export class StyleController
      */
     protected separateConditionalStyles(styles?: Styles & ConditionalStyles)
     {
-        if (!styles.portrait && !styles.landscape && !styles.max && !styles.min)
+        if (!styles.portrait && !styles.landscape)
         {
             this.defaultStyles = {
                 ...styles,
@@ -265,30 +208,29 @@ export class StyleController
 
         if (styles.portrait)
         {
-            this.conditionalStyles.portrait = styles.portrait;
-            delete styles.portrait;
+            this.conditionalStyles.portrait = {
+                ...this.conditionalStyles.portrait,
+                ...styles.portrait
+            };
         }
 
         if (styles.landscape)
         {
-            this.conditionalStyles.landscape = styles.landscape;
-            delete styles.landscape;
+            this.conditionalStyles.landscape = {
+                ...this.conditionalStyles.landscape,
+                ...styles.landscape
+            };
         }
 
-        if (styles.max)
-        {
-            this.conditionalStyles.max = styles.max;
-            delete styles.max;
-        }
+        delete styles.portrait;
+        delete styles.landscape;
 
-        if (styles.min)
-        {
-            this.conditionalStyles.min = styles.min;
-            delete styles.min;
-        }
+        this.defaultStyles = styles;
+    }
 
-        this.defaultStyles = {
-            ...styles,
-        };
+    /** Returns true if there are conditional styles */
+    get hasConditionalStyles(): boolean
+    {
+        return Object.keys(this.conditionalStyles).length > 0;
     }
 }

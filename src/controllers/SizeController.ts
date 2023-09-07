@@ -6,6 +6,7 @@ import { Container } from '@pixi/display';
 import { FlexNumber, SizeControl } from '../utils/types';
 import { Sprite } from '@pixi/sprite';
 import { Graphics } from '@pixi/graphics';
+import { NineSlicePlane } from '@pixi/mesh-extras';
 
 /** Size controller manages {@link LayoutSystem} and it's content size. */
 export class SizeController
@@ -255,6 +256,14 @@ export class SizeController
             default:
                 finalHeight = getNumber(height, this.parentHeight);
                 break;
+        }
+
+        if (background instanceof NineSlicePlane)
+        {
+            const bg = this.layout.style.background as NineSlicePlane;
+
+            bg.height = finalHeight;
+            bg.width = finalWidth;
         }
 
         if (finalWidth < 0) finalWidth = 0;

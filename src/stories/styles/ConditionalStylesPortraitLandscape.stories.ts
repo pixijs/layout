@@ -42,7 +42,6 @@ class LayoutStory
                         fontSize: 40,
                         position: 'center',
                         color: portraitColor,
-                        visible: false,
                         portrait: {
                             visible: false,
                         },
@@ -66,8 +65,6 @@ class LayoutStory
                 },
             },
         });
-
-        this.resize(this.w, this.h);
 
         this.view.addChild(this.layout);
     }
