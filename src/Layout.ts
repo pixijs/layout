@@ -115,8 +115,8 @@ export class LayoutSystem
      */
     resize(parentWidth?: number, parentHeight?: number)
     {
-        const width = parentWidth || this.container.parent.width || this.size.parentWidth;
-        const height = parentHeight || this.container.parent.height || this.size.parentHeight;
+        const width = parentWidth || this.contentWidth || this.size.parentWidth;
+        const height = parentHeight || this.contentHeight || this.size.parentHeight;
 
         this.isPortrait = width < height;
 
