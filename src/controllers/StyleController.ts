@@ -28,10 +28,7 @@ export class StyleController
     constructor(layout: LayoutSystem, styles?: Styles)
     {
         this.layout = layout;
-        if (styles)
-        {
-            this.set(styles);
-        }
+        this.set(styles);
     }
 
     /**
@@ -129,7 +126,10 @@ export class StyleController
 
         this._textStyle = stylesToPixiTextStyles(styles);
 
-        this.separateConditionalStyles(styles);
+        if (styles)
+        {
+            this.separateConditionalStyles(styles);
+        }
     }
 
     /**
