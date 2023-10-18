@@ -1,7 +1,7 @@
-import { ALIGN, CSS_COLOR_NAMES } from './constants';
+import { CSS_COLOR_NAMES } from './constants';
 import { Color, CSSColor, FlexColor, FlexNumber, Styles } from './types';
 import { utils } from '@pixi/core';
-import { TextStyle, TEXT_GRADIENT, Text } from '@pixi/text';
+import { TextStyle, Text } from '@pixi/text';
 import { LayoutSystem } from '../Layout';
 
 export function rgba2Hex([r, g, b]: number[]): number
@@ -147,37 +147,47 @@ export function getNumber(value: FlexNumber, maxPercentValue?: number): number
 
 export function stylesToPixiTextStyles(styles: Styles): Partial<TextStyle>
 {
-    return {
-        align: styles?.textAlign ?? ALIGN[1],
-        breakWords: styles?.breakWords ?? true,
-        dropShadow: styles?.dropShadow ?? false,
-        dropShadowAlpha: styles?.dropShadowAlpha ?? 1,
-        dropShadowAngle: styles?.dropShadowAngle ?? Math.PI / 6,
-        dropShadowBlur: styles?.dropShadowBlur ?? 0,
-        dropShadowColor: styles?.dropShadowColor ?? 'black',
-        dropShadowDistance: styles?.dropShadowDistance ?? 5,
-        fill: styles?.fill ?? getColor(styles?.color)?.hex ?? 'black',
-        fillGradientType: styles?.fillGradientType ?? TEXT_GRADIENT.LINEAR_VERTICAL,
-        fillGradientStops: styles?.fillGradientStops ?? [],
-        fontFamily: styles?.fontFamily ?? 'Arial',
-        fontSize: styles?.fontSize ?? 26,
-        fontStyle: styles?.fontStyle ?? 'normal',
-        fontVariant: styles?.fontVariant ?? 'normal',
-        fontWeight: styles?.fontWeight ?? 'normal',
-        letterSpacing: styles?.letterSpacing ?? 0,
-        lineHeight: styles?.lineHeight ?? 0,
-        lineJoin: styles?.lineJoin ?? 'miter',
-        miterLimit: styles?.miterLimit ?? 10,
+    const resultStyles: Partial<TextStyle> = {
+        align: styles?.textAlign,
+        breakWords: styles?.breakWords,
+        dropShadow: styles?.dropShadow,
+        dropShadowAlpha: styles?.dropShadowAlpha,
+        dropShadowAngle: styles?.dropShadowAngle,
+        dropShadowBlur: styles?.dropShadowBlur,
+        dropShadowColor: styles?.dropShadowColor,
+        dropShadowDistance: styles?.dropShadowDistance,
+        fill: styles?.fill ?? getColor(styles?.color)?.hex,
+        fillGradientType: styles?.fillGradientType,
+        fillGradientStops: styles?.fillGradientStops,
+        fontFamily: styles?.fontFamily,
+        fontSize: styles?.fontSize,
+        fontStyle: styles?.fontStyle,
+        fontVariant: styles?.fontVariant,
+        fontWeight: styles?.fontWeight,
+        letterSpacing: styles?.letterSpacing,
+        lineHeight: styles?.lineHeight,
+        lineJoin: styles?.lineJoin,
+        miterLimit: styles?.miterLimit,
         // padding: styles?.padding ?? 0,
-        stroke: styles?.stroke ?? 'black',
-        strokeThickness: styles?.strokeThickness ?? 0,
-        textBaseline: styles?.textBaseline ?? 'alphabetic',
-        trim: styles?.trim ?? false,
-        whiteSpace: styles?.whiteSpace ?? 'pre',
-        wordWrap: styles?.wordWrap ?? false,
+        stroke: styles?.stroke,
+        strokeThickness: styles?.strokeThickness,
+        textBaseline: styles?.textBaseline,
+        trim: styles?.trim,
+        whiteSpace: styles?.whiteSpace,
+        wordWrap: styles?.wordWrap,
         wordWrapWidth: styles?.wordWrapWidth ?? 100,
-        leading: styles?.leading ?? 0,
+        leading: styles?.leading,
     };
+
+    for (const key in resultStyles)
+    {
+        if (resultStyles[key as keyof Partial<TextStyle>] === undefined)
+        {
+            delete resultStyles[key as keyof Partial<TextStyle>];
+        }
+    }
+
+    return resultStyles;
 }
 
 /**

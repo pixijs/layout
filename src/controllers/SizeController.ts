@@ -407,6 +407,8 @@ export class SizeController
         }
         else
         {
+            this.innerText.scale.set(1);
+
             const textWidth = this.innerText.width + paddingLeft + paddingRight;
             const textHeight = this.innerText.height + paddingTop + paddingBottom;
 

@@ -2,7 +2,7 @@
 import { Layout, LayoutSystem } from '../Layout';
 import { Content, ContentList, ContentType, LayoutOptions, LayoutStyles } from '../utils/types';
 import { Container, DisplayObject } from '@pixi/display';
-import { Text } from '@pixi/text';
+import { Text, TextStyle } from '@pixi/text';
 import { Sprite } from '@pixi/sprite';
 import { Graphics } from '@pixi/graphics';
 import { stylesToPixiTextStyles } from '../utils/helpers';
@@ -71,7 +71,13 @@ export class ContentController
             case 'text':
                 const textInstance = content as Text;
 
-                textInstance.style = this.layout.textStyle;
+                for (const key in this.layout.textStyle)
+                {
+                    const styleKey = key as keyof TextStyle;
+
+                    (textInstance.style as any)[styleKey] = this.layout.textStyle[styleKey];
+                }
+
                 this.addContentElement(`text-${customID}`, textInstance);
                 break;
             case 'layoutConfig':
