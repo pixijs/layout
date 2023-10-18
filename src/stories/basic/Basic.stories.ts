@@ -1,6 +1,7 @@
 import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
+import { Text } from '@pixi/text';
 import { CSS_COLOR_NAMES, LOREM_TEXT, POSITION, ALIGN } from '../../utils/constants';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
@@ -40,9 +41,11 @@ class LayoutStory
         wordWrap
     }: any)
     {
+        const text = new Text(LOREM_TEXT);
+
         this.layout = new Layout({
             id: 'root',
-            content: LOREM_TEXT,
+            content: text,
             styles: {
                 background: backgroundColor,
                 width: `${width}%`,
@@ -58,6 +61,14 @@ class LayoutStory
                 padding,
             }
         });
+
+        // This is how you have to update the text inside layout.
+        // You have to call refresh, so the layout system recalculate the layout.
+        // setInterval(() =>
+        // {
+        //     text.text += ` ${Date.now()}`;
+        //     this.layout.refresh();
+        // }, 1000);
 
         this.view.addChild(this.layout);
     }

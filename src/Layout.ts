@@ -424,9 +424,15 @@ export class Layout extends Container
      * @param parentWidth
      * @param parentHeight
      */
-    resize(parentWidth: number, parentHeight: number)
+    resize(parentWidth?: number, parentHeight?: number)
     {
         this.layout.resize(parentWidth, parentHeight);
+    }
+
+    /** Recalculate positions and sizes of layouts three. */
+    refresh()
+    {
+        this.resize(this.size.parentWidth, this.size.parentHeight);
     }
 }
 
