@@ -64,9 +64,6 @@ export class LayoutSystem
     /** {@link ContentController} controller is a class for controlling layouts children. */
     content: ContentController;
 
-    /** Stores isPortrait state */
-    isPortrait: boolean;
-
     /**
      * Creates layout system instance.
      * @param options - Layout options
@@ -113,12 +110,16 @@ export class LayoutSystem
      * @param parentWidth
      * @param parentHeight
      */
-    resize(parentWidth: number, parentHeight: number)
+    resize(parentWidth?: number, parentHeight?: number)
     {
-        this.isPortrait = parentWidth < parentHeight;
-
-        this._style.applyConditionalStyles();
         this.size.resize(parentWidth, parentHeight);
+        this._style.applyConditionalStyles();
+    }
+
+    /** Recalculate positions and sizes of layouts three. */
+    refresh()
+    {
+        this.resize();
     }
 
     /** Returns with of the container */
@@ -243,7 +244,7 @@ export class LayoutSystem
     /** Returns true if root layout is in landscape mode. */
     get isRootLayoutPortrait(): boolean
     {
-        return this.getRootLayout().isPortrait === true;
+        return this.getRootLayout().size.isPortrait === true;
     }
 }
 

@@ -17,6 +17,9 @@ export class SizeController
     protected bg: Graphics | Container;
     protected overflowMask: Graphics;
 
+    /** Stores isPortrait state */
+    isPortrait: boolean;
+
     parentWidth = 0;
     parentHeight = 0;
 
@@ -48,6 +51,8 @@ export class SizeController
         {
             this.parentHeight = parentHeight;
         }
+
+        this.isPortrait = this.parentWidth < this.parentHeight;
 
         const {
             width,
