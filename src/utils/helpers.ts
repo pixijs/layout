@@ -1,7 +1,7 @@
-import { ALIGN, CSS_COLOR_NAMES } from './constants';
+import { CSS_COLOR_NAMES } from './constants';
 import { Color, CSSColor, FlexColor, FlexNumber, Styles } from './types';
 import { utils } from '@pixi/core';
-import { TextStyle, TEXT_GRADIENT, Text } from '@pixi/text';
+import { TextStyle, Text } from '@pixi/text';
 import { LayoutSystem } from '../Layout';
 
 export function rgba2Hex([r, g, b]: number[]): number

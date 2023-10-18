@@ -52,9 +52,7 @@
       "npm run lint:fix --"
     ]
   },
-  "devDependencies": {
-    "@babel/preset-env": "^7.20.2",
-    "@babel/preset-typescript": "^7.18.6",
+  "dependencies": {
     "@pixi/assets": "^7.3.1",
     "@pixi/core": "^7.3.1",
     "@pixi/display": "^7.3.1",
@@ -65,7 +63,11 @@
     "@pixi/storybook-renderer": "^0.0.6",
     "@pixi/storybook-webpack5": "^0.0.6",
     "@pixi/text": "^7.3.1",
-    "@pixi/ui": "^0.5.8",
+    "@pixi/ui": "^0.5.8"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
     "@storybook/addon-essentials": "7.5.0",
     "@storybook/addon-interactions": "7.5.0",
     "@storybook/addon-links": "7.5.0",
@@ -90,9 +92,9 @@
     "@pixi/display": "^7.3.1",
     "@pixi/events": "^7.3.1",
     "@pixi/graphics": "^7.3.1",
+    "@pixi/mesh-extras": "^7.3.1",
     "@pixi/sprite": "^7.3.1",
-    "@pixi/text": "^7.3.1",
-    "@pixi/mesh-extras": "^7.3.1"
+    "@pixi/text": "^7.3.1"
   },
   "publishConfig": {
     "access": "public"
