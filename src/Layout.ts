@@ -113,12 +113,21 @@ export class LayoutSystem
      * @param parentWidth
      * @param parentHeight
      */
-    resize(parentWidth: number, parentHeight: number)
+    resize(parentWidth?: number, parentHeight?: number)
     {
-        this.isPortrait = parentWidth < parentHeight;
+        const width = parentWidth || this.container.parent.width || this.size.parentWidth;
+        const height = parentHeight || this.container.parent.height || this.size.parentHeight;
+
+        this.isPortrait = width < height;
 
         this._style.applyConditionalStyles();
         this.size.resize(parentWidth, parentHeight);
+    }
+
+    /** Recalculate positions and sizes of layouts three. */
+    refresh()
+    {
+        this.resize(this.size.parentWidth, this.size.parentHeight);
     }
 
     /** Returns with of the container */
