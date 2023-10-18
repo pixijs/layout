@@ -421,7 +421,7 @@ export class Layout extends Container
     }
 }
 
-declare module '@pixi/display/lib/Container'
+declare module '@pixi/display'
 {
     interface Container
     {
