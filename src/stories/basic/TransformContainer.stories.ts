@@ -70,8 +70,6 @@ class LayoutStory
         });
 
         this.layoutContainer.layout?.addContent(LOREM_TEXT);
-
-        this.resize(window.innerWidth, window.innerHeight);
     }
 
     async addTooltip(text: string)
