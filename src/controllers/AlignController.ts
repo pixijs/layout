@@ -119,17 +119,17 @@ export class AlignController
             let childMarginTop = 0;
             let childMarginBottom = 0;
 
-            if (child instanceof Layout)
+            if (child.isPixiLayout)
             {
-                childDisplay = child.style.display;
-                const childPosition = child.style.position;
+                const childLayout = child.layout as LayoutSystem;
 
-                childMarginLeft = child.style.marginLeft;
-                childMarginRight = child.style.marginRight;
-                childMarginTop = child.style.marginTop;
-                childMarginBottom = child.style.marginBottom;
+                childDisplay = childLayout.style.display;
+                childMarginLeft = childLayout.style.marginLeft;
+                childMarginRight = childLayout.style.marginRight;
+                childMarginTop = childLayout.style.marginTop;
+                childMarginBottom = childLayout.style.marginBottom;
 
-                if (childPosition !== undefined)
+                if (childLayout.style.position !== undefined)
                 {
                     // this layout position will be handled by it's own controller
                     return;

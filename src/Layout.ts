@@ -291,8 +291,6 @@ export class LayoutSystem
  */
 export class Layout extends Container
 {
-    override layout: LayoutSystem;
-
     /**
      * Creates layout container.
      * @param options
@@ -301,7 +299,7 @@ export class Layout extends Container
     {
         super();
 
-        this.layout = new LayoutSystem(options, this);
+        this.initLayout(options);
     }
 
     /** Get {@link SizeController} */
@@ -442,6 +440,7 @@ declare module '@pixi/display'
     {
         initLayout(config?: LayoutOptions): Container;
         layout?: LayoutSystem;
+        isPixiLayout?: boolean;
     }
 }
 
@@ -453,6 +452,7 @@ if (!Container.prototype.initLayout)
             if (!this.layout)
             {
                 this.layout = new LayoutSystem(options, this);
+                this.isPixiLayout = true;
             }
 
             return this;
