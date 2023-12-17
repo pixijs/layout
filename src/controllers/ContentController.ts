@@ -226,9 +226,9 @@ export class ContentController
     {
         this.children.forEach((child) =>
         {
-            if (child instanceof Layout)
+            if (child.isPixiLayout)
             {
-                child.resize(width, height);
+                child.layout.resize(width, height);
             }
         });
     }
@@ -269,15 +269,16 @@ export class ContentController
     {
         if (typeof content === 'string') return 'string';
 
-        if (content instanceof Layout) return 'layout';
-
         if (content instanceof Text) return 'text';
 
-        if (content instanceof Sprite) return 'container';
+        if (content instanceof Sprite
+            || content instanceof Graphics
+            || content instanceof Container)
+        {
+            if (content.isPixiLayout) return 'layout';
 
-        if (content instanceof Graphics) return 'container';
-
-        if (content instanceof Container) return 'container';
+            return 'container';
+        }
 
         if (Array.isArray(content)) return 'array';
 
