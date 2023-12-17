@@ -1,4 +1,4 @@
-import { Layout, LayoutSystem } from '../Layout';
+import { LayoutSystem } from '../Layout';
 import { Text } from '@pixi/text';
 import { isItJustAText } from '../utils/helpers';
 
