@@ -226,7 +226,7 @@ export class ContentController
     {
         this.children.forEach((child) =>
         {
-            if (child.isPixiLayout)
+            if (child.isPixiLayout || child instanceof Layout)
             {
                 child.layout.resize(width, height);
             }
