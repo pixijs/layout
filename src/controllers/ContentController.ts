@@ -271,6 +271,10 @@ export class ContentController
 
         if (content instanceof Text) return 'text';
 
+        if (content instanceof Layout) return 'layout';
+
+        if ((content as any).isPixiLayout) return 'layout';
+
         if (content instanceof Sprite
             || content instanceof Graphics
             || content instanceof Container)
