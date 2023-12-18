@@ -250,7 +250,7 @@ export class ContentController
         {
             this.children.forEach((child) =>
             {
-                if (child.layout)
+                if (child.isPixiLayout || child instanceof Layout)
                 {
                     const res = child.layout.content.getByID(id);
 
