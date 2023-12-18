@@ -291,6 +291,8 @@ export class LayoutSystem
  */
 export class Layout extends Container
 {
+    override layout: LayoutSystem;
+
     /**
      * Creates layout container.
      * @param options
@@ -299,7 +301,7 @@ export class Layout extends Container
     {
         super();
 
-        this.initLayout(options);
+        this.layout = new LayoutSystem(options, this);
     }
 
     /** Get {@link SizeController} */
