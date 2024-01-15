@@ -596,19 +596,18 @@ export class SizeController
 
         if (minWidth || minHeight)
         {
-            let finalMinScaleToFit = finalScaleToFit;
-
-            if (layoutWidth * finalScaleToFit < minWidthVal)
+            if (minWidth && minHeight)
             {
-                finalMinScaleToFit = minFitScaleX;
+                finalScaleToFit = Math.max(minFitScaleX, minFitScaleY);
             }
-
-            if (layoutHeight * finalScaleToFit < minHeightVal)
+            else if (minWidth)
             {
-                finalMinScaleToFit = minFitScaleY;
+                finalScaleToFit = finalScaleX;
             }
-
-            finalScaleToFit = Math.max(finalMinScaleToFit, finalMinScaleToFit);
+            else if (minHeight)
+            {
+                finalScaleToFit = minFitScaleY;
+            }
         }
 
         this.layout.container.scale.set(finalScaleToFit);

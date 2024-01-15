@@ -35,7 +35,9 @@ class LayoutStory
                 styles: {
                     position: 'center',
                     maxWidth: '100%',
-                    minHeight: '100%'
+                    maxHeight: '100%',
+                    minHeight: '100%',
+                    minWidth: '100%',
                 }
             },
             styles: {
