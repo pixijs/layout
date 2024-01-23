@@ -7,6 +7,7 @@ import { FlexNumber, SizeControl } from '../utils/types';
 import { Sprite } from '@pixi/sprite';
 import { Graphics } from '@pixi/graphics';
 import { NineSlicePlane } from '@pixi/mesh-extras';
+import { TilingSprite } from '@pixi/sprite-tiling';
 
 /** Size controller manages {@link LayoutSystem} and it's content size. */
 export class SizeController
@@ -258,7 +259,7 @@ export class SizeController
                 break;
         }
 
-        if (background instanceof NineSlicePlane)
+        if (background instanceof NineSlicePlane || background instanceof TilingSprite)
         {
             const bg = this.layout.style.background as NineSlicePlane;
 
