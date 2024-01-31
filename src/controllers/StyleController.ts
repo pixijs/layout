@@ -124,6 +124,8 @@ export class StyleController
         this.styles.visible = styles?.visible ?? this.styles.visible ?? true;
         this.visible = this.styles.visible;
 
+        this.styles.resizeBackground = styles?.resizeBackground ?? this.styles.resizeBackground ?? false;
+
         this._textStyle = stylesToPixiTextStyles(styles);
 
         if (styles)

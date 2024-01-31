@@ -259,12 +259,17 @@ export class SizeController
                 break;
         }
 
-        if (background instanceof NineSlicePlane || background instanceof TilingSprite)
+        if (background instanceof NineSlicePlane
+            || background instanceof TilingSprite
+            || this.layout.style.resizeBackground === true)
         {
             const bg = this.layout.style.background as NineSlicePlane;
 
-            bg.height = finalHeight;
-            bg.width = finalWidth;
+            if (bg instanceof Container)
+            {
+                bg.height = finalHeight;
+                bg.width = finalWidth;
+            }
         }
 
         if (finalWidth < 0) finalWidth = 0;
