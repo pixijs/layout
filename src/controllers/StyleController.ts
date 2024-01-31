@@ -1,7 +1,9 @@
+import { TilingSprite } from '@pixi/sprite-tiling';
+import { NineSlicePlane } from '@pixi/mesh-extras';
 import type { ConditionalStyles, GradeToOne, Styles } from '../utils/types';
 import { TextStyle } from '@pixi/text';
 import { stylesToPixiTextStyles } from '../utils/helpers';
-import { OVERFLOW, VERTICAL_ALIGN } from '../utils/constants';
+import { BACKGROUND_SIZE, OVERFLOW, VERTICAL_ALIGN } from '../utils/constants';
 import { LayoutSystem } from '../Layout';
 
 /** Style controller manages {@link LayoutSystem} styles. */
@@ -113,6 +115,13 @@ export class StyleController
 
         this.styles.background
             = styles?.background ?? styles?.backgroundColor ?? this.styles.background;
+
+        this.styles.backgroundSize = styles?.backgroundSize ?? this.styles.backgroundSize ?? BACKGROUND_SIZE[0];
+
+        if (this.styles.background instanceof NineSlicePlane || this.styles.background instanceof TilingSprite)
+        {
+            this.styles.backgroundSize = 'stretch';
+        }
 
         this.styles.textAlign = styles?.textAlign ?? this.styles.textAlign;
         this.styles.position = styles?.position ?? this.styles.position;

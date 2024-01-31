@@ -259,14 +259,6 @@ export class SizeController
                 break;
         }
 
-        if (background instanceof NineSlicePlane || background instanceof TilingSprite)
-        {
-            const bg = this.layout.style.background as NineSlicePlane;
-
-            bg.height = finalHeight;
-            bg.width = finalWidth;
-        }
-
         if (finalWidth < 0) finalWidth = 0;
         if (finalHeight < 0) finalHeight = 0;
 
@@ -289,27 +281,52 @@ export class SizeController
             return;
         }
 
-        this.updateBG();
+        this.updateBG(finalWidth, finalHeight);
         this.updateMask();
 
         this.layout.align.resize(this.parentWidth, this.parentHeight);
     }
 
-    /** Render and update the background of layout basing on it's current state. */
-    protected updateBG()
+    /**
+     * Render and update the background of layout basing on it's current state.
+     * @param finalWidth - Width of the layout.
+     * @param finalHeight - Height of the layout.
+     */
+    protected updateBG(finalWidth: number, finalHeight: number)
     {
         const { background } = this.layout.style;
 
-        if (background instanceof Container)
+        if (background instanceof NineSlicePlane
+            || background instanceof TilingSprite
+            || background instanceof Sprite
+            || background instanceof Container)
         {
             if (background instanceof Sprite)
             {
-                background.anchor.set(0);
+                background.anchor.set(0.5);
+                background.position.set(finalWidth / 2, finalHeight / 2);
             }
 
-            this.bg = background;
+            if (!this.bg)
+            {
+                this.bg = background;
 
-            this.layout.container.addChildAt(this.bg, 0);
+                this.layout.container.addChildAt(this.bg, 0);
+            }
+
+            switch (this.layout.style.backgroundSize)
+            {
+                case 'contain':
+                    background.scale.set(Math.min(finalWidth / background.width, finalHeight / background.height));
+                    break;
+                case 'cover':
+                    background.scale.set(Math.max(finalWidth / background.width, finalHeight / background.height));
+                    break;
+                case 'stretch':
+                    background.width = finalWidth;
+                    background.height = finalHeight;
+                    break;
+            }
         }
         else
         {

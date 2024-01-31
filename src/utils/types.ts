@@ -1,7 +1,9 @@
-import { TextStyle, TextStyleAlign } from '@pixi/text';
-import { Container } from '@pixi/display';
-import { CSS_COLOR_NAMES, POSITION, DISPLAY, OVERFLOW, VERTICAL_ALIGN } from './constants';
-import { Layout } from '../Layout';
+import type { TilingSprite } from '@pixi/sprite-tiling';
+import type { TextStyle, TextStyleAlign } from '@pixi/text';
+import type { Container } from '@pixi/display';
+import { CSS_COLOR_NAMES, POSITION, DISPLAY, OVERFLOW, VERTICAL_ALIGN, BACKGROUND_SIZE } from './constants';
+import type { Layout } from '../Layout';
+import type { NineSlicePlane } from '@pixi/mesh-extras';
 
 export type GradeToOne = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
 
@@ -36,9 +38,12 @@ export type ConditionalStyles = {
     landscape?: Styles;
 };
 
+export type BackgroundSize = typeof BACKGROUND_SIZE[number];
+
 export type Styles = Partial<TextStyle> & {
-    background?: FlexColor | Container | string;
+    background?: FlexColor | Container | string | NineSlicePlane | TilingSprite;
     backgroundColor?: FlexColor;
+    backgroundSize?: BackgroundSize;
     color?: FlexColor;
     width?: FlexNumber | 'auto';
     height?: FlexNumber | 'auto';
@@ -88,7 +93,7 @@ export type LayoutOptions = {
 
 export type VerticalAlign = (typeof VERTICAL_ALIGN)[number];
 
-export type SizeControl = 'innerText' | 'background' | 'parentSize' | 'contentSize' | 'static' | 'NineSlicePlane';
+export type SizeControl = 'innerText' | 'background' | 'parentSize' | 'contentSize' | 'static';
 
 export type ContentType =
     | 'layout'
