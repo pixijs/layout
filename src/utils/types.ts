@@ -1,9 +1,4 @@
-import type {
-    TilingSprite,
-    NineSliceSprite,
-    TextStyle,
-    TextStyleAlign,
-} from "pixi.js";
+import type { TilingSprite, NineSliceSprite, TextStyleAlign } from "pixi.js";
 import type { Container } from "pixi.js";
 import {
     CSS_COLOR_NAMES,
@@ -14,6 +9,7 @@ import {
     BACKGROUND_SIZE,
 } from "./constants";
 import type { Layout } from "../Layout";
+import { PixiTextStyle } from "./text";
 
 export type GradeToOne =
     | 0
@@ -61,7 +57,7 @@ export type ConditionalStyles = {
 
 export type BackgroundSize = (typeof BACKGROUND_SIZE)[number];
 
-export type Styles = Partial<TextStyle> & {
+export type Styles = Partial<PixiTextStyle> & {
     background?:
         | FlexColor
         | Container

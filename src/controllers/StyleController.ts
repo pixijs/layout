@@ -1,9 +1,9 @@
 import { TilingSprite, NineSliceSprite } from "pixi.js";
 import type { ConditionalStyles, GradeToOne, Styles } from "../utils/types";
-import { TextStyle } from "pixi.js";
 import { stylesToPixiTextStyles } from "../utils/helpers";
 import { BACKGROUND_SIZE, OVERFLOW, VERTICAL_ALIGN } from "../utils/constants";
 import { LayoutSystem } from "../Layout";
+import { PixiTextStyle } from "../utils/text";
 
 /** Style controller manages {@link LayoutSystem} styles. */
 export class StyleController {
@@ -12,7 +12,7 @@ export class StyleController {
     protected styles: Styles = {};
 
     /** Holds all text related styles. This is to be nested by children */
-    protected _textStyle: Partial<TextStyle> = {}; // this is to be nested by children
+    protected _textStyle: Partial<PixiTextStyle> = {}; // this is to be nested by children
 
     /** Stores default styles. */
     protected defaultStyles: Styles;
@@ -175,7 +175,7 @@ export class StyleController {
     }
 
     /** Returns all pixi text related styles of the Layout */
-    get textStyle(): Partial<TextStyle> {
+    get textStyle(): Partial<PixiTextStyle> {
         return this._textStyle;
     }
 

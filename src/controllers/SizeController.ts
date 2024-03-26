@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { getColor, getNumber, isItJustAText } from "../utils/helpers";
+import { getNumber, isItJustAText } from "../utils/helpers";
 import { LayoutSystem } from "../Layout";
 import { Text } from "pixi.js";
 import { Container } from "pixi.js";
@@ -324,7 +324,7 @@ export class SizeController {
                     break;
             }
         } else {
-            const color = background !== "transparent" && getColor(background);
+            const color = background !== "transparent" && background;
 
             const { borderRadius } = this.layout.style;
             const { width, height } = this;
@@ -351,8 +351,8 @@ export class SizeController {
                 if (this.bg instanceof Graphics) {
                     this.bg
                         .clear()
-                        .beginFill(color.hex, color.opacity)
-                        .drawRoundedRect(x, y, width, height, borderRadius);
+                        .roundRect(x, y, width, height, borderRadius)
+                        .fill(color);
                 }
             } else if (this.bg) {
                 this.layout.container.removeChild(this.bg);
@@ -387,9 +387,8 @@ export class SizeController {
 
             this.overflowMask
                 .clear()
-                .beginFill(0xffffff)
-                .drawRoundedRect(x, y, width, height, borderRadius)
-                .endFill();
+                .roundRect(x, y, width, height, borderRadius)
+                .fill(0xffffff);
 
             this.layout.container.mask = this.overflowMask;
         } else {

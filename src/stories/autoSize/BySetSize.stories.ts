@@ -13,19 +13,21 @@ const TEXTS = [
 ];
 
 const args = {
-    type: ["NineSliceSprite", "Sprite"],
+    type: ["Sprite", "NineSliceSprite"],
     text: TEXTS.join("\n\n"),
-    width: 350,
+    width: 650,
     height: 350,
     padding: 35,
     textAlign: ALIGN,
     wordWrap: true,
-    backgroundSize: BACKGROUND_SIZE,
+    backgroundSize: [
+        BACKGROUND_SIZE[3],
+        ...BACKGROUND_SIZE.filter((_, i) => i > 3),
+    ],
 };
 
 const assets = {
     background: "Window/SmallSubstrate.png",
-    NineSliceSprite: "Progress/ValueBG.png",
 };
 
 class LayoutStory {
@@ -54,9 +56,15 @@ class LayoutStory {
         let background: Sprite | NineSliceSprite;
 
         if (type === "NineSliceSprite") {
-            const substrateTexture = Texture.from(assets.NineSliceSprite);
+            const substrateTexture = Texture.from(assets.background);
 
-            background = new NineSliceSprite(substrateTexture, 53, 50, 53, 56);
+            background = new NineSliceSprite({
+                texture: substrateTexture,
+                leftWidth: 53,
+                topHeight: 50,
+                rightWidth: 53,
+                bottomHeight: 56,
+            });
         } else {
             background = Sprite.from(assets.background);
         }

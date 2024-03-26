@@ -30,19 +30,31 @@ class LayoutStory {
 
     createLayout(props: typeof args) {
         const titleTexture = Texture.from(testAssets.ribbon);
-        const titleBG = new NineSliceSprite(titleTexture, 315, 64, 112, 73);
+        const titleBG = new NineSliceSprite({
+            texture: titleTexture,
+            leftWidth: 315,
+            topHeight: 64,
+            rightWidth: 112,
+            bottomHeight: 73,
+        });
 
         const windowTexture = Texture.from(testAssets.window);
-        const windowBG = new NineSliceSprite(windowTexture, 315, 64, 112, 73);
+        const windowBG = new NineSliceSprite({
+            texture: windowTexture,
+            leftWidth: 315,
+            topHeight: 64,
+            rightWidth: 112,
+            bottomHeight: 73,
+        });
 
         const substrateTexture = Texture.from(testAssets.substrate);
-        const substrateBG = new NineSliceSprite(
-            substrateTexture,
-            400,
-            64,
-            400,
-            73
-        );
+        const substrateBG = new NineSliceSprite({
+            texture: substrateTexture,
+            leftWidth: 400,
+            topHeight: 64,
+            rightWidth: 400,
+            bottomHeight: 73,
+        });
 
         // Component usage
         this.layout = new Layout({

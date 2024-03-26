@@ -4,7 +4,7 @@ import { AlignController } from "./controllers/AlignController";
 import { StyleController } from "./controllers/StyleController";
 import { SizeController } from "./controllers/SizeController";
 import { ContentController } from "./controllers/ContentController";
-import type { TextStyle } from "pixi.js";
+import { PixiTextStyle } from "./utils/text";
 
 /**
  * Layout controller class for any PixiJS Container based instance.
@@ -216,7 +216,7 @@ export class LayoutSystem {
     }
 
     /** Layout text styles. */
-    get textStyle(): Partial<TextStyle> {
+    get textStyle(): Partial<PixiTextStyle> {
         return this._style.textStyle;
     }
 
@@ -366,7 +366,7 @@ export class Layout extends Container {
     }
 
     /** Layout text styles. */
-    get textStyle(): Partial<TextStyle> {
+    get textStyle(): Partial<PixiTextStyle> {
         return this.layout.textStyle;
     }
 

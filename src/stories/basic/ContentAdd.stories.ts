@@ -123,8 +123,8 @@ class LayoutStory {
                 }),
                 stringID1: "Text 1", // string
                 container1: new Graphics() // Pixi.Container
-                    .beginFill(0xff0000)
-                    .drawCircle(20, 20, 20),
+                    .fill(0xff0000)
+                    .circle(20, 20, 20),
                 textID: new Text("Text 2"), // PIXI.Text
                 layoutConfig: {
                     content: "Layout Config",
@@ -145,10 +145,10 @@ class LayoutStory {
                         // this has to be layout config, can not just be string
                         id: "string4",
                         content: new Graphics() // Pixi.Container
-                            .beginFill(0x007eff)
-                            .drawRoundedRect(0, 0, 100, 100, 20)
-                            .beginFill(0xfff200)
-                            .drawCircle(20, 20, 10),
+                            .fill(0x007eff)
+                            .roundRect(0, 0, 100, 100, 20)
+                            .fill(0xfff200)
+                            .circle(20, 20, 10),
                     },
                 ],
             },

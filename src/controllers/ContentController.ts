@@ -7,10 +7,9 @@ import {
     LayoutOptions,
     LayoutStyles,
 } from "../utils/types";
-import { Container, Graphics } from "pixi.js";
-import { Text, TextStyle } from "pixi.js";
-import { Sprite } from "pixi.js";
+import { Container, Graphics, Text, Sprite } from "pixi.js";
 import { stylesToPixiTextStyles } from "../utils/helpers";
+import { PixiTextStyle } from "../utils/text";
 
 /** Controls all {@link LayoutSystem} children sizing. */
 export class ContentController {
@@ -73,7 +72,10 @@ export class ContentController {
                 );
                 break;
             case "string":
-                const text = new Text(content as string, this.layout.textStyle);
+                const text = new Text({
+                    text: content,
+                    style: this.layout.textStyle,
+                });
 
                 this.addContentElement(`text-${customID}`, text);
                 break;
@@ -81,7 +83,7 @@ export class ContentController {
                 const textInstance = content as Text;
 
                 for (const key in this.layout.textStyle) {
-                    const styleKey = key as keyof TextStyle;
+                    const styleKey = key as keyof PixiTextStyle;
 
                     (textInstance.style as any)[styleKey] =
                         this.layout.textStyle[styleKey];
@@ -138,10 +140,10 @@ export class ContentController {
                                 };
                             }
 
-                            const text = new Text(
-                                contentElement as string,
-                                defaultStyles
-                            );
+                            const text = new Text({
+                                text: contentElement,
+                                style: defaultStyles,
+                            });
 
                             this.addContentElement(idKey, text);
                             break;
@@ -335,7 +337,7 @@ export class ContentController {
         }
     }
 
-    protected getChild(childInstance: DisplayObject): string | undefined {
+    protected getChild(childInstance: Container): string | undefined {
         for (const [key, value] of this.children.entries()) {
             if (value === childInstance) {
                 return key;
