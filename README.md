@@ -12,12 +12,6 @@ Here are some useful resources:
 -   [Github Repo](https://github.com/pixijs/layout)
 -   [Sandbox](https://pixijs.io/layout/storybook)
 
-## Install
-
-```sh
-npm i @pixi/layout
-```
-
 ## Compatibility
 
 Depending on your version of PixiJS, you'll need to figure out which major version of PixiLayout to use.
@@ -26,6 +20,12 @@ Depending on your version of PixiJS, you'll need to figure out which major versi
 |-------------|----------------|
 | v7.x        | v1.x           |
 | v8.x        | v2.x           |
+
+## Install
+
+```sh
+npm i @pixi/layout
+```
 
 ## Usage
 
