@@ -1,4 +1,4 @@
-import { TextStyleAlign } from '@pixi/text';
+import { TextStyleAlign } from "pixi.js";
 
 export const CSS_COLOR_NAMES = {
     white: 0xffffff,
@@ -155,40 +155,40 @@ Ab praesentium velit minima unde beatae. Illo earum, rem iure unde nemo,
 
 exercitationem nesciunt et voluptas nisi adipisci, provident cupiditate veritatis magnam?`;
 
-export const DISPLAY = ['block', 'inline-block', 'inline'];
+export const DISPLAY = ["block", "inline-block", "inline"];
 
-export const OVERFLOW = ['visible', 'hidden'];
+export const OVERFLOW = ["visible", "hidden"];
 
 export const POSITION = [
-    'center',
+    "center",
 
-    'left',
-    'right',
-    'top',
-    'bottom',
+    "left",
+    "right",
+    "top",
+    "bottom",
 
-    'leftTop',
-    'rightTop',
-    'leftBottom',
-    'rightBottom',
+    "leftTop",
+    "rightTop",
+    "leftBottom",
+    "rightBottom",
 
-    'topLeft',
-    'topRight',
-    'bottomLeft',
-    'bottomRight',
+    "topLeft",
+    "topRight",
+    "bottomLeft",
+    "bottomRight",
 
-    'centerTop',
-    'centerBottom',
-    'centerLeft',
-    'centerRight',
+    "centerTop",
+    "centerBottom",
+    "centerLeft",
+    "centerRight",
 
-    'topCenter',
-    'bottomCenter',
-    'leftCenter',
-    'rightCenter',
+    "topCenter",
+    "bottomCenter",
+    "leftCenter",
+    "rightCenter",
 ];
 
-export const ALIGN: TextStyleAlign[] = ['center', 'left', 'right', 'justify'];
-export const VERTICAL_ALIGN = ['middle', 'top', 'bottom'];
+export const ALIGN: TextStyleAlign[] = ["center", "left", "right", "justify"];
+export const VERTICAL_ALIGN = ["middle", "top", "bottom"];
 
-export const BACKGROUND_SIZE = ['auto', 'contain', 'cover', 'stretch'];
+export const BACKGROUND_SIZE = ["auto", "contain", "cover", "stretch"];

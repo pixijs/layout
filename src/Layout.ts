@@ -1,10 +1,10 @@
-import { Container } from '@pixi/display';
-import { Content, LayoutOptions, Styles } from './utils/types';
-import { AlignController } from './controllers/AlignController';
-import { StyleController } from './controllers/StyleController';
-import { SizeController } from './controllers/SizeController';
-import { ContentController } from './controllers/ContentController';
-import { TextStyle } from '@pixi/text';
+import { Container } from "pixi.js";
+import { Content, LayoutOptions, Styles } from "./utils/types";
+import { AlignController } from "./controllers/AlignController";
+import { StyleController } from "./controllers/StyleController";
+import { SizeController } from "./controllers/SizeController";
+import { ContentController } from "./controllers/ContentController";
+import type { TextStyle } from "pixi.js";
 
 /**
  * Layout controller class for any PixiJS Container based instance.
@@ -44,8 +44,7 @@ import { TextStyle } from '@pixi/text';
  *
  * app.stage.addChild(layoutSystem.container); // add layout system generated container to the stage
  */
-export class LayoutSystem
-{
+export class LayoutSystem {
     /** Container for all layout children. */
     container: Container;
 
@@ -76,23 +75,18 @@ export class LayoutSystem
      * @param options.globalStyles - Global styles for layout and it's children.
      * @param container - Container for all layout children, will be created if not provided.
      */
-    constructor(options?: LayoutOptions, container?: Container)
-    {
+    constructor(options?: LayoutOptions, container?: Container) {
         this.container = container || new Container();
 
         this.id = options?.id;
 
-        if (options?.globalStyles)
-        {
+        if (options?.globalStyles) {
             // check if there is a global style for this layout
             const styles = options.globalStyles[this.id];
 
-            if (styles && options.styles)
-            {
+            if (styles && options.styles) {
                 options.styles = { ...styles, ...options.styles };
-            }
-            else if (styles)
-            {
+            } else if (styles) {
                 options.styles = styles;
             }
         }
@@ -113,10 +107,10 @@ export class LayoutSystem
      * @param parentWidth
      * @param parentHeight
      */
-    resize(parentWidth?: number, parentHeight?: number)
-    {
+    resize(parentWidth?: number, parentHeight?: number) {
         const width = parentWidth || this.contentWidth || this.size.parentWidth;
-        const height = parentHeight || this.contentHeight || this.size.parentHeight;
+        const height =
+            parentHeight || this.contentHeight || this.size.parentHeight;
 
         this.isPortrait = width < height;
 
@@ -125,16 +119,13 @@ export class LayoutSystem
     }
 
     /** Recalculate positions and sizes of layouts three. */
-    refresh()
-    {
+    refresh() {
         this.resize(this.size.parentWidth, this.size.parentHeight);
     }
 
     /** Returns with of the container */
-    get contentWidth(): number | undefined
-    {
-        if (!this.container?.parent)
-        {
+    get contentWidth(): number | undefined {
+        if (!this.container?.parent) {
             return undefined;
         }
 
@@ -142,10 +133,8 @@ export class LayoutSystem
     }
 
     /** Returns height of the container */
-    get contentHeight(): number | undefined
-    {
-        if (!this.container?.parent)
-        {
+    get contentHeight(): number | undefined {
+        if (!this.container?.parent) {
             return undefined;
         }
 
@@ -153,26 +142,22 @@ export class LayoutSystem
     }
 
     /** Sets the width of layout.  */
-    set width(value: number)
-    {
+    set width(value: number) {
         this.size.width = value;
     }
 
     /** Gets the width of layout. */
-    get width()
-    {
+    get width() {
         return this.size.width;
     }
 
     /** Sets the height of layout. */
-    set height(value: number)
-    {
+    set height(value: number) {
         this.size.height = value;
     }
 
     /** Gets the height of layout. */
-    get height()
-    {
+    get height() {
         return this.size.height;
     }
 
@@ -181,8 +166,7 @@ export class LayoutSystem
      * @param {Content} content - Content to be added. Can be string, Container, Layout, LayoutOptions or array of those.
      * Also content can be an object with inner layout ids as a keys, and Content as values.
      */
-    addContent(content: Content)
-    {
+    addContent(content: Content) {
         this.content.createContent(content);
         this.updateParents();
     }
@@ -191,8 +175,7 @@ export class LayoutSystem
      * Removes content of the layout by its id and reposition/resize other elements and the layout basing on styles.
      * @param {string} id - id of the content to be removed.
      */
-    removeChildByID(id: string)
-    {
+    removeChildByID(id: string) {
         this.content.removeContent(id);
     }
 
@@ -200,8 +183,7 @@ export class LayoutSystem
      * Get element from the layout child tree by it's ID
      * @param {string} id - id of the content to be foundS.
      */
-    getChildByID(id: string): Layout | Container | undefined
-    {
+    getChildByID(id: string): Layout | Container | undefined {
         return this.content.getByID(id);
     }
 
@@ -209,18 +191,15 @@ export class LayoutSystem
      * This is used in case if layout or some of it's children was changed
      * and we need to update sizes and positions for all the parents tree.
      */
-    updateParents()
-    {
+    updateParents() {
         const rootLayout = this.getRootLayout();
 
         rootLayout.size.resize();
     }
 
     /** Returns root layout of the layout tree. */
-    getRootLayout(): LayoutSystem
-    {
-        if (this.container.parent?.layout)
-        {
+    getRootLayout(): LayoutSystem {
+        if (this.container.parent?.layout) {
             return this.container.parent.layout.getRootLayout();
         }
 
@@ -231,27 +210,23 @@ export class LayoutSystem
      * Updates the layout styles and resize/reposition it and its children basing on new styles.
      * @param styles
      */
-    setStyles(styles: Styles)
-    {
+    setStyles(styles: Styles) {
         this._style.set(styles);
         this.updateParents();
     }
 
     /** Layout text styles. */
-    get textStyle(): Partial<TextStyle>
-    {
+    get textStyle(): Partial<TextStyle> {
         return this._style.textStyle;
     }
 
     /** Layout styles. */
-    get style(): Styles
-    {
+    get style(): Styles {
         return this._style.getAll();
     }
 
     /** Returns true if root layout is in landscape mode. */
-    get isRootLayoutPortrait(): boolean
-    {
+    get isRootLayoutPortrait(): boolean {
         return this.getRootLayout().isPortrait === true;
     }
 }
@@ -289,84 +264,71 @@ export class LayoutSystem
  * 	},
  * });
  */
-export class Layout extends Container
-{
-    override layout: LayoutSystem;
+export class Layout extends Container {
+    layout: LayoutSystem;
 
     /**
      * Creates layout container.
      * @param options
      */
-    constructor(options?: LayoutOptions)
-    {
+    constructor(options?: LayoutOptions) {
         super();
 
         this.layout = new LayoutSystem(options, this);
     }
 
     /** Get {@link SizeController} */
-    get size(): SizeController
-    {
+    get size(): SizeController {
         return this.layout.size;
     }
 
     /** {@link AlignController} */
-    get align(): AlignController
-    {
+    get align(): AlignController {
         return this.layout.align;
     }
 
     /** {@link ContentController} */
-    get content(): ContentController
-    {
+    get content(): ContentController {
         return this.layout.content;
     }
 
     /** ID of layout, can be used to set styles in the globalStyles. */
-    get id()
-    {
+    get id() {
         return this.layout.id;
     }
 
     /** ID of layout, can be used to set styles in the globalStyles. */
-    set id(value: string)
-    {
+    set id(value: string) {
         this.layout.id = value;
     }
 
     /** Returns with of the layouts content. */
-    get contentWidth(): number | undefined
-    {
+    get contentWidth(): number | undefined {
         return this.layout.contentWidth;
     }
 
     /** Returns height of the layouts content. */
-    get contentHeight(): number | undefined
-    {
+    get contentHeight(): number | undefined {
         return this.layout.contentHeight;
     }
 
     /** Set the width of layout.  */
-    override set width(value: number)
-    {
+    override set width(value: number) {
         this.layout.width = value;
     }
 
     /** Get the width of layout. */
-    override get width()
-    {
+    override get width() {
         return this.layout.width;
     }
 
     /** Set the height of layout. */
-    override set height(value: number)
-    {
+    override set height(value: number) {
         this.layout.height = value;
     }
 
     /** Get the height of layout. */
-    override get height()
-    {
+    override get height() {
         return this.layout.height;
     }
 
@@ -375,8 +337,7 @@ export class Layout extends Container
      * @param {Content} content - Content to be added. Can be string, Container, Layout, LayoutOptions or array of those.
      * Also content can be an object where keys are ids of child layouts to create, and Content as values.
      */
-    addContent(content: Content)
-    {
+    addContent(content: Content) {
         this.layout.addContent(content);
     }
 
@@ -384,8 +345,7 @@ export class Layout extends Container
      * Remove content from layout system by its id and reposition/resize elements basing on styles.
      * @param {string} id - id of the content to be removed.
      */
-    removeChildByID(id: string)
-    {
+    removeChildByID(id: string) {
         this.layout.removeChildByID(id);
     }
 
@@ -393,8 +353,7 @@ export class Layout extends Container
      * Get element from the layout system children tree by it's ID
      * @param {string} id - id of the content to be foundS.
      */
-    getChildByID(id: string): Layout | Container | undefined
-    {
+    getChildByID(id: string): Layout | Container | undefined {
         return this.layout.getChildByID(id);
     }
 
@@ -402,20 +361,17 @@ export class Layout extends Container
      * Updates the layout styles and resize/reposition elements basing on new styles.
      * @param styles
      */
-    setStyles(styles: Styles)
-    {
+    setStyles(styles: Styles) {
         this.layout.setStyles(styles);
     }
 
     /** Layout text styles. */
-    get textStyle(): Partial<TextStyle>
-    {
+    get textStyle(): Partial<TextStyle> {
         return this.layout.textStyle;
     }
 
     /** Layout styles. */
-    get style(): Styles
-    {
+    get style(): Styles {
         return this.layout.style;
     }
 
@@ -424,35 +380,28 @@ export class Layout extends Container
      * @param parentWidth
      * @param parentHeight
      */
-    resize(parentWidth?: number, parentHeight?: number)
-    {
+    resize(parentWidth?: number, parentHeight?: number) {
         this.layout.resize(parentWidth, parentHeight);
     }
 
     /** Recalculate positions and sizes of layouts three. */
-    refresh()
-    {
+    refresh() {
         this.resize(this.size.parentWidth, this.size.parentHeight);
     }
 }
 
-declare module '@pixi/display'
-{
-    interface Container
-    {
+declare module "pixi.js" {
+    interface Container {
         initLayout(config?: LayoutOptions): Container;
         layout?: LayoutSystem;
         isPixiLayout?: boolean;
     }
 }
 
-if (!Container.prototype.initLayout)
-{
-    Object.defineProperty(Container.prototype, 'initLayout', {
-        value(options?: LayoutOptions): void
-        {
-            if (!this.layout)
-            {
+if (!Container.prototype.initLayout) {
+    Object.defineProperty(Container.prototype, "initLayout", {
+        value(options?: LayoutOptions): void {
+            if (!this.layout) {
                 this.layout = new LayoutSystem(options, this);
                 this.isPixiLayout = true;
             }

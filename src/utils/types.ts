@@ -1,11 +1,32 @@
-import type { TilingSprite } from '@pixi/sprite-tiling';
-import type { TextStyle, TextStyleAlign } from '@pixi/text';
-import type { Container } from '@pixi/display';
-import { CSS_COLOR_NAMES, POSITION, DISPLAY, OVERFLOW, VERTICAL_ALIGN, BACKGROUND_SIZE } from './constants';
-import type { Layout } from '../Layout';
-import type { NineSlicePlane } from '@pixi/mesh-extras';
+import type {
+    TilingSprite,
+    NineSliceSprite,
+    TextStyle,
+    TextStyleAlign,
+} from "pixi.js";
+import type { Container } from "pixi.js";
+import {
+    CSS_COLOR_NAMES,
+    POSITION,
+    DISPLAY,
+    OVERFLOW,
+    VERTICAL_ALIGN,
+    BACKGROUND_SIZE,
+} from "./constants";
+import type { Layout } from "../Layout";
 
-export type GradeToOne = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
+export type GradeToOne =
+    | 0
+    | 0.1
+    | 0.2
+    | 0.3
+    | 0.4
+    | 0.5
+    | 0.6
+    | 0.7
+    | 0.8
+    | 0.9
+    | 1;
 
 export type FlexNumber = number | string;
 export type FlexColor = FlexNumber | CSSColor;
@@ -31,22 +52,27 @@ export type Content =
 export type Containers = Container[];
 export type Overflow = (typeof OVERFLOW)[number];
 
-export type AspectRatio = 'static' | 'flex';
+export type AspectRatio = "static" | "flex";
 
 export type ConditionalStyles = {
     portrait?: Styles;
     landscape?: Styles;
 };
 
-export type BackgroundSize = typeof BACKGROUND_SIZE[number];
+export type BackgroundSize = (typeof BACKGROUND_SIZE)[number];
 
 export type Styles = Partial<TextStyle> & {
-    background?: FlexColor | Container | string | NineSlicePlane | TilingSprite;
+    background?:
+        | FlexColor
+        | Container
+        | string
+        | NineSliceSprite
+        | TilingSprite;
     backgroundColor?: FlexColor;
     backgroundSize?: BackgroundSize;
     color?: FlexColor;
-    width?: FlexNumber | 'auto';
-    height?: FlexNumber | 'auto';
+    width?: FlexNumber | "auto";
+    height?: FlexNumber | "auto";
     padding?: number;
     paddingTop?: number;
     paddingRight?: number;
@@ -93,14 +119,19 @@ export type LayoutOptions = {
 
 export type VerticalAlign = (typeof VERTICAL_ALIGN)[number];
 
-export type SizeControl = 'innerText' | 'background' | 'parentSize' | 'contentSize' | 'static';
+export type SizeControl =
+    | "innerText"
+    | "background"
+    | "parentSize"
+    | "contentSize"
+    | "static";
 
 export type ContentType =
-    | 'layout'
-    | 'text'
-    | 'string'
-    | 'container'
-    | 'array'
-    | 'unknown'
-    | 'layoutConfig'
-    | 'object';
+    | "layout"
+    | "text"
+    | "string"
+    | "container"
+    | "array"
+    | "unknown"
+    | "layoutConfig"
+    | "object";
