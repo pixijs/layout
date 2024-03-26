@@ -1,8 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { Text } from 'pixi.js';
-import { Container } from 'pixi.js';
-import { Sprite } from 'pixi.js';
-import { Graphics, NineSliceSprite, TilingSprite } from 'pixi.js';
+import { Container, Graphics, NineSliceSprite, Sprite, Text, TilingSprite } from 'pixi.js';
 import { LayoutSystem } from '../Layout';
 import { getNumber, isItJustAText } from '../utils/helpers';
 import { FlexNumber, SizeControl } from '../utils/types';
