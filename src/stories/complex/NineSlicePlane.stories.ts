@@ -1,9 +1,8 @@
-import { Layout } from "../../Layout";
-import { argTypes, getDefaultArgs } from "../utils/argTypes";
-import { Container } from "pixi.js";
-import { preloadAssets } from "../utils/helpers";
-import { Texture, NineSliceSprite } from "pixi.js";
-import { LOREM_TEXT } from "../../utils/constants";
+import { Container, NineSliceSprite, Texture } from 'pixi.js';
+import { Layout } from '../../Layout';
+import { LOREM_TEXT } from '../../utils/constants';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const args = {
     width: 97,
@@ -11,24 +10,27 @@ const args = {
 };
 
 const testAssets = {
-    ribbon: "Window/Ribbon.png",
-    window: "Window/SmallWindow.png",
-    substrate: "Window/SmallSubstrate.png",
+    ribbon: 'Window/Ribbon.png',
+    window: 'Window/SmallWindow.png',
+    substrate: 'Window/SmallSubstrate.png',
 };
 
-class LayoutStory {
+class LayoutStory
+{
     private layout: Layout;
     view = new Container();
     w: number;
     h: number;
 
-    constructor(props: typeof args) {
+    constructor(props: typeof args)
+    {
         preloadAssets(Object.values(testAssets)).then(() =>
             this.createLayout(props)
         );
     }
 
-    createLayout(props: typeof args) {
+    createLayout(props: typeof args)
+    {
         const titleTexture = Texture.from(testAssets.ribbon);
         const titleBG = new NineSliceSprite({
             texture: titleTexture,
@@ -58,7 +60,7 @@ class LayoutStory {
 
         // Component usage
         this.layout = new Layout({
-            id: "root",
+            id: 'root',
             content: {
                 window: {
                     content: {
@@ -67,28 +69,28 @@ class LayoutStory {
                                 text: {
                                     content: `${LOREM_TEXT} ${LOREM_TEXT} ${LOREM_TEXT} ${LOREM_TEXT} ${LOREM_TEXT}`,
                                     styles: {
-                                        width: "95%",
-                                        height: "90%",
+                                        width: '95%',
+                                        height: '90%',
                                         color: 0x000000,
                                         fontSize: 22,
-                                        textAlign: "left",
-                                        verticalAlign: "top",
+                                        textAlign: 'left',
+                                        verticalAlign: 'top',
                                         wordWrap: true,
-                                        overflow: "hidden",
+                                        overflow: 'hidden',
                                         paddingTop: 50,
                                         paddingLeft: 40,
                                     },
                                 },
                             },
                             styles: {
-                                width: "90%",
-                                height: "70%",
+                                width: '90%',
+                                height: '70%',
                                 background: substrateBG,
-                                position: "center",
+                                position: 'center',
                             },
                         },
                         title: {
-                            content: "Title",
+                            content: 'Title',
                             styles: {
                                 color: 0xffffff,
                                 fontSize: 44,
@@ -97,27 +99,27 @@ class LayoutStory {
                                 dropShadowBlur: 4,
                                 dropShadowDistance: 0,
                                 dropShadowAlpha: 0.5,
-                                textAlign: "center",
-                                width: "70%",
+                                textAlign: 'center',
+                                width: '70%',
                                 height: titleBG.height,
                                 background: titleBG,
-                                position: "topCenter",
+                                position: 'topCenter',
                                 marginTop: -49,
                             },
                         },
                     },
                     styles: {
-                        width: "100%",
-                        height: "100%",
+                        width: '100%',
+                        height: '100%',
                         background: windowBG,
-                        position: "bottomCenter",
+                        position: 'bottomCenter',
                     },
                 },
             },
             styles: {
                 width: `${props.width}%`,
                 height: `${props.height}%`,
-                position: "center",
+                position: 'center',
             },
         });
 
@@ -125,7 +127,8 @@ class LayoutStory {
         this.view.addChild(this.layout);
     }
 
-    resize(w: number, h: number) {
+    resize(w: number, h: number)
+    {
         this.w = w;
         this.h = h;
 
@@ -136,7 +139,7 @@ class LayoutStory {
 export const UsingNineSliceSprite = (params: any) => new LayoutStory(params);
 
 export default {
-    title: "Complex",
+    title: 'Complex',
     argTypes: argTypes(args),
     args: getDefaultArgs(args),
 };

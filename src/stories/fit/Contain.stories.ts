@@ -1,11 +1,10 @@
-import { Layout } from "../../Layout";
-import { argTypes, getDefaultArgs } from "../utils/argTypes";
-import { Container } from "pixi.js";
-import { preloadAssets } from "../utils/helpers";
-import { Sprite } from "pixi.js";
+import { Container, Sprite } from 'pixi.js';
+import { Layout } from '../../Layout';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const assets = {
-    bg: "bg.png",
+    bg: 'bg.png',
 };
 
 const args = {
@@ -13,38 +12,41 @@ const args = {
     height: 80,
 };
 
-class LayoutStory {
+class LayoutStory
+{
     private layout: Layout;
     private toolTip: Layout;
     view = new Container();
     w: number;
     h: number;
 
-    constructor(props) {
+    constructor(props)
+    {
         preloadAssets(Object.values(assets)).then(() =>
             this.createLayout(props)
         );
     }
 
-    createLayout({ width, height }: any) {
+    createLayout({ width, height }: any)
+    {
         this.layout = new Layout({
-            id: "root",
+            id: 'root',
             content: {
                 content: Sprite.from(assets.bg),
                 styles: {
-                    position: "center",
-                    maxWidth: "100%",
-                    maxHeight: "100%",
-                    minHeight: "100%",
-                    minWidth: "100%",
+                    position: 'center',
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    minHeight: '100%',
+                    minWidth: '100%',
                 },
             },
             styles: {
-                background: "red",
-                position: "center",
+                background: 'red',
+                position: 'center',
                 width: `${width}%`,
                 height: `${height}%`,
-                overflow: "hidden",
+                overflow: 'hidden',
             },
         });
         this.resize(this.w, this.h);
@@ -52,7 +54,8 @@ class LayoutStory {
         this.view.addChild(this.layout);
     }
 
-    resize(w: number, h: number) {
+    resize(w: number, h: number)
+    {
         this.w = w;
         this.h = h;
 
@@ -64,7 +67,7 @@ class LayoutStory {
 export const Contain = (params: any) => new LayoutStory(params);
 
 export default {
-    title: "Fit",
+    title: 'Fit',
     argTypes: argTypes(args),
     args: getDefaultArgs(args),
 };

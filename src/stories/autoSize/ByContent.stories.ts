@@ -1,15 +1,14 @@
-import { Layout } from "../../Layout";
-import { argTypes, getDefaultArgs } from "../utils/argTypes";
-import { Container } from "pixi.js";
-import { toolTip } from "../components/ToolTip";
-import { preloadAssets } from "../utils/helpers";
-import { Sprite } from "pixi.js";
-import { Content } from "../../utils/types";
+import { Container, Sprite } from 'pixi.js';
+import { Layout } from '../../Layout';
+import { Content } from '../../utils/types';
+import { toolTip } from '../components/ToolTip';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const testAssets = {
-    energy: "Icons/EnergyIcon.png",
-    gem: "Icons/gemIcon.png",
-    star: "Icons/Star.png",
+    energy: 'Icons/EnergyIcon.png',
+    gem: 'Icons/gemIcon.png',
+    star: 'Icons/Star.png',
 };
 
 const args = {
@@ -19,18 +18,20 @@ const args = {
     maxWidth: 95,
 };
 
-class LayoutStory {
+class LayoutStory
+{
     private layout: Layout;
     private toolTip: Layout;
     view = new Container();
     w: number;
     h: number;
 
-    constructor(props) {
+    constructor(props)
+    {
         this.addTooltip(
-            `Width and height are not set (it is 'auto').\n` +
-                `Display of root layout is set to 'inline' or 'inline-Block'.\n` +
-                `Size of the layout will change basing on content.`
+            `Width and height are not set (it is 'auto').\n`
+                + `Display of root layout is set to 'inline' or 'inline-Block'.\n`
+                + `Size of the layout will change basing on content.`
         );
 
         preloadAssets(Object.values(testAssets)).then(() =>
@@ -38,20 +39,22 @@ class LayoutStory {
         );
     }
 
-    createLayout({ image, padding, amount, maxWidth }: any) {
+    createLayout({ image, padding, amount, maxWidth }: any)
+    {
         const content: Array<Content> = [];
 
-        for (let i = 0; i < amount; i++) {
+        for (let i = 0; i < amount; i++)
+        {
             content.push(Sprite.from(testAssets[image]));
         }
 
         this.layout = new Layout({
-            id: "root",
+            id: 'root',
             content,
             styles: {
-                background: "black",
-                position: "center",
-                overflow: "hidden",
+                background: 'black',
+                position: 'center',
+                overflow: 'hidden',
                 padding,
                 borderRadius: 20,
                 maxWidth: `${maxWidth}%`,
@@ -61,13 +64,15 @@ class LayoutStory {
         this.view.addChild(this.layout);
     }
 
-    async addTooltip(text: string) {
+    async addTooltip(text: string)
+    {
         this.toolTip = await toolTip(text);
         this.view.addChild(this.toolTip);
         this.toolTip.resize(this.w, this.h);
     }
 
-    resize(w: number, h: number) {
+    resize(w: number, h: number)
+    {
         this.w = w;
         this.h = h;
 
@@ -79,7 +84,7 @@ class LayoutStory {
 export const ByContent = (params: any) => new LayoutStory(params);
 
 export default {
-    title: "AutoSize",
+    title: 'AutoSize',
     argTypes: argTypes(args),
     args: getDefaultArgs(args),
 };

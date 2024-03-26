@@ -1,20 +1,19 @@
-import { Layout } from "../../Layout";
-import { argTypes, getDefaultArgs } from "../utils/argTypes";
-import { Container } from "pixi.js";
-import { toolTip } from "../components/ToolTip";
-import { preloadAssets } from "../utils/helpers";
-import { Sprite } from "pixi.js";
-import { FancyButton } from "@pixi/ui";
+import { Container, Sprite } from 'pixi.js';
+import { FancyButton } from '@pixi/ui';
+import { Layout } from '../../Layout';
+import { toolTip } from '../components/ToolTip';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const assets = {
-    energy: "Icons/EnergyIcon.png",
-    gem: "Icons/gemIcon.png",
-    star: "Icons/StarIcon.png",
-    button: "Buttons/SmallButton.png",
-    buttonHover: "Buttons/SmallButton-hover.png",
-    buttonDown: "Buttons/SmallButton-pressed.png",
-    plus: "Icons/PlusIcon.png",
-    minus: "Icons/MinusIcon.png",
+    energy: 'Icons/EnergyIcon.png',
+    gem: 'Icons/gemIcon.png',
+    star: 'Icons/StarIcon.png',
+    button: 'Buttons/SmallButton.png',
+    buttonHover: 'Buttons/SmallButton-hover.png',
+    buttonDown: 'Buttons/SmallButton-pressed.png',
+    plus: 'Icons/PlusIcon.png',
+    minus: 'Icons/MinusIcon.png',
 };
 
 const args = {
@@ -23,14 +22,16 @@ const args = {
     maxHeight: 40,
 };
 
-class LayoutStory {
+class LayoutStory
+{
     private layout: Layout;
     private toolTip: Layout;
     view = new Container();
     w: number;
     h: number;
 
-    constructor(props) {
+    constructor(props)
+    {
         this.addTooltip(
             `'+' and '-' buttons will change padding of the 'gem' layout.\n`
         );
@@ -40,7 +41,8 @@ class LayoutStory {
         );
     }
 
-    createLayout({ padding, maxWidth, maxHeight }: any) {
+    createLayout({ padding, maxWidth, maxHeight }: any)
+    {
         const addButton = new FancyButton({
             defaultView: assets.button,
             hoverView: assets.buttonHover,
@@ -64,7 +66,7 @@ class LayoutStory {
         const star = Sprite.from(assets.star);
 
         this.layout = new Layout({
-            id: "root",
+            id: 'root',
             content: {
                 items: {
                     content: {
@@ -78,7 +80,7 @@ class LayoutStory {
                             content: gem,
                             styles: {
                                 padding,
-                                background: "red",
+                                background: 'red',
                             },
                         },
                         star: {
@@ -89,8 +91,8 @@ class LayoutStory {
                         },
                     },
                     styles: {
-                        background: "black",
-                        position: "center",
+                        background: 'black',
+                        position: 'center',
                         borderRadius: 20,
                         maxWidth: `${maxWidth}%`,
                         maxHeight: `${maxHeight}%`,
@@ -99,38 +101,43 @@ class LayoutStory {
                 controls: {
                     content: [addButton, removeButton],
                     styles: {
-                        position: "bottomCenter",
+                        position: 'bottomCenter',
                         scale: buttonsScale,
                         marginBottom: 100,
                     },
                 },
             },
             styles: {
-                position: "center",
-                width: "100%",
-                height: "100%",
+                position: 'center',
+                width: '100%',
+                height: '100%',
             },
         });
 
-        const gemLayout: Layout = this.layout.content.getByID("gem") as Layout;
+        const gemLayout: Layout = this.layout.content.getByID('gem') as Layout;
 
         const gemLayoutStyle = gemLayout.style;
 
-        if (gemLayoutStyle) {
-            addButton.onPress.connect(() => {
+        if (gemLayoutStyle)
+        {
+            addButton.onPress.connect(() =>
+            {
                 const padding = gemLayoutStyle.padding;
 
-                if (padding !== undefined) {
+                if (padding !== undefined)
+                {
                     gemLayout.setStyles({
                         padding: padding + 10,
                     });
                 }
             });
 
-            removeButton.onPress.connect(() => {
+            removeButton.onPress.connect(() =>
+            {
                 const padding = gemLayoutStyle.padding;
 
-                if (padding !== undefined) {
+                if (padding !== undefined)
+                {
                     gemLayout.setStyles({
                         padding: padding - 10 < 0 ? 0 : padding - 10,
                     });
@@ -142,13 +149,15 @@ class LayoutStory {
         this.view.addChild(this.layout);
     }
 
-    async addTooltip(text: string) {
+    async addTooltip(text: string)
+    {
         this.toolTip = await toolTip(text);
         this.view.addChild(this.toolTip);
         this.toolTip.resize(this.w, this.h);
     }
 
-    resize(w: number, h: number) {
+    resize(w: number, h: number)
+    {
         this.w = w;
         this.h = h;
 
@@ -160,7 +169,7 @@ class LayoutStory {
 export const UpdateStyles = (params: any) => new LayoutStory(params);
 
 export default {
-    title: "Dynamic",
+    title: 'Dynamic',
     argTypes: argTypes(args),
     args: getDefaultArgs(args),
 };

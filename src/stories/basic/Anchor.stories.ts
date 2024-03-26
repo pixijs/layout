@@ -1,12 +1,11 @@
-import { Layout } from "../../Layout";
-import { argTypes, getDefaultArgs } from "../utils/argTypes";
-import { Container } from "pixi.js";
-import { Sprite } from "pixi.js";
-import { preloadAssets } from "../utils/helpers";
-import { POSITION } from "../../utils/constants";
+import { Container, Sprite } from 'pixi.js';
+import { Layout } from '../../Layout';
+import { POSITION } from '../../utils/constants';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const assets = {
-    avatar: "avatar-01.png",
+    avatar: 'avatar-01.png',
 };
 
 const args = {
@@ -16,7 +15,8 @@ const args = {
     position: POSITION,
 };
 
-class LayoutStory {
+class LayoutStory
+{
     private layout: Layout;
     private toolTip: Layout;
     view = new Container();
@@ -24,22 +24,24 @@ class LayoutStory {
     h: number;
     private rotate: boolean;
 
-    constructor(props) {
+    constructor(props)
+    {
         preloadAssets(Object.values(assets)).then(() =>
             this.createLayout(props)
         );
     }
 
-    createLayout({ anchorX, anchorY, position, rotate }: any) {
+    createLayout({ anchorX, anchorY, position, rotate }: any)
+    {
         this.rotate = rotate;
         const image = Sprite.from(assets.avatar);
 
         image.anchor.set(0.5);
 
         this.layout = new Layout({
-            id: "root",
+            id: 'root',
             content: {
-                id: "image",
+                id: 'image',
                 content: image,
                 styles: {
                     position,
@@ -51,17 +53,18 @@ class LayoutStory {
                 },
             },
             styles: {
-                position: "center",
+                position: 'center',
                 width: image.width,
                 height: image.height,
-                background: "white",
+                background: 'white',
             },
         });
         this.layout.resize(this.w, this.h);
         this.view.addChild(this.layout);
     }
 
-    resize(w: number, h: number) {
+    resize(w: number, h: number)
+    {
         this.w = w;
         this.h = h;
 
@@ -69,13 +72,16 @@ class LayoutStory {
         this.toolTip?.resize(w, h);
     }
 
-    update(delta) {
+    update(delta)
+    {
         if (!this.rotate) return;
 
-        if (this.layout) {
-            const image = this.layout.getChildByID("image");
+        if (this.layout)
+        {
+            const image = this.layout.getChildByID('image');
 
-            if (image && image.layout) {
+            if (image && image.layout)
+            {
                 image.layout.content.firstChild.rotation += 0.01 * delta;
             }
         }
@@ -85,7 +91,7 @@ class LayoutStory {
 export const AnchorSettings = (params: any) => new LayoutStory(params);
 
 export default {
-    title: "Basic",
+    title: 'Basic',
     argTypes: argTypes(args),
     args: getDefaultArgs(args),
 };

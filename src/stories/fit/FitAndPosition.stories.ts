@@ -1,16 +1,15 @@
-import { Layout } from "../../Layout";
-import { argTypes, getDefaultArgs } from "../utils/argTypes";
-import { Container } from "pixi.js";
-import { preloadAssets } from "../utils/helpers";
-import { Sprite } from "pixi.js";
+import { Container, Sprite } from 'pixi.js';
+import { Layout } from '../../Layout';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const assets = {
-    bg: "verticalBG.png",
-    a1: "avatar-01.png",
-    a2: "avatar-02.png",
-    a3: "avatar-03.png",
-    a4: "avatar-04.png",
-    a5: "avatar-05.png",
+    bg: 'verticalBG.png',
+    a1: 'avatar-01.png',
+    a2: 'avatar-02.png',
+    a3: 'avatar-03.png',
+    a4: 'avatar-04.png',
+    a5: 'avatar-05.png',
 };
 
 const args = {
@@ -18,28 +17,31 @@ const args = {
     height: 80,
 };
 
-class LayoutStory {
+class LayoutStory
+{
     private layout: Layout;
     private toolTip: Layout;
     view = new Container();
     w: number;
     h: number;
 
-    constructor(props) {
+    constructor(props)
+    {
         preloadAssets(Object.values(assets)).then(() =>
             this.createLayout(props)
         );
     }
 
-    createLayout({ width, height }: any) {
+    createLayout({ width, height }: any)
+    {
         this.layout = new Layout({
-            id: "root",
+            id: 'root',
             styles: {
                 width: `${width}%`,
                 height: `${height}%`,
-                background: "red",
-                position: "center",
-                overflow: "hidden",
+                background: 'red',
+                position: 'center',
+                overflow: 'hidden',
             },
         });
 
@@ -60,63 +62,63 @@ class LayoutStory {
                     topLeft: {
                         content: Sprite.from(assets.a1),
                         styles: {
-                            position: "topLeft",
+                            position: 'topLeft',
                         },
                     },
                     topRight: {
                         content: Sprite.from(assets.a2),
                         styles: {
-                            position: "topRight",
+                            position: 'topRight',
                         },
                     },
                     bottomLeft: {
                         content: Sprite.from(assets.a3),
                         styles: {
-                            position: "bottomLeft",
+                            position: 'bottomLeft',
                         },
                     },
                     bottomRight: {
                         content: Sprite.from(assets.a4),
                         styles: {
-                            position: "bottomRight",
+                            position: 'bottomRight',
                         },
                     },
                     center: {
                         content: Sprite.from(assets.a5),
                         styles: {
-                            position: "center",
+                            position: 'center',
                         },
                     },
                     centerTop: {
                         content: Sprite.from(assets.a5),
                         styles: {
-                            position: "centerTop",
+                            position: 'centerTop',
                         },
                     },
                     centerRight: {
                         content: Sprite.from(assets.a1),
                         styles: {
-                            position: "centerRight",
+                            position: 'centerRight',
                         },
                     },
                     centerLeft: {
                         content: Sprite.from(assets.a2),
                         styles: {
-                            position: "centerLeft",
+                            position: 'centerLeft',
                         },
                     },
                     centerBottom: {
                         content: Sprite.from(assets.a1),
                         styles: {
-                            position: "centerBottom",
+                            position: 'centerBottom',
                         },
                     },
                 },
                 styles: {
                     // no width and height set, so it will be controlled by the content
-                    position: "center",
-                    maxHeight: "100%",
-                    maxWidth: "100%",
+                    position: 'center',
+                    maxHeight: '100%',
+                    maxWidth: '100%',
                 },
             },
         });
@@ -125,7 +127,8 @@ class LayoutStory {
         this.view.addChild(this.layout);
     }
 
-    resize(w: number, h: number) {
+    resize(w: number, h: number)
+    {
         this.w = w;
         this.h = h;
 
@@ -137,7 +140,7 @@ class LayoutStory {
 export const FitAndPosition = (params: any) => new LayoutStory(params);
 
 export default {
-    title: "Fit",
+    title: 'Fit',
     argTypes: argTypes(args),
     args: getDefaultArgs(args),
 };

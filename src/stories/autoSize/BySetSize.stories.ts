@@ -1,20 +1,18 @@
-import { NineSliceSprite, Texture } from "pixi.js";
-import { Layout } from "../../Layout";
-import { argTypes, getDefaultArgs } from "../utils/argTypes";
-import { Container } from "pixi.js";
-import { ALIGN, BACKGROUND_SIZE } from "../../utils/constants";
-import { preloadAssets } from "../utils/helpers";
-import { Sprite } from "pixi.js";
+import { Container, NineSliceSprite, Sprite, Texture } from 'pixi.js';
+import { Layout } from '../../Layout';
+import { ALIGN, BACKGROUND_SIZE } from '../../utils/constants';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const TEXTS = [
-    "Width and height values are set in pixels.",
-    "Text will adapt to the layout size.",
+    'Width and height values are set in pixels.',
+    'Text will adapt to the layout size.',
     'When type is set to NineSliceSprite backgroundSize is set to "stretch" by default.',
 ];
 
 const args = {
-    type: ["Sprite", "NineSliceSprite"],
-    text: TEXTS.join("\n\n"),
+    type: ['Sprite', 'NineSliceSprite'],
+    text: TEXTS.join('\n\n'),
     width: 650,
     height: 350,
     padding: 35,
@@ -27,17 +25,19 @@ const args = {
 };
 
 const assets = {
-    background: "Window/SmallSubstrate.png",
+    background: 'Window/SmallSubstrate.png',
 };
 
-class LayoutStory {
+class LayoutStory
+{
     private layout: Layout;
     private toolTip: Layout;
     view = new Container();
     w: number;
     h: number;
 
-    constructor(props) {
+    constructor(props)
+    {
         preloadAssets(Object.values(assets)).then(() =>
             this.createLayout(props)
         );
@@ -52,10 +52,12 @@ class LayoutStory {
         text,
         wordWrap,
         backgroundSize,
-    }: any) {
+    }: any)
+    {
         let background: Sprite | NineSliceSprite;
 
-        if (type === "NineSliceSprite") {
+        if (type === 'NineSliceSprite')
+        {
             const substrateTexture = Texture.from(assets.background);
 
             background = new NineSliceSprite({
@@ -65,23 +67,25 @@ class LayoutStory {
                 rightWidth: 53,
                 bottomHeight: 56,
             });
-        } else {
+        }
+        else
+        {
             background = Sprite.from(assets.background);
         }
 
         this.layout = new Layout({
-            id: "root",
+            id: 'root',
             content: text,
             styles: {
                 background,
                 width,
                 height,
                 padding,
-                overflow: "hidden",
+                overflow: 'hidden',
                 // text options
                 textAlign,
                 fontSize: 24,
-                position: "center",
+                position: 'center',
                 borderRadius: 20,
                 wordWrap,
                 backgroundSize,
@@ -92,7 +96,8 @@ class LayoutStory {
         this.view.addChild(this.layout);
     }
 
-    resize(w: number, h: number) {
+    resize(w: number, h: number)
+    {
         this.w = w;
         this.h = h;
 
@@ -104,7 +109,7 @@ class LayoutStory {
 export const BySetSize = (params: any) => new LayoutStory(params);
 
 export default {
-    title: "AutoSize",
+    title: 'AutoSize',
     argTypes: argTypes(args),
     args: getDefaultArgs(args),
 };

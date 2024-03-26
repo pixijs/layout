@@ -1,19 +1,19 @@
-import { argTypes, getDefaultArgs } from "../utils/argTypes";
-import { Container } from "pixi.js";
+import { Container } from 'pixi.js';
+import { Layout } from '../../Layout';
 import {
+    ALIGN,
     CSS_COLOR_NAMES,
     LOREM_TEXT,
     POSITION,
-    ALIGN,
-} from "../../utils/constants";
-import { toolTip } from "../components/ToolTip";
-import { Layout } from "../../Layout";
+} from '../../utils/constants';
+import { toolTip } from '../components/ToolTip';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 
 const args = {
     color,
-    backgroundColor: "#000000",
+    backgroundColor: '#000000',
     width: 50,
     height: 50,
     padding: 15,
@@ -21,12 +21,13 @@ const args = {
     fontSize: 24,
     borderRadius: 20,
     textAlign: ALIGN,
-    overflow: ["hidden", "visible"],
+    overflow: ['hidden', 'visible'],
     position: POSITION,
     wordWrap: true,
 };
 
-class LayoutStory {
+class LayoutStory
+{
     private toolTip: Layout;
     private layoutContainer: Container;
     view: Container;
@@ -46,12 +47,13 @@ class LayoutStory {
         textAlign,
         position,
         wordWrap,
-    }: any) {
+    }: any)
+    {
         this.view = new Container();
 
         this.addTooltip(
-            `Shows you how to turn any Container into a Layout.\n` +
-                `Same works for any other Container based element like Sprite or Graphics.\n`
+            `Shows you how to turn any Container into a Layout.\n`
+                + `Same works for any other Container based element like Sprite or Graphics.\n`
         );
 
         this.layoutContainer = new Container().initLayout();
@@ -77,13 +79,15 @@ class LayoutStory {
         this.layoutContainer.layout?.addContent(LOREM_TEXT);
     }
 
-    async addTooltip(text: string) {
+    async addTooltip(text: string)
+    {
         this.toolTip = await toolTip(text);
         this.view.addChild(this.toolTip);
         this.toolTip.resize(this.w, this.h);
     }
 
-    resize(w: number, h: number) {
+    resize(w: number, h: number)
+    {
         this.w = w;
         this.h = h;
 
@@ -95,7 +99,7 @@ class LayoutStory {
 export const TransformContainer = (params: any) => new LayoutStory(params);
 
 export default {
-    title: "Basic",
+    title: 'Basic',
     argTypes: argTypes(args),
     args: getDefaultArgs(args),
 };

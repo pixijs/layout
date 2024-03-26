@@ -1,16 +1,16 @@
-import { Layout } from "../../Layout";
-import { argTypes, getDefaultArgs } from "../utils/argTypes";
-import { Container } from "pixi.js";
+import { Container } from 'pixi.js';
+import { Layout } from '../../Layout';
 import {
-    VERTICAL_ALIGN,
     ALIGN,
-    POSITION,
     CSS_COLOR_NAMES,
-} from "../../utils/constants";
-import { LayoutStyles } from "../../utils/types";
+    POSITION,
+    VERTICAL_ALIGN,
+} from '../../utils/constants';
+import { LayoutStyles } from '../../utils/types';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
 
 const args = {
-    color: "#000000",
+    color: '#000000',
     width: 100,
     height: 100,
     opacity: 1,
@@ -21,7 +21,8 @@ const args = {
     position: POSITION,
 };
 
-class LayoutStory {
+class LayoutStory
+{
     private layout: Layout;
     view = new Container();
 
@@ -35,16 +36,17 @@ class LayoutStory {
         childWidth,
         childHeight,
         verticalAlign,
-    }: any) {
+    }: any)
+    {
         const fontStyle = {
             textAlign,
             verticalAlign,
             color,
-            overflow: "hidden",
+            overflow: 'hidden',
         };
 
         const contentStyles = {
-            display: "block",
+            display: 'block',
             borderRadius: 20,
             ...fontStyle,
             landscape: {
@@ -67,24 +69,24 @@ class LayoutStory {
                 position,
             },
             header: {
-                display: "block",
-                position: "top",
-                background: "red",
-                height: "10%",
+                display: 'block',
+                position: 'top',
+                background: 'red',
+                height: '10%',
                 borderRadius: 20,
                 ...fontStyle,
             },
             layoutContent: {
-                display: "block",
-                position: "center",
-                height: "70%",
-                overflow: "hidden",
+                display: 'block',
+                position: 'center',
+                height: '70%',
+                overflow: 'hidden',
             },
             leftMenu: {
-                display: "block",
-                width: "30%",
-                height: "97%",
-                position: "left",
+                display: 'block',
+                width: '30%',
+                height: '97%',
+                position: 'left',
                 landscape: {
                     visible: true,
                 },
@@ -93,23 +95,23 @@ class LayoutStory {
                 },
             },
             leftMenuContent: {
-                display: "block",
-                height: "100%",
+                display: 'block',
+                height: '100%',
                 borderRadius: 20,
-                background: "blue",
+                background: 'blue',
                 ...fontStyle,
             },
             mainContent: {
-                display: "block",
-                height: "96%",
-                position: "right",
+                display: 'block',
+                height: '96%',
+                position: 'right',
                 textAlign,
                 color,
                 landscape: {
-                    width: "70%",
+                    width: '70%',
                 },
                 portrait: {
-                    width: "100%",
+                    width: '100%',
                 },
             },
             mainContent1: {
@@ -137,10 +139,10 @@ class LayoutStory {
                 background: Object.keys(CSS_COLOR_NAMES)[60],
             },
             footer: {
-                display: "block",
-                position: "bottom",
-                background: "green",
-                height: "10%",
+                display: 'block',
+                position: 'bottom',
+                background: 'green',
+                height: '10%',
                 borderRadius: 20,
                 ...fontStyle,
             },
@@ -148,18 +150,18 @@ class LayoutStory {
 
         // Component usage
         this.layout = new Layout({
-            id: "root",
+            id: 'root',
             content: {
                 header: {
-                    content: "Header",
+                    content: 'Header',
                 },
                 layoutContent: {
                     content: {
                         // array of children
                         leftMenu: {
                             content: {
-                                id: "leftMenuContent",
-                                content: "Left menu",
+                                id: 'leftMenuContent',
+                                content: 'Left menu',
                             },
                         },
                         mainContent: {
@@ -187,7 +189,7 @@ class LayoutStory {
                     },
                 },
                 footer: {
-                    content: "Footer",
+                    content: 'Footer',
                 },
             },
             globalStyles,
@@ -196,7 +198,8 @@ class LayoutStory {
         this.view.addChild(this.layout);
     }
 
-    resize(w: number, h: number) {
+    resize(w: number, h: number)
+    {
         this.layout.resize(w, h);
     }
 }
@@ -205,7 +208,7 @@ export const ConditionalApplicationLayout = (params: any) =>
     new LayoutStory(params);
 
 export default {
-    title: "Styles",
+    title: 'Styles',
     argTypes: argTypes(args),
     args: getDefaultArgs(args),
 };

@@ -1,19 +1,19 @@
-import type {
-    TilingSprite,
-    NineSliceSprite,
-    TextStyleAlign,
-    TextStyleOptions,
-} from "pixi.js";
-import type { Container } from "pixi.js";
 import {
+    BACKGROUND_SIZE,
     CSS_COLOR_NAMES,
-    POSITION,
     DISPLAY,
     OVERFLOW,
+    POSITION,
     VERTICAL_ALIGN,
-    BACKGROUND_SIZE,
-} from "./constants";
-import type { Layout } from "../Layout";
+} from './constants';
+
+import type {
+    Container, NineSliceSprite,
+    TextStyleAlign,
+    TextStyleOptions,
+    TilingSprite
+} from 'pixi.js';
+import type { Layout } from '../Layout';
 
 export type GradeToOne =
     | 0
@@ -52,7 +52,7 @@ export type Content =
 export type Containers = Container[];
 export type Overflow = (typeof OVERFLOW)[number];
 
-export type AspectRatio = "static" | "flex";
+export type AspectRatio = 'static' | 'flex';
 
 export type ConditionalStyles = {
     portrait?: Styles;
@@ -63,16 +63,16 @@ export type BackgroundSize = (typeof BACKGROUND_SIZE)[number];
 
 export type Styles = TextStyleOptions & {
     background?:
-        | FlexColor
-        | Container
-        | string
-        | NineSliceSprite
-        | TilingSprite;
+    | FlexColor
+    | Container
+    | string
+    | NineSliceSprite
+    | TilingSprite;
     backgroundColor?: FlexColor;
     backgroundSize?: BackgroundSize;
     color?: FlexColor;
-    width?: FlexNumber | "auto";
-    height?: FlexNumber | "auto";
+    width?: FlexNumber | 'auto';
+    height?: FlexNumber | 'auto';
     padding?: number;
     paddingTop?: number;
     paddingRight?: number;
@@ -120,18 +120,18 @@ export type LayoutOptions = {
 export type VerticalAlign = (typeof VERTICAL_ALIGN)[number];
 
 export type SizeControl =
-    | "innerText"
-    | "background"
-    | "parentSize"
-    | "contentSize"
-    | "static";
+    | 'innerText'
+    | 'background'
+    | 'parentSize'
+    | 'contentSize'
+    | 'static';
 
 export type ContentType =
-    | "layout"
-    | "text"
-    | "string"
-    | "container"
-    | "array"
-    | "unknown"
-    | "layoutConfig"
-    | "object";
+    | 'layout'
+    | 'text'
+    | 'string'
+    | 'container'
+    | 'array'
+    | 'unknown'
+    | 'layoutConfig'
+    | 'object';

@@ -1,23 +1,22 @@
-import { Layout } from "../../Layout";
-import { argTypes, getDefaultArgs } from "../utils/argTypes";
-import { Container } from "pixi.js";
-import { toolTip } from "../components/ToolTip";
-import { preloadAssets } from "../utils/helpers";
-import { Sprite } from "pixi.js";
-import { FancyButton } from "@pixi/ui";
+import { Container, Sprite } from 'pixi.js';
+import { FancyButton } from '@pixi/ui';
+import { Layout } from '../../Layout';
+import { toolTip } from '../components/ToolTip';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const testAssets = {
-    energy: "Icons/EnergyIcon.png",
-    gem: "Icons/gemIcon.png",
-    star: "Icons/Star.png",
+    energy: 'Icons/EnergyIcon.png',
+    gem: 'Icons/gemIcon.png',
+    star: 'Icons/Star.png',
 };
 
 const assets = {
-    button: "Buttons/SmallButton.png",
-    buttonHover: "Buttons/SmallButton-hover.png",
-    buttonDown: "Buttons/SmallButton-pressed.png",
-    plus: "Icons/PlusIcon.png",
-    minus: "Icons/MinusIcon.png",
+    button: 'Buttons/SmallButton.png',
+    buttonHover: 'Buttons/SmallButton-hover.png',
+    buttonDown: 'Buttons/SmallButton-pressed.png',
+    plus: 'Icons/PlusIcon.png',
+    minus: 'Icons/MinusIcon.png',
 };
 
 const args = {
@@ -27,14 +26,16 @@ const args = {
     amount: 2,
 };
 
-class LayoutStory {
+class LayoutStory
+{
     private layout: Layout;
     private toolTip: Layout;
     view = new Container();
     w: number;
     h: number;
 
-    constructor(props) {
+    constructor(props)
+    {
         this.addTooltip(
             `'+' and '-' buttons will add or remove sprites to the layout.\n`
         );
@@ -44,7 +45,8 @@ class LayoutStory {
             .then(() => this.createLayout(props));
     }
 
-    createLayout({ image, padding, maxWidth, amount }: any) {
+    createLayout({ image, padding, maxWidth, amount }: any)
+    {
         const addButton = new FancyButton({
             defaultView: assets.button,
             hoverView: assets.buttonHover,
@@ -64,48 +66,51 @@ class LayoutStory {
         const buttonsScale = 0.5;
 
         this.layout = new Layout({
-            id: "root",
+            id: 'root',
             content: {
                 icons: {
                     content: new Array(amount)
                         .fill(null)
                         .map(() => Sprite.from(testAssets[image])),
                     styles: {
-                        position: "center",
+                        position: 'center',
                         padding,
                         maxWidth: `${maxWidth}%`,
-                        background: "black",
+                        background: 'black',
                         borderRadius: 20,
                     },
                 },
                 controls: {
                     content: [addButton, removeButton],
                     styles: {
-                        position: "bottomCenter",
+                        position: 'bottomCenter',
                         scale: buttonsScale,
                         marginBottom: -20,
                     },
                 },
             },
             styles: {
-                position: "center",
-                width: "100%",
+                position: 'center',
+                width: '100%',
                 height: 250,
             },
         });
 
         const iconsLayout: Layout = this.layout.content.getByID(
-            "icons"
+            'icons'
         ) as Layout;
 
-        addButton.onPress.connect(() => {
+        addButton.onPress.connect(() =>
+        {
             iconsLayout.addContent(Sprite.from(testAssets[image]));
         });
 
-        removeButton.onPress.connect(() => {
+        removeButton.onPress.connect(() =>
+        {
             const icons = iconsLayout.content.children;
 
-            if (icons.size > 0) {
+            if (icons.size > 0)
+            {
                 iconsLayout.removeChildByID(icons.entries().next().value[0]);
             }
         });
@@ -114,13 +119,15 @@ class LayoutStory {
         this.view.addChild(this.layout);
     }
 
-    async addTooltip(text: string) {
+    async addTooltip(text: string)
+    {
         this.toolTip = await toolTip(text);
         this.view.addChild(this.toolTip);
         this.toolTip.resize(this.w, this.h);
     }
 
-    resize(w: number, h: number) {
+    resize(w: number, h: number)
+    {
         this.w = w;
         this.h = h;
 
@@ -132,7 +139,7 @@ class LayoutStory {
 export const AddRemoveContent = (params: any) => new LayoutStory(params);
 
 export default {
-    title: "Dynamic",
+    title: 'Dynamic',
     argTypes: argTypes(args),
     args: getDefaultArgs(args),
 };
