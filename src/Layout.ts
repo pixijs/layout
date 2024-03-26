@@ -265,7 +265,7 @@ export class LayoutSystem {
  * });
  */
 export class Layout extends Container {
-    layout: LayoutSystem;
+    override layout: LayoutSystem;
 
     /**
      * Creates layout container.
