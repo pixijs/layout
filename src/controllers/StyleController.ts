@@ -1,10 +1,11 @@
-import { TilingSprite } from '@pixi/sprite-tiling';
 import { NineSlicePlane } from '@pixi/mesh-extras';
-import type { ConditionalStyles, GradeToOne, Styles } from '../utils/types';
+import { TilingSprite } from '@pixi/sprite-tiling';
 import { TextStyle } from '@pixi/text';
-import { stylesToPixiTextStyles } from '../utils/helpers';
-import { BACKGROUND_SIZE, OVERFLOW, VERTICAL_ALIGN } from '../utils/constants';
 import { LayoutSystem } from '../Layout';
+import { BACKGROUND_SIZE, OVERFLOW, VERTICAL_ALIGN } from '../utils/constants';
+import { stylesToPixiTextStyles } from '../utils/helpers';
+
+import type { ConditionalStyles, GradeToOne, Styles } from '../utils/types';
 
 /** Style controller manages {@link LayoutSystem} styles. */
 export class StyleController

@@ -1,11 +1,10 @@
-import { Layout } from '../../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
-import { Container } from '@pixi/display';
-import { preloadAssets } from '../utils/helpers';
 import { Texture } from '@pixi/core';
-
+import { Container } from '@pixi/display';
 import { NineSlicePlane } from '@pixi/mesh-extras';
+import { Layout } from '../../Layout';
 import { LOREM_TEXT } from '../../utils/constants';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const args = {
     width: 97,

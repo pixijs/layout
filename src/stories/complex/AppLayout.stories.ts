@@ -1,8 +1,8 @@
-import { Layout } from '../../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { VERTICAL_ALIGN, ALIGN, POSITION, CSS_COLOR_NAMES } from '../../utils/constants';
+import { Layout } from '../../Layout';
+import { ALIGN, CSS_COLOR_NAMES, POSITION, VERTICAL_ALIGN } from '../../utils/constants';
 import { LayoutStyles } from '../../utils/types';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
 
 const args = {
     color: '#000000',

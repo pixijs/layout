@@ -1,5 +1,5 @@
-import { Layout, LayoutSystem } from '../Layout';
 import { Text } from '@pixi/text';
+import { Layout, LayoutSystem } from '../Layout';
 import { isItJustAText } from '../utils/helpers';
 
 /** Align controller manages {@link LayoutSystem} and it's content alignment. */

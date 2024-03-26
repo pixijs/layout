@@ -1,7 +1,7 @@
-import { Layout } from '../../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
+import { Layout } from '../../Layout';
 import { toolTip } from '../components/ToolTip';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
 
 const args = {
     portraitColor: 'white',

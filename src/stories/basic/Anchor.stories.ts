@@ -1,9 +1,9 @@
-import { Layout } from '../../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
-import { preloadAssets } from '../utils/helpers';
+import { Layout } from '../../Layout';
 import { POSITION } from '../../utils/constants';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const assets = {
     avatar: 'avatar-01.png'

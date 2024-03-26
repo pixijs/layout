@@ -1,10 +1,10 @@
-import { Layout } from '../../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { CSS_COLOR_NAMES } from '../../utils/constants';
-import { Text } from '@pixi/text';
 import { Graphics } from '@pixi/graphics';
+import { Text } from '@pixi/text';
+import { Layout } from '../../Layout';
+import { CSS_COLOR_NAMES } from '../../utils/constants';
 import { LayoutStyles } from '../../utils/types';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 

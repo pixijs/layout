@@ -1,8 +1,8 @@
+import { Container } from '@pixi/display';
+import { Sprite } from '@pixi/sprite';
 import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
-import { Container } from '@pixi/display';
 import { preloadAssets } from '../utils/helpers';
-import { Sprite } from '@pixi/sprite';
 
 const assets = {
     bg: 'verticalBG.png',

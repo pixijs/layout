@@ -1,10 +1,10 @@
-import { Layout } from '../../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { toolTip } from '../components/ToolTip';
-import { preloadAssets } from '../utils/helpers';
 import { Sprite } from '@pixi/sprite';
 import { FancyButton } from '@pixi/ui';
+import { Layout } from '../../Layout';
+import { toolTip } from '../components/ToolTip';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const assets = {
     energy: 'Icons/EnergyIcon.png',

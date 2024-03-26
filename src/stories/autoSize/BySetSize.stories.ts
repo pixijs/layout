@@ -1,11 +1,11 @@
-import { NineSlicePlane } from '@pixi/mesh-extras';
-import { Layout } from '../../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
-import { Container } from '@pixi/display';
-import { ALIGN, BACKGROUND_SIZE } from '../../utils/constants';
-import { preloadAssets } from '../utils/helpers';
-import { Sprite } from '@pixi/sprite';
 import { Texture } from '@pixi/core';
+import { Container } from '@pixi/display';
+import { NineSlicePlane } from '@pixi/mesh-extras';
+import { Sprite } from '@pixi/sprite';
+import { Layout } from '../../Layout';
+import { ALIGN, BACKGROUND_SIZE } from '../../utils/constants';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const TEXTS = ['Width and height values are set in pixels.',
     'Text will adapt to the layout size.',

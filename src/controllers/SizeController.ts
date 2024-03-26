@@ -1,13 +1,13 @@
 /* eslint-disable no-case-declarations */
-import { getColor, getNumber, isItJustAText } from '../utils/helpers';
-import { LayoutSystem } from '../Layout';
-import { Text } from '@pixi/text';
 import { Container } from '@pixi/display';
-import { FlexNumber, SizeControl } from '../utils/types';
-import { Sprite } from '@pixi/sprite';
 import { Graphics } from '@pixi/graphics';
 import { NineSlicePlane } from '@pixi/mesh-extras';
+import { Sprite } from '@pixi/sprite';
 import { TilingSprite } from '@pixi/sprite-tiling';
+import { Text } from '@pixi/text';
+import { LayoutSystem } from '../Layout';
+import { getColor, getNumber, isItJustAText } from '../utils/helpers';
+import { FlexNumber, SizeControl } from '../utils/types';
 
 /** Size controller manages {@link LayoutSystem} and it's content size. */
 export class SizeController

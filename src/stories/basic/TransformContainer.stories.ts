@@ -1,8 +1,8 @@
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { CSS_COLOR_NAMES, LOREM_TEXT, POSITION, ALIGN } from '../../utils/constants';
-import { toolTip } from '../components/ToolTip';
 import { Layout } from '../../Layout';
+import { ALIGN, CSS_COLOR_NAMES, LOREM_TEXT, POSITION } from '../../utils/constants';
+import { toolTip } from '../components/ToolTip';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
 

@@ -1,10 +1,10 @@
 import { Container } from '@pixi/display';
-import { Content, LayoutOptions, Styles } from './utils/types';
-import { AlignController } from './controllers/AlignController';
-import { StyleController } from './controllers/StyleController';
-import { SizeController } from './controllers/SizeController';
-import { ContentController } from './controllers/ContentController';
 import { TextStyle } from '@pixi/text';
+import { AlignController } from './controllers/AlignController';
+import { ContentController } from './controllers/ContentController';
+import { SizeController } from './controllers/SizeController';
+import { StyleController } from './controllers/StyleController';
+import { Content, LayoutOptions, Styles } from './utils/types';
 
 /**
  * Layout controller class for any PixiJS Container based instance.

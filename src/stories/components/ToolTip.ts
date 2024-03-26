@@ -1,5 +1,5 @@
-import { Layout } from '../../Layout';
 import { FancyButton } from '@pixi/ui';
+import { Layout } from '../../Layout';
 import { preloadAssets } from '../utils/helpers';
 
 export async function toolTip(text: string): Promise<Layout>

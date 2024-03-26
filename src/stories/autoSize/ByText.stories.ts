@@ -1,7 +1,7 @@
 import { Container } from '@pixi/display';
 import { Layout } from '../../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { ALIGN } from '../../utils/constants';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
 
 const args = {
     text:

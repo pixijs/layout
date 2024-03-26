@@ -1,9 +1,9 @@
-import { Layout } from '../../Layout';
-import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { Container } from '@pixi/display';
-import { preloadAssets } from '../utils/helpers';
 import { Sprite } from '@pixi/sprite';
+import { Layout } from '../../Layout';
 import { ALIGN } from '../../utils/constants';
+import { argTypes, getDefaultArgs } from '../utils/argTypes';
+import { preloadAssets } from '../utils/helpers';
 
 const assets = {
     horizontal: 'Window/SmallSubstrate.png',

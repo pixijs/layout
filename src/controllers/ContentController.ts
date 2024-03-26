@@ -1,11 +1,11 @@
 /* eslint-disable no-case-declarations */
-import { Layout, LayoutSystem } from '../Layout';
-import { Content, ContentList, ContentType, LayoutOptions, LayoutStyles } from '../utils/types';
 import { Container, DisplayObject } from '@pixi/display';
-import { Text, TextStyle } from '@pixi/text';
-import { Sprite } from '@pixi/sprite';
 import { Graphics } from '@pixi/graphics';
+import { Sprite } from '@pixi/sprite';
+import { Text, TextStyle } from '@pixi/text';
+import { Layout, LayoutSystem } from '../Layout';
 import { stylesToPixiTextStyles } from '../utils/helpers';
+import { Content, ContentList, ContentType, LayoutOptions, LayoutStyles } from '../utils/types';
 
 /** Controls all {@link LayoutSystem} children sizing. */
 export class ContentController
