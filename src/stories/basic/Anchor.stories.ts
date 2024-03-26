@@ -1,19 +1,18 @@
-import { Container } from '@pixi/display';
-import { Sprite } from '@pixi/sprite';
+import { Container, Sprite } from 'pixi.js';
 import { Layout } from '../../Layout';
 import { POSITION } from '../../utils/constants';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { preloadAssets } from '../utils/helpers';
 
 const assets = {
-    avatar: 'avatar-01.png'
+    avatar: 'avatar-01.png',
 };
 
 const args = {
     anchorX: 0.5,
     anchorY: 0.5,
     rotate: true,
-    position: POSITION
+    position: POSITION,
 };
 
 class LayoutStory
@@ -27,7 +26,9 @@ class LayoutStory
 
     constructor(props)
     {
-        preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
+        preloadAssets(Object.values(assets)).then(() =>
+            this.createLayout(props)
+        );
     }
 
     createLayout({ anchorX, anchorY, position, rotate }: any)
@@ -48,15 +49,15 @@ class LayoutStory
                     anchorY,
                     marginLeft: image.width / 2,
                     marginTop: image.height / 2,
-                    opacity: 0.9
-                }
+                    opacity: 0.9,
+                },
             },
             styles: {
                 position: 'center',
                 width: image.width,
                 height: image.height,
-                background: 'white'
-            }
+                background: 'white',
+            },
         });
         this.layout.resize(this.w, this.h);
         this.view.addChild(this.layout);
@@ -92,5 +93,5 @@ export const AnchorSettings = (params: any) => new LayoutStory(params);
 export default {
     title: 'Basic',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };

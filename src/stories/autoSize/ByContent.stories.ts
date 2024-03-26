@@ -1,5 +1,4 @@
-import { Container } from '@pixi/display';
-import { Sprite } from '@pixi/sprite';
+import { Container, Sprite } from 'pixi.js';
 import { Layout } from '../../Layout';
 import { Content } from '../../utils/types';
 import { toolTip } from '../components/ToolTip';
@@ -9,14 +8,14 @@ import { preloadAssets } from '../utils/helpers';
 const testAssets = {
     energy: 'Icons/EnergyIcon.png',
     gem: 'Icons/gemIcon.png',
-    star: 'Icons/Star.png'
+    star: 'Icons/Star.png',
 };
 
 const args = {
     image: Object.keys(testAssets),
     amount: 3,
     padding: 20,
-    maxWidth: 95
+    maxWidth: 95,
 };
 
 class LayoutStory
@@ -31,11 +30,13 @@ class LayoutStory
     {
         this.addTooltip(
             `Width and height are not set (it is 'auto').\n`
-        + `Display of root layout is set to 'inline' or 'inline-Block'.\n`
-        + `Size of the layout will change basing on content.`
+                + `Display of root layout is set to 'inline' or 'inline-Block'.\n`
+                + `Size of the layout will change basing on content.`
         );
 
-        preloadAssets(Object.values(testAssets)).then(() => this.createLayout(props));
+        preloadAssets(Object.values(testAssets)).then(() =>
+            this.createLayout(props)
+        );
     }
 
     createLayout({ image, padding, amount, maxWidth }: any)
@@ -56,8 +57,8 @@ class LayoutStory
                 overflow: 'hidden',
                 padding,
                 borderRadius: 20,
-                maxWidth: `${maxWidth}%`
-            }
+                maxWidth: `${maxWidth}%`,
+            },
         });
         this.layout.resize(this.w, this.h);
         this.view.addChild(this.layout);
@@ -85,5 +86,5 @@ export const ByContent = (params: any) => new LayoutStory(params);
 export default {
     title: 'AutoSize',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };

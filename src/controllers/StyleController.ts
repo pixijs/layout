@@ -1,9 +1,8 @@
-import { NineSlicePlane } from '@pixi/mesh-extras';
-import { TilingSprite } from '@pixi/sprite-tiling';
-import { TextStyle } from '@pixi/text';
+import { NineSliceSprite, TilingSprite } from 'pixi.js';
 import { LayoutSystem } from '../Layout';
 import { BACKGROUND_SIZE, OVERFLOW, VERTICAL_ALIGN } from '../utils/constants';
 import { stylesToPixiTextStyles } from '../utils/helpers';
+import { PixiTextStyle } from '../utils/text';
 
 import type { ConditionalStyles, GradeToOne, Styles } from '../utils/types';
 
@@ -15,7 +14,7 @@ export class StyleController
     protected styles: Styles = {};
 
     /** Holds all text related styles. This is to be nested by children */
-    protected _textStyle: Partial<TextStyle> = {}; // this is to be nested by children
+    protected _textStyle: Partial<PixiTextStyle> = {}; // this is to be nested by children
 
     /** Stores default styles. */
     protected defaultStyles: Styles;
@@ -40,9 +39,12 @@ export class StyleController
      */
     set(styles?: Styles & ConditionalStyles)
     {
-        this.styles.overflow = styles?.overflow ?? this.styles.overflow ?? OVERFLOW[0];
-        this.styles.display = styles?.display ?? this.styles.display ?? 'inline-block';
-        this.styles.borderRadius = styles?.borderRadius ?? this.styles.borderRadius ?? 0;
+        this.styles.overflow
+            = styles?.overflow ?? this.styles.overflow ?? OVERFLOW[0];
+        this.styles.display
+            = styles?.display ?? this.styles.display ?? 'inline-block';
+        this.styles.borderRadius
+            = styles?.borderRadius ?? this.styles.borderRadius ?? 0;
 
         this.styles.zIndex = styles?.zIndex ?? this.styles.zIndex ?? 1;
 
@@ -56,26 +58,47 @@ export class StyleController
 
         this.styles.padding = styles?.padding ?? this.styles.padding ?? 0;
         this.styles.paddingTop
-            = styles?.paddingTop ?? styles?.padding ?? this.styles.paddingTop ?? 0;
+            = styles?.paddingTop
+            ?? styles?.padding
+            ?? this.styles.paddingTop
+            ?? 0;
         this.styles.paddingRight
-            = styles?.paddingRight ?? styles?.padding ?? this.styles.paddingRight ?? 0;
+            = styles?.paddingRight
+            ?? styles?.padding
+            ?? this.styles.paddingRight
+            ?? 0;
         this.styles.paddingBottom
-            = styles?.paddingBottom ?? styles?.padding ?? this.styles.paddingBottom ?? 0;
+            = styles?.paddingBottom
+            ?? styles?.padding
+            ?? this.styles.paddingBottom
+            ?? 0;
         this.styles.paddingLeft
-            = styles?.paddingLeft ?? styles?.padding ?? this.styles.paddingLeft ?? 0;
+            = styles?.paddingLeft
+            ?? styles?.padding
+            ?? this.styles.paddingLeft
+            ?? 0;
 
         this.styles.margin = styles?.margin ?? this.styles.margin ?? 0;
-        this.styles.marginTop = styles?.marginTop ?? styles?.margin ?? this.styles.marginTop ?? 0;
+        this.styles.marginTop
+            = styles?.marginTop ?? styles?.margin ?? this.styles.marginTop ?? 0;
         this.styles.marginRight
-            = styles?.marginRight ?? styles?.margin ?? this.styles.marginRight ?? 0;
+            = styles?.marginRight
+            ?? styles?.margin
+            ?? this.styles.marginRight
+            ?? 0;
         this.styles.marginBottom
-            = styles?.marginBottom ?? styles?.margin ?? this.styles.marginBottom ?? 0;
+            = styles?.marginBottom
+            ?? styles?.margin
+            ?? this.styles.marginBottom
+            ?? 0;
         this.styles.marginLeft
             = styles?.marginLeft ?? styles?.margin ?? this.styles.marginLeft ?? 0;
 
         this.styles.scale = styles?.scale ?? this.styles.scale ?? 1;
-        this.styles.scaleX = styles?.scaleX ?? styles?.scale ?? this.styles.scaleX ?? 1;
-        this.styles.scaleY = styles?.scaleY ?? styles?.scale ?? this.styles.scaleY ?? 1;
+        this.styles.scaleX
+            = styles?.scaleX ?? styles?.scale ?? this.styles.scaleX ?? 1;
+        this.styles.scaleY
+            = styles?.scaleY ?? styles?.scale ?? this.styles.scaleY ?? 1;
 
         this.styles.width = styles?.width ?? this.styles.width ?? 'auto';
         this.styles.height = styles?.height ?? this.styles.height ?? 'auto';
@@ -108,18 +131,29 @@ export class StyleController
             {
                 this.styles.anchorY = styles.anchor;
             }
-            else if (Array.isArray(styles.anchor) && styles.anchor[1] !== undefined)
+            else if (
+                Array.isArray(styles.anchor)
+                && styles.anchor[1] !== undefined
+            )
             {
                 this.styles.anchorY = styles.anchor[1];
             }
         }
 
         this.styles.background
-            = styles?.background ?? styles?.backgroundColor ?? this.styles.background;
+            = styles?.background
+            ?? styles?.backgroundColor
+            ?? this.styles.background;
 
-        this.styles.backgroundSize = styles?.backgroundSize ?? this.styles.backgroundSize ?? BACKGROUND_SIZE[0];
+        this.styles.backgroundSize
+            = styles?.backgroundSize
+            ?? this.styles.backgroundSize
+            ?? BACKGROUND_SIZE[0];
 
-        if (this.styles.background instanceof NineSlicePlane || this.styles.background instanceof TilingSprite)
+        if (
+            this.styles.background instanceof NineSliceSprite
+            || this.styles.background instanceof TilingSprite
+        )
         {
             this.styles.backgroundSize = 'stretch';
         }
@@ -127,9 +161,12 @@ export class StyleController
         this.styles.textAlign = styles?.textAlign ?? this.styles.textAlign;
         this.styles.position = styles?.position ?? this.styles.position;
         this.styles.verticalAlign
-            = styles?.verticalAlign ?? this.styles.verticalAlign ?? VERTICAL_ALIGN[0];
+            = styles?.verticalAlign
+            ?? this.styles.verticalAlign
+            ?? VERTICAL_ALIGN[0];
 
-        this.styles.aspectRatio = styles?.aspectRatio ?? this.styles.aspectRatio ?? 'static';
+        this.styles.aspectRatio
+            = styles?.aspectRatio ?? this.styles.aspectRatio ?? 'static';
 
         this.styles.visible = styles?.visible ?? this.styles.visible ?? true;
         this.visible = this.styles.visible;
@@ -158,7 +195,7 @@ export class StyleController
     }
 
     /** Returns all pixi text related styles of the Layout */
-    get textStyle(): Partial<TextStyle>
+    get textStyle(): Partial<PixiTextStyle>
     {
         return this._textStyle;
     }
@@ -195,9 +232,9 @@ export class StyleController
 
         this.set({
             ...this.defaultStyles,
-            ...this.layout.isRootLayoutPortrait
+            ...(this.layout.isRootLayoutPortrait
                 ? this.conditionalStyles.portrait
-                : this.conditionalStyles.landscape
+                : this.conditionalStyles.landscape),
         });
     }
 
@@ -220,7 +257,7 @@ export class StyleController
         {
             this.conditionalStyles.portrait = {
                 ...this.conditionalStyles.portrait,
-                ...styles.portrait
+                ...styles.portrait,
             };
         }
 
@@ -228,7 +265,7 @@ export class StyleController
         {
             this.conditionalStyles.landscape = {
                 ...this.conditionalStyles.landscape,
-                ...styles.landscape
+                ...styles.landscape,
             };
         }
 

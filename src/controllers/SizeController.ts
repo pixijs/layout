@@ -1,12 +1,7 @@
 /* eslint-disable no-case-declarations */
-import { Container } from '@pixi/display';
-import { Graphics } from '@pixi/graphics';
-import { NineSlicePlane } from '@pixi/mesh-extras';
-import { Sprite } from '@pixi/sprite';
-import { TilingSprite } from '@pixi/sprite-tiling';
-import { Text } from '@pixi/text';
+import { Container, Graphics, NineSliceSprite, Sprite, Text, TilingSprite } from 'pixi.js';
 import { LayoutSystem } from '../Layout';
-import { getColor, getNumber, isItJustAText } from '../utils/helpers';
+import { getNumber, isItJustAText } from '../utils/helpers';
 import { FlexNumber, SizeControl } from '../utils/types';
 
 /** Size controller manages {@link LayoutSystem} and it's content size. */
@@ -80,13 +75,22 @@ export class SizeController
                 // try to fit text in one line
                 this.innerText.style.wordWrap = false;
 
-                const parentPaddingLeft = this.layout.container.parent?.layout?.style?.paddingLeft ?? 0;
-                const parentPaddingRight = this.layout.container.parent?.layout?.style?.paddingRight ?? 0;
+                const parentPaddingLeft
+                    = this.layout.container.parent?.layout?.style?.paddingLeft
+                    ?? 0;
+                const parentPaddingRight
+                    = this.layout.container.parent?.layout?.style?.paddingRight
+                    ?? 0;
 
-                const paddings = paddingLeft + paddingRight + parentPaddingLeft + parentPaddingRight;
+                const paddings
+                    = paddingLeft
+                    + paddingRight
+                    + parentPaddingLeft
+                    + parentPaddingRight;
 
                 const availableSpaceHor = this.parentWidth - paddings;
-                const needToBeResized = this.innerText.width + paddings > this.parentWidth;
+                const needToBeResized
+                    = this.innerText.width + paddings > this.parentWidth;
 
                 if (needToBeResized)
                 {
@@ -95,7 +99,8 @@ export class SizeController
                     this.innerText.style.wordWrapWidth = availableSpaceHor;
                 }
 
-                const textWidthPaddings = this.innerText.width + paddingLeft + paddingRight;
+                const textWidthPaddings
+                    = this.innerText.width + paddingLeft + paddingRight;
 
                 finalWidth = textWidthPaddings;
                 break;
@@ -120,11 +125,14 @@ export class SizeController
                 if (firstChild && firstChild.layout)
                 {
                     childrenWidth
-                            += firstChild.width
-                            + firstChild.layout.style.marginLeft
-                            + firstChild.layout.style.marginRight;
+                        += firstChild.width
+                        + firstChild.layout.style.marginLeft
+                        + firstChild.layout.style.marginRight;
                 }
-                else if (firstChild instanceof Container && firstChild.width)
+                else if (
+                    firstChild instanceof Container
+                    && firstChild.width
+                )
                 {
                     childrenWidth += firstChild.width;
                 }
@@ -137,14 +145,18 @@ export class SizeController
                         return;
                     }
 
-                    if (child.layout && child.layout.style.display !== 'block')
+                    if (
+                        child.layout
+                        && child.layout.style.display !== 'block'
+                    )
                     {
                         if (child.layout.style.position)
                         {
                             return;
                         }
 
-                        childrenWidth += child.width + child.layout.style.marginLeft;
+                        childrenWidth
+                            += child.width + child.layout.style.marginLeft;
                     }
                     else if (child instanceof Container && child.width)
                     {
@@ -173,7 +185,8 @@ export class SizeController
             case 'innerText':
                 // height is auto, there is only 1 child and it is text
                 // resize basing on text height
-                finalHeight = this.innerText?.height + paddingBottom + paddingTop;
+                finalHeight
+                    = this.innerText?.height + paddingBottom + paddingTop;
 
                 break;
 
@@ -267,7 +280,13 @@ export class SizeController
 
         this.layout.container.scale.set(scaleX, scaleY);
 
-        if (aspectRatio === 'flex' || maxWidth || maxHeight || minWidth || minHeight)
+        if (
+            aspectRatio === 'flex'
+            || maxWidth
+            || maxHeight
+            || minWidth
+            || minHeight
+        )
         {
             this.fitToSize(this.parentWidth, this.parentHeight);
         }
@@ -296,10 +315,12 @@ export class SizeController
     {
         const { background } = this.layout.style;
 
-        if (background instanceof NineSlicePlane
+        if (
+            background instanceof NineSliceSprite
             || background instanceof TilingSprite
             || background instanceof Sprite
-            || background instanceof Container)
+            || background instanceof Container
+        )
         {
             if (background instanceof Sprite)
             {
@@ -317,10 +338,20 @@ export class SizeController
             switch (this.layout.style.backgroundSize)
             {
                 case 'contain':
-                    background.scale.set(Math.min(finalWidth / background.width, finalHeight / background.height));
+                    background.scale.set(
+                        Math.min(
+                            finalWidth / background.width,
+                            finalHeight / background.height
+                        )
+                    );
                     break;
                 case 'cover':
-                    background.scale.set(Math.max(finalWidth / background.width, finalHeight / background.height));
+                    background.scale.set(
+                        Math.max(
+                            finalWidth / background.width,
+                            finalHeight / background.height
+                        )
+                    );
                     break;
                 case 'stretch':
                     background.width = finalWidth;
@@ -330,7 +361,7 @@ export class SizeController
         }
         else
         {
-            const color = background !== 'transparent' && getColor(background);
+            const color = background !== 'transparent' && background;
 
             const { borderRadius } = this.layout.style;
             const { width, height } = this;
@@ -360,7 +391,10 @@ export class SizeController
 
                 if (this.bg instanceof Graphics)
                 {
-                    this.bg.clear().beginFill(color.hex, color.opacity).drawRoundedRect(x, y, width, height, borderRadius);
+                    this.bg
+                        .clear()
+                        .roundRect(x, y, width, height, borderRadius)
+                        .fill(color);
                 }
             }
             else if (this.bg)
@@ -400,7 +434,10 @@ export class SizeController
                 y -= height * anchorY;
             }
 
-            this.overflowMask.clear().beginFill(0xffffff).drawRoundedRect(x, y, width, height, borderRadius).endFill();
+            this.overflowMask
+                .clear()
+                .roundRect(x, y, width, height, borderRadius)
+                .fill(0xffffff);
 
             this.layout.container.mask = this.overflowMask;
         }
@@ -413,28 +450,35 @@ export class SizeController
 
     protected fitInnerText(width: number, height: number)
     {
-        if (!isItJustAText(this.layout)) { return; }
+        if (!isItJustAText(this.layout))
+        {
+            return;
+        }
 
-        const { paddingLeft, paddingRight, paddingTop, paddingBottom } = this.layout.style;
+        const { paddingLeft, paddingRight, paddingTop, paddingBottom }
+            = this.layout.style;
 
         if (this.innerText.style.wordWrap)
         {
             const scale = this.layout.container?.scale.x ?? 1;
 
-            this.innerText.style.wordWrapWidth = (width - paddingLeft - paddingRight) * scale;
+            this.innerText.style.wordWrapWidth
+                = (width - paddingLeft - paddingRight) * scale;
         }
         else
         {
             this.innerText.scale.set(1);
 
             const textWidth = this.innerText.width + paddingLeft + paddingRight;
-            const textHeight = this.innerText.height + paddingTop + paddingBottom;
+            const textHeight
+                = this.innerText.height + paddingTop + paddingBottom;
 
             const horOverflow = textWidth > width;
             const verOverflow = textHeight > height;
 
             const horScale = width / (textWidth + paddingLeft + paddingRight);
-            const vertScale = height / (textHeight + paddingBottom + paddingTop);
+            const vertScale
+                = height / (textHeight + paddingBottom + paddingTop);
 
             if (horOverflow || verOverflow)
             {
@@ -461,7 +505,11 @@ export class SizeController
             return 'parentSize';
         }
 
-        if (background instanceof Container && background.width && background.height)
+        if (
+            background instanceof Container
+            && background.width
+            && background.height
+        )
         {
             return 'background';
         }
@@ -536,8 +584,10 @@ export class SizeController
      */
     protected fitToSize(parentWidth: number, parentHeight: number)
     {
-        const { maxWidth, maxHeight, minWidth, minHeight, aspectRatio } = this.layout.style;
-        const { marginLeft, marginRight, marginBottom, marginTop } = this.layout.style;
+        const { maxWidth, maxHeight, minWidth, minHeight, aspectRatio }
+            = this.layout.style;
+        const { marginLeft, marginRight, marginBottom, marginTop }
+            = this.layout.style;
 
         const currentScaleX = this.layout.container.scale.x;
         const currentScaleY = this.layout.container.scale.y;

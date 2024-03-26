@@ -1,4 +1,4 @@
-import { Text } from '@pixi/text';
+import { Text } from 'pixi.js';
 import { Layout, LayoutSystem } from '../Layout';
 import { isItJustAText } from '../utils/helpers';
 

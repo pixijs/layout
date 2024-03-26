@@ -1,5 +1,4 @@
-import { Container } from '@pixi/display';
-import { Sprite } from '@pixi/sprite';
+import { Container, Sprite } from 'pixi.js';
 import { FancyButton } from '@pixi/ui';
 import { Layout } from '../../Layout';
 import { toolTip } from '../components/ToolTip';
@@ -14,13 +13,13 @@ const assets = {
     buttonHover: 'Buttons/SmallButton-hover.png',
     buttonDown: 'Buttons/SmallButton-pressed.png',
     plus: 'Icons/PlusIcon.png',
-    minus: 'Icons/MinusIcon.png'
+    minus: 'Icons/MinusIcon.png',
 };
 
 const args = {
     padding: 10,
     maxWidth: 95,
-    maxHeight: 40
+    maxHeight: 40,
 };
 
 class LayoutStory
@@ -33,9 +32,13 @@ class LayoutStory
 
     constructor(props)
     {
-        this.addTooltip(`'+' and '-' buttons will change padding of the 'gem' layout.\n`);
+        this.addTooltip(
+            `'+' and '-' buttons will change padding of the 'gem' layout.\n`
+        );
 
-        preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
+        preloadAssets(Object.values(assets)).then(() =>
+            this.createLayout(props)
+        );
     }
 
     createLayout({ padding, maxWidth, maxHeight }: any)
@@ -45,7 +48,7 @@ class LayoutStory
             hoverView: assets.buttonHover,
             pressedView: assets.buttonDown,
             icon: assets.plus,
-            iconOffset: { y: -7 }
+            iconOffset: { y: -7 },
         });
 
         const removeButton = new FancyButton({
@@ -53,7 +56,7 @@ class LayoutStory
             hoverView: assets.buttonHover,
             pressedView: assets.buttonDown,
             icon: assets.minus,
-            iconOffset: { y: -7 }
+            iconOffset: { y: -7 },
         });
 
         const buttonsScale = 0.5;
@@ -70,45 +73,45 @@ class LayoutStory
                         energy: {
                             content: energy,
                             styles: {
-                                padding: 10
-                            }
+                                padding: 10,
+                            },
                         },
                         gem: {
                             content: gem,
                             styles: {
                                 padding,
-                                background: 'red'
-                            }
+                                background: 'red',
+                            },
                         },
                         star: {
                             content: star,
                             styles: {
-                                padding: 10
-                            }
-                        }
+                                padding: 10,
+                            },
+                        },
                     },
                     styles: {
                         background: 'black',
                         position: 'center',
                         borderRadius: 20,
                         maxWidth: `${maxWidth}%`,
-                        maxHeight: `${maxHeight}%`
-                    }
+                        maxHeight: `${maxHeight}%`,
+                    },
                 },
                 controls: {
                     content: [addButton, removeButton],
                     styles: {
                         position: 'bottomCenter',
                         scale: buttonsScale,
-                        marginBottom: 100
-                    }
-                }
+                        marginBottom: 100,
+                    },
+                },
             },
             styles: {
                 position: 'center',
                 width: '100%',
                 height: '100%',
-            }
+            },
         });
 
         const gemLayout: Layout = this.layout.content.getByID('gem') as Layout;
@@ -124,7 +127,7 @@ class LayoutStory
                 if (padding !== undefined)
                 {
                     gemLayout.setStyles({
-                        padding: padding + 10
+                        padding: padding + 10,
                     });
                 }
             });
@@ -136,7 +139,7 @@ class LayoutStory
                 if (padding !== undefined)
                 {
                     gemLayout.setStyles({
-                        padding: padding - 10 < 0 ? 0 : padding - 10
+                        padding: padding - 10 < 0 ? 0 : padding - 10,
                     });
                 }
             });
@@ -168,5 +171,5 @@ export const UpdateStyles = (params: any) => new LayoutStory(params);
 export default {
     title: 'Dynamic',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };

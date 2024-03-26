@@ -1,16 +1,15 @@
-import { Container } from '@pixi/display';
-import { Sprite } from '@pixi/sprite';
+import { Container, Sprite } from 'pixi.js';
 import { Layout } from '../../Layout';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { preloadAssets } from '../utils/helpers';
 
 const assets = {
-    bg: 'bg.png'
+    bg: 'bg.png',
 };
 
 const args = {
     width: 80,
-    height: 80
+    height: 80,
 };
 
 class LayoutStory
@@ -23,7 +22,9 @@ class LayoutStory
 
     constructor(props)
     {
-        preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
+        preloadAssets(Object.values(assets)).then(() =>
+            this.createLayout(props)
+        );
     }
 
     createLayout({ width, height }: any)
@@ -38,15 +39,15 @@ class LayoutStory
                     maxHeight: '100%',
                     minHeight: '100%',
                     minWidth: '100%',
-                }
+                },
             },
             styles: {
                 background: 'red',
                 position: 'center',
                 width: `${width}%`,
                 height: `${height}%`,
-                overflow: 'hidden'
-            }
+                overflow: 'hidden',
+            },
         });
         this.resize(this.w, this.h);
 
@@ -68,5 +69,5 @@ export const Contain = (params: any) => new LayoutStory(params);
 export default {
     title: 'Fit',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };

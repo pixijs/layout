@@ -1,30 +1,31 @@
-import { Texture } from '@pixi/core';
-import { Container } from '@pixi/display';
-import { NineSlicePlane } from '@pixi/mesh-extras';
-import { Sprite } from '@pixi/sprite';
+import { Container, NineSliceSprite, Sprite, Texture } from 'pixi.js';
 import { Layout } from '../../Layout';
 import { ALIGN, BACKGROUND_SIZE } from '../../utils/constants';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 import { preloadAssets } from '../utils/helpers';
 
-const TEXTS = ['Width and height values are set in pixels.',
+const TEXTS = [
+    'Width and height values are set in pixels.',
     'Text will adapt to the layout size.',
-    'When type is set to NineSlicePlane backgroundSize is set to "stretch" by default.'];
+    'When type is set to NineSliceSprite backgroundSize is set to "stretch" by default.',
+];
 
 const args = {
-    type: ['NineSlicePlane', 'Sprite'],
+    type: ['Sprite', 'NineSliceSprite'],
     text: TEXTS.join('\n\n'),
-    width: 350,
+    width: 650,
     height: 350,
     padding: 35,
     textAlign: ALIGN,
     wordWrap: true,
-    backgroundSize: BACKGROUND_SIZE,
+    backgroundSize: [
+        BACKGROUND_SIZE[3],
+        ...BACKGROUND_SIZE.filter((_, i) => i > 3),
+    ],
 };
 
 const assets = {
     background: 'Window/SmallSubstrate.png',
-    NineSlicePlane: 'Progress/ValueBG.png',
 };
 
 class LayoutStory
@@ -37,18 +38,35 @@ class LayoutStory
 
     constructor(props)
     {
-        preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
+        preloadAssets(Object.values(assets)).then(() =>
+            this.createLayout(props)
+        );
     }
 
-    private createLayout({ type, textAlign, width, height, padding, text, wordWrap, backgroundSize }: any)
+    private createLayout({
+        type,
+        textAlign,
+        width,
+        height,
+        padding,
+        text,
+        wordWrap,
+        backgroundSize,
+    }: any)
     {
-        let background: Sprite | NineSlicePlane;
+        let background: Sprite | NineSliceSprite;
 
-        if (type === 'NineSlicePlane')
+        if (type === 'NineSliceSprite')
         {
-            const substrateTexture = Texture.from(assets.NineSlicePlane);
+            const substrateTexture = Texture.from(assets.background);
 
-            background = new NineSlicePlane(substrateTexture, 53, 50, 53, 56);
+            background = new NineSliceSprite({
+                texture: substrateTexture,
+                leftWidth: 53,
+                topHeight: 50,
+                rightWidth: 53,
+                bottomHeight: 56,
+            });
         }
         else
         {
@@ -70,8 +88,8 @@ class LayoutStory
                 position: 'center',
                 borderRadius: 20,
                 wordWrap,
-                backgroundSize
-            }
+                backgroundSize,
+            },
         });
 
         this.layout.resize(this.w, this.h);
@@ -93,5 +111,5 @@ export const BySetSize = (params: any) => new LayoutStory(params);
 export default {
     title: 'AutoSize',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };

@@ -1,11 +1,15 @@
 /* eslint-disable no-case-declarations */
-import { Container, DisplayObject } from '@pixi/display';
-import { Graphics } from '@pixi/graphics';
-import { Sprite } from '@pixi/sprite';
-import { Text, TextStyle } from '@pixi/text';
+import { Container, Graphics, Sprite, Text } from 'pixi.js';
 import { Layout, LayoutSystem } from '../Layout';
 import { stylesToPixiTextStyles } from '../utils/helpers';
-import { Content, ContentList, ContentType, LayoutOptions, LayoutStyles } from '../utils/types';
+import { PixiTextStyle } from '../utils/text';
+import {
+    Content,
+    ContentList,
+    ContentType,
+    LayoutOptions,
+    LayoutStyles,
+} from '../utils/types';
 
 /** Controls all {@link LayoutSystem} children sizing. */
 export class ContentController
@@ -27,13 +31,19 @@ export class ContentController
      * @param content - Content of the layout
      * @param globalStyles - Global styles for layout and it's children
      */
-    constructor(layout: LayoutSystem, content?: Content, globalStyles?: LayoutStyles)
+    constructor(
+        layout: LayoutSystem,
+        content?: Content,
+        globalStyles?: LayoutStyles
+    )
     {
         this.layout = layout;
         this.children = new Map();
         this.createContent(content, globalStyles);
 
-        this.layout.container.on('childRemoved', (child) => this.onChildRemoved(child));
+        this.layout.container.on('childRemoved', (child) =>
+            this.onChildRemoved(child)
+        );
     }
 
     /**
@@ -61,10 +71,16 @@ export class ContentController
                 this.addContentElement(layout.id, layout);
                 break;
             case 'container':
-                this.addContentElement(`container-${customID}`, content as Container);
+                this.addContentElement(
+                    `container-${customID}`,
+                    content as Container
+                );
                 break;
             case 'string':
-                const text = new Text(content as string, this.layout.textStyle);
+                const text = new Text({
+                    text: content,
+                    style: this.layout.textStyle,
+                });
 
                 this.addContentElement(`text-${customID}`, text);
                 break;
@@ -73,9 +89,10 @@ export class ContentController
 
                 for (const key in this.layout.textStyle)
                 {
-                    const styleKey = key as keyof TextStyle;
+                    const styleKey = key as keyof PixiTextStyle;
 
-                    (textInstance.style as any)[styleKey] = this.layout.textStyle[styleKey];
+                    (textInstance.style as any)[styleKey]
+                        = this.layout.textStyle[styleKey];
                 }
 
                 this.addContentElement(`text-${customID}`, textInstance);
@@ -103,7 +120,10 @@ export class ContentController
                     layoutConfig.id = `layout-${customID}`;
                 }
 
-                this.addContentElement(layoutConfig.id, new Layout(layoutConfig));
+                this.addContentElement(
+                    layoutConfig.id,
+                    new Layout(layoutConfig)
+                );
                 break;
             case 'object':
                 const contentList = content as ContentList[];
@@ -120,28 +140,41 @@ export class ContentController
                     switch (contentType)
                     {
                         case 'string':
-                            if (parentGlobalStyles && parentGlobalStyles[idKey])
+                            if (
+                                parentGlobalStyles
+                                && parentGlobalStyles[idKey]
+                            )
                             {
                                 // if there are predefined styles for this id
                                 defaultStyles = {
                                     ...defaultStyles,
-                                    ...stylesToPixiTextStyles(parentGlobalStyles[idKey]),
+                                    ...stylesToPixiTextStyles(
+                                        parentGlobalStyles[idKey]
+                                    ),
                                 };
                             }
 
-                            const text = new Text(contentElement as string, defaultStyles);
+                            const text = new Text({
+                                text: contentElement,
+                                style: defaultStyles,
+                            });
 
                             this.addContentElement(idKey, text);
                             break;
                         case 'text':
                             const textInstance = contentElement as Text;
 
-                            if (parentGlobalStyles && parentGlobalStyles[idKey])
+                            if (
+                                parentGlobalStyles
+                                && parentGlobalStyles[idKey]
+                            )
                             {
                                 // if there are predefined styles for this id
                                 defaultStyles = {
                                     ...defaultStyles,
-                                    ...stylesToPixiTextStyles(parentGlobalStyles[idKey]),
+                                    ...stylesToPixiTextStyles(
+                                        parentGlobalStyles[idKey]
+                                    ),
                                 };
                             }
 
@@ -152,9 +185,14 @@ export class ContentController
                         case 'layout':
                             const layoutInstance = contentElement as Layout;
 
-                            if (parentGlobalStyles && parentGlobalStyles[idKey])
+                            if (
+                                parentGlobalStyles
+                                && parentGlobalStyles[idKey]
+                            )
                             {
-                                layoutInstance.setStyles(parentGlobalStyles[idKey]);
+                                layoutInstance.setStyles(
+                                    parentGlobalStyles[idKey]
+                                );
                                 layoutInstance.layout.updateParents();
                             }
 
@@ -171,10 +209,16 @@ export class ContentController
                             });
                             break;
                         case 'object':
-                            this.createContent(contentElement, parentGlobalStyles);
+                            this.createContent(
+                                contentElement,
+                                parentGlobalStyles
+                            );
                             break;
                         case 'array':
-                            this.createContent(contentElement, parentGlobalStyles);
+                            this.createContent(
+                                contentElement,
+                                parentGlobalStyles
+                            );
                             break;
                         default: // do nothing
                     }
@@ -183,7 +227,9 @@ export class ContentController
             case 'array':
                 const contentArray = content as Array<LayoutOptions>;
 
-                contentArray.forEach((content) => this.createContent(content, parentGlobalStyles));
+                contentArray.forEach((content) =>
+                    this.createContent(content, parentGlobalStyles)
+                );
                 break;
             default:
                 throw new Error('Unknown content type of the layout.');
@@ -200,7 +246,7 @@ export class ContentController
         if (id && this.children.has(id))
         {
             console.error(
-                `Element with '${id}' duplicates, be careful using id selectors with it.`,
+                `Element with '${id}' duplicates, be careful using id selectors with it.`
             );
         }
 
@@ -275,9 +321,11 @@ export class ContentController
 
         if ((content as any).isPixiLayout) return 'layout';
 
-        if (content instanceof Sprite
+        if (
+            content instanceof Sprite
             || content instanceof Graphics
-            || content instanceof Container)
+            || content instanceof Container
+        )
         {
             if (content.isPixiLayout) return 'layout';
 
@@ -314,7 +362,7 @@ export class ContentController
         }
     }
 
-    protected onChildRemoved(child: DisplayObject)
+    protected onChildRemoved(child: Container)
     {
         const registeredChild = this.getChild(child);
 
@@ -325,7 +373,7 @@ export class ContentController
         }
     }
 
-    protected getChild(childInstance: DisplayObject): string | undefined
+    protected getChild(childInstance: Container): string | undefined
     {
         for (const [key, value] of this.children.entries())
         {

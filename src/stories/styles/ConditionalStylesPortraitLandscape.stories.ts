@@ -1,4 +1,4 @@
-import { Container } from '@pixi/display';
+import { Container } from 'pixi.js';
 import { Layout } from '../../Layout';
 import { toolTip } from '../components/ToolTip';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
@@ -18,7 +18,9 @@ class LayoutStory
 
     constructor({ portraitColor, landscapeColor }: any)
     {
-        this.addTooltip(`Resize view area from portrait to landscape and back to see the styles change`);
+        this.addTooltip(
+            `Resize view area from portrait to landscape and back to see the styles change`
+        );
 
         this.layout = new Layout({
             content: {
@@ -33,8 +35,8 @@ class LayoutStory
                         },
                         portrait: {
                             visible: true,
-                        }
-                    }
+                        },
+                    },
                 },
                 landscape: {
                     content: 'Landscape',
@@ -48,8 +50,8 @@ class LayoutStory
                         landscape: {
                             visible: true,
                         },
-                    }
-                }
+                    },
+                },
             },
             styles: {
                 width: `60%`,

@@ -1,7 +1,11 @@
-import { Container } from '@pixi/display';
-import { Text } from '@pixi/text';
+import { Container, Text } from 'pixi.js';
 import { Layout } from '../../Layout';
-import { ALIGN, CSS_COLOR_NAMES, LOREM_TEXT, POSITION } from '../../utils/constants';
+import {
+    ALIGN,
+    CSS_COLOR_NAMES,
+    LOREM_TEXT,
+    POSITION,
+} from '../../utils/constants';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 
 const color = Object.keys(CSS_COLOR_NAMES).map((key) => key);
@@ -18,7 +22,7 @@ const args = {
     textAlign: ALIGN,
     overflow: ['hidden', 'visible'],
     position: POSITION,
-    wordWrap: true
+    wordWrap: true,
 };
 
 class LayoutStory
@@ -38,7 +42,7 @@ class LayoutStory
         borderRadius,
         textAlign,
         position,
-        wordWrap
+        wordWrap,
     }: any)
     {
         const text = new Text(LOREM_TEXT);
@@ -59,7 +63,7 @@ class LayoutStory
                 fontSize,
                 wordWrap,
                 padding,
-            }
+            },
         });
 
         // This is how you have to update the text inside layout.
@@ -84,5 +88,5 @@ export const BasicSettings = (params: any) => new LayoutStory(params);
 export default {
     title: 'Basic',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };

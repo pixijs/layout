@@ -1,6 +1,11 @@
-import { Container } from '@pixi/display';
+import { Container } from 'pixi.js';
 import { Layout } from '../../Layout';
-import { ALIGN, CSS_COLOR_NAMES, POSITION, VERTICAL_ALIGN } from '../../utils/constants';
+import {
+    ALIGN,
+    CSS_COLOR_NAMES,
+    POSITION,
+    VERTICAL_ALIGN,
+} from '../../utils/constants';
 import { LayoutStyles } from '../../utils/types';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 
@@ -13,7 +18,7 @@ const args = {
     childHeight: 34,
     textAlign: ALIGN,
     verticalAlign: VERTICAL_ALIGN,
-    position: POSITION
+    position: POSITION,
 };
 
 class LayoutStory
@@ -30,14 +35,14 @@ class LayoutStory
         position,
         childWidth,
         childHeight,
-        verticalAlign
+        verticalAlign,
     }: any)
     {
         const fontStyle = {
             textAlign,
             verticalAlign,
             color,
-            overflow: 'hidden'
+            overflow: 'hidden',
         };
 
         const contentStyles = {
@@ -51,7 +56,7 @@ class LayoutStory
             portrait: {
                 width: `100%`,
                 height: `17%`,
-            }
+            },
         };
 
         // Styles for all elements
@@ -61,7 +66,7 @@ class LayoutStory
                 width: `${width}%`,
                 height: `${height}%`,
                 opacity,
-                position
+                position,
             },
             header: {
                 display: 'block',
@@ -69,13 +74,13 @@ class LayoutStory
                 background: 'red',
                 height: '10%',
                 borderRadius: 20,
-                ...fontStyle
+                ...fontStyle,
             },
             layoutContent: {
                 display: 'block',
                 position: 'center',
                 height: '70%',
-                overflow: 'hidden'
+                overflow: 'hidden',
             },
             leftMenu: {
                 display: 'block',
@@ -83,10 +88,10 @@ class LayoutStory
                 height: '97%',
                 position: 'left',
                 landscape: {
-                    visible: true
+                    visible: true,
                 },
                 portrait: {
-                    visible: false
+                    visible: false,
                 },
             },
             leftMenuContent: {
@@ -94,7 +99,7 @@ class LayoutStory
                 height: '100%',
                 borderRadius: 20,
                 background: 'blue',
-                ...fontStyle
+                ...fontStyle,
             },
             mainContent: {
                 display: 'block',
@@ -109,20 +114,38 @@ class LayoutStory
                     width: '100%',
                 },
             },
-            mainContent1: { ...contentStyles, background: Object.keys(CSS_COLOR_NAMES)[10] },
-            mainContent2: { ...contentStyles, background: Object.keys(CSS_COLOR_NAMES)[20] },
-            mainContent3: { ...contentStyles, background: Object.keys(CSS_COLOR_NAMES)[30] },
-            mainContent4: { ...contentStyles, background: Object.keys(CSS_COLOR_NAMES)[40] },
-            mainContent5: { ...contentStyles, background: Object.keys(CSS_COLOR_NAMES)[50] },
-            mainContent6: { ...contentStyles, background: Object.keys(CSS_COLOR_NAMES)[60] },
+            mainContent1: {
+                ...contentStyles,
+                background: Object.keys(CSS_COLOR_NAMES)[10],
+            },
+            mainContent2: {
+                ...contentStyles,
+                background: Object.keys(CSS_COLOR_NAMES)[20],
+            },
+            mainContent3: {
+                ...contentStyles,
+                background: Object.keys(CSS_COLOR_NAMES)[30],
+            },
+            mainContent4: {
+                ...contentStyles,
+                background: Object.keys(CSS_COLOR_NAMES)[40],
+            },
+            mainContent5: {
+                ...contentStyles,
+                background: Object.keys(CSS_COLOR_NAMES)[50],
+            },
+            mainContent6: {
+                ...contentStyles,
+                background: Object.keys(CSS_COLOR_NAMES)[60],
+            },
             footer: {
                 display: 'block',
                 position: 'bottom',
                 background: 'green',
                 height: '10%',
                 borderRadius: 20,
-                ...fontStyle
-            }
+                ...fontStyle,
+            },
         };
 
         // Component usage
@@ -130,7 +153,7 @@ class LayoutStory
             id: 'root',
             content: {
                 header: {
-                    content: 'Header'
+                    content: 'Header',
                 },
                 layoutContent: {
                     content: {
@@ -138,38 +161,38 @@ class LayoutStory
                         leftMenu: {
                             content: {
                                 id: 'leftMenuContent',
-                                content: 'Left menu'
-                            }
+                                content: 'Left menu',
+                            },
                         },
                         mainContent: {
                             content: {
                                 mainContent1: {
-                                    content: Object.keys(CSS_COLOR_NAMES)[10]
+                                    content: Object.keys(CSS_COLOR_NAMES)[10],
                                 },
                                 mainContent2: {
-                                    content: Object.keys(CSS_COLOR_NAMES)[20]
+                                    content: Object.keys(CSS_COLOR_NAMES)[20],
                                 },
                                 mainContent3: {
-                                    content: Object.keys(CSS_COLOR_NAMES)[30]
+                                    content: Object.keys(CSS_COLOR_NAMES)[30],
                                 },
                                 mainContent4: {
-                                    content: Object.keys(CSS_COLOR_NAMES)[40]
+                                    content: Object.keys(CSS_COLOR_NAMES)[40],
                                 },
                                 mainContent5: {
-                                    content: Object.keys(CSS_COLOR_NAMES)[50]
+                                    content: Object.keys(CSS_COLOR_NAMES)[50],
                                 },
                                 mainContent6: {
-                                    content: Object.keys(CSS_COLOR_NAMES)[60]
-                                }
-                            }
-                        }
-                    }
+                                    content: Object.keys(CSS_COLOR_NAMES)[60],
+                                },
+                            },
+                        },
+                    },
                 },
                 footer: {
-                    content: 'Footer'
-                }
+                    content: 'Footer',
+                },
             },
-            globalStyles
+            globalStyles,
         });
 
         this.view.addChild(this.layout);
@@ -181,10 +204,11 @@ class LayoutStory
     }
 }
 
-export const ConditionalApplicationLayout = (params: any) => new LayoutStory(params);
+export const ConditionalApplicationLayout = (params: any) =>
+    new LayoutStory(params);
 
 export default {
     title: 'Styles',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };

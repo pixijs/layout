@@ -1,6 +1,11 @@
-import { Container } from '@pixi/display';
+import { Container } from 'pixi.js';
 import { Layout } from '../../Layout';
-import { ALIGN, CSS_COLOR_NAMES, LOREM_TEXT, POSITION } from '../../utils/constants';
+import {
+    ALIGN,
+    CSS_COLOR_NAMES,
+    LOREM_TEXT,
+    POSITION,
+} from '../../utils/constants';
 import { toolTip } from '../components/ToolTip';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 
@@ -18,7 +23,7 @@ const args = {
     textAlign: ALIGN,
     overflow: ['hidden', 'visible'],
     position: POSITION,
-    wordWrap: true
+    wordWrap: true,
 };
 
 class LayoutStory
@@ -41,13 +46,15 @@ class LayoutStory
         borderRadius,
         textAlign,
         position,
-        wordWrap
+        wordWrap,
     }: any)
     {
         this.view = new Container();
 
-        this.addTooltip(`Shows you how to turn any Container into a Layout.\n`
-            + `Same works for any other Container based element like Sprite or Graphics.\n`);
+        this.addTooltip(
+            `Shows you how to turn any Container into a Layout.\n`
+                + `Same works for any other Container based element like Sprite or Graphics.\n`
+        );
 
         this.layoutContainer = new Container().initLayout();
 
@@ -66,7 +73,7 @@ class LayoutStory
             fontSize,
             position,
             borderRadius,
-            wordWrap
+            wordWrap,
         });
 
         this.layoutContainer.layout?.addContent(LOREM_TEXT);
@@ -94,5 +101,5 @@ export const TransformContainer = (params: any) => new LayoutStory(params);
 export default {
     title: 'Basic',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };

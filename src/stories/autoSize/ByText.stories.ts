@@ -1,13 +1,13 @@
-import { Container } from '@pixi/display';
+import { Container } from 'pixi.js';
 import { Layout } from '../../Layout';
 import { ALIGN } from '../../utils/constants';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
 
 const args = {
     text:
-    `Width and height properties are not set (it is 'auto').\n\n`
-    + `The 'display' property is set to 'inline' or 'inline-Block'.\n\n`
-    + `The size of the layout will change based on the internal text size.`,
+        `Width and height properties are not set (it is 'auto').\n\n`
+        + `The 'display' property is set to 'inline' or 'inline-Block'.\n\n`
+        + `The size of the layout will change based on the internal text size.`,
     padding: 20,
     fontSize: 24,
     textAlign: ALIGN,
@@ -36,7 +36,7 @@ class LayoutStory
                 textAlign,
                 maxWidth: '100%',
                 maxHeight: '100%',
-            }
+            },
         });
 
         this.view.addChild(this.layout);
@@ -54,5 +54,5 @@ export const ByText = (params: any) => new LayoutStory(params);
 export default {
     title: 'AutoSize',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };

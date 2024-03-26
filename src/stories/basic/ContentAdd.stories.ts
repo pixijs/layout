@@ -1,6 +1,4 @@
-import { Container } from '@pixi/display';
-import { Graphics } from '@pixi/graphics';
-import { Text } from '@pixi/text';
+import { Container, Graphics, Text } from 'pixi.js';
 import { Layout } from '../../Layout';
 import { CSS_COLOR_NAMES } from '../../utils/constants';
 import { LayoutStyles } from '../../utils/types';
@@ -19,7 +17,7 @@ const args = {
     string5Color: ['orange', ...color],
     string5BGColor: ['blue', ...color],
     layoutConfigBG: ['green', ...color],
-    layoutConfigColor: ['white', ...color]
+    layoutConfigColor: ['white', ...color],
 };
 
 class LayoutStory
@@ -37,7 +35,7 @@ class LayoutStory
         string5Color,
         string5BGColor,
         layoutConfigBG,
-        layoutConfigColor
+        layoutConfigColor,
     }: any)
     {
         const globalStyles: LayoutStyles = {
@@ -48,14 +46,14 @@ class LayoutStory
                 height: `90%`,
                 position: 'center',
                 padding: 15,
-                color: string4Color // this will work only for text 4 layout as it is a 1st level child of the roo layout
+                color: string4Color, // this will work only for text 4 layout as it is a 1st level child of the roo layout
             },
             layoutID: {
                 background: layoutBGColor,
                 marginRight: 10,
                 borderRadius: 20,
                 padding: 5,
-                color: 'green' // this will not work, as text is inside layout,
+                color: 'green', // this will not work, as text is inside layout,
                 // in order it to work, we need to drop this global styles inside layout we are creating
             },
             stringID1: {
@@ -69,7 +67,7 @@ class LayoutStory
                 // it is not layout styles but text styles, as stringID is an instance of PIXI.Text
                 color: string2Color, // this will work as it is a text style
                 display: 'block', // this will not work, as textID is not a layout style
-                margin: 10 // this will not work, as textID is not a layout style
+                margin: 10, // this will not work, as textID is not a layout style
             },
             layoutConfig: {
                 // this is fully functional layout style config as it is applying to the layout
@@ -84,14 +82,14 @@ class LayoutStory
             },
             container1: {
                 margin: 10, // this will not work as container1 is not a layout but just a Pixi.Container
-                background: 'red' // this will not work as container1 is not a layout but just a Pixi.Container
+                background: 'red', // this will not work as container1 is not a layout but just a Pixi.Container
             },
             stringID3: {
                 // this styles will be applied to all elements with id 'stringID'
                 // it is not layout styles but text styles, as stringID is an instance of PIXI.Text
                 color: string3COlor, // this will work as it is a text style
                 display: 'block', // this will not work, as stringID is not a layout style
-                margin: 10 // this will not work, as stringID is not a layout style
+                margin: 10, // this will not work, as stringID is not a layout style
             },
             stringID5: {
                 // this is fully functional layout style config as it is applying to the layout
@@ -103,20 +101,21 @@ class LayoutStory
                 marginTop: 0,
                 background: string5BGColor,
                 padding: 5,
-                width: 100
+                width: 100,
             },
             description: {
                 color: 'white',
                 maxWidth: '95%',
                 margin: 20,
-            }
+            },
         };
 
         this.layout = new Layout({
             id: 'root',
             content: {
                 description: {
-                    content: 'This example shows how different way of adding layout content will be handled',
+                    content:
+                        'This example shows how different way of adding layout content will be handled',
                 },
                 // Layout instance
                 layoutID: new Layout({
@@ -124,36 +123,36 @@ class LayoutStory
                 }),
                 stringID1: 'Text 1', // string
                 container1: new Graphics() // Pixi.Container
-                    .beginFill(0xff0000)
-                    .drawCircle(20, 20, 20),
+                    .fill(0xff0000)
+                    .circle(20, 20, 20),
                 textID: new Text('Text 2'), // PIXI.Text
                 layoutConfig: {
-                    content: 'Layout Config'
+                    content: 'Layout Config',
                 },
                 object: {
                     // object
-                    stringID3: 'Text 3'
+                    stringID3: 'Text 3',
                 },
                 array: [
                     // array
                     // we need to wrap it in layout config, like next element
                     {
                         content: 'Text 5',
-                        id: 'stringID5'
+                        id: 'stringID5',
                     },
                     'Text 4', // this element will not have any styles applied, in order to apply styles to this element,
                     {
                         // this has to be layout config, can not just be string
                         id: 'string4',
                         content: new Graphics() // Pixi.Container
-                            .beginFill(0x007eff)
-                            .drawRoundedRect(0, 0, 100, 100, 20)
-                            .beginFill(0xfff200)
-                            .drawCircle(20, 20, 10)
-                    }
-                ]
+                            .fill(0x007eff)
+                            .roundRect(0, 0, 100, 100, 20)
+                            .fill(0xfff200)
+                            .circle(20, 20, 10),
+                    },
+                ],
             },
-            globalStyles
+            globalStyles,
         });
 
         this.view.addChild(this.layout);
@@ -170,5 +169,5 @@ export const ContentAdd = (params: any) => new LayoutStory(params);
 export default {
     title: 'Basic',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };

@@ -1,4 +1,4 @@
-import { Assets } from '@pixi/assets';
+import { Assets } from 'pixi.js';
 
 export async function preloadAssets(assets: string[]): Promise<void>
 {

@@ -1,4 +1,4 @@
-import { TextStyleAlign } from '@pixi/text';
+import { TextStyleAlign } from 'pixi.js';
 
 export const CSS_COLOR_NAMES = {
     white: 0xffffff,

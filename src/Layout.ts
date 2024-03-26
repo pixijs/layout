@@ -1,9 +1,9 @@
-import { Container } from '@pixi/display';
-import { TextStyle } from '@pixi/text';
+import { Container } from 'pixi.js';
 import { AlignController } from './controllers/AlignController';
 import { ContentController } from './controllers/ContentController';
 import { SizeController } from './controllers/SizeController';
 import { StyleController } from './controllers/StyleController';
+import { PixiTextStyle } from './utils/text';
 import { Content, LayoutOptions, Styles } from './utils/types';
 
 /**
@@ -116,7 +116,8 @@ export class LayoutSystem
     resize(parentWidth?: number, parentHeight?: number)
     {
         const width = parentWidth || this.contentWidth || this.size.parentWidth;
-        const height = parentHeight || this.contentHeight || this.size.parentHeight;
+        const height
+            = parentHeight || this.contentHeight || this.size.parentHeight;
 
         this.isPortrait = width < height;
 
@@ -238,7 +239,7 @@ export class LayoutSystem
     }
 
     /** Layout text styles. */
-    get textStyle(): Partial<TextStyle>
+    get textStyle(): Partial<PixiTextStyle>
     {
         return this._style.textStyle;
     }
@@ -408,7 +409,7 @@ export class Layout extends Container
     }
 
     /** Layout text styles. */
-    get textStyle(): Partial<TextStyle>
+    get textStyle(): Partial<PixiTextStyle>
     {
         return this.layout.textStyle;
     }
@@ -436,7 +437,7 @@ export class Layout extends Container
     }
 }
 
-declare module '@pixi/display'
+declare module 'pixi.js'
 {
     interface Container
     {

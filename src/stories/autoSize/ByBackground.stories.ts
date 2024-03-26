@@ -1,5 +1,4 @@
-import { Container } from '@pixi/display';
-import { Sprite } from '@pixi/sprite';
+import { Container, Sprite } from 'pixi.js';
 import { Layout } from '../../Layout';
 import { ALIGN } from '../../utils/constants';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
@@ -37,7 +36,9 @@ class LayoutStory
 
     constructor(props)
     {
-        preloadAssets(Object.values(assets)).then(() => this.createLayout(props));
+        preloadAssets(Object.values(assets)).then(() =>
+            this.createLayout(props)
+        );
     }
 
     createLayout({
@@ -48,7 +49,7 @@ class LayoutStory
         paddingBottom,
         text,
         textAlign,
-        wordWrap
+        wordWrap,
     }: any)
     {
         this.layout = new Layout({

@@ -1,5 +1,4 @@
-import { Container } from '@pixi/display';
-import { Sprite } from '@pixi/sprite';
+import { Container, Sprite } from 'pixi.js';
 import { FancyButton } from '@pixi/ui';
 import { Layout } from '../../Layout';
 import { toolTip } from '../components/ToolTip';
@@ -17,14 +16,14 @@ const assets = {
     buttonHover: 'Buttons/SmallButton-hover.png',
     buttonDown: 'Buttons/SmallButton-pressed.png',
     plus: 'Icons/PlusIcon.png',
-    minus: 'Icons/MinusIcon.png'
+    minus: 'Icons/MinusIcon.png',
 };
 
 const args = {
     image: Object.keys(testAssets),
     padding: 30,
     maxWidth: 95,
-    amount: 2
+    amount: 2,
 };
 
 class LayoutStory
@@ -37,7 +36,9 @@ class LayoutStory
 
     constructor(props)
     {
-        this.addTooltip(`'+' and '-' buttons will add or remove sprites to the layout.\n`);
+        this.addTooltip(
+            `'+' and '-' buttons will add or remove sprites to the layout.\n`
+        );
 
         preloadAssets(Object.values(assets))
             .then(() => preloadAssets(Object.values(testAssets)))
@@ -51,7 +52,7 @@ class LayoutStory
             hoverView: assets.buttonHover,
             pressedView: assets.buttonDown,
             icon: assets.plus,
-            iconOffset: { y: -7 }
+            iconOffset: { y: -7 },
         });
 
         const removeButton = new FancyButton({
@@ -59,7 +60,7 @@ class LayoutStory
             hoverView: assets.buttonHover,
             pressedView: assets.buttonDown,
             icon: assets.minus,
-            iconOffset: { y: -7 }
+            iconOffset: { y: -7 },
         });
 
         const buttonsScale = 0.5;
@@ -68,32 +69,36 @@ class LayoutStory
             id: 'root',
             content: {
                 icons: {
-                    content: new Array(amount).fill(null).map(() => Sprite.from(testAssets[image])),
+                    content: new Array(amount)
+                        .fill(null)
+                        .map(() => Sprite.from(testAssets[image])),
                     styles: {
                         position: 'center',
                         padding,
                         maxWidth: `${maxWidth}%`,
                         background: 'black',
                         borderRadius: 20,
-                    }
+                    },
                 },
                 controls: {
                     content: [addButton, removeButton],
                     styles: {
                         position: 'bottomCenter',
                         scale: buttonsScale,
-                        marginBottom: -20
-                    }
-                }
+                        marginBottom: -20,
+                    },
+                },
             },
             styles: {
                 position: 'center',
                 width: '100%',
                 height: 250,
-            }
+            },
         });
 
-        const iconsLayout: Layout = this.layout.content.getByID('icons') as Layout;
+        const iconsLayout: Layout = this.layout.content.getByID(
+            'icons'
+        ) as Layout;
 
         addButton.onPress.connect(() =>
         {
@@ -136,5 +141,5 @@ export const AddRemoveContent = (params: any) => new LayoutStory(params);
 export default {
     title: 'Dynamic',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };

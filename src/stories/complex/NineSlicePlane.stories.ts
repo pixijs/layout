@@ -1,6 +1,4 @@
-import { Texture } from '@pixi/core';
-import { Container } from '@pixi/display';
-import { NineSlicePlane } from '@pixi/mesh-extras';
+import { Container, NineSliceSprite, Texture } from 'pixi.js';
 import { Layout } from '../../Layout';
 import { LOREM_TEXT } from '../../utils/constants';
 import { argTypes, getDefaultArgs } from '../utils/argTypes';
@@ -26,19 +24,39 @@ class LayoutStory
 
     constructor(props: typeof args)
     {
-        preloadAssets(Object.values(testAssets)).then(() => this.createLayout(props));
+        preloadAssets(Object.values(testAssets)).then(() =>
+            this.createLayout(props)
+        );
     }
 
     createLayout(props: typeof args)
     {
         const titleTexture = Texture.from(testAssets.ribbon);
-        const titleBG = new NineSlicePlane(titleTexture, 315, 64, 112, 73);
+        const titleBG = new NineSliceSprite({
+            texture: titleTexture,
+            leftWidth: 315,
+            topHeight: 64,
+            rightWidth: 112,
+            bottomHeight: 73,
+        });
 
         const windowTexture = Texture.from(testAssets.window);
-        const windowBG = new NineSlicePlane(windowTexture, 315, 64, 112, 73);
+        const windowBG = new NineSliceSprite({
+            texture: windowTexture,
+            leftWidth: 315,
+            topHeight: 64,
+            rightWidth: 112,
+            bottomHeight: 73,
+        });
 
         const substrateTexture = Texture.from(testAssets.substrate);
-        const substrateBG = new NineSlicePlane(substrateTexture, 400, 64, 400, 73);
+        const substrateBG = new NineSliceSprite({
+            texture: substrateTexture,
+            leftWidth: 400,
+            topHeight: 64,
+            rightWidth: 400,
+            bottomHeight: 73,
+        });
 
         // Component usage
         this.layout = new Layout({
@@ -61,15 +79,15 @@ class LayoutStory
                                         overflow: 'hidden',
                                         paddingTop: 50,
                                         paddingLeft: 40,
-                                    }
-                                }
+                                    },
+                                },
                             },
                             styles: {
                                 width: '90%',
                                 height: '70%',
                                 background: substrateBG,
                                 position: 'center',
-                            }
+                            },
                         },
                         title: {
                             content: 'Title',
@@ -87,7 +105,7 @@ class LayoutStory
                                 background: titleBG,
                                 position: 'topCenter',
                                 marginTop: -49,
-                            }
+                            },
                         },
                     },
                     styles: {
@@ -95,14 +113,14 @@ class LayoutStory
                         height: '100%',
                         background: windowBG,
                         position: 'bottomCenter',
-                    }
+                    },
                 },
             },
             styles: {
                 width: `${props.width}%`,
                 height: `${props.height}%`,
                 position: 'center',
-            }
+            },
         });
 
         this.layout.resize(this.w, this.h);
@@ -118,10 +136,10 @@ class LayoutStory
     }
 }
 
-export const UsingNineSlicePlane = (params: any) => new LayoutStory(params);
+export const UsingNineSliceSprite = (params: any) => new LayoutStory(params);
 
 export default {
     title: 'Complex',
     argTypes: argTypes(args),
-    args: getDefaultArgs(args)
+    args: getDefaultArgs(args),
 };
