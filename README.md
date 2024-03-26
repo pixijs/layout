@@ -20,6 +20,7 @@ npm i @pixi/layout
 
 ## !!! Important
 Please use v1.x for pixi 7.x (https://www.npmjs.com/package/@pixi/layout/v/1.0.0)
+
 PixiLayout v2.x is to be used with PixiJS v8
 
 There is no default export. The correct way to import pixi-layout is:
