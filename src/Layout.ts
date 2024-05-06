@@ -4,7 +4,7 @@ import { ContentController } from './controllers/ContentController';
 import { SizeController } from './controllers/SizeController';
 import { StyleController } from './controllers/StyleController';
 import { PixiTextStyle } from './utils/text';
-import { Content, LayoutOptions, Styles } from './utils/types';
+import { ConditionalStyles, Content, LayoutOptions, Styles } from './utils/types';
 
 /**
  * Layout controller class for any PixiJS Container based instance.
@@ -232,7 +232,7 @@ export class LayoutSystem
      * Updates the layout styles and resize/reposition it and its children basing on new styles.
      * @param styles
      */
-    setStyles(styles: Styles)
+    setStyles(styles: Styles & ConditionalStyles)
     {
         this._style.set(styles);
         this.updateParents();
