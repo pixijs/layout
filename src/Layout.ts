@@ -28,7 +28,7 @@ import { ConditionalStyles, Content, LayoutOptions, Styles } from './utils/types
  *      color: 'white',
  * }); // set styles
  *
- * container.layout?.setContent({
+ * container.layout?.addContent({
  *      text: 'Hello World',
  * }); // set content
  *
