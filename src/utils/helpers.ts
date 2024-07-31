@@ -134,7 +134,7 @@ export function getNumber(value: FlexNumber, maxPercentValue?: number): number
         }
         else if (value.endsWith('%'))
         {
-            const val = parseInt(value.slice(0, -1), 10);
+            const val = parseFloat(value.slice(0, -1));
 
             return Math.floor(maxPercentValue ? (maxPercentValue / 100) * val : val);
         }
