@@ -62,8 +62,8 @@ export class SizeController
             aspectRatio,
         } = this.layout.style;
 
-        const widthModificator = this.getAutoSizeModificator(width);
-        const heightModificator = this.getAutoSizeModificator(height);
+        const widthModificator = this.getAutoWidthModificator(width);
+        const heightModificator = this.getAutoHeightModificator(height);
 
         switch (widthModificator)
         {
@@ -491,7 +491,44 @@ export class SizeController
      * Get type of size control basing on styles and in case if width of the layout is set to `auto`.
      * @param size - Width or height of the layout.
      */
-    protected getAutoSizeModificator(size: FlexNumber | 'auto'): SizeControl
+    protected getAutoWidthModificator(size: FlexNumber | 'auto'): SizeControl
+    {
+        const { background, display } = this.layout.style;
+
+
+        if (size !== 'auto')
+        {
+            return 'static';
+        }
+
+        if (display === 'block')
+        {
+            return 'parentSize';
+        }
+
+        if (
+            background instanceof Container
+            && background.width
+            && background.height
+        )
+        {
+            return 'background';
+        }
+
+        if (isItJustAText(this.layout) && this.layout.style.wordWrap)
+        {
+            return 'innerText';
+        }
+
+        if (size === 'auto')
+        {
+            return 'contentSize';
+        }
+
+        return 'static';
+    }
+
+    protected getAutoHeightModificator(size: FlexNumber | 'auto'): SizeControl
     {
         const { background, display } = this.layout.style;
 
@@ -502,7 +539,7 @@ export class SizeController
 
         if (display === 'block')
         {
-            return 'parentSize';
+            return 'contentSize';
         }
 
         if (

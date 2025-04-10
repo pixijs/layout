@@ -5,3 +5,4 @@ export * from './controllers/StyleController';
 export * from './Layout';
 export * from './utils/constants';
 export * from './utils/types';
+export * as PIXI from 'pixi.js';

@@ -3,16 +3,14 @@ import { Layout, LayoutSystem } from '../Layout';
 import { isItJustAText } from '../utils/helpers';
 
 /** Align controller manages {@link LayoutSystem} and it's content alignment. */
-export class AlignController
-{
+export class AlignController {
     protected layout: LayoutSystem;
 
     /**
      * Creates align controller.
      * @param {LayoutSystem} layout - Layout to control.
      */
-    constructor(layout: LayoutSystem)
-    {
+    constructor(layout: LayoutSystem) {
         this.layout = layout;
     }
 
@@ -21,8 +19,7 @@ export class AlignController
      * @param {number} parentWidth
      * @param {number} parentHeight
      */
-    resize(parentWidth: number, parentHeight: number)
-    {
+    resize(parentWidth: number, parentHeight: number) {
         this.setSelfPosition(parentWidth, parentHeight);
 
         this.layout.content.resize(this.layout.width, this.layout.height);
@@ -31,8 +28,7 @@ export class AlignController
         this.alignChildren(this.layout.width, this.layout.height);
     }
 
-    protected alignChildren(parentWidth: number, parentHeight: number)
-    {
+    protected alignChildren(parentWidth: number, parentHeight: number) {
         let maxChildHeight = 0;
 
         const { style } = this.layout;
@@ -47,37 +43,36 @@ export class AlignController
 
         const children = this.layout.content.children;
 
-        children.forEach((child) =>
-        {
+        children.forEach((child) => {
             if (!child.height && !child.width) return;
 
-            if (child instanceof Text && isItJustAText(this.layout))
-            {
+            if (child instanceof Text || isItJustAText(child.layout)) {
                 const availableWidth = parentWidth - paddingLeft - paddingRight;
 
                 const align = style.textAlign;
 
-                if (child.width < availableWidth)
-                {
-                    if (align === 'center')
-                    {
-                        child.anchor.x = 0.5;
+                if (child.width < availableWidth) {
+                    if (align === 'center') {
+                        if (child instanceof Text) child.anchor.x = 0.5;
+                        else child.layout.content.firstChild.anchor.x = 0.5;
                         child.x = parentWidth / 2;
                     }
-                    else if (align === 'right')
-                    {
-                        child.anchor.x = 1;
+                    else if (align === 'right') {
+                        if (child instanceof Text) child.anchor.x = 1;
+                        else child.layout.content.firstChild.anchor.x = 1;
                         child.x = parentWidth - paddingRight;
                     }
-                    else
-                    {
-                        child.anchor.x = 0;
+                    else {
+                        if (child instanceof Text) child.anchor.x = 0;
+                        else child.layout.content.firstChild.anchor.x = 0;
+
                         child.x = paddingLeft;
                     }
                 }
-                else
-                {
-                    child.anchor.x = 0;
+                else {
+                    if (child instanceof Text) child.anchor.x = 0;
+                    else child.layout.content.firstChild.anchor.x = 0;
+
                     child.x = paddingLeft;
                 }
 
@@ -86,27 +81,22 @@ export class AlignController
                 const availableHeight
                     = parentHeight - paddingTop - paddingBottom;
 
-                if (child.height < availableHeight)
-                {
-                    if (verticalAlign === 'middle')
-                    {
-                        child.anchor.y = 0.5;
+                if (child.height < availableHeight) {
+                    if (verticalAlign === 'middle') {
+                        if (child instanceof Text) child.anchor.y = 0.5;
                         child.y = parentHeight / 2;
                     }
-                    else if (verticalAlign === 'bottom')
-                    {
-                        child.anchor.y = 1;
+                    else if (verticalAlign === 'bottom') {
+                        if (child instanceof Text) child.anchor.y = 1;
                         child.y = parentHeight - paddingBottom;
                     }
-                    else
-                    {
-                        child.anchor.y = 0;
+                    else {
+                        if (child instanceof Text) child.anchor.y = 0;
                         child.y = paddingTop;
                     }
                 }
-                else
-                {
-                    child.anchor.y = 0;
+                else {
+                    if (child instanceof Text) child.anchor.y = 0;
                     child.y = paddingTop;
                 }
 
@@ -119,8 +109,7 @@ export class AlignController
             let childMarginTop = 0;
             let childMarginBottom = 0;
 
-            if (child.isPixiLayout || child instanceof Layout)
-            {
+            if (child.isPixiLayout || child instanceof Layout) {
                 const childLayout = child.layout as LayoutSystem;
 
                 childDisplay = childLayout.style.display;
@@ -129,18 +118,18 @@ export class AlignController
                 childMarginTop = childLayout.style.marginTop;
                 childMarginBottom = childLayout.style.marginBottom;
 
-                if (childLayout.style.position !== undefined)
-                {
+                if (childLayout.style.position !== undefined) {
                     // this layout position will be handled by it's own controller
                     return;
                 }
             }
 
+
+
             let anchorX = 0;
             let anchorY = 0;
 
-            if (style.position === undefined)
-            {
+            if (style.position === undefined) {
                 // if position is set, anchor will be handled in setSelfPosition method
                 anchorX
                     = style.anchorX !== undefined
@@ -155,53 +144,57 @@ export class AlignController
             child.x = x + childMarginLeft - anchorX;
             child.y = y + childMarginTop - anchorY;
 
-            if (
-                child.height + childMarginTop + childMarginBottom
-                > maxChildHeight
-            )
-            {
-                maxChildHeight
-                    = child.height + childMarginTop + childMarginBottom;
-            }
-
             const availableWidth = parentWidth - paddingRight;
 
-            if (childDisplay === 'block' && child.width < availableWidth)
-            {
+            if (childDisplay === 'block' && child.width < availableWidth) {
                 childDisplay = 'inline-block';
             }
+
 
             const isFeetParentWidth
                 = x + child.width + childMarginRight <= availableWidth;
             const isFirstChild = child === this.layout.content.firstChild;
 
-            switch (childDisplay)
-            {
+            switch (childDisplay) {
                 case 'inline':
                 case 'inline-block':
-                    if (!isFeetParentWidth && !isFirstChild)
-                    {
+                    if (!isFeetParentWidth && !isFirstChild) {
                         x = paddingLeft + child.width + childMarginRight;
                         y += maxChildHeight;
+                        maxChildHeight = 0;
 
                         child.x = paddingLeft + childMarginLeft;
                         child.y = y + childMarginTop;
                     }
-                    else
-                    {
+                    else {
+                        if (
+                            child.height + childMarginTop + childMarginBottom
+                            > maxChildHeight
+                        ) {
+                            maxChildHeight
+                                = child.height + childMarginTop + childMarginBottom;
+                        }
+
                         x += child.width + childMarginRight;
                     }
                     break;
 
                 default:
-                    y += child.height + childMarginBottom;
+
+                    y += maxChildHeight;
+                    maxChildHeight = 0;
+
+                    x = paddingLeft + childMarginLeft;
+                    child.x = x - anchorX;
+                    child.y = y + childMarginTop - anchorY;
+
+                    y += child.height + childMarginBottom + childMarginTop;
                     break;
             }
         });
     }
 
-    protected setSelfPosition(parentWidth: number, parentHeight: number)
-    {
+    protected setSelfPosition(parentWidth: number, parentHeight: number) {
         const { position, marginRight, marginBottom, marginTop, marginLeft }
             = this.layout.style || {};
 
@@ -222,8 +215,7 @@ export class AlignController
             y: 0,
         };
 
-        switch (position)
-        {
+        switch (position) {
             case 'rightTop':
             case 'topRight':
             case 'right':
@@ -292,7 +284,9 @@ export class AlignController
             default:
                 finalPosition.x = marginLeft - (width * (anchorX ?? 0));
                 finalPosition.y = marginTop - (height * (anchorY ?? 0));
+
         }
+
 
         this.layout.container.position.set(finalPosition.x, finalPosition.y);
     }
