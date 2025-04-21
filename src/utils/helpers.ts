@@ -93,9 +93,13 @@ export function stylesToPixiTextStyles(styles: Styles): PixiTextStyle
  * Detect if layout is just a wrapper for a text element.
  * @param {LayoutSystem} layout - Layout to check.
  */
-export function isItJustAText(layout: LayoutSystem): boolean
-{
-    const hasOnly1Child = layout.content.children.size === 1;
+export function isItJustAText(layout: LayoutSystem): boolean {
+
+    if (!layout) {
+        return false;
+    }
+
+    const hasOnly1Child = layout.content.children?.size === 1;
 
     if (hasOnly1Child)
     {

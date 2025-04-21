@@ -54,24 +54,24 @@ export class AlignController {
                 if (child.width < availableWidth) {
                     if (align === 'center') {
                         if (child instanceof Text) child.anchor.x = 0.5;
-                        else child.layout.content.firstChild.anchor.x = 0.5;
+                        else (child.layout.content.firstChild as Text).anchor.x = 0.5;
                         child.x = parentWidth / 2;
                     }
                     else if (align === 'right') {
                         if (child instanceof Text) child.anchor.x = 1;
-                        else child.layout.content.firstChild.anchor.x = 1;
+                        else (child.layout.content.firstChild as Text).anchor.x = 1;
                         child.x = parentWidth - paddingRight;
                     }
                     else {
                         if (child instanceof Text) child.anchor.x = 0;
-                        else child.layout.content.firstChild.anchor.x = 0;
+                        else (child.layout.content.firstChild as Text).anchor.x = 0;
 
                         child.x = paddingLeft;
                     }
                 }
                 else {
                     if (child instanceof Text) child.anchor.x = 0;
-                    else child.layout.content.firstChild.anchor.x = 0;
+                    else (child.layout.content.firstChild as Text).anchor.x = 0;
 
                     child.x = paddingLeft;
                 }
