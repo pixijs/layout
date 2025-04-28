@@ -1,97 +1,140 @@
 {
   "name": "@pixi/layout",
-  "version": "2.0.1",
-  "description": "It is a library for arranging and resize pixi elements",
-  "homepage": "https://github.com/pixijs/layout",
-  "bugs": "https://github.com/pixijs/layout/issues",
+  "version": "0.0.0",
+  "description": "A Yoga powered layout library for PixiJS",
+  "keywords": [
+    "layout",
+    "yoga",
+    "pixi"
+  ],
+  "homepage": "https://github.com/pixijs/yoga#readme",
+  "bugs": {
+    "url": "https://github.com/pixijs/yoga/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pixijs/layout.git"
+    "url": "git+https://github.com/pixijs/yoga.git"
   },
   "license": "MIT",
-  "author": "PixiJS Team",
-  "sideEffects": false,
+  "author": {
+    "name": "PixiJS Team"
+  },
+  "type": "module",
   "exports": {
     ".": {
-      "import": "./lib/index.mjs",
-      "require": "./lib/index.js",
-      "types": "./lib/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.mjs",
+      "require": "./dist/components/index.js"
+    },
+    "./devtools": {
+      "types": "./dist/devtools/index.d.ts",
+      "import": "./dist/devtools/index.mjs",
+      "require": "./dist/devtools/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.mjs",
+      "require": "./dist/react/index.js"
+    },
+    "./tailwind": {
+      "types": "./dist/tailwind/index.d.ts",
+      "import": "./dist/tailwind/index.mjs",
+      "require": "./dist/tailwind/index.js"
     }
   },
-  "main": "lib/index.js",
-  "module": "lib/index.mjs",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
-    "lib/",
-    "dist/",
-    "*.d.ts"
+    "dist/"
+  ],
+  "workspaces": [
+    "src",
+    "website"
   ],
   "scripts": {
-    "build": "xs build",
+    "build": "run-s build:lib build:website",
+    "build:lib": "vite build",
+    "build:lib:bundle": "vite build --config vite.config.bundle.mts",
+    "build:website": "npm run build:lib:bundle && npm run --workspace website build",
     "clean": "xs clean",
-    "deploy": "xs deploy",
-    "docs": "xs docs && npm run storybook:build",
-    "lint": "xs lint --max-warnings 0",
+    "deploy:website": "npm run deploy --workspace website",
     "lint:fix": "xs lint --fix",
-    "prepare": "husky install",
-    "release": "xs bump,build,docs,publish,git-push",
-    "serve": "xs serve",
-    "start": "npm run storybook",
-    "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build --output-dir docs/storybook",
-    "types": "xs types",
-    "watch": "xs watch"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "release": "xs release",
+    "start": "run-p start:storybook watch",
+    "start:storybook": "storybook dev -p 6006",
+    "start:website": "npm run build:lib:bundle && npm run --workspace website start",
+    "test": "run-s test:unit test:lint test:types",
+    "test:lint": "xs lint",
+    "test:types": "xs types",
+    "pretest:unit": "tsx tests/scripts/generate-story-imports.ts",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest --browser.headless=false",
+    "watch": "xs watch",
+    "prepare": "husky"
   },
   "lint-staged": {
-    "*.{ts,js,mjs}": [
-      "npm run lint:fix --"
+    "*": [
+      "npm run lint:fix"
     ]
   },
-  "dependencies": {
-    "pixi.js": "^8.0.4"
-  },
   "devDependencies": {
-    "@pixi/storybook-renderer": "^0.1.0",
-    "@pixi/storybook-webpack5": "^0.1.0",
-    "@storybook/addon-essentials": "7.6.17",
-    "@storybook/addon-interactions": "7.6.17",
-    "@storybook/addon-links": "7.6.17",
-    "@storybook/addon-storysource": "^7.6.17",
-    "@storybook/testing-library": "^0.2.2",
-    "@storybook/types": "^7.6.17",
-    "storybook": "7.6.17",
-    "@pixi/extension-scripts": "^2.4.1",
-    "@pixi/ui": "^2.0.0",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/preset-typescript": "^7.18.6",
-    "eslint": "^8.57.0",
-    "eslint-plugin-jsdoc": "^48.2.1",
-    "eslint-plugin-no-mixed-operators": "^1.1.1",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.3.0",
-    "typescript": "^5.4.2",
-    "@types/babel__core": "^7.20.5",
-    "@types/jest": "^29.5.12",
-    "@types/node": "^18.19.22"
+    "@pixi/devtools": "^2.0.1",
+    "@pixi/extension-scripts": "^4.0.0",
+    "@pixi/react": "8.0.1",
+    "@playwright/browser-chromium": "^1.52.0",
+    "@playwright/test": "^1.52.0",
+    "@storybook/react-vite": "^8.6.12",
+    "@types/pixelmatch": "^5.2.6",
+    "@types/pngjs": "^6.0.5",
+    "@vitest/browser": "^3.1.2",
+    "copyfiles": "^2.4.1",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1",
+    "mkdirp": "^3.0.1",
+    "npm-run-all": "^4.1.5",
+    "pixelmatch": "^7.1.0",
+    "pixi.js": "^8.9.1",
+    "playwright": "^1.52.0",
+    "pngjs": "^7.0.0",
+    "prettier": "3.5.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "rollup-plugin-node-externals": "^8.0.0",
+    "storybook": "^8.6.12",
+    "tsx": "^4.19.3",
+    "vite": "^6.3.2",
+    "vite-plugin-dts": "^4.5.3",
+    "vite-plugin-top-level-await": "^1.5.0",
+    "vitest": "^3.1.2",
+    "yoga-layout": "^3.2.1"
   },
   "peerDependencies": {
-    "pixi.js": "^8.0.4"
+    "pixi.js": "^8",
+    "yoga-layout": "^3"
+  },
+  "optionalDependencies": {
+    "@pixi/react": "^8.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
   "extensionConfig": {
-    "lint": [
-      "src"
-    ],
-    "docsName": "PixiJS Layout",
-    "docsTitle": "PixiJS Layout",
-    "docsDescription": "API Documentation for Layout components made with PixiJS",
-    "docsKeyword": "PixiJS, UI, components, layout"
+    "docsName": "PixiJS Yoga",
+    "docsTitle": "PixiJS Yoga API Documentation",
+    "docsDescription": "Documentation for PixiJS Yoga library",
+    "docsKeyword": "docs, documentation, pixi, pixijs, yoga, layout"
+  },
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom",
+    "pixi.js": "$pixi.js"
   }
 }

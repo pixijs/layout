@@ -1,66 +1,133 @@
-<div align="center">
-    <h1><img src="https://user-images.githubusercontent.com/11766115/228631922-d1d932c0-e5c9-4213-a719-69efaf34d4e7.png" />
-</h1>
-    <h3>It is a library for arranging/resizing pixi rendered elements basing on css like configs. It is made for simple and fast implementation of the responsive user interfaces in your games.</h3>
-</div>
+<p align="center">
+  <a href="https://pixijs.com" target="_blank" rel="noopener noreferrer">
+    <img height="150" src="./.github/logo-dark.svg" alt="PixiJS logo">
+  </a>
+</p>
+<br/>
+<p align="center">
+  <a href="https://npmjs.com/package/@pixi/layout"><img src="https://img.shields.io/npm/v/@pixi/layout.svg" alt="npm package"></a>
+  <a href="https://opencollective.com/pixijs/tiers/badge.svg"><img src="https://opencollective.com/pixijs/tiers/badge.svg" alt="Start new PR in StackBlitz Codeflow"></a>
+  <a href="https://discord.gg/QrnxmQUPGV"><img src="https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord" alt="discord chat"></a>
+</p>
+<p align="center">
+ <a href="https://pixijs.io/layout/guides">Getting Started</a> | <a href="https://pixijs.io/layout/examples">Examples</a> | <a href="https://discord.gg/QrnxmQUPGV">Discord</a>
+</p>
 
-**We are now a part of the [Open Collective](https://opencollective.com/pixijs) and with your support you can help us make PixiJS even better. To make a donation, simply click the button below and we'll love you forever!**
+# PixiJS Layout 🧩
+> A Yoga powered layout library for PixiJS.
 
-Here are some useful resources:
+Features
+- 📐 Yoga-Powered Flexbox Layout:
+  Built on top of Facebook’s Yoga engine, enabling powerful and predictable flexbox layouting for 2D interfaces.
 
--   [Full docs](https://pixijs.io/layout/)
--   [Github Repo](https://github.com/pixijs/layout)
--   [Sandbox](https://pixijs.io/layout/storybook)
+- 📦 Supports all PixiJS Objects:
+  Such as Container, Sprite, Graphics, Text, etc. to deliver responsive, visually rich UI components.
 
-## Compatibility
+- 🧠 Simple and Intuitive API:
+  Designed with usability in mind, declare your layouts using familiar properties with minimal boilerplate.
 
-Depending on your version of PixiJS, you'll need to figure out which major version of PixiLayout to use.
+- 🎯 Advanced Styling Support:
+  Includes support for styling properties like objectFit, objectPosition, overflow, backgroundColor, and borderRadius, bringing web-style flexibility to canvas UIs.
 
-| PixiJS      | PixiLayout     |
-|-------------|----------------|
-| v7.x        | v1.x           |
-| v8.x        | v2.x           |
+- 🤝 Compatible with PixiJS React:
+  Easily integrates with PixiJS React, allowing you to combine layout and interactivity in React environments.
 
-## Install
+:::warn
+⚠️ This library is still a work in progress but is already usable for real-world projects. Contributions, issues, and feedback are welcome. Please create an issue on GitHub if you run into anything!
+:::
 
-```sh
-npm i @pixi/layout
+### Setup
+
+It's easy to get started with PixiJS Layout! Just install the package with your package manager of choice
+
+```bash
+# with pnpm
+pnpm add @pixi/layout
+
+# with yarn
+yarn add @pixi/layout
+
+# with npm
+npm install @pixi/layout
 ```
 
-## Usage
+### Usage
+```typescript
+// import the library before creating your pixi application to ensure all mixins are applied
+import "@pixi/layout";
+import { Application, Assets, Container, Sprite } from "pixi.js";
 
-```js
-import { Layout } from "@pixi/layout";
+(async () =>
+{
+    // Create a new application
+    const app = new Application();
+    await app.init({ background: '#1099bb', resizeTo: window });
+    document.body.appendChild(app.canvas);
+    const texture = await Assets.load('https://pixijs.com/assets/bunny.png');
 
-new Layout({
-    content: {
-        content: Sprite.from("bunny.png"),
-        styles: {
-            position: "center",
-            maxWidth: "100%",
-            minHeight: "100%",
-        },
-    },
-    styles: {
-        background: "red",
-        position: "center",
-        width: `100%`,
-        height: `100%`,
-    },
-});
+    // Create a new layout for the stage that will fill the entire screen
+    // and center the content
+    app.stage.layout = {
+        width: app.screen.width,
+        height: app.screen.height,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+
+    // Create and add a container to the stage that will be used to hold the bunnies
+    // The container will be centered in the stage and will have a gap of 10 pixels
+    // between the bunnies
+    // The container will also wrap the bunnies if there are too many to fit in a single row
+    const container = new Container({layout: {
+        width: '80%',
+        height: '80%',
+        gap: 4,
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignContent: 'center',
+    }});
+
+    app.stage.addChild(container);
+
+    // Create a grid of bunny sprites
+    for (let i = 0; i < 10; i++)
+    {
+        // Create a bunny Sprite and enable layout
+        // The width/height of the bunny will be the size of the texture by default
+        const bunny = new Sprite({ texture, layout: true });
+
+        // Add the bunny to the container
+        container.addChild(bunny);
+    }
+
+    // Listen for animate update
+    app.ticker.add((time) =>
+    {
+        // Rotating a container that is in layout will not cause the layout to be recalculated
+        container.rotation += 0.1 * time.deltaTime;
+    });
+})();
 ```
-
 ### Contribute
 
-Want to be part of the PixiUI project? Great! All are welcome! We will get there quicker
+Want to be part of the PixiJS Layout project? Great! All are welcome! We will get there quicker
 together :) Whether you find a bug, have a great feature request, or you fancy owning a task
 from the road map above, feel free to get in touch.
 
 Make sure to read the [Contributing Guide](.github/CONTRIBUTING.md)
 before submitting changes.
 
-Also you can check the [Controllers influence schemas](.github/SCHEMAS.md)
-
 ### License
 
-This content is released under the (http://opensource.org/licenses/MIT) MIT License.
+This content is released under the [MIT License](http://opensource.org/licenses/MIT).
+
+### Change Log
+[Releases](https://github.com/pixijs/layout/releases)
+
+### Support
+We're passionate about making PixiJS the best graphics library possible. Our dedication comes from our love for the project and community. If you'd like to support our efforts, please consider contributing to our open collective.
+<div>
+  <a href="https://opencollective.com/pixijs" target="_blank">
+    <img src="https://opencollective.com/pixijs/donate/button@2x.png?color=blue" width=200 />
+  </a>
+</div>

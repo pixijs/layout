@@ -1,0 +1,7 @@
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    height: calc(100vh - 158px);
+    width: calc(100vw - 32px);
+}

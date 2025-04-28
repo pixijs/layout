@@ -1,0 +1,52 @@
+name: PR Automation
+on:
+  pull_request:
+    branches: [ '**' ]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: npm
+
+    - name: Cache Dependencies
+      id: node-modules-cache
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-modules-
+
+    - name: Install Dependencies
+      if: steps.node-modules-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm ci --ignore-scripts --no-audit --no-fund
+
+    # `npm rebuild` will run all those post-install scripts for us.
+    - name: Rebuild
+      shell: bash
+      run: npm rebuild
+
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+
+    - name: Run Unit Tests
+      run: npm run test
+
+    - name: Run Build
+      run: npm run build
+
+    - name: Upload Visual Test Images
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: pr_uploads
+        path: ./tests/.artifacts
+        include-hidden-files: true
