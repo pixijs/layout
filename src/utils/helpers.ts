@@ -3,43 +3,34 @@ import { LayoutSystem } from '../Layout';
 import { PixiTextStyle } from './text';
 import { FlexNumber, Styles } from './types';
 
-export function rgba2Hex([r, g, b]: number[]): number
-{
+export function rgba2Hex([r, g, b]: number[]): number {
     return parseInt(`0x${getHex(r)}${getHex(g)}${getHex(b)}`, 16);
 }
 
-export function getHex(n: number)
-{
+export function getHex(n: number) {
     const hex = n.toString(16);
 
     return hex.length === 1 ? `0${hex}` : hex;
 }
 
-export function isDefined(value: any): boolean
-{
+export function isDefined(value: any): boolean {
     return value !== undefined && value !== null;
 }
 
-export function getNumber(value: FlexNumber, maxPercentValue?: number): number
-{
-    if (value === undefined)
-    {
+export function getNumber(value: FlexNumber, maxPercentValue?: number): number {
+    if (value === undefined) {
         return undefined;
     }
 
-    if (typeof value === 'number')
-    {
+    if (typeof value === 'number') {
         return value;
     }
 
-    if (typeof value === 'string')
-    {
-        if (value.endsWith('px'))
-        {
+    if (typeof value === 'string') {
+        if (value.endsWith('px')) {
             return Math.floor(parseInt(value.slice(0, -2), 10));
         }
-        else if (value.endsWith('%'))
-        {
+        else if (value.endsWith('%')) {
             const val = parseInt(value.slice(0, -1), 10);
 
             return Math.floor(
@@ -53,8 +44,7 @@ export function getNumber(value: FlexNumber, maxPercentValue?: number): number
     return 0;
 }
 
-export function stylesToPixiTextStyles(styles: Styles): PixiTextStyle
-{
+export function stylesToPixiTextStyles(styles: Styles): PixiTextStyle {
     const resultStyles: PixiTextStyle = {
         align: styles?.textAlign,
         breakWords: styles?.breakWords,
@@ -78,10 +68,8 @@ export function stylesToPixiTextStyles(styles: Styles): PixiTextStyle
         wordWrapWidth: styles?.wordWrapWidth ?? 100,
     };
 
-    for (const key in resultStyles)
-    {
-        if (resultStyles[key as keyof Partial<PixiTextStyle>] === undefined)
-        {
+    for (const key in resultStyles) {
+        if (resultStyles[key as keyof Partial<PixiTextStyle>] === undefined) {
             delete resultStyles[key as keyof Partial<PixiTextStyle>];
         }
     }
@@ -101,12 +89,30 @@ export function isItJustAText(layout: LayoutSystem): boolean {
 
     const hasOnly1Child = layout.content.children?.size === 1;
 
-    if (hasOnly1Child)
-    {
+    if (hasOnly1Child) {
         const firstChild = layout.content.children.entries().next().value[1];
 
         return firstChild instanceof Text;
     }
 
     return false;
+}
+
+export function isItJustTextLike(layout: LayoutSystem): boolean {
+    if (!layout) {
+        return false;
+    }
+
+
+    for (const child of layout.content.children.values()) {
+        if (!(child instanceof Text
+            || child.layout?.style.display === 'inline'
+            || child.layout?.style.display === 'inline-block'
+        )) {
+            return false;
+        }
+    }
+
+    return true;
+
 }

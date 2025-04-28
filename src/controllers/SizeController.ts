@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 import { Container, Graphics, NineSliceSprite, Sprite, Text, TilingSprite } from 'pixi.js';
 import { LayoutSystem } from '../Layout';
-import { getNumber, isItJustAText } from '../utils/helpers';
+import { getNumber, isItJustAText, isItJustTextLike } from '../utils/helpers';
 import { FlexNumber, SizeControl } from '../utils/types';
 
 /** Size controller manages {@link LayoutSystem} and it's content size. */
@@ -243,7 +243,7 @@ export class SizeController
                     {
                         if (child.layout.style.display === 'block')
                         {
-                            childrenHeight += child.height;
+                            childrenHeight += child.height + child.layout.style.marginTop;
                         }
                         else if (child.height > childrenHeight)
                         {
@@ -286,6 +286,7 @@ export class SizeController
             || maxHeight
             || minWidth
             || minHeight
+            || (isItJustTextLike(this.layout) && finalWidth >= this.parentWidth)
         )
         {
             this.fitToSize(this.parentWidth, this.parentHeight);
@@ -713,6 +714,10 @@ export class SizeController
             {
                 finalScaleToFit = minFitScaleY;
             }
+        }
+
+        if (isItJustTextLike(this.layout)) {
+            this.width = parentWidth;
         }
 
         this.layout.container.scale.set(finalScaleToFit);

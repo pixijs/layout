@@ -46,62 +46,66 @@ export class AlignController {
         children.forEach((child) => {
             if (!child.height && !child.width) return;
 
-            if (child instanceof Text || isItJustAText(child.layout)) {
-                const availableWidth = parentWidth - paddingLeft - paddingRight;
+        
+            // DEV: Saiid commented this out. making a specific case for text seems to be counter productive
 
-                const align = style.textAlign;
+            // if (child instanceof Text || isItJustAText(child.layout)) {
+            //     const availableWidth = parentWidth - paddingLeft - paddingRight;
 
-                if (child.width < availableWidth) {
-                    if (align === 'center') {
-                        if (child instanceof Text) child.anchor.x = 0.5;
-                        else (child.layout.content.firstChild as Text).anchor.x = 0.5;
-                        child.x = parentWidth / 2;
-                    }
-                    else if (align === 'right') {
-                        if (child instanceof Text) child.anchor.x = 1;
-                        else (child.layout.content.firstChild as Text).anchor.x = 1;
-                        child.x = parentWidth - paddingRight;
-                    }
-                    else {
-                        if (child instanceof Text) child.anchor.x = 0;
-                        else (child.layout.content.firstChild as Text).anchor.x = 0;
+            //     const align = style.textAlign;
 
-                        child.x = paddingLeft;
-                    }
-                }
-                else {
-                    if (child instanceof Text) child.anchor.x = 0;
-                    else (child.layout.content.firstChild as Text).anchor.x = 0;
+            //     if (child.width < availableWidth) {
+            //         if (align === 'center') {
+            //             if (child instanceof Text) child.anchor.x = 0.5;
+            //             else (child.layout.content.firstChild as Text).anchor.x = 0.5;
+            //             child.x = parentWidth / 2;
+                        
+            //         }
+            //         else if (align === 'right') {
+            //             if (child instanceof Text) child.anchor.x = 1;
+            //             else (child.layout.content.firstChild as Text).anchor.x = 1;
+            //             child.x = parentWidth - paddingRight;
+            //         }
+            //         else {
+            //             if (child instanceof Text) child.anchor.x = 0;
+            //             else (child.layout.content.firstChild as Text).anchor.x = 0;
 
-                    child.x = paddingLeft;
-                }
+            //             child.x = paddingLeft;
+            //         }
+            //     }
+            //     else {
+            //         if (child instanceof Text) child.anchor.x = 0;
+            //         else (child.layout.content.firstChild as Text).anchor.x = 0;
 
-                const verticalAlign = style.verticalAlign;
+            //         child.x = paddingLeft;
+            //     }
 
-                const availableHeight
-                    = parentHeight - paddingTop - paddingBottom;
+            //     const verticalAlign = style.verticalAlign;
 
-                if (child.height < availableHeight) {
-                    if (verticalAlign === 'middle') {
-                        if (child instanceof Text) child.anchor.y = 0.5;
-                        child.y = parentHeight / 2;
-                    }
-                    else if (verticalAlign === 'bottom') {
-                        if (child instanceof Text) child.anchor.y = 1;
-                        child.y = parentHeight - paddingBottom;
-                    }
-                    else {
-                        if (child instanceof Text) child.anchor.y = 0;
-                        child.y = paddingTop;
-                    }
-                }
-                else {
-                    if (child instanceof Text) child.anchor.y = 0;
-                    child.y = paddingTop;
-                }
+            //     const availableHeight
+            //         = parentHeight - paddingTop - paddingBottom;
 
-                return;
-            }
+            //     if (child.height < availableHeight) {
+            //         if (verticalAlign === 'middle') {
+            //             if (child instanceof Text) child.anchor.y = 0.5;
+            //             child.y = parentHeight / 2;
+            //         }
+            //         else if (verticalAlign === 'bottom') {
+            //             if (child instanceof Text) child.anchor.y = 1;
+            //             child.y = parentHeight - paddingBottom;
+            //         }
+            //         else {
+            //             if (child instanceof Text) child.anchor.y = 0;
+            //             child.y = paddingTop;
+            //         }
+            //     }
+            //     else {
+            //         if (child instanceof Text) child.anchor.y = 0;
+            //         child.y = paddingTop;
+            //     }
+
+            //     return;
+            // }
 
             let childDisplay = 'inline-block';
             let childMarginLeft = 0;
