@@ -16,6 +16,6 @@ export default defineConfig({
             formats: ['es'],
             entry: ['./src/index.ts', './src/components/index.ts'],
         },
-        outDir: 'website/src/build-sandpack',
+        outDir: 'docs/src/build-sandpack',
     },
 });

@@ -38,13 +38,7 @@ const config: Config = {
                     sidebarPath: './sidebars.ts',
                     // Please change this to your repo.
                     // Remove this to remove the "edit this page" links.
-                    editUrl: 'https://github.com/pixijs/yoga/tree/main/docs/',
-                },
-                blog: {
-                    showReadingTime: true,
-                    // Please change this to your repo.
-                    // Remove this to remove the "edit this page" links.
-                    editUrl: 'https://github.com/pixijs/yoga/tree/main/docs/',
+                    editUrl: 'https://github.com/pixijs/layout/tree/main/website/docs/',
                 },
                 theme: {
                     customCss: './src/css/custom.css',
@@ -118,7 +112,7 @@ const config: Config = {
                     'aria-label': 'Discord server',
                 },
                 {
-                    href: 'https://github.com/pixijs/yoga',
+                    href: 'https://github.com/pixijs/layout',
                     position: 'right',
                     className: 'header-link header-github-link',
                     'aria-label': 'GitHub repository',

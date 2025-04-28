@@ -5,15 +5,14 @@ node_modules
 .DS_Store
 /example.api.json
 example.api.json.md5
-/docs
-/website/src/build-sandpack
+/docs/src/build-sandpack
 
 .vscode
 
 # Generated files
 .docusaurus
 .cache-loader
-website/build
+docs/build
 
 *storybook.log
 *.artifacts

@@ -7,13 +7,13 @@
     "yoga",
     "pixi"
   ],
-  "homepage": "https://github.com/pixijs/yoga#readme",
+  "homepage": "https://github.com/pixijs/layout#readme",
   "bugs": {
-    "url": "https://github.com/pixijs/yoga/issues"
+    "url": "https://github.com/pixijs/layout/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pixijs/yoga.git"
+    "url": "git+https://github.com/pixijs/layout.git"
   },
   "license": "MIT",
   "author": {
@@ -55,20 +55,20 @@
   ],
   "workspaces": [
     "src",
-    "website"
+    "docs"
   ],
   "scripts": {
-    "build": "run-s build:lib build:website",
+    "build": "run-s build:lib build:docs",
     "build:lib": "vite build",
     "build:lib:bundle": "vite build --config vite.config.bundle.mts",
-    "build:website": "npm run build:lib:bundle && npm run --workspace website build",
+    "build:docs": "npm run build:lib:bundle && npm run --workspace docs build",
     "clean": "xs clean",
-    "deploy:website": "npm run deploy --workspace website",
+    "deploy:docs": "npm run deploy --workspace docs",
     "lint:fix": "xs lint --fix",
     "release": "xs release",
     "start": "run-p start:storybook watch",
     "start:storybook": "storybook dev -p 6006",
-    "start:website": "npm run build:lib:bundle && npm run --workspace website start",
+    "start:docs": "npm run build:lib:bundle && npm run --workspace docs start",
     "test": "run-s test:unit test:lint test:types",
     "test:lint": "xs lint",
     "test:types": "xs types",
