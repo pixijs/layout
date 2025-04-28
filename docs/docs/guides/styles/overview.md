@@ -115,4 +115,4 @@ In the following guides, we will cover specific style areas in more depth:
 - [Positioning](./positioning.md)
 - [Overflow and Scrolling](./overflow-and-scrolling.md)
 - [Object Fitting and Alignment](./object-fitting-alignment.md)
-- [Background and Borders](./background-and-borders.md)
+- [Background and Borders](./background.md)
