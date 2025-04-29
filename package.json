@@ -63,7 +63,7 @@
     "build:lib:bundle": "vite build --config vite.config.bundle.mts",
     "build:docs": "npm run build:lib:bundle && npm run --workspace docs build",
     "clean": "xs clean",
-    "deploy:docs": "npm run deploy --workspace docs",
+    "deploy:docs": "npm run build:lib:bundle && npm run deploy --workspace docs",
     "lint:fix": "xs lint --fix",
     "release": "xs bump,test,git-push",
     "publish-ci": "xs publish",
