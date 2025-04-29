@@ -32,10 +32,6 @@ Features
 - 🤝 Compatible with PixiJS React:
   Easily integrates with PixiJS React, allowing you to combine layout and interactivity in React environments.
 
-:::warn
-⚠️ This library is still a work in progress but is already usable for real-world projects. Contributions, issues, and feedback are welcome. Please create an issue on GitHub if you run into anything!
-:::
-
 ### Setup
 
 It's easy to get started with PixiJS Layout! Just install the package with your package manager of choice
