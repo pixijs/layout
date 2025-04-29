@@ -6,11 +6,11 @@
 <br/>
 <p align="center">
   <a href="https://npmjs.com/package/@pixi/layout"><img src="https://img.shields.io/npm/v/@pixi/layout.svg" alt="npm package"></a>
-  <a href="https://opencollective.com/pixijs/tiers/badge.svg"><img src="https://opencollective.com/pixijs/tiers/badge.svg" alt="Start new PR in StackBlitz Codeflow"></a>
+  <a href="https://opencollective.com/pixijs/tiers/badge.svg"><img src="https://opencollective.com/pixijs/tiers/badge.svg" alt="Open Collective"></a>
   <a href="https://discord.gg/QrnxmQUPGV"><img src="https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord" alt="discord chat"></a>
 </p>
 <p align="center">
- <a href="https://pixijs.io/layout/guides">Getting Started</a> | <a href="https://pixijs.io/layout/examples">Examples</a> | <a href="https://discord.gg/QrnxmQUPGV">Discord</a>
+ <a href="http://layout.pixijs.io/docs/guides/guide/quick-start/">Getting Started</a> | <a href="http://layout.pixijs.io/docs/examples/align-content/">Examples</a> | <a href="https://discord.gg/QrnxmQUPGV">Discord</a>
 </p>
 
 # PixiJS Layout 🧩
