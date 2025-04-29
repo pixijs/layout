@@ -65,7 +65,7 @@
     "clean": "xs clean",
     "deploy:docs": "npm run build:lib && npm run deploy --workspace docs",
     "lint:fix": "xs lint --fix",
-    "release": "xs bump,test,git-push",
+    "release": "npm run test && xs bump,git-push",
     "publish-ci": "xs publish",
     "start": "run-p start:storybook watch",
     "start:storybook": "storybook dev -p 6006",
