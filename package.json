@@ -1,6 +1,6 @@
 {
   "name": "@pixi/layout",
-  "version": "0.0.0",
+  "version": "2.0.1",
   "description": "A Yoga powered layout library for PixiJS",
   "keywords": [
     "layout",
@@ -65,7 +65,8 @@
     "clean": "xs clean",
     "deploy:docs": "npm run deploy --workspace docs",
     "lint:fix": "xs lint --fix",
-    "release": "xs release",
+    "release": "xs bump,test,git-push",
+    "publish-ci": "xs publish",
     "start": "run-p start:storybook watch",
     "start:storybook": "storybook dev -p 6006",
     "start:docs": "npm run build:lib:bundle && npm run --workspace docs start",

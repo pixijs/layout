@@ -30,7 +30,7 @@ export default function Playground() {
                     <PlaygroundEditor
                         files={{
                             '/App.js': indexCode,
-                            '/boilerplate.js': BoilerplateCode,
+                            '/boilerplate.jsx': BoilerplateCode,
                         }}
                         dependencies={{ 'pixi.js': 'latest' }}
                         handleEditorCodeChanged={handleEditorCodeChanged}

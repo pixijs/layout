@@ -3,6 +3,8 @@ import { dracula } from './defaults/theme';
 import { EditorLayout } from './Sandpack/Layout';
 import libraryRaw from '!!raw-loader!../../build-sandpack/index.js';
 import componentsRaw from '!!raw-loader!../../build-sandpack/index2.js';
+import javascriptRaw from '!!raw-loader!./defaults/javascript.js';
+import reactRaw from '!!raw-loader!./defaults/react.js';
 import StylesFile from '!!raw-loader!./defaults/styles.css';
 import { SandpackProvider } from '@codesandbox/sandpack-react';
 import { githubLight } from '@codesandbox/sandpack-themes';
@@ -11,6 +13,7 @@ import { useColorMode } from '@docusaurus/theme-common';
 
 export interface EditorProps {
     viewType?: 'both' | 'editor' | 'preview';
+    type?: 'javascript' | 'react';
     showConsole?: boolean;
     width?: number | string;
     height?: number | string;
@@ -29,18 +32,27 @@ export function Editor({
     files = {},
     fontSize = 12,
     handleEditorCodeChanged,
+    type = 'react',
 }: EditorProps) {
     const { colorMode } = useColorMode();
     const filesWithoutIndexJs = { ...files };
 
-    dependencies = {
-        '@pixi/react': 'latest',
-        'pixi.js': 'latest',
-        react: '^19',
-        'react-dom': '^19',
-        'yoga-layout': 'latest',
-        ...dependencies,
-    };
+    if (type === 'javascript') {
+        dependencies = {
+            'pixi.js': 'latest',
+            'yoga-layout': 'latest',
+            ...dependencies,
+        };
+    } else {
+        dependencies = {
+            '@pixi/react': 'latest',
+            'pixi.js': 'latest',
+            react: '^19',
+            'react-dom': '^19',
+            'yoga-layout': 'latest',
+            ...dependencies,
+        };
+    }
 
     const [filesState] = useState({
         '/styles.css': { code: StylesFile, hidden: true },
@@ -60,16 +72,7 @@ export function Editor({
             hidden: true,
         },
         '/index.js': {
-            code: `import React from "react";
-            import { createRoot } from "react-dom/client";
-            import "./styles.css";
-
-            import App from "./App";
-
-            const root = createRoot(document.getElementById("root"));
-            root.render(
-                <App />
-            );`,
+            code: type === 'javascript' ? javascriptRaw : reactRaw,
             hidden: true,
         },
         '/layout/index.js': {
