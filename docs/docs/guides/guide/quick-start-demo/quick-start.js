@@ -1,5 +1,6 @@
 import { Application, Assets, Container, Sprite } from 'pixi.js';
 // import the library before creating your pixi application to ensure all mixins are applied
+// NOTE: this should be replaced with `@pixi/layout`
 import '/layout';
 
 (async () => {

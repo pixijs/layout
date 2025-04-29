@@ -10,7 +10,7 @@
   <a href="https://discord.gg/QrnxmQUPGV"><img src="https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord" alt="discord chat"></a>
 </p>
 <p align="center">
- <a href="http://layout.pixijs.io/docs/guides/guide/quick-start/">Getting Started</a> | <a href="http://layout.pixijs.io/docs/examples/align-content/">Examples</a> | <a href="https://discord.gg/QrnxmQUPGV">Discord</a>
+ <a href="https://layout.pixijs.io/docs/guides/guide/quick-start/">Getting Started</a> | <a href="https://layout.pixijs.io/docs/examples/align-content/">Examples</a> | <a href="https://discord.gg/QrnxmQUPGV">Discord</a>
 </p>
 
 # PixiJS Layout 🧩

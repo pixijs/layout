@@ -34,20 +34,26 @@ This adds all components directly into the global JSX namespace.
 Below is a minimal React setup using `@pixi/react` and the layout library. This example demonstrates how to create a responsive layout that adjusts to the window size.
 
 ```tsx
+import '@pixi/layout/react';
+import '@pixi/layout';
+import { LayoutContainer } from '@pixi/layout/components';
+import React, { useRef } from 'react';
 import { Application, Container } from 'pixi.js';
-import { extend } from '@pixi/react';
+import { extend, useApplication } from '@pixi/react';
 
 extend({
     Container,
+    LayoutContainer,
 });
 
 const LayoutResizer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const layoutRef = useRef<Container>(null);
+    const { app } = useApplication();
 
-    useResize(() => {
+    app.renderer.on('resize', () => {
         layoutRef.current?.layout = {
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: app.screen.width,
+            height: app.screen.height,
         };
     });
 
@@ -58,19 +64,15 @@ const LayoutResizer: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     );
 };
 
-export const ReactStory: React.FC<ReactStoryProps> = () => {
+export const App: React.FC<ReactStoryProps> = () => {
     return (
         <Application resizeTo={window} background={'#1C1C1D'}>
             <LayoutResizer>
-                <LayoutContainer
-                    layout={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: '#2C2C2E',
-                    }}
+                <layoutContainer
+                    layout={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#2C2C2E' }}
                 >
-                    <pixiText layout={true} text='Hello, PixiJS!' style={{ fontSize: 24, fill: '#ffffff' }} />
-                </LayoutContainer>
+                    <layoutContainer layout={{ width: '80%', height: '80%', backgroundColor: '#FF3B30' }} />
+                </layoutContainer>
             </LayoutResizer>
         </Application>
     );
