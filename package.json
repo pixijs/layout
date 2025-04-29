@@ -132,10 +132,5 @@
     "docsTitle": "PixiJS Yoga API Documentation",
     "docsDescription": "Documentation for PixiJS Yoga library",
     "docsKeyword": "docs, documentation, pixi, pixijs, yoga, layout"
-  },
-  "overrides": {
-    "react": "$react",
-    "react-dom": "$react-dom",
-    "pixi.js": "$pixi.js"
   }
 }
