@@ -28,7 +28,7 @@ Links to a running example of the problem are best!
 
 ### Environment
 
-- **version**: _e.g. 8.0.0_
+- **version**: _e.g. 3.0.0_
 - **Browser & Version**: _e.g. Chrome 67_
 - **OS & Version**: _e.g. Ubuntu 18.04_
 - **Running Example**: _url_

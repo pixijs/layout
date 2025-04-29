@@ -1,13 +1,13 @@
 # How to contribute
 
-It is essential to the development of PixiLayout that the community is empowered
+It is essential to the development of PixiJS Layout that the community is empowered
 to make changes and get them into the library. Here are some guidelines to make
 that process silky smooth for all involved.
 
 ## Reporting issues
 
 To report a bug, request a feature, or even ask a question, make use of the GitHub Issues
-section for [PixiLayout][issues]. When submitting an issue please take the following steps:
+section for [PixiJS Layout][issues]. When submitting an issue please take the following steps:
 
 1. **Search for existing issues.** Your question or bug may have already been answered or fixed,
    be sure to search the issues first before putting in a duplicate issue.
@@ -28,13 +28,13 @@ section for [PixiLayout][issues]. When submitting an issue please take the follo
 To setup for making changes you will need to take a few steps, we've outlined them below:
 
 1. Ensure you have node.js installed. You can download node.js from [nodejs.org][node]. Because
-   PixiLayout uses modern JS features, you will need a modern version of node. v4+ is recommended.
+   PixiJS Layout uses modern JS features, you will need a modern version of node. v4+ is recommended.
 
 2. Fork the repository, if you are unsure how to do this GitHub has a guides
    for the [command line][fork-cli] and for the [GitHub Client][fork-gui].
 
 3. Next, run `npm install` from within your clone of your fork. That will install dependencies
-   necessary to build PixiLayout.
+   necessary to build PixiJS Layout.
 
 ### Making a Change
 

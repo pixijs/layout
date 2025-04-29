@@ -1,0 +1,35 @@
+---
+title: Quick Start
+hide_title: true
+sidebar_position: 0
+---
+
+import { ExampleEditor } from '@site/src/components/Editor/ExampleEditor';
+import Index from '!!raw-loader!./quick-start-demo/quick-start';
+
+## Quick Start
+
+If you have an existing PixiJS project, you can add the layout plugin to your project by running:
+
+```bash
+# with pnpm
+pnpm add @pixi/layout
+# with yarn
+yarn add @pixi/layout
+# with npm
+npm install @pixi/layout
+```
+
+## Usage
+
+To start using the layout plugin, you need to import it before creating your PixiJS application. This ensures that all mixins are applied correctly.
+
+Then you can create a new PixiJS application and set up your layout using the `layout` property on your containers.
+
+<ExampleEditor
+    files={{
+        '/App.js': Index,
+    }}
+    viewType='both'
+    type='javascript'
+/>

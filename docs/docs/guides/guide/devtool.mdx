@@ -1,0 +1,111 @@
+---
+hide_title: true
+title: DevTools
+sidebar_position: 3
+---
+import React from "react";
+import { useColorMode } from '@docusaurus/theme-common';
+
+export const Img = ({ src, alt }) => {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem 4rem', paddingTop: '1rem' }}>
+      <img src={src} alt={alt} style={{ maxWidth: '100%', borderRadius: '0.5rem', border: '1px solid #676767' }} />
+    </div>
+  );
+};
+
+export const CustomLink = ({ logo, hoverLogo, label, href, external }) => {
+  const [isHovered, setIsHovered] = React.useState(false);
+  const { colorMode } = useColorMode();
+
+  hoverLogo = hoverLogo || logo;
+
+  const hoverColor = colorMode === 'dark' ? 'var(--ifm-color-primary-darker)' : 'var(--ifm-color-primary-light)';
+
+  const customLinkStyle = {
+    border: '1px solid #f3f4f6',
+    borderRadius: '0.375rem',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+    padding: '1rem',
+    textDecoration: 'none',
+    color: isHovered ? 'white' : 'inherit',
+    backgroundColor: isHovered ? hoverColor : 'transparent',
+    borderColor: isHovered ? hoverColor : '#f3f4f6',
+  };
+
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
+
+  return (
+    <a
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      style={customLinkStyle}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <img
+        src={isHovered ? hoverLogo : logo}
+        alt={label}
+        style={{ maxWidth: '2rem', maxHeight: '2rem' }}
+      />
+      {label}
+    </a>
+  );
+};
+
+export const CustomLinks = ({ links }) => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', justifyContent: 'center' }}>
+    {links.map((link, index) => (
+      <CustomLink key={index} {...link} />
+    ))}
+  </div>
+);
+
+## Getting Started with DevTools
+
+The PixiJS DevTools extension is a powerful tool that allows you to inspect and debug your PixiJS applications directly in the browser. It provides a user-friendly interface to visualize the structure of your PixiJS scenes, view properties of display objects, and monitor performance.
+
+We have created an extension for this library that allows you to inspect the layout of your PixiJS application in real-time.
+
+### Installation
+Install the PixiJS DevTools extension through the Chrome Web Store, or download the latest release from GitHub.
+
+<CustomLinks links={[
+  {
+    label: 'Install on Chrome',
+    logo: '/layout/img/logo-chrome.svg',
+    hoverLogo: '/layout/img/logo-chrome.svg',
+    href: 'https://chrome.google.com/webstore/detail/pixijs-devtools/dlkffcaaoccbofklocbjcmppahjjboce',
+    external: true,
+  },
+  {
+    label: 'Install latest release',
+    logo: '/layout/img/logo.svg',
+    hoverLogo: '/layout/img/logo-light.svg',
+    href: 'https://github.com/pixijs/devtools/releases',
+    external: true,
+  },
+]} />
+
+### Usage
+Once installed, you need to add the following to your PixiJS application:
+
+```ts
+import '@pixi/layout/devtools';
+
+// ... rest of your code
+```
+
+This will enable the DevTools extension to communicate with your PixiJS application and provide you with the necessary debugging capabilities.
+
+### Features
+
+<Img src="/layout/img/devtool.png" alt="DevTools" />
+
+- **Inspect Layout**: View the layout properties of your PixiJS display objects in real-time.
+- **Visual Helpers**: `⬥` indicates a layout object and the flash button will flash the object on/off to help you find it in the scene.
+- **Reset Layout**: Press the reset button to set the object to its default values.
