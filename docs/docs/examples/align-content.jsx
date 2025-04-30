@@ -1,12 +1,11 @@
-// NOTE: this should be replaced with `@pixi/layout`
-import '/layout';
+import '@pixi/layout';
 import Application from './boilerplate';
 
 const defaults = {
     backgroundColor: `#1e293b`,
     borderWidth: 1,
     borderColor: `#fff`,
-}
+};
 
 export default function App() {
     return (

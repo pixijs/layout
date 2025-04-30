@@ -1,7 +1,6 @@
-// NOTE: this should be replaced with `@pixi/layout`
 import { Texture } from 'pixi.js';
 import Application from './boilerplate';
-import '/layout';
+import '@pixi/layout';
 
 
 const Layout = () => {

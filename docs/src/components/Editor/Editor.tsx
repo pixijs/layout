@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { dracula } from './defaults/theme';
 import { EditorLayout } from './Sandpack/Layout';
-import libraryRaw from '!!raw-loader!../../build-sandpack/index.js';
-import componentsRaw from '!!raw-loader!../../build-sandpack/index2.js';
 import javascriptRaw from '!!raw-loader!./defaults/javascript.js';
 import reactRaw from '!!raw-loader!./defaults/react.js';
 import StylesFile from '!!raw-loader!./defaults/styles.css';
@@ -28,7 +26,7 @@ export function Editor({
     showConsole = false,
     width = '100%',
     height = '100%',
-    dependencies = { 'pixi.js': 'latest' },
+    dependencies = {},
     files = {},
     fontSize = 12,
     handleEditorCodeChanged,
@@ -37,19 +35,17 @@ export function Editor({
     const { colorMode } = useColorMode();
     const filesWithoutIndexJs = { ...files };
 
-    if (type === 'javascript') {
-        dependencies = {
-            'pixi.js': 'latest',
-            'yoga-layout': 'latest',
-            ...dependencies,
-        };
-    } else {
+    dependencies = {
+        '@pixi/layout': 'latest',
+        'pixi.js': 'latest',
+        'yoga-layout': 'latest',
+        ...dependencies,
+    };
+    if (type === 'react') {
         dependencies = {
             '@pixi/react': 'latest',
-            'pixi.js': 'latest',
             react: '^19',
             'react-dom': '^19',
-            'yoga-layout': 'latest',
             ...dependencies,
         };
     }
@@ -74,14 +70,6 @@ export function Editor({
         '/index.js': {
             code: type === 'javascript' ? javascriptRaw : reactRaw,
             hidden: true,
-        },
-        '/layout/index.js': {
-            hidden: true,
-            code: libraryRaw,
-        },
-        '/layout/components.js': {
-            hidden: true,
-            code: componentsRaw,
         },
         ...filesWithoutIndexJs,
     });

@@ -1,5 +1,4 @@
-// NOTE: this should be replaced with `@pixi/layout`
-import '/layout';
+import '@pixi/layout';
 import Application from './boilerplate';
 
 const defaults = {

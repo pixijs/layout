@@ -3,8 +3,7 @@ import { Assets } from 'pixi.js';
 
 import { useEffect, useState } from 'react';
 import { Container, Sprite } from 'pixi.js';
-// NOTE: this should be replaced with `@pixi/layout/components`
-import { LayoutContainer } from '/layout/components';
+import { LayoutContainer } from '@pixi/layout/components';
 
 // extend tells @pixi/react what Pixi.js components are available
 extend({

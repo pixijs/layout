@@ -2,33 +2,33 @@ import { Application, extend, useApplication } from '@pixi/react';
 import { Assets } from 'pixi.js';
 
 import { useEffect, useState } from 'react';
-// NOTE: this should be replaced with `@pixi/layout/components`
+
 import {
+    AnimatedSprite,
     Container,
     GifSprite,
     Graphics,
-    Mesh,
-    PerspectiveMesh,
-    MeshPlane,
-    MeshRope,
-    MeshSimple,
-    Sprite,
-    NineSliceSprite,
-    TilingSprite,
-    AnimatedSprite,
+    LayoutAnimatedSprite,
     LayoutContainer,
     LayoutGifSprite,
     LayoutGraphics,
     LayoutMesh,
-    LayoutPerspectiveMesh,
     LayoutMeshPlane,
     LayoutMeshRope,
     LayoutMeshSimple,
-    LayoutSprite,
     LayoutNineSliceSprite,
+    LayoutPerspectiveMesh,
+    LayoutSprite,
     LayoutTilingSprite,
-    LayoutAnimatedSprite,
-} from '/layout/components';
+    Mesh,
+    MeshPlane,
+    MeshRope,
+    MeshSimple,
+    NineSliceSprite,
+    PerspectiveMesh,
+    Sprite,
+    TilingSprite,
+} from '@pixi/layout/components';
 
 // extend tells @pixi/react what PixiJS components are available
 extend({

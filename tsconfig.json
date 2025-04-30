@@ -15,13 +15,5 @@
         "skipLibCheck": true,
         "jsx": "react"
     },
-    "include": [
-        "src/**/*",
-        "types/**/*",
-        "tests/**/*",
-        ".storybook/**/*",
-        "vitest.config.ts",
-        "vite.config.mts",
-        "vite.config.bundle.mts"
-    ]
+    "include": ["src/**/*", "types/**/*", "tests/**/*", ".storybook/**/*", "vitest.config.ts", "vite.config.mts"]
 }
