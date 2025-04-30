@@ -79,10 +79,10 @@ export class LayoutView<T extends Container = Container> extends LayoutContainer
             this.slot.layout = {
                 width: '100%',
                 height: '100%',
-                objectFit,
-                objectPosition,
-                applySizeDirectly,
-                isLeaf,
+                ...(objectFit && { objectFit }),
+                ...(objectPosition && { objectPosition }),
+                ...(applySizeDirectly && { applySizeDirectly }),
+                ...(isLeaf && { isLeaf }),
             };
         }
     }

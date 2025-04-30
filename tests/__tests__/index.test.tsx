@@ -41,6 +41,7 @@ import * as objectPositionNineSliceFillStories from '../stories/custom/objectPos
 import * as objectFitTilingStories from '../stories/custom/objectFit/objectFitTiling.stories';
 import * as objectFitTextStories from '../stories/custom/objectFit/objectFitText.stories';
 import * as objectFitNineSliceStories from '../stories/custom/objectFit/objectFitNineSlice.stories';
+import * as objectFitLayoutViewStories from '../stories/custom/objectFit/objectFitLayoutView.stories';
 import * as objectFitStories from '../stories/custom/objectFit/objectFit.stories';
 import * as isLeafStories from '../stories/custom/leaf/isLeaf.stories';
 import * as dynamicTextStories from '../stories/custom/dynamicChanges/dynamicText.stories';
@@ -86,6 +87,7 @@ allStories.objectPositionNineSliceFillStories = composeStories(objectPositionNin
 allStories.objectFitTilingStories = composeStories(objectFitTilingStories);
 allStories.objectFitTextStories = composeStories(objectFitTextStories);
 allStories.objectFitNineSliceStories = composeStories(objectFitNineSliceStories);
+allStories.objectFitLayoutViewStories = composeStories(objectFitLayoutViewStories);
 allStories.objectFitStories = composeStories(objectFitStories);
 allStories.isLeafStories = composeStories(isLeafStories);
 allStories.dynamicTextStories = composeStories(dynamicTextStories);
