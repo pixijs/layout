@@ -172,3 +172,30 @@ sprite.layout.realY;
 sprite.layout.realScaleX;
 sprite.layout.realScaleY;
 ```
+
+### Layout events
+
+Each layout-enabled object emits a `layout` event when the layout is updated. This event provides the full `Layout` object with the new layout state.
+
+```ts
+sprite.on('layout', (event) => {
+    console.log('Layout updated:', event);
+});
+
+// or using the callback
+sprite.onLayout = (event) => {
+    console.log('Layout updated:', event);
+};
+```
+
+Using `computedLayout` and `computedPixiLayout`, you can inspect the new layout state of the object and apply any custom logic as needed.
+
+```ts
+sprite.on('layout', (event) => {
+    const layoutBox = event.computedLayout;
+    background.width = layoutBox.width;
+    background.height = layoutBox.height;
+    background.x = layoutBox.left;
+    background.y = layoutBox.top;
+});
+```
