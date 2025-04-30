@@ -24,30 +24,30 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "require": "./dist/index.cjs"
     },
     "./components": {
       "types": "./dist/components/index.d.ts",
       "import": "./dist/components/index.mjs",
-      "require": "./dist/components/index.js"
+      "require": "./dist/components/index.cjs"
     },
     "./devtools": {
       "types": "./dist/devtool/index.d.ts",
       "import": "./dist/devtool/index.mjs",
-      "require": "./dist/devtool/index.js"
+      "require": "./dist/devtool/index.cjs"
     },
     "./react": {
       "types": "./dist/react/index.d.ts",
       "import": "./dist/react/index.mjs",
-      "require": "./dist/react/index.js"
+      "require": "./dist/react/index.cjs"
     },
     "./tailwind": {
       "types": "./dist/tailwind/index.d.ts",
       "import": "./dist/tailwind/index.mjs",
-      "require": "./dist/tailwind/index.js"
+      "require": "./dist/tailwind/index.cjs"
     }
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
