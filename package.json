@@ -1,6 +1,6 @@
 {
   "name": "@pixi/layout",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A Yoga powered layout library for PixiJS",
   "keywords": [
     "layout",
