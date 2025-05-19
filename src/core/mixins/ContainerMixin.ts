@@ -97,6 +97,9 @@ const mixin: Partial<PrivateContainer> = {
         const lt = this.localTransform;
         const { rotation, skew, scale, position } = this;
 
+        const pivotX = this.pivot.x;
+        const pivotY = this.pivot.y;
+
         // Precompute trig values
         const xRotY = rotation + skew._y;
         const xRotX = rotation - skew._x;
@@ -107,8 +110,8 @@ const mixin: Partial<PrivateContainer> = {
         const d = Math.cos(xRotX) * scale._y;
 
         // Apply offset, origin and position in one step
-        const tx = position._x + x - originX * a - originY * c;
-        const ty = position._y + y - originX * b - originY * d;
+        const tx = position._x + x - (originX - pivotX) * a - (originY - pivotY) * c;
+        const ty = position._y + y - (originX - pivotX) * b - (originY - pivotY) * d;
 
         // Apply additional static transform and re-add origin
         lt.a = a * scaleX;

@@ -16,7 +16,8 @@ const LayoutComponent = (_args: any) => {
             >
                 <pixiSprite
                     texture={Assets.get('fake:50x50/40487a/ffffff')}
-                    pivot={50}
+                    pivot={-25}
+                    rotation={Math.PI / 4}
                     layout={{
                         position: 'absolute',
                         objectFit: 'none',
