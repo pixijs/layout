@@ -5,6 +5,7 @@ import {
     type DestroyOptions,
     Graphics,
     type IRenderLayer,
+    Rectangle,
     Ticker,
 } from 'pixi.js';
 import { BoxSizing, Edge } from 'yoga-layout/load';
@@ -80,6 +81,9 @@ export class LayoutContainer extends Container {
     /** Whether or not the background was created by the user */
     private _isUserBackground: boolean = false;
 
+    /** The hit area for the container */
+    private _hitArea = new Rectangle();
+
     constructor(params: LayoutContainerOptions = {}) {
         const { layout, trackpad, background, ...options } = params;
 
@@ -145,6 +149,9 @@ export class LayoutContainer extends Container {
      */
     override computeLayoutData(computedLayout: ComputedLayout) {
         this._drawBackground(computedLayout);
+        this._hitArea.width = computedLayout.width;
+        this._hitArea.height = computedLayout.height;
+        this.hitArea = this._hitArea;
 
         return {
             x: computedLayout.left,
