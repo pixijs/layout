@@ -67,7 +67,10 @@ export class LayoutSystem implements System<LayoutSystemOptions> {
         }
 
         this._throttle = throttle ?? this._throttle;
-        this._throttledUpdateSize = throttleFn((container: Container) => this._updateSize(container), this._throttle);
+        this._throttledUpdateSize = throttleFn((container: Container) => this._updateSize(container), this._throttle, {
+            leading: true,
+            trailing: true,
+        });
 
         this._modificationCount = debugModificationCount ?? this._modificationCount;
     }
@@ -101,7 +104,7 @@ export class LayoutSystem implements System<LayoutSystemOptions> {
         }
 
         // Before we start updating the layout, we need to ensure that the size of the yoga nodes are up to date
-        this._throttledUpdateSize(container);
+        this._throttle === 0 ? this._updateSize(container) : this._throttledUpdateSize(container);
 
         // loop through entire scene and check for any layout updates!
         this.updateLayout(container);
