@@ -1,4 +1,4 @@
-import { type loadYoga } from 'yoga-layout/load';
+import { type Config, type loadYoga } from 'yoga-layout/load';
 
 export type Yoga = Awaited<ReturnType<typeof loadYoga>>;
 
@@ -18,4 +18,24 @@ export function getYoga(): Yoga {
  */
 export function setYoga(newYoga: Yoga) {
     yoga = newYoga;
+}
+
+let yogaConfig: Config;
+
+/**
+ * Set the Yoga configuration.
+ *
+ * @param config The Yoga configuration.
+ */
+export function setYogaConfig(config: Config) {
+    yogaConfig = config;
+}
+
+/**
+ * Get the Yoga configuration.
+ *
+ * @returns The Yoga configuration.
+ */
+export function getYogaConfig(): Config {
+    return yogaConfig;
 }
