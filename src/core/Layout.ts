@@ -1,7 +1,7 @@
 import { type Container } from 'pixi.js';
 import { type Node } from 'yoga-layout';
 import { type OverflowContainer } from '../components/LayoutContainer';
-import { getYoga } from '../yoga';
+import { getYoga, getYogaConfig } from '../yoga';
 import { applyStyle } from './style/applyStyle';
 import { formatStyles } from './style/formatStyles';
 import { type LayoutStyles } from './style/layoutStyles';
@@ -133,7 +133,7 @@ export class Layout {
 
     constructor({ target }: LayoutOptions) {
         this.target = target;
-        this.yoga = getYoga().Node.create();
+        this.yoga = getYoga().Node.create(getYogaConfig());
 
         target.on('added', this._onChildAdded, this);
         target.on('removed', this._onChildRemoved, this);
