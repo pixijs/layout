@@ -44,6 +44,14 @@ export function onChildAdded(layout: Layout, pixiParent: Container) {
                 break;
             }
         }
+
+        // If the yogaIndex is -1, it means the child was not found in the parent container
+        // This can happen if the child is not part of the layout or is not visible
+        // In this case, we do not insert the child into the Yoga layout
+        if (yogaIndex === -1) {
+            return;
+        }
+
         parentLayout.yoga.insertChild(layout.yoga, yogaIndex);
     }
 }

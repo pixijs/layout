@@ -21,7 +21,7 @@ describe('visibility', async () => {
         app.destroy(true);
     });
 
-    it('should render a visible sprite', { timeout: 100000 }, async () => {
+    it('should render a visible sprite', async () => {
         const stage = app.stage;
         const sprite = new Sprite(Texture.WHITE);
         const sprite2 = new Sprite(Texture.WHITE);
@@ -58,5 +58,22 @@ describe('visibility', async () => {
         expect(stageYoga.getChild(0)).toStrictEqual(spriteYoga);
         expect(stageYoga.getChild(1)).toStrictEqual(sprite2Yoga);
         expect(stageYoga.getChild(2)).toStrictEqual(sprite3Yoga);
+    });
+
+    it('should not add an invisible sprite to the layout', async () => {
+        const stage = app.stage;
+        const sprite = new Sprite(Texture.WHITE);
+        const sprite2 = new Sprite(Texture.WHITE);
+
+        stage.layout = {};
+        sprite.visible = false;
+        sprite.layout = {};
+
+        stage.addChild(sprite2);
+
+        // expect add child to not throw an error
+        expect(() => {
+            stage.addChildAt(sprite, 0);
+        }).not.toThrow();
     });
 });
