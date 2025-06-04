@@ -105,7 +105,7 @@ export const ReactStory: React.FC<ReactStoryProps> = ({ children, assets }) => {
                 if (asset.startsWith('fake:')) {
                     return {
                         alias: asset,
-                        src: asset.replace('fake:', 'https://fakeimg.pl/'),
+                        src: asset.replace('fake:', 'https://fakeimg.ryd.tools/'),
                         loadParser: 'loadTextures',
                     };
                 }

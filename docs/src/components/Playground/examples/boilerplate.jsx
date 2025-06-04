@@ -46,7 +46,7 @@ export default function App({ children, assets }) {
         const start = async () => {
             assets ??= [];
             const parsedAssets = assets.map((asset) => {
-                if (asset.startsWith('https://fakeimg.pl/')) {
+                if (asset.startsWith('https://fakeimg.ryd.tools/')) {
                     return {
                         alias: asset,
                         src: asset,

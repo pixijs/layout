@@ -8,7 +8,7 @@ const Layout = () => {
     const sprites = Array.from({ length: 15 }, (_, i) => (
         <pixiSprite
             key={i}
-            texture={Texture.from('https://fakeimg.pl/100x100/')}
+            texture={Texture.from('https://fakeimg.ryd.tools/100x100/')}
             layout={{
                 width: '100',
                 height: '100',
@@ -39,7 +39,7 @@ const Layout = () => {
 
 export default function App() {
     return (
-        <Application assets={['https://fakeimg.pl/100x100/']}>
+        <Application assets={['https://fakeimg.ryd.tools/100x100/']}>
             <Layout />
         </Application>
     );
