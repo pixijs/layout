@@ -1,7 +1,7 @@
 import { type Container, ExtensionType, type System } from 'pixi.js';
 import { Direction, loadYoga } from 'yoga-layout/load';
 import { type OverflowContainer } from '../components/LayoutContainer';
-import { setYoga } from '../yoga';
+import { getYoga, setYoga, setYogaConfig } from '../yoga';
 import { calculatePositionSpecifier } from './mixins/utils/calculatePositionSpecifier';
 import { getPixiSize } from './utils/getPixiSize';
 import { nearlyEqual } from './utils/nearlyEqual';
@@ -55,6 +55,7 @@ export class LayoutSystem implements System<LayoutSystemOptions> {
      */
     public async init(options?: LayoutSystemOptions) {
         setYoga(await loadYoga());
+        setYogaConfig(getYoga().Config.create());
         const { layout } = options ?? {};
         const { autoUpdate, enableDebug, throttle, debugModificationCount } = layout ?? {};
 
