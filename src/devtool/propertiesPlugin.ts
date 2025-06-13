@@ -170,9 +170,9 @@ const properties = () =>
         },
 
         {
-            prop: 'layoutStyle.direction',
+            prop: 'layoutStyle.flexDirection',
             entry: {
-                label: 'direction',
+                label: 'Flex Direction',
                 section: 'Layout',
                 type: 'select',
                 options: { options: ['row', 'row-reverse', 'column', 'column-reverse'] },
