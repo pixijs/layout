@@ -11,6 +11,7 @@ const LayoutComponent = (_args: any) => {
     return (
         <layout config={{ useWebDefaults: false }}>
             <layoutContainer
+                trackpad={{ yConstrainPercent: 0, maxSpeed: 4 }}
                 layout={{
                     width: 300,
                     height: 300,
