@@ -30,3 +30,37 @@ const container = new LayoutContainer({
     },
 });
 ```
+
+## Customizing Scrolling Behavior
+
+When using `overflow: 'scroll'`, you can customize the scrolling behavior by passing `trackpad` options to the [`LayoutContainer`](../core/components.md#layoutcontainer-api).
+
+```ts
+const container = new LayoutContainer({
+    layout: {
+        overflow: 'scroll',
+    },
+    trackpad: {
+        // Maximum scrolling speed (pixels per frame)
+        maxSpeed: 400,
+
+        // Constrain scrolling within bounds
+        constrain: true,
+
+        // Disable momentum/easing when releasing
+        disableEasing: false,
+
+        // Custom easing for x/y axes
+        xEase: new ScrollSpring({
+            max: 200, // Maximum velocity
+            damp: 0.7, // Higher damping = less bounce
+            springiness: 0.15, // Higher springiness = faster movement
+        }),
+        yEase: new ScrollSpring({
+            // Custom y-axis spring settings
+        }),
+    },
+});
+```
+
+See the [Trackpad Customization](../core/components.md##trackpad-customization) section for more details on available options.
