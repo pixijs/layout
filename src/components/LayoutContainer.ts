@@ -90,7 +90,7 @@ export class LayoutContainer extends Container {
     }) as OverflowContainer;
 
     /** Access to original Container methods */
-    public readonly orig: Readonly<{
+    public readonly containerMethods: Readonly<{
         addChild: <T extends ContainerChild>(...children: T[]) => T;
         addChildAt: <T extends ContainerChild>(child: T, index: number) => T;
         removeChild: <T extends ContainerChild>(...children: T[]) => T;
@@ -132,7 +132,7 @@ export class LayoutContainer extends Container {
 
         this.addChild(this.background, this.overflowContainer, this._mask, this.stroke);
         // Preserve original Container methods and bind them to use the overflowContainer
-        this.orig = bindAndPreserve(this, this.overflowContainer, [
+        this.containerMethods = bindAndPreserve(this, this.overflowContainer, [
             'addChild',
             'addChildAt',
             'removeChild',
@@ -148,7 +148,7 @@ export class LayoutContainer extends Container {
             'reparentChildAt',
             'getChildByLabel',
             'getChildrenByLabel',
-        ]) as typeof this.orig;
+        ]) as typeof this.containerMethods;
 
         this._trackpad = new Trackpad({
             constrain: true,

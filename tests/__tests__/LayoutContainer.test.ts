@@ -57,13 +57,13 @@ describe('LayoutContainer method bindings', () => {
 
     it('should preserve original addChild method and bind to overflowContainer', () => {
         // Test original method preservation
-        expect(container.orig.addChild).toBeDefined();
+        expect(container.containerMethods.addChild).toBeDefined();
 
         // Test binding to overflowContainer
         container.addChild(child1);
         expect(container.overflowContainer.children).toContain(child1);
         expect(container.children).not.toContain(child1);
-        container.orig.addChild(child2);
+        container.containerMethods.addChild(child2);
         expect(container.children).toContain(child2);
         expect(container.overflowContainer.children).not.toContain(child2);
     });
@@ -74,8 +74,8 @@ describe('LayoutContainer method bindings', () => {
 
         expect(container.overflowContainer.getChildAt(0)).toBe(child2);
         expect(container.overflowContainer.getChildAt(1)).toBe(child1);
-        container.orig.addChildAt(child1, 0);
-        expect(container.orig.getChildAt(0)).toBe(child1);
+        container.containerMethods.addChildAt(child1, 0);
+        expect(container.containerMethods.getChildAt(0)).toBe(child1);
         expect(container.getChildAt(0)).toBe(child2);
     });
 
@@ -84,8 +84,8 @@ describe('LayoutContainer method bindings', () => {
         container.removeChild(child1);
 
         expect(container.overflowContainer.children).not.toContain(child1);
-        container.orig.addChild(child1);
-        container.orig.removeChild(child1);
+        container.containerMethods.addChild(child1);
+        container.containerMethods.removeChild(child1);
         expect(container.overflowContainer.children).not.toContain(child1);
         expect(container.children).not.toContain(child1);
     });
