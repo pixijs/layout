@@ -5,3 +5,7 @@ export * from './pixi/graphics';
 export * from './pixi/mesh';
 export * from './pixi/sprite';
 export * from './pixi/text';
+export * from './trackpad/ScrollSpring';
+export * from './trackpad/SlidingNumber';
+export * from './trackpad/Spring';
+export * from './trackpad/Trackpad';
