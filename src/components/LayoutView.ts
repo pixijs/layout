@@ -38,9 +38,7 @@ export class LayoutView<T extends Container = Container> extends LayoutContainer
         this.slot = (params.slot as T) ?? new Container({ label: 'slot' });
         this.layout = layout ?? {};
         this.addChild(this.slot);
-        // TODO: override all child related methods
-        this.addChild = this._addChild;
-        this.removeChild = this._removeChild;
+        this.addChild = this._addChild.bind(this);
     }
 
     /**
@@ -70,7 +68,16 @@ export class LayoutView<T extends Container = Container> extends LayoutContainer
      * };
      * ```
      */
-    override set layout(value: Omit<LayoutOptions, 'target'> | null) {
+    override set layout(value: Omit<LayoutOptions, 'target'> | null | boolean) {
+        // If the value is a boolean, we want to treat it as an empty object
+        value = value === true ? {} : value;
+        if (!value) {
+            this.slot.layout = null;
+            super.layout = null;
+
+            return;
+        }
+
         const { applySizeDirectly, objectFit, objectPosition, isLeaf, ...rest } = value ?? {};
 
         super.layout = rest;
@@ -94,11 +101,11 @@ export class LayoutView<T extends Container = Container> extends LayoutContainer
      * @throws {Error} Always throws an error to enforce leaf node behavior
      * @private
      */
-    protected override _addChild<U extends (ContainerChild | IRenderLayer)[]>(..._children: U): U[0] {
-        if (this.overflowContainer.children.length > 1) {
+    protected _addChild<U extends (ContainerChild | IRenderLayer)[]>(..._children: U): U[0] {
+        if (this.overflowContainer.children.length >= 1) {
             throw new Error('Leaf nodes should not have multiple children');
         }
 
-        return super._addChild(..._children);
+        return this.overflowContainer.addChild(..._children);
     }
 }

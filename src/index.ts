@@ -41,7 +41,7 @@ declare global {
         }
 
         interface ContainerOptions {
-            layout?: Omit<import('./core/Layout').LayoutOptions, 'target'> | null;
+            layout?: Omit<import('./core/Layout').LayoutOptions, 'target'> | null | boolean;
         }
 
         interface RendererSystems {
