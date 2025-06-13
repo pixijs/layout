@@ -121,10 +121,11 @@ export class LayoutContainer extends Container {
     private _hitArea = new Rectangle();
 
     constructor(params: LayoutContainerOptions = {}) {
-        const { layout, trackpad, background, ...options } = params;
+        const { layout, trackpad, background, children, ...options } = params;
 
         super(options);
         this.layout = layout ?? {};
+        children?.forEach((child) => this.addChild(child));
 
         this.overflowContainer.isOverflowContainer = true;
         this.background = background ?? new Graphics({ label: 'background' });

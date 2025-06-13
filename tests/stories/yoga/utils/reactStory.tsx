@@ -89,7 +89,7 @@ const LayoutResizer: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     void app.renderer.layout.enableDebug(true);
 
     useResize(() => {
-        layoutRef.current?.children[0]!.resize?.(window.innerWidth, window.innerHeight);
+        layoutRef.current?.children[0]?.resize?.(window.innerWidth, window.innerHeight);
     });
 
     return <pixiContainer ref={layoutRef}>{children}</pixiContainer>;
