@@ -4,13 +4,30 @@ import {
     type ContainerOptions,
     type DestroyOptions,
     Graphics,
-    type IRenderLayer,
     Rectangle,
     Ticker,
 } from 'pixi.js';
 import { BoxSizing, Edge } from 'yoga-layout/load';
 import { type ComputedLayout } from '../core/types';
 import { Trackpad, type TrackpadOptions } from './trackpad/Trackpad';
+
+function bindAndPreserve<T extends object, K extends keyof T>(
+    base: T,
+    source: Container,
+    methodNames: K[],
+): Pick<T, K> {
+    const bound = {} as Pick<T, K>;
+    const proto = Object.getPrototypeOf(base);
+
+    for (const name of methodNames) {
+        const method = proto[name];
+
+        bound[name] = method.bind(base);
+        (base as any)[name] = (...args: any[]) => (source as any)[name](...args);
+    }
+
+    return bound;
+}
 
 /**
  * Options for configuring the layout container.
@@ -72,6 +89,25 @@ export class LayoutContainer extends Container {
         label: 'overflowContainer',
     }) as OverflowContainer;
 
+    /** Access to original Container methods */
+    public readonly orig: Readonly<{
+        addChild: <T extends ContainerChild>(...children: T[]) => T;
+        addChildAt: <T extends ContainerChild>(child: T, index: number) => T;
+        removeChild: <T extends ContainerChild>(...children: T[]) => T;
+        removeChildAt: (index: number) => ContainerChild;
+        getChildAt: (index: number) => ContainerChild;
+        getChildIndex: (child: ContainerChild) => number;
+        setChildIndex: (child: ContainerChild, index: number) => void;
+        getChildByName: (name: string, deep?: boolean) => ContainerChild | null;
+        removeChildren: (beginIndex?: number, endIndex?: number) => ContainerChild[];
+        sortChildren: () => void;
+        swapChildren: (child1: ContainerChild, child2: ContainerChild) => void;
+        reparentChild: <T extends ContainerChild[]>(...children: T) => T[0];
+        reparentChildAt: <T extends ContainerChild>(child: T, index: number) => T;
+        getChildByLabel: (label: string, deep?: boolean) => ContainerChild | null;
+        getChildrenByLabel: (label: string, deep?: boolean, out?: ContainerChild[]) => ContainerChild[];
+    }>;
+
     /** The trackpad for handling scrolling */
     protected _trackpad: Trackpad;
 
@@ -95,8 +131,24 @@ export class LayoutContainer extends Container {
         this._isUserBackground = !!background;
 
         this.addChild(this.background, this.overflowContainer, this._mask, this.stroke);
-        this.addChild = this._addChild;
-        this.removeChild = this._removeChild;
+        // Preserve original Container methods and bind them to use the overflowContainer
+        this.orig = bindAndPreserve(this, this.overflowContainer, [
+            'addChild',
+            'addChildAt',
+            'removeChild',
+            'removeChildAt',
+            'getChildAt',
+            'getChildIndex',
+            'setChildIndex',
+            'getChildByName',
+            'removeChildren',
+            'sortChildren',
+            'swapChildren',
+            'reparentChild',
+            'reparentChildAt',
+            'getChildByLabel',
+            'getChildrenByLabel',
+        ]) as typeof this.orig;
 
         this._trackpad = new Trackpad({
             constrain: true,
@@ -131,14 +183,6 @@ export class LayoutContainer extends Container {
             );
         });
         Ticker.shared.add(this.update, this);
-    }
-
-    protected _addChild<U extends (ContainerChild | IRenderLayer)[]>(..._children: U): U[0] {
-        return this.overflowContainer.addChild(..._children);
-    }
-
-    protected _removeChild<U extends (ContainerChild | IRenderLayer)[]>(..._children: U): U[0] {
-        return this.overflowContainer.removeChild(..._children);
     }
 
     /**

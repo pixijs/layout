@@ -86,7 +86,7 @@
   "devDependencies": {
     "@pixi/devtools": "^2.0.1",
     "@pixi/extension-scripts": "^4.0.0",
-    "@pixi/react": "8.0.1",
+    "@pixi/react": "8.0.2",
     "@playwright/browser-chromium": "^1.52.0",
     "@playwright/test": "^1.52.0",
     "@storybook/react-vite": "^8.6.12",
@@ -101,7 +101,7 @@
     "mkdirp": "^3.0.1",
     "npm-run-all": "^4.1.5",
     "pixelmatch": "^7.1.0",
-    "pixi.js": "^8.9.1",
+    "pixi.js": "^8.10.1",
     "playwright": "^1.52.0",
     "pngjs": "^7.0.0",
     "prettier": "3.5.3",
