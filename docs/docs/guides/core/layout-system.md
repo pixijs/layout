@@ -52,12 +52,12 @@ interface LayoutSystemOptions {
 
 Each option:
 
-| Option                 | Type    | Description                                                                                                                                                                                                           |
-| ---------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| autoUpdate             | boolean | If `true`, the layout system will automatically recalculate layouts on each frame. Set `false` if you prefer manual updates                                                                                           |
-| enableDebug            | boolean | If `true`, the debug renderer is activated at startup to visualize layout boxes. Note that you should only enable this on development builds.                                                                         |
+| Option                 | Type    | Description                                                                                                                                                                                      |
+| ---------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| autoUpdate             | boolean | If `true`, the layout system will automatically recalculate layouts on each frame. Set `false` if you prefer manual updates                                                                      |
+| enableDebug            | boolean | If `true`, the debug renderer is activated at startup to visualize layout boxes. Note that you should only enable this on development builds.                                                    |
 | debugModificationCount | number  | The number of times a node must be modified before the debug renderer will show the layout boxes. This is useful for performance optimization. Default is `0`, meaning it will show immediately. |
-| throttle               | number  | The delay (in milliseconds) to batch layout size recalculations for better performance. Default is `100ms`. This is useful for reducing the number of recalculations during rapid changes.                            |
+| throttle               | number  | The delay (in milliseconds) to batch layout size recalculations for better performance. Default is `100ms`. This is useful for reducing the number of recalculations during rapid changes.       |
 
 ## Continuous Layout Updates
 
@@ -110,3 +110,38 @@ app.renderer.layout.update(app.stage); // or any other container if you want to 
 ```
 
 This will update only the given object and its children (if they have layouts).
+
+## Customizing Yoga Configuration
+
+The layout system uses Yoga under the hood for calculating layouts. You can customize Yoga's behavior by modifying its configuration settings.
+
+### Basic Configuration
+
+```ts
+import { getYogaConfig, Errata } from '@pixi/layout';
+
+await app.init(...);
+
+// Get the global Yoga configuration
+const config = getYogaConfig();
+
+// Example: Use Classic errata mode
+config.setErrata(Errata.Classic);
+// Example: Set point scaling
+config.setPointScaleFactor(1);
+```
+
+### Common Configuration Options
+
+| Option                 | Method                            | Description                                              |
+| ---------------------- | --------------------------------- | -------------------------------------------------------- |
+| Errata Mode            | `setErrata()`                     | Controls how Yoga handles edge cases and legacy behavior |
+| Point Scale            | `setPointScaleFactor()`           | Sets the scaling factor for point-based measurements     |
+| Use Web Defaults       | `setUseWebDefaults()`             | Enables web-standard default values                      |
+| Experimental Feature X | `setExperimentalFeatureEnabled()` | Toggles experimental Yoga features                       |
+
+For a complete list of configuration options and their effects, refer to the [Yoga documentation](https://www.yogalayout.dev/docs/getting-started/configuring-yoga).
+
+:::tip
+Configuration changes affect all layout calculations globally. Make sure to set your configuration early in your application's lifecycle.
+:::
