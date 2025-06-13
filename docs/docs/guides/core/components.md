@@ -183,13 +183,15 @@ When `overflow: 'scroll'` is enabled, a **trackpad controller** is created autom
 
 Trackpad options you can configure include:
 
-| Option          | Type         | Description                                   |
-| --------------- | ------------ | --------------------------------------------- |
-| `xEase`         | EasingSpring | Custom easing on x-axis.                      |
-| `yEase`         | EasingSpring | Custom easing on y-axis.                      |
-| `maxSpeed`      | number       | Maximum drag/scrolling speed.                 |
-| `constrain`     | boolean      | Whether to apply boundary constraints.        |
-| `disableEasing` | boolean      | Disables easing behavior when releasing drag. |
+| Option              | Type            | Default        | Description                                                      |
+| ------------------- | --------------- | -------------- | ---------------------------------------------------------------- |
+| `maxSpeed`          | `number`        | `400`          | Maximum scrolling velocity in pixels per frame                   |
+| `constrain`         | `boolean`       | `true`         | Whether to constrain scrolling within content bounds             |
+| `disableEasing`     | `boolean`       | `false`        | Disable momentum scrolling/easing when releasing                 |
+| `xEase`             | `ConstrainEase` | `ScrollSpring` | Custom easing for x-axis scrolling                               |
+| `yEase`             | `ConstrainEase` | `ScrollSpring` | Custom easing for y-axis scrolling                               |
+| `xConstrainPercent` | `number`        | `0`            | Percentage of overflow allowed when dragging beyond x-axis limit |
+| `yConstrainPercent` | `number`        | `0`            | Percentage of overflow allowed when dragging beyond y-axis limit |
 
 These options are passed when creating a `LayoutContainer` or `LayoutView`.
 
@@ -199,9 +201,29 @@ const container = new LayoutContainer({
         overflow: 'scroll',
     },
     trackpad: {
-        maxSpeed: 500,
+        // Maximum scrolling speed (pixels per frame)
+        maxSpeed: 400,
+
+        // Constrain scrolling within bounds
         constrain: true,
+
+        // No x-axis overflow allowed when dragging beyond bounds
+        xConstrainPercent: 0,
+        // No y-axis overflow allowed when dragging beyond bounds
+        yConstrainPercent: 0,
+
+        // Disable momentum/easing when releasing
         disableEasing: false,
+
+        // Custom easing for x/y axes
+        xEase: new ScrollSpring({
+            max: 200, // Maximum velocity
+            damp: 0.7, // Higher damping = less bounce
+            springiness: 0.15, // Higher springiness = faster movement
+        }),
+        yEase: new ScrollSpring({
+            // Custom y-axis spring settings
+        }),
     },
 });
 ```
