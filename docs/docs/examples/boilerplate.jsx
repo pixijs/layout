@@ -1,11 +1,10 @@
 import { Application, extend, useApplication } from '@pixi/react';
-import { Assets } from 'pixi.js';
+import { Assets, Container } from 'pixi.js';
 
 import { useEffect, useState } from 'react';
 
 import {
     AnimatedSprite,
-    Container,
     GifSprite,
     Graphics,
     LayoutAnimatedSprite,
