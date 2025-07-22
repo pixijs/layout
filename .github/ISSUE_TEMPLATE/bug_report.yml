@@ -14,7 +14,7 @@ body:
 
         Please search existing issues before submitting - your bug may have already been reported or fixed in the development branch.
   - type: input
-    id: version
+    id: layout-version
     attributes:
       label: PixiJS Layout version
     validations:
