@@ -11,7 +11,6 @@ body:
 
         - Check the [official documentation](https://pixijs.com/)
         - Join our [Discord community](https://discord.gg/CPTjeb28nH) for help
-        - Browse [GitHub Discussions](https://github.com/pixijs/layout/discussions) for Q&A
 
         Please search existing issues before submitting - your bug may have already been reported or fixed in the development branch.
   - type: input

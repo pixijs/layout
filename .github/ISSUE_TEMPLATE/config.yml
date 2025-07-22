@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord Chat
+    url: https://discord.gg/CPTjeb28nH
+    about: Ask questions and discuss with other PixiJS users in real time.
+  - name: Open Collective
+    url: https://opencollective.com/pixijs/donate
+    about: Love PixiJS? Please consider supporting us via Open Collective.
