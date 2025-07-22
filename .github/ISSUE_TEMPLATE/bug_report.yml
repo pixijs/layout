@@ -9,7 +9,7 @@ body:
         This form is specifically for reporting bugs in PixiJS Layout. If you have questions about usage
         or aren't sure whether you've encountered a bug, please try these resources first:
 
-        - Check the [official documentation](https://pixijs.com/)
+        - Check the [official documentation](https://layout.pixijs.io/)
         - Join our [Discord community](https://discord.gg/CPTjeb28nH) for help
 
         Please search existing issues before submitting - your bug may have already been reported or fixed in the development branch.
