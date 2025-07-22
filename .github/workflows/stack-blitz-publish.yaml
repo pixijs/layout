@@ -40,7 +40,7 @@ jobs:
         run: npm rebuild
 
       - name: Build
-        run: npm run stackblitz-ci
+        run: npm run build:lib
 
       - name: Publish
         run: npx pkg-pr-new@latest publish './' --template '.stackblitz/*'
