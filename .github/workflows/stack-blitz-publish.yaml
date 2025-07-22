@@ -1,0 +1,46 @@
+name: Stackblitz Publish
+
+on: [push, pull_request]
+
+concurrency:
+  group: ${{github.workflow}} - ${{github.ref}}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Cache Dependencies
+        id: node-modules-cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Install Dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      # `npm rebuild` will run all those post-install scripts for us.
+      - name: Rebuild
+        shell: bash
+        run: npm rebuild
+
+      - name: Build
+        run: npm run stackblitz-ci
+
+      - name: Publish
+        run: npx pkg-pr-new@latest publish './' --template '.stackblitz/*'
