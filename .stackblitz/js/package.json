@@ -1,5 +1,5 @@
 {
-  "name": "@pixi/layout",
+  "name": "layout-js",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
