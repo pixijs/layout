@@ -43,13 +43,17 @@ describe('LayoutContainer method bindings', () => {
     let child1: Container;
     let child2: Container;
 
-    beforeEach(() => {
+    let app: Application;
+
+    beforeEach(async () => {
+        app = await createApp();
         container = new LayoutContainer();
         child1 = new Container();
         child2 = new Container();
     });
 
     afterEach(() => {
+        app.destroy(true);
         container.destroy();
         child1.destroy();
         child2.destroy();
@@ -147,5 +151,21 @@ describe('LayoutContainer method bindings', () => {
 
         expect(labeledChildren).toContain(child1);
         expect(labeledChildren).toContain(child2);
+    });
+
+    it('should attach child to new parent when layout is enabled', () => {
+        const parentContainer = new LayoutContainer();
+
+        parentContainer.addChild(container);
+        container.addChild(child1);
+        child1.addChild(child2);
+
+        child2.layout = true;
+        expect(child2.layout!.yoga.getParent()).toBe(null);
+
+        child1.layout = true;
+        const parent = child2.layout!.yoga.getParent()!;
+
+        expect((parent as any).M.O).toBe((child1.layout!.yoga as any).M.O);
     });
 });

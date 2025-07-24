@@ -61,6 +61,14 @@ const mixin: Partial<PrivateContainer> = {
                     }
                 },
             });
+
+            // update the children's layout if they have one to be this container
+            for (const child of this.children) {
+                if (child.layout && child.visible) {
+                    child.layout!._onChildRemoved();
+                    child.layout!._onChildAdded(this as unknown as Container);
+                }
+            }
             if (this.parent && this.visible) {
                 this._layout._onChildAdded(this.parent);
             }
