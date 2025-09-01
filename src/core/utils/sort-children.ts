@@ -15,7 +15,16 @@ export function onChildAdded(layout: Layout, pixiParent: Container) {
     if (!parentLayout && (pixiParent as OverflowContainer).isOverflowContainer) {
         parentLayout = pixiParent.parent?.layout;
         // update yogaIndex
+        // this is inaccurate when a child earlier in the list is not in layout
         yogaIndex = pixiParent.children.indexOf(layout.target);
+        // substract non layout children number
+        for (let i = 0; i < yogaIndex; i++) {
+            const element = pixiParent.children[i]!;
+
+            if (!element.layout || !element.visible) {
+                yogaIndex--;
+            }
+        }
         pixiParent = pixiParent.parent!;
     }
 
