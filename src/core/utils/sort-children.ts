@@ -4,73 +4,91 @@ import { type Layout } from '../Layout';
 
 /**
  * Sorts the children of the layout based on their order in the parent container
- * This is necessary because not all children are part of the layout and we need to
- * make sure that the Yoga children are in the correct order
- * @param layout - The layout to sort the children for
+ * syncing the Yoga tree with the Pixi display list.
  */
 export function onChildAdded(layout: Layout, pixiParent: Container) {
     let parentLayout = pixiParent.layout;
-    let yogaIndex = -1;
+    let overflowContainer: Container | undefined;
 
+    // If inside an overflow container, actual yoga parent is the overflow's parent layout.
     if (!parentLayout && (pixiParent as OverflowContainer).isOverflowContainer) {
-        parentLayout = pixiParent.parent?.layout;
-        // update yogaIndex
-        // this is inaccurate when a child earlier in the list is not in layout
-        yogaIndex = pixiParent.children.indexOf(layout.target);
-        // substract non layout children number
-        for (let i = 0; i < yogaIndex; i++) {
-            const element = pixiParent.children[i]!;
-
-            if (!element.layout || !element.visible) {
-                yogaIndex--;
-            }
-        }
-        pixiParent = pixiParent.parent!;
+        overflowContainer = pixiParent;
+        parentLayout = overflowContainer.parent?.layout;
+        pixiParent = overflowContainer.parent!;
     }
 
-    if (parentLayout) {
-        const yogaParent = layout.yoga.getParent();
+    if (!parentLayout) {
+        return;
+    }
 
-        if (yogaParent) {
-            yogaParent!.removeChild(layout.yoga);
-        }
+    // Detach from previous yoga parent if any
+    const yogaParent = layout.yoga.getParent();
 
-        // If the child is the last one, we can just append it
-        if (pixiParent.children.indexOf(layout.target) === pixiParent.children.length - 1 && yogaIndex === -1) {
-            parentLayout.yoga.insertChild(layout.yoga, parentLayout.yoga.getChildCount());
+    if (yogaParent) {
+        yogaParent.removeChild(layout.yoga);
+    }
 
-            return;
-        }
+    const yogaIndex = computeYogaInsertionIndex(layout, pixiParent, overflowContainer);
 
-        // Find the corresponding Yoga index
-        for (let i = 0; i < pixiParent.children.length; i++) {
-            const child = pixiParent.children[i]!;
+    if (yogaIndex === -1) {
+        return;
+    }
 
-            if (child.layout && child.visible) {
-                yogaIndex++;
-            }
-            if (child === layout.target) {
-                break;
-            }
-        }
-
-        // If the yogaIndex is -1, it means the child was not found in the parent container
-        // This can happen if the child is not part of the layout or is not visible
-        // In this case, we do not insert the child into the Yoga layout
-        if (yogaIndex === -1) {
-            return;
-        }
-
+    // Fast append path
+    if (yogaIndex === parentLayout.yoga.getChildCount()) {
         parentLayout.yoga.insertChild(layout.yoga, yogaIndex);
+
+        return;
     }
+
+    parentLayout.yoga.insertChild(layout.yoga, yogaIndex);
+}
+
+/**
+ * Computes the Yoga insertion index with a single pass over the logical (flattened if needed) sibling list.
+ * @param layout - layout being inserted
+ * @param parent - the real parent container whose layout we insert into
+ * @param overflow - optional overflow container that actually contains the target
+ */
+function computeYogaInsertionIndex(layout: Layout, parent: Container, overflow?: Container): number {
+    const target = layout.target;
+    let index = 0;
+
+    if (overflow) {
+        // Iterate real parent children; when reaching overflow, iterate its children inline.
+        for (const child of parent.children) {
+            if (child === overflow) {
+                for (const inner of overflow.children) {
+                    if (!inner.layout || !inner.visible) continue;
+                    if (inner === target) return index;
+                    index++;
+                }
+
+                return -1; // target not found inside overflow
+            }
+            if (child.layout && child.visible) {
+                index++;
+            }
+        }
+
+        return -1;
+    }
+    for (const child of parent.children) {
+        if (!child.layout || !child.visible) continue;
+        if (child === target) return index;
+        index++;
+    }
+
+    return -1;
 }
 
 /**
  * Removes the child from the layout
- * @param layout - The layout to remove the child from
  */
 export function onChildRemoved(layout: Layout) {
     const yogaParent = layout.yoga.getParent();
 
-    yogaParent && yogaParent!.removeChild(layout.yoga);
+    if (yogaParent) {
+        yogaParent.removeChild(layout.yoga);
+    }
 }
