@@ -12,6 +12,8 @@ export interface SlidingNumberOptions {
     maxSpeed?: number;
     /** Custom easing function for constraint bouncing. Default: ScrollSpring */
     ease?: ConstrainEase;
+    /** Start in locked state (no movement). Default: false */
+    locked?: boolean;
 }
 
 /**
@@ -79,6 +81,8 @@ export class SlidingNumber {
     public min = 0;
     /** The maximum value the sliding number can take. */
     public max = 0;
+    /** If true, interaction & momentum updates are ignored. */
+    public locked: boolean;
 
     protected _ease: ConstrainEase;
 
@@ -97,6 +101,7 @@ export class SlidingNumber {
         this.maxSpeed = options.maxSpeed ?? 400;
         this._ease = options.ease ?? new ScrollSpring();
         this.constrainPercent = options.constrainPercent ?? 0;
+        this.locked = options.locked ?? false;
     }
 
     /**
@@ -105,6 +110,7 @@ export class SlidingNumber {
      * @param n The new position value.
      */
     set value(n: number) {
+        if (this.locked) return;
         this._speed = 0;
         this.position = n;
     }
@@ -122,6 +128,7 @@ export class SlidingNumber {
      * @param offset The initial grab position
      */
     grab(offset: number): void {
+        if (this.locked) return;
         this._grab = offset;
         this._offset = this.position - offset;
         this._speedChecker = 0;
@@ -134,6 +141,7 @@ export class SlidingNumber {
      * @param newPosition The new position from the input device
      */
     hold(newPosition: number): void {
+        if (this.locked) return;
         this._speedChecker++;
 
         this.position = newPosition + this._offset;
@@ -169,6 +177,7 @@ export class SlidingNumber {
      * @param instant If true, snaps immediately to constraints without easing
      */
     slide(instant = false): void {
+        if (this.locked) return;
         if (this._hasStopped) return;
 
         if (this.constrain) {
@@ -176,6 +185,38 @@ export class SlidingNumber {
         } else {
             this._updateDefault();
         }
+    }
+
+    /**
+     * Lock movement (grabs, holds, momentum & easing halted).
+     * Optionally freeze at a specific value.
+     */
+    lock(value?: number): void {
+        if (value !== undefined) {
+            this.position = value;
+        }
+        this._speed = 0;
+        this._activeEase = null;
+        this._hasStopped = true;
+        this.locked = true;
+    }
+
+    /** Unlock movement. */
+    unlock(): void {
+        this.locked = false;
+    }
+
+    /** Toggle locked state, returning new state. */
+    toggleLock(): boolean {
+        if (this.locked) this.unlock();
+        else this.lock();
+
+        return this.locked;
+    }
+
+    /** Convenience check. */
+    isLocked(): boolean {
+        return this.locked;
     }
 
     protected _updateDefault(): void {

@@ -19,6 +19,10 @@ export interface TrackpadOptions {
     constrain?: boolean;
     /** Disable easing when releasing the trackpad. Default: false */
     disableEasing?: boolean;
+    /** Lock x-axis movement. Default: false */
+    lockX?: boolean;
+    /** Lock y-axis movement. Default: false */
+    lockY?: boolean;
 }
 
 /**
@@ -79,6 +83,7 @@ export class Trackpad {
             maxSpeed: options.maxSpeed,
             constrain: options.constrain,
             constrainPercent: options.xConstrainPercent,
+            locked: options.lockX ?? false,
         });
 
         this.yAxis = new SlidingNumber({
@@ -86,6 +91,7 @@ export class Trackpad {
             maxSpeed: options.maxSpeed,
             constrain: options.constrain,
             constrainPercent: options.yConstrainPercent,
+            locked: options.lockY ?? false,
         });
 
         this.disableEasing = options.disableEasing ?? false;
