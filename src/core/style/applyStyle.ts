@@ -12,7 +12,7 @@ import {
     PositionType,
     Wrap,
 } from 'yoga-layout/load';
-import { type AlignContent, type AlignItems, type JustifyContent, type YogaStyles } from './yogaStyles';
+import { type AlignContent, type AlignItems, type AlignSelf, type JustifyContent, type YogaStyles } from './yogaStyles';
 
 const ALIGN_CONTENT_MAP: Record<AlignContent, Align> = {
     'flex-start': Align.FlexStart,
@@ -32,6 +32,14 @@ const ALIGN_ITEMS_MAP: Record<AlignItems, Align> = {
     baseline: Align.Baseline,
 } as const;
 
+const ALIGN_SELF_MAP: Record<AlignSelf, Align> = {
+    auto: Align.Auto,
+    'flex-start': Align.FlexStart,
+    'flex-end': Align.FlexEnd,
+    center: Align.Center,
+    stretch: Align.Stretch,
+    baseline: Align.Baseline,
+} as const;
 const BOX_SIZING_MAP: Record<'border-box' | 'content-box', BoxSizing> = {
     'border-box': BoxSizing.BorderBox,
     'content-box': BoxSizing.ContentBox,
@@ -85,7 +93,7 @@ const POSITION_MAP: Record<'absolute' | 'relative' | 'static', PositionType> = {
 const styleSetters: Record<keyof YogaStyles, (node: YogaNode, value: any) => void> = {
     alignContent: (node, value) => node.setAlignContent(alignContent(value)),
     alignItems: (node, value) => node.setAlignItems(alignItems(value)),
-    alignSelf: (node, value) => node.setAlignSelf(alignItems(value)),
+    alignSelf: (node, value) => node.setAlignSelf(alignSelf(value)),
     aspectRatio: (node, value) => node.setAspectRatio(value),
     borderBottomWidth: (node, value) => node.setBorder(Edge.Bottom, value),
     borderEndWidth: (node, value) => node.setBorder(Edge.End, value),
@@ -158,6 +166,11 @@ function alignItems(str: keyof typeof ALIGN_ITEMS_MAP): Align {
     throw new Error(`"${str}" is not a valid value for alignItems`);
 }
 
+function alignSelf(str: keyof typeof ALIGN_SELF_MAP): Align {
+    if (str in ALIGN_SELF_MAP) return ALIGN_SELF_MAP[str];
+
+    throw new Error(`"${str}" is not a valid value for alignSelf`);
+}
 function boxSizing(str: keyof typeof BOX_SIZING_MAP): BoxSizing {
     if (str in BOX_SIZING_MAP) return BOX_SIZING_MAP[str];
 
