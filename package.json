@@ -1,5 +1,5 @@
 {
-  "name": "@pixi/layout",
+  "name": "@wonder-design/pixijs-layout",
   "version": "3.1.0",
   "description": "A Yoga powered layout library for PixiJS",
   "keywords": [
@@ -7,17 +7,17 @@
     "yoga",
     "pixi"
   ],
-  "homepage": "https://github.com/pixijs/layout#readme",
+  "homepage": "https://github.com/aquila-lab/pixijs-layout#readme",
   "bugs": {
-    "url": "https://github.com/pixijs/layout/issues"
+    "url": "https://github.com/aquila-lab/pixijs-layout/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pixijs/layout.git"
+    "url": "git+https://github.com/aquila-lab/pixijs-layout.git"
   },
   "license": "MIT",
   "author": {
-    "name": "PixiJS Team"
+    "name": "Wonder Design + PixiJS Team"
   },
   "type": "module",
   "exports": {
