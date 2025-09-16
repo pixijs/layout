@@ -9,13 +9,12 @@ import { type Layout } from '../Layout';
  * @param layout - The layout to sort the children for
  */
 export function onChildAdded(layout: Layout, pixiParent: Container) {
-    let parentLayout = pixiParent.layout;
     let yogaIndex = -1;
+    let parentLayout = pixiParent.layout;
+    const childrenToLoop = pixiParent.children;
 
     if (!parentLayout && (pixiParent as OverflowContainer).isOverflowContainer) {
         parentLayout = pixiParent.parent?.layout;
-        // update yogaIndex
-        yogaIndex = pixiParent.children.indexOf(layout.target);
         pixiParent = pixiParent.parent!;
     }
 
@@ -27,15 +26,15 @@ export function onChildAdded(layout: Layout, pixiParent: Container) {
         }
 
         // If the child is the last one, we can just append it
-        if (pixiParent.children.indexOf(layout.target) === pixiParent.children.length - 1 && yogaIndex === -1) {
+        if (childrenToLoop.indexOf(layout.target) === childrenToLoop.length - 1) {
             parentLayout.yoga.insertChild(layout.yoga, parentLayout.yoga.getChildCount());
 
             return;
         }
 
         // Find the corresponding Yoga index
-        for (let i = 0; i < pixiParent.children.length; i++) {
-            const child = pixiParent.children[i]!;
+        for (let i = 0; i < childrenToLoop.length; i++) {
+            const child = childrenToLoop[i]!;
 
             if (child.layout && child.visible) {
                 yogaIndex++;
