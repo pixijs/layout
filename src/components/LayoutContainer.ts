@@ -254,7 +254,11 @@ export class LayoutContainer extends Container {
      * @protected
      */
     protected _drawBackground(computedLayout: ComputedLayout) {
-        const borderWidth = this.layout!.yoga.getBorder(Edge.All);
+        let borderWidth = this.layout!.yoga.getBorder(Edge.All);
+
+        if (isNaN(borderWidth) || borderWidth < 0) {
+            borderWidth = 0;
+        }
         const boxSizing = this.layout!.yoga.getBoxSizing();
         const alignment = boxSizing === BoxSizing.BorderBox ? 1 : 0;
 
