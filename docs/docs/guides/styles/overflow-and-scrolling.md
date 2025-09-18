@@ -63,4 +63,4 @@ const container = new LayoutContainer({
 });
 ```
 
-See the [Trackpad Customization](../core/components.md##trackpad-customization) section for more details on available options.
+See the [Trackpad Customization](../core/components.md#trackpad-customization) section for more details on available options.
