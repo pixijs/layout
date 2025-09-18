@@ -66,6 +66,7 @@ class TailwindParser {
         'content-evenly': { alignContent: 'space-evenly' },
         'content-stretch': { alignContent: 'stretch' },
 
+        'self-auto': { alignSelf: 'auto' },
         'self-start': { alignSelf: 'flex-start' },
         'self-center': { alignSelf: 'center' },
         'self-end': { alignSelf: 'flex-end' },

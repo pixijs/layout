@@ -17,3 +17,4 @@ docs/build
 *storybook.log
 *.artifacts
 *.temp
+*.tgz
