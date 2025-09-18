@@ -20,7 +20,7 @@ export interface YogaStyles {
      * Override alignItems for individual flex item
      * @values 'auto' | 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
      */
-    alignSelf?: AlignItems;
+    alignSelf?: AlignSelf;
 
     /**
      * Fixed ratio between width and height
@@ -263,6 +263,7 @@ export interface YogaStyles {
 
 export type JustifyContent = 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
 export type AlignItems = 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
+export type AlignSelf = 'auto' | AlignItems;
 export type AlignContent =
     | 'flex-start'
     | 'flex-end'
