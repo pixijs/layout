@@ -295,7 +295,7 @@ export class LayoutContainer extends Container {
                 borderWidth,
                 boxSizing === BoxSizing.ContentBox,
             );
-            // this.setMask({ mask: this._mask });
+            this.setMask({ mask: this._mask });
             // the max value is actually the difference between the container size and the content size and the stroke
             const borderOffset = boxSizing === BoxSizing.BorderBox ? borderWidth : 0;
 
