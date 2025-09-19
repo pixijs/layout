@@ -214,15 +214,25 @@ export class LayoutContainer extends Container {
      * @param height - Container height
      * @param radius - Border radius
      */
-    protected _updateMask(width: number, height: number, radius: number = 0) {
+    protected _updateMask(
+        width: number,
+        height: number,
+        radius: number = 0,
+        borderWidth: number = 0,
+        isContentBox: boolean = false,
+    ) {
+        // Account for border width if box-sizing is content-box. In content-box mode the computed
+        // layout width/height excludes the border, so the visible (masked) area should include it.
+        const maskX = isContentBox ? -borderWidth : 0;
+        const maskY = isContentBox ? -borderWidth : 0;
+        const maskWidth = isContentBox ? width + borderWidth * 2 : width;
+        const maskHeight = isContentBox ? height + borderWidth * 2 : height;
+
+        // Draw a single rounded rect used as the clip mask.
         this._mask.clear();
-        this._mask.roundRect(0, 0, width, height, radius);
-        this._mask.fill(0x0000ff);
-        this._mask.roundRect(1, 1, width - 2, height - 2, radius);
-        this._mask.cut();
-        this._mask.roundRect(1, 1, width - 2, height - 2, radius);
-        this._mask.fill(0x00ff00);
-        this._mask.cut();
+        this._mask.roundRect(0, 0, maskWidth, maskHeight, radius);
+        this._mask.position.set(maskX, maskY);
+        this._mask.fill(0xffffff);
     }
 
     protected _updateBackground(computedLayout: ComputedLayout) {
@@ -254,7 +264,11 @@ export class LayoutContainer extends Container {
      * @protected
      */
     protected _drawBackground(computedLayout: ComputedLayout) {
-        const borderWidth = this.layout!.yoga.getBorder(Edge.All);
+        let borderWidth = this.layout!.yoga.getBorder(Edge.All);
+
+        if (isNaN(borderWidth) || borderWidth < 0) {
+            borderWidth = 0;
+        }
         const boxSizing = this.layout!.yoga.getBoxSizing();
         const alignment = boxSizing === BoxSizing.BorderBox ? 1 : 0;
 
@@ -274,7 +288,13 @@ export class LayoutContainer extends Container {
         const overflow = this.layout?.style.overflow;
 
         if (overflow !== 'visible') {
-            this._updateMask(computedLayout.width, computedLayout.height, layoutStyles.borderRadius ?? 0);
+            this._updateMask(
+                computedLayout.width,
+                computedLayout.height,
+                layoutStyles.borderRadius ?? 0,
+                borderWidth,
+                boxSizing === BoxSizing.ContentBox,
+            );
             this.setMask({ mask: this._mask });
             // the max value is actually the difference between the container size and the content size and the stroke
             const borderOffset = boxSizing === BoxSizing.BorderBox ? borderWidth : 0;

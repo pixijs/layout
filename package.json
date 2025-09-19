@@ -75,7 +75,7 @@
     "pretest:unit": "tsx tests/scripts/generate-story-imports.ts",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest --browser.headless=false",
-    "watch": "xs watch",
+    "watch": "vite build --watch",
     "prepare": "husky"
   },
   "lint-staged": {
