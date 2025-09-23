@@ -43,6 +43,12 @@ export class Layout {
     public readonly target: Container;
 
     /**
+     * Whether this object has been destroyed. If true, the object should no longer be used.
+     * After an object is destroyed, all of its functionality is disabled and references are removed.
+     */
+    public destroyed = false;
+
+    /**
      * Flag indicating if layout needs recalculation
      * @ignore
      */
@@ -278,6 +284,9 @@ export class Layout {
     }
 
     public destroy(): void {
+        if (this.destroyed) return;
+        this.destroyed = true;
+
         this.invalidateRoot();
         this.yoga.free();
         this.target.off('added', this._onChildAdded, this);
