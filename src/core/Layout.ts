@@ -223,9 +223,14 @@ export class Layout {
         }
     }
 
-    /** Marks the root layout as needing recalculation */
-    public invalidateRoot(): void {
-        const root = this.getRoot();
+    /**
+     * Marks the root layout as needing recalculation
+     * @param start - Optional container to start searching for the root from
+     */
+    public invalidateRoot(start?: Container): void {
+        const root = this.getRoot(start);
+
+        if (root.destroyed) return;
 
         root._layout!._isDirty = true;
         root._onUpdate();
@@ -244,11 +249,12 @@ export class Layout {
 
     /**
      * Finds the root container by traversing up the layout tree
+     * @param start - Optional container to start searching for the root from
      * @returns The root container
      */
-    public getRoot(): Container {
+    public getRoot(start?: Container): Container {
         // find the root node by traversing up the yoga tree
-        let root: Container = this.target as Container;
+        let root: Container = start || (this.target as Container);
 
         while (root.parent?._layout || (root.parent as OverflowContainer)?.isOverflowContainer) {
             root = root.parent;
@@ -267,19 +273,22 @@ export class Layout {
     public _onChildAdded(pixiParent: Container): void {
         if (this.hasParent) return;
 
+        if (onChildAdded(this, pixiParent) === false) {
+            return;
+        }
+
         this.hasParent = true;
         this.invalidateRoot();
-        onChildAdded(this, pixiParent);
     }
 
     /**
      * @ignore
      */
-    public _onChildRemoved(): void {
+    public _onChildRemoved(parent?: Container): void {
         if (!this.hasParent) return;
 
         this.hasParent = false;
-        this.invalidateRoot();
+        this.invalidateRoot(parent);
         onChildRemoved(this);
     }
 
