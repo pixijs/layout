@@ -22,7 +22,7 @@ describe('LayoutContainer', async () => {
         app.destroy(true);
     });
 
-    it.only('should have the correct sized hit area', async () => {
+    it('should have the correct sized hit area', async () => {
         const stage = app.stage;
         const container = new LayoutContainer({
             layout: { width: 100, height: 100, overflow: 'scroll' },
