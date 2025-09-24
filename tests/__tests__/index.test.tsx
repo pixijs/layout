@@ -46,6 +46,7 @@ import * as objectFitLayoutViewStories from '../stories/custom/objectFit/objectF
 import * as objectFitStories from '../stories/custom/objectFit/objectFit.stories';
 import * as isLeafStories from '../stories/custom/leaf/isLeaf.stories';
 import * as dynamicTextStories from '../stories/custom/dynamicChanges/dynamicText.stories';
+import * as dynamicDeleteStories from '../stories/custom/dynamicChanges/dynamicDelete.stories';
 import * as layoutContainerBackgroundStories from '../stories/custom/components/layoutContainerBackground.stories';
 import * as layoutContainerStories from '../stories/custom/components/layoutContainer.stories';
 import * as applySizeStories from '../stories/custom/applySize/applySize.stories';
@@ -93,6 +94,7 @@ allStories.objectFitLayoutViewStories = composeStories(objectFitLayoutViewStorie
 allStories.objectFitStories = composeStories(objectFitStories);
 allStories.isLeafStories = composeStories(isLeafStories);
 allStories.dynamicTextStories = composeStories(dynamicTextStories);
+allStories.dynamicDeleteStories = composeStories(dynamicDeleteStories);
 allStories.layoutContainerBackgroundStories = composeStories(layoutContainerBackgroundStories);
 allStories.layoutContainerStories = composeStories(layoutContainerStories);
 allStories.applySizeStories = composeStories(applySizeStories);
