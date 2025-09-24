@@ -186,14 +186,14 @@ export class LayoutContainer extends Container {
             const targetX = this._trackpad.xAxis.value - deltaX;
             const targetY = this._trackpad.yAxis.value - deltaY;
 
-            if (this._trackpad.xAxis.constrainPercent > 0) {
+            if (this._trackpad.xAxis.constrainPercent >= 0) {
                 this._trackpad.xAxis.value = Math.max(
                     this._trackpad.xAxis.max,
                     Math.min(this._trackpad.xAxis.min, targetX),
                 );
             }
 
-            if (this._trackpad.yAxis.constrainPercent > 0) {
+            if (this._trackpad.yAxis.constrainPercent >= 0) {
                 this._trackpad.yAxis.value = Math.max(
                     this._trackpad.yAxis.max,
                     Math.min(this._trackpad.yAxis.min, targetY),
@@ -354,8 +354,8 @@ export class LayoutContainer extends Container {
         maxRight += borderWidth;
         maxBottom += borderWidth;
 
-        this._visualBounds.width = Math.max(this._visualBounds.width, maxRight);
-        this._visualBounds.height = Math.max(this._visualBounds.height, maxBottom);
+        this._visualBounds.width = Math.max(0, maxRight);
+        this._visualBounds.height = Math.max(0, maxBottom);
     }
 
     /**
