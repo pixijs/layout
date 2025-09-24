@@ -265,6 +265,8 @@ export class LayoutContainer extends Container {
             // eslint-disable-next-line no-eq-null, eqeqeq
             if (backgroundColor != null) {
                 background.fill({ color: backgroundColor });
+            } else {
+                background.fill({ color: 0xffffff, alpha: 0 });
             }
         }
     }
