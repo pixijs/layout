@@ -150,7 +150,12 @@ export class SlidingNumber {
         this._prev = this.position;
 
         if (this.constrain) {
-            if (this.constrainPercent === 0) {
+            // If constrain percentage is less than 0 we want to not allow any movement
+            if (this.constrainPercent < 0) {
+                this.position = 0;
+                this._speed = 0;
+                this._hasStopped = true;
+            } else if (this.constrainPercent === 0) {
                 if (this.position > this.min) {
                     this.position = this.min;
                 } else if (this.position < this.max) {

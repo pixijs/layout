@@ -186,14 +186,19 @@ export class LayoutContainer extends Container {
             const targetX = this._trackpad.xAxis.value - deltaX;
             const targetY = this._trackpad.yAxis.value - deltaY;
 
-            this._trackpad.xAxis.value = Math.max(
-                this._trackpad.xAxis.max,
-                Math.min(this._trackpad.xAxis.min, targetX),
-            );
-            this._trackpad.yAxis.value = Math.max(
-                this._trackpad.yAxis.max,
-                Math.min(this._trackpad.yAxis.min, targetY),
-            );
+            if (this._trackpad.xAxis.constrainPercent > 0) {
+                this._trackpad.xAxis.value = Math.max(
+                    this._trackpad.xAxis.max,
+                    Math.min(this._trackpad.xAxis.min, targetX),
+                );
+            }
+
+            if (this._trackpad.yAxis.constrainPercent > 0) {
+                this._trackpad.yAxis.value = Math.max(
+                    this._trackpad.yAxis.max,
+                    Math.min(this._trackpad.yAxis.min, targetY),
+                );
+            }
         });
         Ticker.shared.add(this.update, this);
     }
