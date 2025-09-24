@@ -122,6 +122,7 @@ export class LayoutSystem implements System<LayoutSystemOptions> {
      * @param container - The container to update the size for
      */
     private _updateSize(container: Container) {
+        if (container.destroyed) return;
         const layout = container._layout;
 
         if (layout) {
