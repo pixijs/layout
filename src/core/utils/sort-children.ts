@@ -18,7 +18,7 @@ export function onChildAdded(layout: Layout, pixiParent: Container) {
     }
 
     if (!parentLayout) {
-        return;
+        return false;
     }
 
     // Detach from previous yoga parent if any
@@ -31,17 +31,19 @@ export function onChildAdded(layout: Layout, pixiParent: Container) {
     const yogaIndex = computeYogaInsertionIndex(layout, pixiParent, overflowContainer);
 
     if (yogaIndex === -1) {
-        return;
+        return false;
     }
 
     // Fast append path
     if (yogaIndex === parentLayout.yoga.getChildCount()) {
         parentLayout.yoga.insertChild(layout.yoga, yogaIndex);
 
-        return;
+        return true;
     }
 
     parentLayout.yoga.insertChild(layout.yoga, yogaIndex);
+
+    return true;
 }
 
 /**

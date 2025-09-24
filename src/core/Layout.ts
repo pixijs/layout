@@ -267,9 +267,12 @@ export class Layout {
     public _onChildAdded(pixiParent: Container): void {
         if (this.hasParent) return;
 
+        if (onChildAdded(this, pixiParent) === false) {
+            return;
+        }
+
         this.hasParent = true;
         this.invalidateRoot();
-        onChildAdded(this, pixiParent);
     }
 
     /**
