@@ -1,5 +1,4 @@
-import { Application, type Rectangle } from 'pixi.js';
-import { Container } from 'pixi.js';
+import { Application, Container } from 'pixi.js';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { LayoutContainer } from '../../src/components/LayoutContainer';
 import '../../src/index';
@@ -23,18 +22,21 @@ describe('LayoutContainer', async () => {
         app.destroy(true);
     });
 
-    it('should have the correct sized hit area', async () => {
+    it.only('should have the correct sized hit area', async () => {
         const stage = app.stage;
         const container = new LayoutContainer({
-            layout: { width: 100, height: 100 },
+            layout: { width: 100, height: 100, overflow: 'scroll' },
         });
 
         stage.addChild(container);
 
         app.render();
-
-        expect((container.hitArea! as Rectangle).width).toBe(100);
-        expect((container.hitArea! as Rectangle).height).toBe(100);
+        expect(container['isPointWithinBounds'](50, 50)).toBe(true);
+        expect(container['isPointWithinBounds'](150, 150)).toBe(false);
+        expect(container['isPointWithinBounds'](-50, -50)).toBe(false);
+        expect(container['isPointWithinBounds'](0, 0)).toBe(true);
+        expect(container['isPointWithinBounds'](99.9, 99.9)).toBe(true);
+        expect(container['isPointWithinBounds'](100.1, 100.1)).toBe(false);
     });
 });
 
