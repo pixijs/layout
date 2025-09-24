@@ -9,9 +9,15 @@ export interface TrackpadOptions {
     xEase?: ConstrainEase;
     /** Custom easing function for y-axis constraint bouncing */
     yEase?: ConstrainEase;
-    /** Percentage of overflow allowed when dragging beyond x-axis constraints */
+    /**
+     * Percentage of overflow allowed when dragging beyond x-axis constraints
+     * Setting this value to a negative number disables x-axis scrolling entirely.
+     */
     xConstrainPercent?: number;
-    /** Percentage of overflow allowed when dragging beyond y-axis constraints */
+    /**
+     * Percentage of overflow allowed when dragging beyond y-axis constraints
+     * Setting this value to a negative number disables y-axis scrolling entirely.
+     */
     yConstrainPercent?: number;
     /** Maximum speed for both axes. Default: 400 */
     maxSpeed?: number;

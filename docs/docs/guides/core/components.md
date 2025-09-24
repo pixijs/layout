@@ -190,8 +190,10 @@ Trackpad options you can configure include:
 | `disableEasing`     | `boolean`       | `false`        | Disable momentum scrolling/easing when releasing                 |
 | `xEase`             | `ConstrainEase` | `ScrollSpring` | Custom easing for x-axis scrolling                               |
 | `yEase`             | `ConstrainEase` | `ScrollSpring` | Custom easing for y-axis scrolling                               |
-| `xConstrainPercent` | `number`        | `0`            | Percentage of overflow allowed when dragging beyond x-axis limit |
-| `yConstrainPercent` | `number`        | `0`            | Percentage of overflow allowed when dragging beyond y-axis limit |
+| `xConstrainPercent` | `number`        | `0`            | Percentage of overflow allowed when dragging beyond x-axis limit. Setting this value to a negative number disables x-axis scrolling entirely. |
+
+| `yConstrainPercent` | `number`        | `0`            | Percentage of overflow allowed when dragging beyond y-axis limit. Setting this value to a negative number disables y-axis scrolling entirely. |
+
 
 These options are passed when creating a `LayoutContainer` or `LayoutView`.
 
@@ -207,8 +209,8 @@ const container = new LayoutContainer({
         // Constrain scrolling within bounds
         constrain: true,
 
-        // No x-axis overflow allowed when dragging beyond bounds
-        xConstrainPercent: 0,
+        // No x-axis scrolling allowed when dragging beyond bounds
+        xConstrainPercent: -1,
         // No y-axis overflow allowed when dragging beyond bounds
         yConstrainPercent: 0,
 
