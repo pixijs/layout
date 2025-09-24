@@ -117,8 +117,10 @@ export class LayoutContainer extends Container {
     /** Whether or not the background was created by the user */
     private _isUserBackground: boolean = false;
 
-    /** The hit area for the container */
-    private _hitArea = new Rectangle();
+    /** The maximum visual bounds of the layout */
+    private _visualBounds = new Rectangle();
+    /** The scroll bounds for the container where scroll events can occur */
+    private _scrollBounds = new Rectangle();
 
     constructor(params: LayoutContainerOptions = {}) {
         const { layout, trackpad, background, children, ...options } = params;
@@ -156,15 +158,25 @@ export class LayoutContainer extends Container {
             ...trackpad,
         });
         this.eventMode = 'static';
-        this.on('pointerdown', (e) => this._trackpad.pointerDown(e.global));
+        this.on(
+            'pointerdown',
+            (e) => this.isPointWithinBounds(e.global.x, e.global.y) && this._trackpad.pointerDown(e.global),
+        );
         this.on('pointerup', () => this._trackpad.pointerUp());
         this.on('pointerupoutside', () => this._trackpad.pointerUp());
-        this.on('pointermove', (e) => this._trackpad.pointerMove(e.global));
+        this.on(
+            'pointermove',
+            (e) => this.isPointWithinBounds(e.global.x, e.global.y) && this._trackpad.pointerMove(e.global),
+        );
         this.on('pointercancel', () => this._trackpad.pointerUp());
         this.on('wheel', (e) => {
             const overflow = this.layout?.style.overflow;
 
             if (overflow !== 'scroll') {
+                return;
+            }
+            // check that the pointer position is within the visual bounds
+            if (!this.isPointWithinBounds(e.global.x, e.global.y)) {
                 return;
             }
             const shift = e.shiftKey ? 1 : 0;
@@ -194,9 +206,6 @@ export class LayoutContainer extends Container {
      */
     override computeLayoutData(computedLayout: ComputedLayout) {
         this._drawBackground(computedLayout);
-        this._hitArea.width = computedLayout.width;
-        this._hitArea.height = computedLayout.height;
-        this.hitArea = this._hitArea;
 
         return {
             x: computedLayout.left,
@@ -233,6 +242,12 @@ export class LayoutContainer extends Container {
         this._mask.roundRect(0, 0, maskWidth, maskHeight, radius);
         this._mask.position.set(maskX, maskY);
         this._mask.fill(0xffffff);
+        this._scrollBounds.set(
+            maskX + borderWidth,
+            maskY + borderWidth,
+            maskWidth - borderWidth * 2,
+            maskHeight - borderWidth * 2,
+        );
     }
 
     protected _updateBackground(computedLayout: ComputedLayout) {
@@ -250,6 +265,8 @@ export class LayoutContainer extends Container {
             // eslint-disable-next-line no-eq-null, eqeqeq
             if (backgroundColor != null) {
                 background.fill({ color: backgroundColor });
+            } else {
+                background.fill({ color: 0xffffff, alpha: 0 });
             }
         }
     }
@@ -295,23 +312,55 @@ export class LayoutContainer extends Container {
                 borderWidth,
                 boxSizing === BoxSizing.ContentBox,
             );
+            this._updateScrollArea();
             this.setMask({ mask: this._mask });
-            // the max value is actually the difference between the container size and the content size and the stroke
-            const borderOffset = boxSizing === BoxSizing.BorderBox ? borderWidth : 0;
 
-            setTimeout(() => {
-                const maskWidth = computedLayout.width - this.overflowContainer.width - borderOffset * 2;
-                const maskHeight = computedLayout.height - this.overflowContainer.height - borderOffset * 2;
+            const maskWidth = computedLayout.width - this._visualBounds.width;
+            const maskHeight = computedLayout.height - this._visualBounds.height;
 
-                this._trackpad.xAxis.max = Math.min(0, maskWidth);
-                this._trackpad.yAxis.max = Math.min(0, maskHeight);
-            }, 1);
+            this._trackpad.xAxis.max = Math.min(0, maskWidth);
+            this._trackpad.yAxis.max = Math.min(0, maskHeight);
         } else {
             this.mask = null;
             this._trackpad.xAxis.value = 0;
             this._trackpad.yAxis.value = 0;
             this.overflowContainer.position.set(0, 0);
         }
+    }
+
+    protected _updateScrollArea() {
+        let maxBottom = 0;
+        let maxRight = 0;
+
+        for (let i = 0; i < this.layout!.yoga.getChildCount(); i++) {
+            const child = this.layout!.yoga.getChild(i);
+            const bottom = child.getComputedTop() + child.getComputedHeight();
+            const right = child.getComputedLeft() + child.getComputedWidth();
+
+            if (right > maxRight) maxRight = right;
+            if (bottom > maxBottom) maxBottom = bottom;
+        }
+
+        maxRight += this.layout!.yoga.getComputedPadding(Edge.Right);
+        maxBottom += this.layout!.yoga.getComputedPadding(Edge.Bottom);
+
+        const borderWidth = this.layout!.yoga.getBorder(Edge.All) || 0;
+
+        maxRight += borderWidth;
+        maxBottom += borderWidth;
+
+        this._visualBounds.width = Math.max(this._visualBounds.width, maxRight);
+        this._visualBounds.height = Math.max(this._visualBounds.height, maxBottom);
+    }
+
+    /**
+     * Checks if a point is within the visual bounds of the container, accounting for world transformations.
+     * @param x - The x-coordinate of the point to check
+     * @param y - The y-coordinate of the point to check
+     * @returns True if the point is within the visual bounds, false otherwise
+     */
+    protected isPointWithinBounds(x: number, y: number): boolean {
+        return this._scrollBounds.contains(x - this.worldTransform.tx, y - this.worldTransform.ty);
     }
 
     protected update(): void {
