@@ -1,3 +1,4 @@
+import { type ColorSource } from 'pixi.js';
 import { type YogaStyles } from '../core/style/yogaStyles';
 
 class TailwindParser {
@@ -84,6 +85,10 @@ class TailwindParser {
         'max-h': 'maxHeight',
     };
 
+    private static readonly COLOR_MAP = {
+        bg: 'backgroundColor',
+    };
+
     private static convertSizeValue(value: string): number | string {
         if (value === 'full') return '100%';
         if (value === 'screen') return '100vh';
@@ -120,6 +125,10 @@ class TailwindParser {
         return Number(value) * this.BASE_UNIT;
     }
 
+    private static convertColorValue(value: string): ColorSource {
+        return value;
+    }
+
     private static parseSpacing(
         key: keyof (typeof TailwindParser)['SPACING_MAP'],
         value: string,
@@ -133,6 +142,17 @@ class TailwindParser {
         } else if (property) {
             styles[property] = spacing as any;
         }
+    }
+
+    private static parseColor(
+        key: keyof (typeof TailwindParser)['COLOR_MAP'],
+        value: string,
+        styles: YogaStyles,
+    ): void {
+        const property = this.COLOR_MAP[key] as keyof YogaStyles;
+        const color = this.convertColorValue(value);
+
+        styles[property] = color as any;
     }
 
     public static parse(classString: string): YogaStyles {
@@ -166,6 +186,11 @@ class TailwindParser {
             // Handle flex utilities
             if (this.FLEX_MAP[cls as keyof (typeof TailwindParser)['FLEX_MAP']]) {
                 Object.assign(styles, this.FLEX_MAP[cls as keyof (typeof TailwindParser)['FLEX_MAP']] as YogaStyles);
+                continue;
+            }
+
+            if (this.COLOR_MAP[key as keyof (typeof TailwindParser)['COLOR_MAP']]) {
+                this.parseColor(key as keyof (typeof TailwindParser)['COLOR_MAP'], value, styles);
                 continue;
             }
         }
