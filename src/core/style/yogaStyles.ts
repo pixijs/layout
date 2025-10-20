@@ -109,13 +109,13 @@ export interface YogaStyles {
     flexDirection?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
 
     /** Space between rows in pixels */
-    rowGap?: number;
+    rowGap?: NumberValue;
 
     /** Space between both rows and columns in pixels */
-    gap?: number;
+    gap?: NumberValue;
 
     /** Space between columns in pixels */
-    columnGap?: number;
+    columnGap?: NumberValue;
 
     /**
      * Growth factor relative to other flex items
