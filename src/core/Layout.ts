@@ -256,8 +256,13 @@ export class Layout {
         // find the root node by traversing up the yoga tree
         let root: Container = start || (this.target as Container);
 
-        while (root.parent?._layout || (root.parent as OverflowContainer)?.isOverflowContainer) {
-            root = root.parent;
+        while (true) {
+            const parent = root.parent;
+
+            if (!parent || (!parent._layout && !(parent as OverflowContainer).isOverflowContainer)) {
+                break;
+            }
+            root = parent;
 
             if ((root as OverflowContainer).isOverflowContainer) {
                 root = root.parent!;

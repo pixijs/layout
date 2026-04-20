@@ -11,3 +11,9 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+/* An inline canvas reserves font descender space below it, pushing the centered
+   wrapper 2px above the viewport and leaving white body rows in screenshots. */
+canvas {
+    display: block;
+}

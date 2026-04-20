@@ -1,4 +1,4 @@
-import { Container, type ContainerChild, type IRenderLayer } from 'pixi.js';
+import { Container, type ContainerChild, type RenderLayer } from 'pixi.js';
 import { type Layout, type LayoutOptions } from '../core/Layout';
 import { LayoutContainer, type LayoutContainerOptions } from './LayoutContainer';
 
@@ -101,7 +101,7 @@ export class LayoutView<T extends Container = Container> extends LayoutContainer
      * @throws {Error} Always throws an error to enforce leaf node behavior
      * @private
      */
-    protected _addChild<U extends (ContainerChild | IRenderLayer)[]>(..._children: U): U[0] {
+    protected _addChild<U extends (ContainerChild | RenderLayer)[]>(..._children: U): U[0] {
         if (this.overflowContainer.children.length >= 1) {
             throw new Error('Leaf nodes should not have multiple children');
         }

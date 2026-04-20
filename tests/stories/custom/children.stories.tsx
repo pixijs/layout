@@ -1,6 +1,5 @@
 import { Text } from 'pixi.js';
 import React, { useEffect } from 'react';
-import { useApplication } from '@pixi/react';
 import { LayoutContainer } from '../../../src/components';
 import { type Node } from '../playground/Node';
 import { ReactStory } from '../yoga/utils/reactStory';
@@ -8,28 +7,41 @@ import { ReactStory } from '../yoga/utils/reactStory';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const LayoutComponent = (_args: any) => {
-    const { app } = useApplication();
     const layourRef = React.useRef<Node>(null);
 
     useEffect(() => {
-        if (!layourRef.current) {
-            return;
-        }
-        const layout = layourRef.current;
-        const text2 = new Text({
-            text: 'layout',
-            style: { fontSize: 48, fill: 'white' },
-            layout: true as any,
-        });
+        let raf = 0;
 
-        const layoutChild = new LayoutContainer({
-            layout: { borderWidth: 1, borderColor: 'white' },
-            // broken
-            children: [text2],
-        });
+        // The pixi reconciler commits asynchronously, so the ref can still be null when
+        // this effect runs; retry until the node is attached instead of giving up
+        // (an early return here intermittently left the child out of the scene).
+        const attach = () => {
+            const layout = layourRef.current;
 
-        layout.addChild(layoutChild);
-    }, [app]);
+            if (!layout) {
+                raf = requestAnimationFrame(attach);
+
+                return;
+            }
+            const text2 = new Text({
+                text: 'layout',
+                style: { fontSize: 48, fill: 'white' },
+                layout: true as any,
+            });
+
+            const layoutChild = new LayoutContainer({
+                layout: { borderWidth: 1, borderColor: 'white' },
+                // broken
+                children: [text2],
+            });
+
+            layout.addChild(layoutChild);
+        };
+
+        attach();
+
+        return () => cancelAnimationFrame(raf);
+    }, []);
 
     return (
         <layout config={{ useWebDefaults: false }}>

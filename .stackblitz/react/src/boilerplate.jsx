@@ -89,7 +89,7 @@ export default function App({ children, assets }) {
                     return {
                         alias: asset,
                         src: asset,
-                        loadParser: 'loadTextures',
+                        parser: 'texture',
                     };
                 }
 
