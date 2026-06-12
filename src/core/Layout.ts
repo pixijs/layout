@@ -302,6 +302,7 @@ export class Layout {
         this.destroyed = true;
 
         this.invalidateRoot();
+        onChildRemoved(this);
         this.yoga.free();
         this.target.off('added', this._onChildAdded, this);
         this.target.off('removed', this._onChildRemoved, this);
