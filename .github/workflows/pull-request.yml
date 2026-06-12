@@ -2,9 +2,13 @@ name: PR Automation
 on:
   pull_request:
     branches: [ '**' ]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: macos-latest
+    timeout-minutes: 30
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -30,12 +34,30 @@ jobs:
       run: npm ci --ignore-scripts --no-audit --no-fund
 
     # `npm rebuild` will run all those post-install scripts for us.
+    # Skip the electron (242MB) and chromium (~170MB) binary downloads: tests only
+    # use webkit, installed below. Without timeouts a stalled download hangs the
+    # job silently for hours.
     - name: Rebuild
       shell: bash
-      run: npm rebuild
+      run: npm rebuild --foreground-scripts
+      timeout-minutes: 15
+      env:
+        ELECTRON_SKIP_BINARY_DOWNLOAD: 1
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+
+    # Cache the browser binaries so the CDN download (which can stall on degraded
+    # runner networks) only happens when the playwright version changes.
+    - name: Cache Playwright Browsers
+      uses: actions/cache@v4
+      with:
+        path: ~/Library/Caches/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-
 
     - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      run: npx playwright install --with-deps webkit
+      timeout-minutes: 10
 
     - name: Run Unit Tests
       run: npm run test

@@ -106,7 +106,7 @@ export const ReactStory: React.FC<ReactStoryProps> = ({ children, assets }) => {
                     return {
                         alias: asset,
                         src: asset.replace('fake:', 'https://fakeimg.ryd.tools/'),
-                        loadParser: 'loadTextures',
+                        parser: 'texture',
                     };
                 }
 
@@ -126,7 +126,7 @@ export const ReactStory: React.FC<ReactStoryProps> = ({ children, assets }) => {
     }
 
     return (
-        <Application resizeTo={window} background={'#1C1C1D'}>
+        <Application resizeTo={window} background={'#1C1C1D'} resolution={1} autoDensity={false}>
             <LayoutResizer>{children}</LayoutResizer>
         </Application>
     );

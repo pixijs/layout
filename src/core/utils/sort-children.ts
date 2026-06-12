@@ -13,7 +13,7 @@ export function onChildAdded(layout: Layout, pixiParent: Container) {
     // If inside an overflow container, actual yoga parent is the overflow's parent layout.
     if (!parentLayout && (pixiParent as OverflowContainer).isOverflowContainer) {
         overflowContainer = pixiParent;
-        parentLayout = overflowContainer.parent?.layout;
+        parentLayout = overflowContainer.parent?.layout ?? null;
         pixiParent = overflowContainer.parent!;
     }
 

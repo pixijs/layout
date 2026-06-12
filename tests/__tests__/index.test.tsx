@@ -1,7 +1,7 @@
 /* eslint-disable simple-import-sort/imports */
 /* eslint-disable camelcase */
 import { type Store_CSFExports, type StoriesWithPartialProps } from 'storybook/internal/types';
-import { expect, test } from 'vitest';
+import { expect, test, vi } from 'vitest';
 import '../stories/yoga/utils/reactStory';
 import { composeStories, type ReactRenderer } from '@storybook/react';
 import { page, server } from '@vitest/browser/context';
@@ -120,12 +120,38 @@ Object.entries(allStories).forEach(([_key, compiledStory]) => {
                 await new Promise((resolve) => setTimeout(resolve, delay));
             }
 
-            const screenshot = `./.temp/${story.id}-${server.browser}.png`;
+            // story.run() resolves before assets load and the Pixi Application mounts, so the
+            // screenshot would race the app bootstrap: the capture can catch a missing canvas or
+            // one still sized from a transient iframe size (scene shifted by half the stale size).
+            // Wait for the canvas to exist at the final viewport size, then let a frame present.
+            await vi.waitFor(
+                () => {
+                    const canvas = document.querySelector('canvas');
 
+                    if (!canvas) {
+                        throw new Error('Pixi canvas not mounted');
+                    }
+                    if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+                        throw new Error(
+                            `canvas is ${canvas.width}x${canvas.height}, window is ${window.innerWidth}x${window.innerHeight}`,
+                        );
+                    }
+                },
+                { timeout: 5000 },
+            );
+            await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+            const filename = `${story.id}-${server.browser}.png`;
+            const screenshot = `./.temp/${filename}`;
+            const screenshotFromRoot = `tests/__tests__/.temp/${filename}`;
+
+            // Screenshot the canvas element, not the iframe body: the body capture included
+            // background bleed around the canvas, and `clip` is not supported for element
+            // screenshots anyway (it was silently ignored).
             await page.screenshot({ path: screenshot, element: page.getByAltText('pixi-canvas') });
             const res = await server.commands.compareScreenshot(screenshot);
 
-            await server.commands.removeFile(screenshot);
+            await server.commands.removeFile(screenshotFromRoot);
             if (res.diff > 0 && (story.args as any)?.pixelMatch) {
                 expect(res.diff).toBeLessThan((story.args as any)?.pixelMatch);
             } else {

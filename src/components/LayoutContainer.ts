@@ -11,10 +11,28 @@ import { BoxSizing, Edge } from 'yoga-layout/load';
 import { type ComputedLayout } from '../core/types';
 import { Trackpad, type TrackpadOptions } from './trackpad/Trackpad';
 
+const CONTAINER_METHOD_NAMES = [
+    'addChild',
+    'addChildAt',
+    'removeChild',
+    'removeChildAt',
+    'getChildAt',
+    'getChildIndex',
+    'setChildIndex',
+    'getChildByName',
+    'removeChildren',
+    'sortChildren',
+    'swapChildren',
+    'reparentChild',
+    'reparentChildAt',
+    'getChildByLabel',
+    'getChildrenByLabel',
+] as const;
+
 function bindAndPreserve<T extends object, K extends keyof T>(
     base: T,
     source: Container,
-    methodNames: K[],
+    methodNames: readonly K[],
 ): Pick<T, K> {
     const bound = {} as Pick<T, K>;
     const proto = Object.getPrototypeOf(base);
@@ -135,23 +153,11 @@ export class LayoutContainer extends Container {
 
         this.addChild(this.background, this.overflowContainer, this._mask, this.stroke);
         // Preserve original Container methods and bind them to use the overflowContainer
-        this.containerMethods = bindAndPreserve(this, this.overflowContainer, [
-            'addChild',
-            'addChildAt',
-            'removeChild',
-            'removeChildAt',
-            'getChildAt',
-            'getChildIndex',
-            'setChildIndex',
-            'getChildByName',
-            'removeChildren',
-            'sortChildren',
-            'swapChildren',
-            'reparentChild',
-            'reparentChildAt',
-            'getChildByLabel',
-            'getChildrenByLabel',
-        ]) as typeof this.containerMethods;
+        this.containerMethods = bindAndPreserve(
+            this,
+            this.overflowContainer,
+            CONTAINER_METHOD_NAMES,
+        ) as typeof this.containerMethods;
 
         this._trackpad = new Trackpad({
             constrain: true,
@@ -380,7 +386,16 @@ export class LayoutContainer extends Container {
     }
 
     public override destroy(options?: DestroyOptions): void {
-        super.destroy(options);
+        // Restore original Container methods so Container.destroy() operates on this container's
+        // own children (background, overflowContainer, mask, stroke) instead of the
+        // overflowContainer's children.
+        for (const name of CONTAINER_METHOD_NAMES) {
+            (this as any)[name] = this.containerMethods[name];
+        }
+
+        this.overflowContainer.destroy(options);
+
         Ticker.shared.remove(this.update, this);
+        super.destroy(options);
     }
 }

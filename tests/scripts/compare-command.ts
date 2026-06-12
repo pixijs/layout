@@ -13,7 +13,7 @@ const compareScreenshot: BrowserCommand<[imagePath: string]> = ({ testPath }, im
 
     // check if the compare image exists
     if (!fs.existsSync(compareImage)) {
-        // copy the imagePathResolved to the compareImage
+        fs.mkdirSync(path.dirname(compareImage), { recursive: true });
         fs.copyFileSync(imagePathResolved, compareImage);
 
         return { result: true, diff: 0 };
