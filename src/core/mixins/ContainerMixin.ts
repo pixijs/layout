@@ -1,4 +1,5 @@
 import { Container, extensions } from 'pixi.js';
+import { type OverflowContainer } from '../../components/LayoutContainer';
 import { Layout, type LayoutOptions } from '../Layout';
 import { type ComputedLayout } from '../types';
 import { baseComputeLayoutData } from './utils/baseComputeLayoutData';
@@ -62,13 +63,31 @@ const mixin: Partial<PrivateContainer> = {
                 },
             });
 
-            // update the children's layout if they have one to be this container
-            for (const child of this.children) {
-                if (child.layout && child.visible) {
-                    child.layout!._onChildRemoved();
-                    child.layout!._onChildAdded(this as unknown as Container);
+            // Re-attach children's layout if they have one
+            // For LayoutContainer, user children are inside overflowContainer (not this.children)
+            // For regular Container, children are direct (this.children)
+            const maybeOverflow = (this as unknown as { overflowContainer?: OverflowContainer }).overflowContainer;
+            const overflowContainer = maybeOverflow?.isOverflowContainer ? maybeOverflow : undefined;
+
+            if (overflowContainer) {
+                // LayoutContainer: user children are in overflowContainer.children
+                // Pass overflowContainer as parent so onChildAdded detects it and finds the yoga parent
+                for (const child of overflowContainer.children) {
+                    if (child.layout && child.visible) {
+                        child.layout!._onChildRemoved();
+                        child.layout!._onChildAdded(overflowContainer);
+                    }
+                }
+            } else {
+                // Regular Container: children are direct
+                for (const child of this.children) {
+                    if (child.layout && child.visible) {
+                        child.layout!._onChildRemoved();
+                        child.layout!._onChildAdded(this as unknown as Container);
+                    }
                 }
             }
+
             if (this.parent && this.visible) {
                 this._layout._onChildAdded(this.parent);
             }
