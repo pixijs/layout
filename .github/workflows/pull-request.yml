@@ -30,12 +30,19 @@ jobs:
       run: npm ci --ignore-scripts --no-audit --no-fund
 
     # `npm rebuild` will run all those post-install scripts for us.
+    # Skip the electron (242MB) and chromium (~170MB) binary downloads: tests only
+    # use webkit, installed below. Without timeouts a stalled download hangs the
+    # job silently for hours.
     - name: Rebuild
       shell: bash
-      run: npm rebuild
+      run: npm rebuild --foreground-scripts
+      timeout-minutes: 15
+      env:
+        ELECTRON_SKIP_BINARY_DOWNLOAD: 1
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
     - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      run: npx playwright install --with-deps webkit
 
     - name: Run Unit Tests
       run: npm run test
