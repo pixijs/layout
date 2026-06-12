@@ -50,17 +50,17 @@ export interface YogaStyles {
     borderBlockWidth?: number; // Top and bottom borders
 
     /** Distance from bottom edge of container in pixels or percentage */
-    bottom?: NumberValue;
+    bottom?: NumberValue | 'auto';
     /** Distance from left edge in pixels or percentage */
-    left?: NumberValue;
+    left?: NumberValue | 'auto';
     /** Distance from right edge in pixels or percentage */
-    right?: NumberValue;
+    right?: NumberValue | 'auto';
     /** Distance from top edge in pixels or percentage */
-    top?: NumberValue;
+    top?: NumberValue | 'auto';
     /** Distance from end edge (right in ltr, left in rtl) in pixels or percentage */
-    end?: NumberValue;
+    end?: NumberValue | 'auto';
     /** Distance from start edge (left in LTR, right in RTL) */
-    start?: NumberValue;
+    start?: NumberValue | 'auto';
 
     /**
      * Determines how element's total width/height is calculated
