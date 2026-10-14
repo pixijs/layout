@@ -13,6 +13,10 @@ interface PrivateContainer extends Omit<Container, '_didLocalTransformChangeId'>
 
 const visibility = Object.getOwnPropertyDescriptor(Container.prototype, 'visible')!;
 
+// The visible override is shared by every container, so it is installed once and never removed.
+// Its setter does no layout work for containers without a layout.
+let visibilityOverridden = false;
+
 const mixin: Partial<PrivateContainer> = {
     // Internal reference to the layout object
     _layout: null,
@@ -38,7 +42,6 @@ const mixin: Partial<PrivateContainer> = {
                 this._layout.destroy();
                 this._layout = null;
                 this.updateLocalTransform = Container.prototype.updateLocalTransform;
-                Object.defineProperty(Container.prototype, 'visible', visibility);
             }
 
             return;
@@ -47,20 +50,23 @@ const mixin: Partial<PrivateContainer> = {
         if (!this._layout) {
             this._layout = new Layout({ target: this as unknown as Container });
 
-            // eslint-disable-next-line accessor-pairs
-            Object.defineProperty(Container.prototype, 'visible', {
-                ...visibility,
-                set(visibleValue: boolean) {
-                    visibility.set!.call(this, visibleValue);
-                    if (this.layout) {
-                        if (visibleValue && this.parent) {
-                            this.layout._onChildAdded(this.parent);
-                        } else {
-                            this.layout._onChildRemoved();
+            if (!visibilityOverridden) {
+                // eslint-disable-next-line accessor-pairs
+                Object.defineProperty(Container.prototype, 'visible', {
+                    ...visibility,
+                    set(visibleValue: boolean) {
+                        visibility.set!.call(this, visibleValue);
+                        if (this.layout) {
+                            if (visibleValue && this.parent) {
+                                this.layout._onChildAdded(this.parent);
+                            } else {
+                                this.layout._onChildRemoved();
+                            }
                         }
-                    }
-                },
-            });
+                    },
+                });
+                visibilityOverridden = true;
+            }
 
             // update the children's layout if they have one to be this container
             for (const child of this.children) {
